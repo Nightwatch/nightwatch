@@ -3,7 +3,7 @@ import * as socketio from 'socket.io'
 
 let io: socketio.Server
 
-export function init (server: socketio.Server) {
+export function init(server: socketio.Server) {
   io = server
 
   io.on('connection', client => {
@@ -11,6 +11,6 @@ export function init (server: socketio.Server) {
   })
 }
 
-export function getSocketServer () {
+export function getSocketServer() {
   return io
 }
