@@ -1,23 +1,22 @@
 import { createConnection } from 'typeorm'
 
-export async function createTestDatabaseConnection () {
+export async function createTestDatabaseConnection() {
   await createConnection({
     type: 'postgres',
     host: 'localhost',
     port: 5432,
     username: 'postgres',
-    password: 'password',
+    password: '',
     database: 'nightwatch',
-
     synchronize: true,
     logging: false,
-    entities: [ 'node_modules/@nightwatch/db/dist/entity/**/*.js' ],
-    migrations: [ 'src/migrations/**/*.ts' ],
-    subscribers: [ 'src/subscribers/**/*.ts' ],
+    entities: ['src/db/entity/**/*.ts'],
+    migrations: ['src/db/migrations/**/*.ts'],
+    subscribers: ['src/db/subscribers/**/*.ts'],
     cli: {
-      entitiesDir: 'src/entities',
-      migrationsDir: 'src/migrations',
-      subscribersDir: 'src/subscribers'
+      entitiesDir: 'src/db/entities',
+      migrationsDir: 'src/db/migrations',
+      subscribersDir: 'src/db/subscribers'
     }
   })
 }
