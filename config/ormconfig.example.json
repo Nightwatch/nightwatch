@@ -9,18 +9,18 @@
   "synchronize": true,
   "logging": false,
   "entities": [
-    "./node_modules/@nightwatch/db/dist/entity/**/*.js"
+    "src/db/entity/**/*.ts"
   ],
   "migrations": [
-    "src/migrations/**/*.ts"
+    "src/db/migrations/**/*.ts"
   ],
   "subscribers": [
-    "src/subscribers/**/*.ts"
+    "src/db/subscribers/**/*.ts"
   ],
   "cli": {
-    "entitiesDir": "src/entities",
-    "migrationsDir": "src/migrations",
-    "subscribersDir": "src/subscribers"
+    "entitiesDir": "src/db/entities",
+    "migrationsDir": "src/db/migrations",
+    "subscribersDir": "src/db/subscribers"
   },
   "cache": {
     "type": "redis",
