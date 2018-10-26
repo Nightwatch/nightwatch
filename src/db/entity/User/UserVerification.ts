@@ -22,11 +22,11 @@ export class UserVerification {
   verificationToken: string
 
   @Index({ unique: true })
-  @OneToOne(_ => User, user => user.verification)
+  @OneToOne(_ => User, user => user.verification, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User
 
-  constructor () {
+  constructor() {
     this.verified = false
   }
 }
