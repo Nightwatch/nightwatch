@@ -19,11 +19,11 @@ export class UserReputation {
   reputation: number
 
   @Index({ unique: true })
-  @OneToOne(_ => User, user => user.reputation)
+  @OneToOne(_ => User, user => user.reputation, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User
 
-  constructor () {
+  constructor() {
     this.reputation = 0
   }
 }
