@@ -4,6 +4,10 @@ node_js:
 cache:
   directories:
     - "node_modules"
+services:
+    - postgresql
+before_script:
+  -psql -c 'create database nightwatch' -U postgres
 script:
   - yarn
   - yarn global add typescript
