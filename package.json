@@ -7,11 +7,10 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "nyc mocha --opts \"./mocha.opts\"",
-    "api:start": "npm run dev",
+    "api:start": "yarn dev",
     "api:dev": "tsc && nodemon --inspect --exec ts-node src/api/index.ts",
     "api:prod": "tsc && cross-env NODE_ENV=production nodemon --exec ts-node src/api/index.ts",
     "api:docs": "cross-env typedoc --out public/docs src --name \"Nightwatch API\" --excludeExternals --mode file --theme public/theme",
-    "clean": "npm cache clear && rimraf -- dist",
     "lint": "tslint --project . --format stylish"
   },
   "devDependencies": {
