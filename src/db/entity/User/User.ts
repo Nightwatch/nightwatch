@@ -70,7 +70,7 @@ export class User {
     _ => UserFriendRequest,
     userFriendRequest => userFriendRequest.user,
     {
-      cascade: true
+      cascade: ['remove']
     }
   )
   outgoingFriendRequests: UserFriendRequest[]
@@ -79,30 +79,32 @@ export class User {
     _ => UserFriendRequest,
     userFriendRequest => userFriendRequest.receiver,
     {
-      cascade: true
+      cascade: ['remove']
     }
   )
   incomingFriendRequests: UserFriendRequest[]
 
   @OneToMany(_ => UserFriend, userFriend => userFriend, {
-    cascade: true
+    cascade: ['remove']
   })
   friends: UserFriend[]
 
   @OneToMany(_ => UserBackground, userBackground => userBackground.user, {
-    cascade: true
+    cascade: ['remove']
   })
   backgrounds: UserBackground[]
 
   @OneToMany(_ => UserBadge, userBadge => userBadge.user, {
-    cascade: true
+    cascade: ['remove']
   })
   badges: UserBadge[]
 
-  @OneToMany(_ => UserPerk, userPerk => userPerk.user)
+  @OneToMany(_ => UserPerk, userPerk => userPerk.user, {
+    cascade: ['remove']
+  })
   perks: UserPerk[]
 
-  constructor (user?: User) {
+  constructor(user?: User) {
     if (user) {
       Object.assign(this, user)
     }
