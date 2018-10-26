@@ -14,7 +14,13 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
-const { secret, apiServerIp } = require('../../../config/api.json')
+let secret: string = 'password'
+
+try {
+  secret = require('../../../config/api.json').secret
+} catch (err) {
+  // swallow
+}
 
 /**
  * The API server
@@ -57,7 +63,6 @@ export class Api {
       delayMs: 0,
       skip: (request: express.Request, _) => {
         if (
-          apiServerIp === request.ip ||
           request.ip === '::1' ||
           request.ip === '::ffff:127.0.0.1'
         ) {
