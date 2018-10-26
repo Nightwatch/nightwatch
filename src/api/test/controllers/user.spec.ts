@@ -129,17 +129,17 @@ describe('UserController', () => {
       .to.be.instanceof(Array)
       .with.lengthOf(1)
 
-    const response = await app.delete('/api/users/aaa').expect(200)
+    await app.delete('/api/users/aaa').expect(200)
 
     allUsers = await getRepository(User).find()
 
-    expect(response.body)
+    expect(allUsers)
       .to.be.instanceof(Array)
       .with.lengthOf(0)
   })
 })
 
-function getTestUser (id: string, name: string) {
+function getTestUser(id: string, name: string) {
   const user = new User()
   user.id = id
   user.name = name
