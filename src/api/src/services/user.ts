@@ -45,7 +45,9 @@ export class UserService implements BaseService<User, string> {
   }
 
   public async delete (id: string) {
-    const user = await this.userRepository.findOne(id)
+    const user = await this.userRepository.findOne(id, {
+      relations: ['level', 'balance', 'settings', 'profile']
+    })
 
     if (!user) {
       return
