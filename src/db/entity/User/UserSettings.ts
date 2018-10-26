@@ -23,11 +23,11 @@ export class UserSettings {
   directMessagesEnabled: boolean
 
   @Index({ unique: true })
-  @OneToOne(_ => User, user => user.settings)
+  @OneToOne(_ => User, user => user.settings, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User
 
-  constructor () {
+  constructor() {
     this.levelsEnabled = true
     this.directMessagesEnabled = true
   }

@@ -26,11 +26,11 @@ export class UserBalance {
   dateLastClaimedDailies: Date | null
 
   @Index({ unique: true })
-  @OneToOne(_ => User, user => user.balance)
+  @OneToOne(_ => User, user => user.balance, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User
 
-  constructor () {
+  constructor() {
     this.netWorth = 0
     this.balance = 0
     this.dateLastClaimedDailies = new Date()

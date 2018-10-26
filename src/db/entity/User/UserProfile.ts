@@ -26,11 +26,11 @@ export class UserProfile {
   background: string
 
   @Index({ unique: true })
-  @OneToOne(_ => User, user => user.profile)
+  @OneToOne(_ => User, user => user.profile, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User
 
-  constructor () {
+  constructor() {
     this.title = ''
     this.bio = ''
     this.background = 'default'

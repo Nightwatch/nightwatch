@@ -27,11 +27,11 @@ export class UserLevel {
   timestamp: Date
 
   @Index({ unique: true })
-  @OneToOne(_ => User, user => user.level)
+  @OneToOne(_ => User, user => user.level, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User
 
-  constructor () {
+  constructor() {
     this.xp = 0
     this.level = 0
     this.timestamp = new Date()
