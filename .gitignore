@@ -1,0 +1,13 @@
+.idea/
+.vscode/
+node_modules/
+dist/
+tmp/
+temp/
+logs/
+.npmrc
+coverage
+.nyc*
+bot/
+config/*.json
+!config/*.example.json
