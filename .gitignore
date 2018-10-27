@@ -11,3 +11,4 @@ coverage
 bot/
 config/*.json
 !config/*.example.json
+**/*.log

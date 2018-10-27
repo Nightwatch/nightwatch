@@ -7,7 +7,7 @@ export async function createTestDatabaseConnection() {
     port: 5432,
     username: 'postgres',
     password: '',
-    database: 'nightwatch',
+    database: 'nightwatch_test',
     synchronize: true,
     logging: false,
     entities: ['src/db/entity/**/*.ts'],

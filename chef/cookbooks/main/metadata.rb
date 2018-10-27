@@ -1,0 +1,12 @@
+name 'main'
+maintainer 'Tanner Goins'
+maintainer_email 'tannergz28@gmail.com'
+license 'GPL-3.0'
+description 'Configures environment for development of nightwatch'
+long_description ''
+version '0.1.0'
+chef_version '>= 13.0'
+
+depends 'nodejs'
+depends 'yarn'
+depends 'postgresql'
