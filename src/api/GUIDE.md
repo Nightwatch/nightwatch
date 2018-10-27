@@ -15,6 +15,39 @@ The goals of the architecture are:
 
 Under the hood, the API uses Inversion of Control (IoC) and Dependency Injection (DI). [Here's](https://medium.com/@distillerytech/inversion-and-injection-of-dependencies-69c166dead4) a decent article on that.
 
+## Controller Design
+
+All controllers should be pluralized. For example the `User` controller's base route is `/users`.
+The only controller that is not pluralized is the `Authentication` controller, because it would not make sense to pluralize it.
+
+In each controller, the CRUD endpoints should be at the very top of the controller.
+Controllers that need CRUD endpoints should implement the `BaseController` interface.
+
+Group endpoints that deal with the same resource (e.g. all user level endpoints are grouped together in the `User` controller).
+
+Controllers must be very documented and tested.
+
+## Controller-Service
+
+Every controller has a corresponding service file that handles data interaction/processing.
+
+The controller is unaware of the database and is agnostic as to what database is used.
+
+The service is responsible for querying the database; therefore, it currently must be designed to work specifically with that database.
+
+This design separates the controller from the data access layer, which allows for easier refactors, smaller file sizes, and an overall cleaner look.
+
+The services are injected into the controller via dependency injection, because the controller depends on the service.
+
+## Service Design
+
+Services that need CRUD methods should implement the `BaseService` interface.
+
+Do not prefix methods that fetch data from the database with `get`. Use `find` instead.
+We are finding data from the database. There is no guarantee it exists.
+
+Service methods should be well tested. Documentation is nice, but not necessary.
+
 ## Endpoint Design
 
 Endpoints should use routes that adhere to the REST specification.
@@ -72,17 +105,6 @@ To be consistent, always return the status code that matches one of the followin
 
   The libraries used should handle the success cases for you.
 
-## Controller-Service
-
-Every controller has a corresponding service file that handles data interaction/processing.
-
-The controller is unaware of the database and is agnostic as to what database is used.
-
-The service is responsible for querying the database; therefore, it currently must be designed to work specifically with that database.
-
-This design separates the controller from the data access layer, which allows for easier refactors, smaller file sizes, and an overall cleaner look.
-
-The services are injected into the controller via dependency injection, because the controller depends on the service.
 
 ## Unit Tests
 
