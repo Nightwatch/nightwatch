@@ -155,8 +155,14 @@ export class UserController implements BaseController<User, string> {
   @httpPut('/:id/level')
   async updateLevel (
     @requestParam('id') id: string,
-    @requestBody() levelBalance: UserLevelBalance
+    @requestBody() levelBalance: UserLevelBalance,
+    @response() res: Response
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     const levelResponse = await this.userService.updateLevel(id, levelBalance)
     this.socketService.send(Events.user.levelUpdated, levelResponse)
 
@@ -175,8 +181,14 @@ export class UserController implements BaseController<User, string> {
   @httpPut('/:id/balance')
   async updateBalance (
     @requestParam('id') id: string,
-    @requestBody() balance: UserBalance
+    @requestBody() balance: UserBalance,
+    @response() res: Response
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     const balanceResponse = await this.userService.updateBalance(id, balance)
     this.socketService.send(Events.user.balanceUpdated, balanceResponse)
 

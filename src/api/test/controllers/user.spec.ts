@@ -181,23 +181,91 @@ describe('UserController', () => {
     })
   })
 
-  // describe('updateLevel', () => {})
-  // describe('updateBalance', () => {})
-  // describe('transferBalance', () => {})
-  // describe('findProfileById', () => {})
-  // describe('updateProfile', () => {})
-  // describe('findSettingsById', () => {})
-  // describe('updateSettings', () => {})
-  // describe('findFriendRequests', () => {})
-  // describe('searchFriendRequests', () => {})
-  // describe('createFriendRequest', () => {})
-  // describe('deleteFriendRequest', () => {})
-  // describe('findFriends', () => {})
-  // describe('searchFriends', () => {})
-  // describe('findFriendById', () => {})
-  // describe('addFriend', () => {})
-  // describe('removeFriend', () => {})
+  describe('updateLevel', () => {
+    it('should update level', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      await getRepository(User).save(user)
+
+      user.level.level = 2
+      user.level.xp = 12
+
+      await app
+        .put('/api/users/asdf/level')
+        .send({ level: user.level })
+        .expect(200)
+    })
+
+    it('should update level and balance', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      await getRepository(User).save(user)
+
+      user.level.level = 2
+      user.level.xp = 12
+      user.balance.balance = 100
+
+      await app
+        .put('/api/users/asdf/level')
+        .send({ level: user.level, balance: user.balance })
+        .expect(200)
+    })
+
+    it('should fail to update level for user not exists', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      user.level.level = 2
+      user.level.xp = 12
+      user.balance.balance = 100
+
+      await app
+        .put('/api/users/asdf/level')
+        .send({ level: user.level, balance: user.balance })
+        .expect(404)
+    })
+  })
+
+  describe('updateBalance', () => {
+    it('should update balance', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      await getRepository(User).save(user)
+
+      user.balance.balance = 100
+
+      await app
+        .put('/api/users/asdf/balance')
+        .send(user.balance)
+        .expect(200)
+    })
+
+    it('should fail to update balance for user not exists', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      user.balance.balance = 100
+
+      await app
+        .put('/api/users/asdf/level')
+        .send(user.balance)
+        .expect(404)
+    })
+  })
 })
+
+// describe('transferBalance', () => {})
+// describe('findProfileById', () => {})
+// describe('updateProfile', () => {})
+// describe('findSettingsById', () => {})
+// describe('updateSettings', () => {})
+// describe('findFriendRequests', () => {})
+// describe('searchFriendRequests', () => {})
+// describe('createFriendRequest', () => {})
+// describe('deleteFriendRequest', () => {})
+// describe('findFriends', () => {})
+// describe('searchFriends', () => {})
+// describe('findFriendById', () => {})
+// describe('addFriend', () => {})
+// describe('removeFriend', () => {})
 
 function getTestUser(id: string, name: string) {
   const user = new User()
