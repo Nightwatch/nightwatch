@@ -75,7 +75,7 @@ describe('UserController', () => {
       .which.equals('asdf')
   })
 
-  it('should return undefined when get by id for non existant id', async () => {
+  it('should return undefined on get by id for non existant id', async () => {
     const response = await app.get('/api/users/asdf').expect(404)
 
     expect(response.body).to.be.empty
