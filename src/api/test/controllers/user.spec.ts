@@ -363,7 +363,31 @@ describe('UserController', () => {
     })
   })
 
-  // describe('updateProfile', () => {})
+  describe('updateProfile', () => {
+    it('should update profile', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      await getRepository(User).save(user)
+
+      user.profile.bio = 'Hello world'
+
+      await app
+        .put('/api/users/asdf/profile')
+        .send(user.profile)
+        .expect(200)
+    })
+
+    it('should fail to update profile user not exists', async () => {
+      const user = getTestUser('asdf', 'someName')
+      user.profile.bio = 'Hello world'
+
+      await app
+        .put('/api/users/asdf/profile')
+        .send(user.profile)
+        .expect(404)
+    })
+  })
+
   // describe('findSettingsById', () => {})
   // describe('updateSettings', () => {})
   // describe('findFriendRequests', () => {})
