@@ -35,8 +35,8 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpGet('/')
-  async getAll () {
-    return this.giveawayService.getAll()
+  async find () {
+    return this.giveawayService.find()
   }
 
   /**

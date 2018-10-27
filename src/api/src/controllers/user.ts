@@ -47,8 +47,8 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/')
-  async getAll () {
-    return this.userService.getAll()
+  async find () {
+    return this.userService.find()
   }
 
   /**
@@ -242,8 +242,8 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/profile')
-  async getProfileById (@requestParam('id') id: string) {
-    return this.userService.getProfile(id)
+  async findProfileById (@requestParam('id') id: string) {
+    return this.userService.findProfile(id)
   }
 
   /**
@@ -273,8 +273,8 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/settings')
-  async getSettingsById (@requestParam('id') id: string) {
-    return this.userService.getSettings(id)
+  async findSettingsById (@requestParam('id') id: string) {
+    return this.userService.findSettings(id)
   }
 
   /**
@@ -307,11 +307,11 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends/requests')
-  async getFriendRequests (
+  async findFriendRequests (
     @requestParam('id') id: string,
     @queryParam('type') type?: 'incoming' | 'outgoing'
   ) {
-    return this.userService.getFriendRequests(id, type)
+    return this.userService.findFriendRequests(id, type)
   }
 
   /**
@@ -398,8 +398,8 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends')
-  async getFriends (@requestParam('id') id: string) {
-    return this.userService.getFriends(id)
+  async findFriends (@requestParam('id') id: string) {
+    return this.userService.findFriends(id)
   }
 
   /**
@@ -433,11 +433,11 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends/:friendId')
-  async getFriendById (
+  async findFriendById (
     @requestParam('id') id: string,
     @requestParam('friendId') friendId: number
   ) {
-    return this.userService.getFriendById(id, friendId)
+    return this.userService.findFriendById(id, friendId)
   }
 
   /**

@@ -41,8 +41,8 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/')
-  async getAll () {
-    return this.guildService.getAll()
+  async find () {
+    return this.guildService.find()
   }
 
   /**
@@ -119,8 +119,8 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/:id/suggestions')
-  async getSuggestions (@requestParam('id') id: string) {
-    return this.guildService.getSuggestions(id)
+  async findSuggestions (@requestParam('id') id: string) {
+    return this.guildService.findSuggestions(id)
   }
 
   /**
@@ -133,11 +133,11 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/:id/suggestions/:suggestionId')
-  async getSuggestionById (
+  async findSuggestionById (
     @requestParam('id') id: string,
     @requestParam('suggestionId') suggestionId: number
   ) {
-    return this.guildService.getSuggestionById(id, suggestionId)
+    return this.guildService.findSuggestionById(id, suggestionId)
   }
 
   /**
@@ -221,8 +221,8 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/:id/support-tickets')
-  async getSupportTickets (@requestParam('id') id: string) {
-    return this.guildService.getSupportTickets(id)
+  async findSupportTickets (@requestParam('id') id: string) {
+    return this.guildService.findSupportTickets(id)
   }
 
   /**
@@ -235,11 +235,11 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/:id/support-tickets/:ticketId')
-  async getSupportTicketById (
+  async findSupportTicketById (
     @requestParam('id') id: string,
     @requestParam('ticketId') ticketId: number
   ) {
-    return this.guildService.getSupportTicketById(id, ticketId)
+    return this.guildService.findSupportTicketById(id, ticketId)
   }
 
   /**
@@ -326,8 +326,8 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/:id/settings')
-  async getSettingsById (@requestParam('id') id: string) {
-    return this.guildService.getSettings(id)
+  async findSettingsById (@requestParam('id') id: string) {
+    return this.guildService.findSettings(id)
   }
 
   /**
@@ -360,8 +360,8 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/:id/users')
-  async getUsers (@requestParam('id') id: string) {
-    return this.guildService.getUsers(id)
+  async findUsers (@requestParam('id') id: string) {
+    return this.guildService.findUsers(id)
   }
 
   /**
@@ -374,11 +374,11 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/:id/users/:userId')
-  async getUserById (
+  async findUserById (
     @requestParam('id') id: string,
     @requestParam('userId') userId: string
   ) {
-    return this.guildService.getUserById(id, userId)
+    return this.guildService.findUserById(id, userId)
   }
 
   /**

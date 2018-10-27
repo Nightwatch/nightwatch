@@ -12,7 +12,7 @@ import { injectable } from 'inversify'
 export class GiveawayService implements BaseService<Giveaway, number> {
   private giveawayRepository = getRepository(Giveaway)
 
-  public getAll () {
+  public find () {
     return this.giveawayRepository.find({ relations: ['items'] })
   }
 

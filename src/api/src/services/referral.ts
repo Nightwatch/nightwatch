@@ -12,7 +12,7 @@ import { injectable } from 'inversify'
 export class ReferralService implements BaseService<Referral, number> {
   private referralRepository = getRepository(Referral)
 
-  public getAll () {
+  public find () {
     return this.referralRepository.find()
   }
 

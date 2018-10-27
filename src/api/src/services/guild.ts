@@ -22,7 +22,7 @@ export class GuildService implements BaseService<Guild, string> {
   private settingsRepository = getRepository(GuildSettings)
   private userRepository = getRepository(GuildUser)
 
-  public getAll () {
+  public find () {
     return this.guildRepository.find()
   }
 
@@ -51,11 +51,11 @@ export class GuildService implements BaseService<Guild, string> {
     return this.guildRepository.remove(guild)
   }
 
-  public getSuggestions (id: string) {
+  public findSuggestions (id: string) {
     return this.suggestionRepository.find({ where: { guildId: id } })
   }
 
-  public getSuggestionById (_: string, suggestionId: number) {
+  public findSuggestionById (_: string, suggestionId: number) {
     return this.suggestionRepository.findOne(suggestionId)
   }
 
@@ -82,11 +82,11 @@ export class GuildService implements BaseService<Guild, string> {
     return this.suggestionRepository.update(suggestionId, suggestion)
   }
 
-  public getSupportTickets (id: string) {
+  public findSupportTickets (id: string) {
     return this.supportTicketRepository.find({ where: { guild: { id } } })
   }
 
-  public getSupportTicketById (_: string, ticketId: number) {
+  public findSupportTicketById (_: string, ticketId: number) {
     return this.supportTicketRepository.findOne(ticketId)
   }
 
@@ -113,7 +113,7 @@ export class GuildService implements BaseService<Guild, string> {
     return this.supportTicketRepository.update(ticketId, supportTicket)
   }
 
-  public async getSettings (id: string) {
+  public async findSettings (id: string) {
     return this.settingsRepository.find({ where: { guild: { id } } })
   }
 
@@ -121,11 +121,11 @@ export class GuildService implements BaseService<Guild, string> {
     return this.settingsRepository.update({ guild: { id } }, settings)
   }
 
-  public async getUsers (id: string) {
+  public async findUsers (id: string) {
     return this.userRepository.find({ where: { guild: { id } } })
   }
 
-  public getUserById (id: string, userId: string) {
+  public findUserById (id: string, userId: string) {
     return this.userRepository.findOne({
       where: { guild: { id }, user: { id: userId } }
     })

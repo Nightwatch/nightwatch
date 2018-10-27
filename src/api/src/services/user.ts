@@ -25,7 +25,7 @@ export class UserService implements BaseService<User, string> {
   private userFriendRepository = getRepository(UserFriend)
   private userFriendRequestRepository = getRepository(UserFriendRequest)
 
-  public getAll () {
+  public find () {
     return this.userRepository.find()
   }
 
@@ -83,7 +83,7 @@ export class UserService implements BaseService<User, string> {
     return this.userBalanceRepository.update({ user: { id } }, userBalance)
   }
 
-  public async getProfile (id: string) {
+  public async findProfile (id: string) {
     return this.userProfileRepository.findOne({ where: { user: { id } } })
   }
 
@@ -95,11 +95,11 @@ export class UserService implements BaseService<User, string> {
     return this.userSettingsRepository.update({ user: { id } }, userSettings)
   }
 
-  public async getSettings (id: string) {
+  public async findSettings (id: string) {
     return this.userSettingsRepository.findOne({ where: { user: { id } } })
   }
 
-  public async getFriendRequests (id: string, type?: 'incoming' | 'outgoing') {
+  public async findFriendRequests (id: string, type?: 'incoming' | 'outgoing') {
     let requests: UserFriendRequest[] = []
 
     if (!type || type === 'outgoing') {
@@ -220,7 +220,7 @@ export class UserService implements BaseService<User, string> {
     return this.userFriendRequestRepository.remove(friendRequest)
   }
 
-  public async getFriends (id: string) {
+  public async findFriends (id: string) {
     const results: UserFriend[] = []
     const friends = await this.userFriendRepository.find({
       where: { user: { id } },
@@ -297,7 +297,7 @@ export class UserService implements BaseService<User, string> {
     return acceptedFriends.concat(requestedFriends)
   }
 
-  public async getFriendById (_: string, friendId: number) {
+  public async findFriendById (_: string, friendId: number) {
     return this.userFriendRepository.findOne(friendId)
   }
 

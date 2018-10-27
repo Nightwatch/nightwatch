@@ -35,8 +35,8 @@ export class ReferralController implements BaseController<Referral, number> {
    * @memberof ReferralController
    */
   @httpGet('/')
-  async getAll () {
-    return this.referralService.getAll()
+  async find () {
+    return this.referralService.find()
   }
 
   /**
