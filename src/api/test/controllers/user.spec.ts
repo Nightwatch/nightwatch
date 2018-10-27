@@ -250,22 +250,119 @@ describe('UserController', () => {
         .expect(404)
     })
   })
-})
 
-// describe('transferBalance', () => {})
-// describe('findProfileById', () => {})
-// describe('updateProfile', () => {})
-// describe('findSettingsById', () => {})
-// describe('updateSettings', () => {})
-// describe('findFriendRequests', () => {})
-// describe('searchFriendRequests', () => {})
-// describe('createFriendRequest', () => {})
-// describe('deleteFriendRequest', () => {})
-// describe('findFriends', () => {})
-// describe('searchFriends', () => {})
-// describe('findFriendById', () => {})
-// describe('addFriend', () => {})
-// describe('removeFriend', () => {})
+  describe('transferBalance', () => {
+    it('should transfer money from one user to another', async () => {
+      const user = getTestUser('asdf', 'someName')
+      const user2 = getTestUser('aaa', 'otherName')
+
+      user.balance.balance = 100
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      await app
+        .put('/api/users/asdf/balance/transfer/aaa')
+        .send({ amount: 50 })
+        .expect(200)
+    })
+
+    it('should fail to transfer balance user not exist', async () => {
+      const user2 = getTestUser('aaa', 'otherName')
+
+      await getRepository(User).save(user2)
+
+      await app
+        .put('/api/users/asdf/balance/transfer/aaa')
+        .send({ amount: 50 })
+        .expect(404)
+    })
+
+    it('should fail to transfer balance receiving user not exist', async () => {
+      const user = getTestUser('asdf', 'someName')
+      user.balance.balance = 100
+
+      await getRepository(User).save(user)
+
+      await app
+        .put('/api/users/asdf/balance/transfer/aaa')
+        .send({ amount: 50 })
+        .expect(404)
+    })
+
+    it('should fail to transfer, user has no money', async () => {
+      const user = getTestUser('asdf', 'someName')
+      const user2 = getTestUser('aaa', 'otherName')
+
+      user.balance.balance = 0
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      await app
+        .put('/api/users/asdf/balance/transfer/aaa')
+        .send({ amount: 50 })
+        .expect(400)
+    })
+
+    it('should fail to transfer, not enough money', async () => {
+      const user = getTestUser('asdf', 'someName')
+      const user2 = getTestUser('aaa', 'otherName')
+
+      user.balance.balance = 20
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      await app
+        .put('/api/users/asdf/balance/transfer/aaa')
+        .send({ amount: 50 })
+        .expect(400)
+    })
+
+    it('should fail to transfer, invalid amount', async () => {
+      const user = getTestUser('asdf', 'someName')
+      const user2 = getTestUser('aaa', 'otherName')
+
+      user.balance.balance = 20
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      await app
+        .put('/api/users/asdf/balance/transfer/aaa')
+        .send({ amount: -50 })
+        .expect(400)
+    })
+
+    it('should fail to transfer, cant transfer to self', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      user.balance.balance = 100
+
+      await getRepository(User).save(user)
+
+      await app
+        .put('/api/users/asdf/balance/transfer/asdf')
+        .send({ amount: 50 })
+        .expect(400)
+    })
+  })
+
+  // describe('findProfileById', () => {})
+  // describe('updateProfile', () => {})
+  // describe('findSettingsById', () => {})
+  // describe('updateSettings', () => {})
+  // describe('findFriendRequests', () => {})
+  // describe('searchFriendRequests', () => {})
+  // describe('createFriendRequest', () => {})
+  // describe('deleteFriendRequest', () => {})
+  // describe('findFriends', () => {})
+  // describe('searchFriends', () => {})
+  // describe('findFriendById', () => {})
+  // describe('addFriend', () => {})
+  // describe('removeFriend', () => {})
+})
 
 function getTestUser(id: string, name: string) {
   const user = new User()

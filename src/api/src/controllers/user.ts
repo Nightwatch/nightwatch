@@ -215,16 +215,16 @@ export class UserController implements BaseController<User, string> {
   ) {
     const amount = balance.amount
 
+    if (receiverId === id) {
+      response.sendStatus(400)
+      return
+    }
+
     const fromUser = await this.userService.findById(id)
     const toUser = await this.userService.findById(receiverId)
 
     if (!fromUser || !toUser) {
-      response.status(400).send('User not found')
-      return
-    }
-
-    if (fromUser === toUser) {
-      response.status(400).send('Sender and receiver are the same')
+      response.sendStatus(404)
       return
     }
 
