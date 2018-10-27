@@ -110,7 +110,7 @@ describe('UserController', () => {
     const response2 = await app
       .post('/api/users')
       .send(user)
-      .expect(400)
+      .expect(409)
 
     expect(response.body)
       .to.haveOwnProperty('id')

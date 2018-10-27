@@ -56,6 +56,7 @@ To be consistent, always return the status code that matches one of the followin
 - Error Responses
 
   - Validation error: 400
+  - Resource already exists: 409
   - Authentication error (e.g. website login): 401
   - Authorization error (e.g. endpoint access control): 403
   - Internal server error: 500
