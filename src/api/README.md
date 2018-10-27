@@ -2,15 +2,50 @@
 
 > Realtime API for the Nightwatch Discord bot and web interface. Secure, fast, and developer-friendly!
 
+## Roadmap
+
+### Endpoints
+
+- [x] Authentication
+  - [x] Use Discord OAuth to get access token
+- [ ] Giveaways
+  - [ ] ...TODO
+- [ ] Guilds
+  - [x] CRUD
+  - [x] Guild settings
+  - [ ] ...TODO
+- [ ] Music
+  - [ ] ...TODO
+- [ ] Users
+  - [x] CRUD
+  - [x] User settings
+  - [x] User friends
+  - [x] User level
+  - [x] User balance
+  - [ ] ...TODO
+
+### Internal stuff
+
+- [ ] Audit logs
+  - [x] Log API requests to database
+  - [ ] Configurable audit log settings
+- [ ] Security
+  - [x] JWT client-server authentication
+  - [x] Rate limiting
+  - [ ] Route authorization
+- [ ] 100% test coverage
+
+-- TODO: (Re)move/clean the stuff below --
+
 ## Documentation
 
 Generated documentation can be found here: <https://nightwatch.tk/api/docs/> (Currently Unavailable)
 
 ## Prerequisites
 
-* Node.js >= 8.9.0
-* PostgreSQL > 9.0
-* Redis
+- Node.js >= 8.9.0
+- PostgreSQL > 9.0
+- Redis
 
 ## Installation
 
