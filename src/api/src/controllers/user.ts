@@ -264,7 +264,12 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/profile')
-  async findProfileById (@requestParam('id') id: string) {
+  async findProfileById (@requestParam('id') id: string, @response() res: Response) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     return this.userService.findProfile(id)
   }
 
@@ -280,8 +285,15 @@ export class UserController implements BaseController<User, string> {
   @httpPut('/:id/profile')
   async updateProfile (
     @requestParam('id') id: string,
-    @requestBody() profile: UserProfile
+    @requestBody() profile: UserProfile,
+    @response() res: Response
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
+
     const profileResponse = await this.userService.updateProfile(id, profile)
     this.socketService.send(Events.user.profileUpdated, profileResponse)
 
@@ -295,7 +307,12 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/settings')
-  async findSettingsById (@requestParam('id') id: string) {
+  async findSettingsById (@requestParam('id') id: string, @response() res: Response) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     return this.userService.findSettings(id)
   }
 
@@ -311,8 +328,14 @@ export class UserController implements BaseController<User, string> {
   @httpPut('/:id/settings')
   async updateSettings (
     @requestParam('id') id: string,
-    @requestBody() settings: UserSettings
+    @requestBody() settings: UserSettings,
+    @response() res: Response
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     const settingsResponse = await this.userService.updateSettings(id, settings)
     this.socketService.send(Events.user.settingsUpdated, settingsResponse)
 
@@ -331,8 +354,14 @@ export class UserController implements BaseController<User, string> {
   @httpGet('/:id/friends/requests')
   async findFriendRequests (
     @requestParam('id') id: string,
+    @response() res: Response,
     @queryParam('type') type?: 'incoming' | 'outgoing'
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     return this.userService.findFriendRequests(id, type)
   }
 
@@ -349,12 +378,18 @@ export class UserController implements BaseController<User, string> {
   @httpGet('/:id/friends/requests/search')
   async searchFriendRequests (
     @requestParam('id') id: string,
+    @response() res: Response,
     @queryParam('skip') skip?: number,
     @queryParam('take') take?: number,
     @queryParam('userId') userId?: string,
     @queryParam('name') name?: string,
     @queryParam('type') type?: 'incoming' | 'outgoing'
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     return this.userService.searchFriendRequests(
       id,
       skip,
@@ -377,8 +412,14 @@ export class UserController implements BaseController<User, string> {
   @httpPost('/:id/friends/requests')
   async createFriendRequest (
     @requestParam('id') id: string,
-    @requestBody() friendRequest: UserFriendRequest
+    @requestBody() friendRequest: UserFriendRequest,
+    @response() res: Response
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     const response = await this.userService.createFriendRequest(
       id,
       friendRequest

@@ -349,7 +349,20 @@ describe('UserController', () => {
     })
   })
 
-  // describe('findProfileById', () => {})
+  describe('findProfileById', () => {
+    it('should find profile', async () => {
+      const user = getTestUser('asdf', 'Test')
+
+      await getRepository(User).save(user)
+
+      await app.get('/api/users/asdf/profile').expect(200)
+    })
+
+    it('should fail to find profile user not exist', async () => {
+      await app.get('/api/users/asdf/profile').expect(404)
+    })
+  })
+
   // describe('updateProfile', () => {})
   // describe('findSettingsById', () => {})
   // describe('updateSettings', () => {})
