@@ -12,3 +12,4 @@ bot/
 config/*.json
 !config/*.example.json
 **/*.log
+public/docs
