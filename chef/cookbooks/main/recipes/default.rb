@@ -9,16 +9,13 @@ include_recipe 'nodejs'
 # Install Yarn
 include_recipe 'yarn'
 
-apt_update 'Update' do
-  ignore_failure true
-  action :update
-end
-
+# Install Postgres
 postgresql_server_install 'Postgres install' do
   version '9.6'
   password nil
 end
 
+# Doesn't work as intended. TODO: See if this can be removed. Hacky fix is in inline shell provision script in Vagrantfile.
 postgresql_access 'local_postgres_superuser' do
   comment 'Local postgres superuser access'
   access_type 'local'
@@ -28,6 +25,13 @@ postgresql_access 'local_postgres_superuser' do
   access_method 'trust'
 end
 
+# Creates database for unit tests
 postgresql_database 'nightwatch_test' do
   locale 'C.UTF-8'
+end
+
+# Updates any packages
+apt_update 'Update' do
+  ignore_failure true
+  action :update
 end
