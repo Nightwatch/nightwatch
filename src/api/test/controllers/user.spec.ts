@@ -115,7 +115,9 @@ describe('UserController', () => {
     expect(response.body)
       .to.haveOwnProperty('id')
       .which.equals('asdf')
-    expect(response2.body).to.not.exist
+    expect(response2.body)
+      .to.be.instanceof(String)
+      .which.contains('already exists')
   })
 
   it('should delete a user', async () => {
