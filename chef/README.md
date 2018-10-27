@@ -13,6 +13,6 @@
   - [ ] Start bot using `pm2` in another process after API starts.
 - [ ] Change working directory to `/vagrant` (where the project lives in the VM) when the user connects to the VM via SSH.
 
-## Issues and Limitations
+## Known Issues/Limitations
 
 - Windows users must start the Vagrant box in an escalated terminal, or Yarn/NPM will throw symlink errors.
