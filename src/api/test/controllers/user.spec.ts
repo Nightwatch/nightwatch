@@ -42,102 +42,161 @@ describe('UserController', () => {
     await connection.synchronize()
   })
 
-  it('should get all users when no users exist', async () => {
-    const response = await app.get('/api/users').expect(200)
-    expect(response.body).to.not.be.null
-    expect(response.body).to.have.lengthOf(0)
+  describe('find', () => {
+    it('should get all users when no users exist', async () => {
+      const response = await app.get('/api/users').expect(200)
+      expect(response.body).to.not.be.null
+      expect(response.body).to.have.lengthOf(0)
+    })
+
+    it('should get all users', async () => {
+      const user = getTestUser('aaa', 'Test1')
+      const user2 = getTestUser('bbb', 'Test2')
+      const user3 = getTestUser('ccc', 'Test3')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const response = await app.get('/api/users').expect(200)
+
+      expect(response.body).to.not.be.null
+      expect(response.body).to.have.lengthOf(3)
+    })
   })
 
-  it('should get all users', async () => {
-    const user = getTestUser('aaa', 'Test1')
-    const user2 = getTestUser('bbb', 'Test2')
-    const user3 = getTestUser('ccc', 'Test3')
+  describe('findById', () => {
+    it('should get a user by id', async () => {
+      const user = getTestUser('asdf', 'Test')
 
-    await getRepository(User).save(user)
-    await getRepository(User).save(user2)
-    await getRepository(User).save(user3)
+      await getRepository(User).save(user)
 
-    const response = await app.get('/api/users').expect(200)
+      const response = await app.get('/api/users/asdf').expect(200)
 
-    expect(response.body).to.not.be.null
-    expect(response.body).to.have.lengthOf(3)
+      expect(response.body)
+        .to.haveOwnProperty('id')
+        .which.equals('asdf')
+    })
+
+    it('should return undefined on get by id for non existant id', async () => {
+      const response = await app.get('/api/users/asdf').expect(404)
+
+      expect(response.body).to.be.empty
+    })
   })
 
-  it('should get a user by id', async () => {
-    const user = getTestUser('asdf', 'Test')
+  describe('create', () => {
+    it('should create a user', async () => {
+      const user = getTestUser('asdf', 'Test')
 
-    await getRepository(User).save(user)
+      const response = await app
+        .post('/api/users')
+        .send(user)
+        .expect(200)
 
-    const response = await app.get('/api/users/asdf').expect(200)
+      expect(response.body)
+        .to.haveOwnProperty('id')
+        .which.equals('asdf')
 
-    expect(response.body)
-      .to.haveOwnProperty('id')
-      .which.equals('asdf')
+      const allUserResponse = await getRepository(User).find()
+
+      expect(allUserResponse)
+        .to.be.instanceof(Array)
+        .with.lengthOf(1)
+    })
+
+    it('should error if the same user is created twice', async () => {
+      const user = getTestUser('asdf', 'Test')
+
+      const response = await app
+        .post('/api/users')
+        .send(user)
+        .expect(200)
+      const response2 = await app
+        .post('/api/users')
+        .send(user)
+        .expect(409)
+
+      expect(response.body)
+        .to.haveOwnProperty('id')
+        .which.equals('asdf')
+      expect(response2.text).to.contain('already exists')
+      expect(response2.body).to.be.empty
+    })
   })
 
-  it('should return undefined on get by id for non existant id', async () => {
-    const response = await app.get('/api/users/asdf').expect(404)
+  describe('deleteById', () => {
+    it('should delete a user', async () => {
+      const user = getTestUser('aaa', 'Test1')
 
-    expect(response.body).to.be.empty
+      await getRepository(User).save(user)
+
+      let allUsers = await getRepository(User).find()
+
+      expect(allUsers)
+        .to.be.instanceof(Array)
+        .with.lengthOf(1)
+
+      await app.delete('/api/users/aaa').expect(200)
+
+      allUsers = await getRepository(User).find()
+
+      expect(allUsers)
+        .to.be.instanceof(Array)
+        .with.lengthOf(0)
+    })
+
+    it('should fail to delete user not found', async () => {
+      await app.delete('/api/users/doesnotexist').expect(404)
+    })
   })
 
-  it('should create a user', async () => {
-    const user = getTestUser('asdf', 'Test')
+  describe('updateById', () => {
+    it('should update a user', async () => {
+      const user = getTestUser('asdf', 'someName')
 
-    const response = await app
-      .post('/api/users')
-      .send(user)
-      .expect(200)
+      await getRepository(User).save(user)
 
-    expect(response.body)
-      .to.haveOwnProperty('id')
-      .which.equals('asdf')
+      user.name = 'someOtherName'
 
-    const allUserResponse = await getRepository(User).find()
+      const response = await app
+        .put('/api/users/asdf')
+        .send(user)
+        .expect(200)
 
-    expect(allUserResponse)
-      .to.be.instanceof(Array)
-      .with.lengthOf(1)
+      expect(response.body)
+        .to.have.property('name')
+        .which.equals('someOtherName')
+    })
+
+    it('should fail to update user not exists', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      const response = await app
+        .put('/api/users/asdf')
+        .send(user)
+        .expect(404)
+
+      expect(response.body).to.be.empty
+    })
   })
 
-  it('should error if the same user is created twice', async () => {
-    const user = getTestUser('asdf', 'Test')
-
-    const response = await app
-      .post('/api/users')
-      .send(user)
-      .expect(200)
-    const response2 = await app
-      .post('/api/users')
-      .send(user)
-      .expect(409)
-
-    expect(response.body)
-      .to.haveOwnProperty('id')
-      .which.equals('asdf')
-    expect(response2.text).to.contain('already exists')
-    expect(response2.body).to.be.empty
-  })
-
-  it('should delete a user', async () => {
-    const user = getTestUser('aaa', 'Test1')
-
-    await getRepository(User).save(user)
-
-    let allUsers = await getRepository(User).find()
-
-    expect(allUsers)
-      .to.be.instanceof(Array)
-      .with.lengthOf(1)
-
-    await app.delete('/api/users/aaa').expect(200)
-
-    allUsers = await getRepository(User).find()
-
-    expect(allUsers)
-      .to.be.instanceof(Array)
-      .with.lengthOf(0)
-  })
+  // describe('updateLevel', () => {})
+  // describe('updateBalance', () => {})
+  // describe('transferBalance', () => {})
+  // describe('findProfileById', () => {})
+  // describe('updateProfile', () => {})
+  // describe('findSettingsById', () => {})
+  // describe('updateSettings', () => {})
+  // describe('findFriendRequests', () => {})
+  // describe('searchFriendRequests', () => {})
+  // describe('createFriendRequest', () => {})
+  // describe('deleteFriendRequest', () => {})
+  // describe('findFriends', () => {})
+  // describe('searchFriends', () => {})
+  // describe('findFriendById', () => {})
+  // describe('addFriend', () => {})
+  // describe('removeFriend', () => {})
 })
 
 function getTestUser(id: string, name: string) {
