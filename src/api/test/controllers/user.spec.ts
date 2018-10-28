@@ -14,7 +14,8 @@ import {
   UserProfile,
   UserLevel,
   UserBalance,
-  UserFriendRequest
+  UserFriendRequest,
+  UserFriend
 } from '../../../db'
 import { getRepository, getConnection } from 'typeorm'
 import {
@@ -697,7 +698,82 @@ describe('UserController', () => {
     })
   })
 
-  // describe('createFriendRequest', () => {})
+  describe('createFriendRequest', () => {
+    it('should create friend request', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(200)
+    })
+
+    it('should fail to create friend request, request already exists', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user2
+      friendRequest.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(409)
+    })
+
+    it('should fail to create friend request, other sent them a request', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user
+      friendRequest.user = user2
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(409)
+    })
+
+    it('should fail to create friend request, users are friends', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      await getRepository(UserFriend).save(friend)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(409)
+    })
+
+    it('should fail to create friend request user not exist', async () => {
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user2)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(404)
+    })
+
+    it('should fail to create friend request other user not exist', async () => {
+      const user = getTestUser('asdf', 'otherName')
+
+      await getRepository(User).save(user)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(404)
+    })
+  })
+
   // describe('deleteFriendRequest', () => {})
   // describe('findFriends', () => {})
   // describe('searchFriends', () => {})
