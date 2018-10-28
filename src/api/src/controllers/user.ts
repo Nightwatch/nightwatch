@@ -441,7 +441,6 @@ export class UserController implements BaseController<User, string> {
   async createFriendRequest (
     @requestParam('id') id: string,
     @requestParam('userId') userId: string,
-    @requestBody() friendRequest: UserFriendRequest,
     @response() res: Response
   ) {
     if (id === userId) {
@@ -463,9 +462,16 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(409)
       return
     }
+    const friend = await this.userService.findFriendByUserId(id, userId)
+    if (friend) {
+      res.sendStatus(409)
+    }
+    const request = new UserFriendRequest()
+    request.user = userExists
+    request.receiver = otherUserExists
     const response = await this.userService.createFriendRequest(
       id,
-      friendRequest
+      request
     )
     this.socketService.send(Events.user.friend.request.created, response)
 

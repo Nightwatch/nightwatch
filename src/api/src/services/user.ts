@@ -147,38 +147,12 @@ export class UserService implements BaseService<User, string> {
   }
 
   public async createFriendRequest (
-    id: string,
-    friendRequest: UserFriendRequest
+    _: string,
+    request: UserFriendRequest
   ) {
-    // Creating a friend request is a three step process:
-    // 1) Check if other user already sent a friend request.
-    //    This is a completely valid and possible scenario.
-    // 2) Check if the users are already friends.
-    // 3) Save the friend request object.
+    request.timestamp = new Date()
 
-    if (id === friendRequest.receiver.id) {
-      return
-    }
-
-    let existingFriend = await this.userFriendRepository.findOne({
-      where: { user: { id }, friend: { id: friendRequest.receiver.id } },
-      relations: ['user', 'friend']
-    })
-
-    if (!existingFriend) {
-      existingFriend = await this.userFriendRepository.findOne({
-        where: { friend: { id }, user: { id: friendRequest.receiver.id } },
-        relations: ['user', 'friend']
-      })
-    }
-
-    if (existingFriend) {
-      return
-    }
-
-    friendRequest.timestamp = new Date()
-
-    return this.userFriendRequestRepository.save(friendRequest)
+    return this.userFriendRequestRepository.save(request)
   }
 
   public async deleteFriendRequest (_: string, requestId: number) {
@@ -194,17 +168,21 @@ export class UserService implements BaseService<User, string> {
   }
 
   public async findFriends (id: string) {
-    const results: UserFriend[] = []
-    const friends = await this.userFriendRepository.find({
-      where: { user: { id } },
-      relations: ['friend']
-    })
-    const otherFriends = await this.userFriendRepository.find({
-      where: { friend: { id } },
-      relations: ['user']
-    })
+    return this.userFriendRepository.createQueryBuilder('friend')
+      .leftJoin('friend.user', 'user')
+      .leftJoin('friend.friend', 'other')
+      .where('user.id = :id', { id })
+      .orWhere('other.id = :id', { id })
+      .getOne()
+  }
 
-    return results.concat(friends, otherFriends)
+  public async findFriendByUserId (id: string, userId: string) {
+    return this.userFriendRepository.createQueryBuilder('friend')
+      .leftJoin('friend.user', 'user')
+      .leftJoin('friend.friend', 'other')
+      .where('user.id = :id and other.id = :userId', { id, userId })
+      .orWhere('user.id = :userId and other.id = :id', { id, userId })
+      .getOne()
   }
 
   public async searchFriends (
