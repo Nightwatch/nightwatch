@@ -1110,7 +1110,39 @@ describe('UserController', () => {
     })
   })
 
-  // describe('removeFriend', () => {})
+  describe('removeFriend', () => {
+    it('should delete a friend', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friend = new UserFriend()
+      friend.user = user2
+      friend.friend = user
+
+      await getRepository(UserFriend).save(friend)
+
+      await app.delete('/api/users/asdf/friends/aaaa').expect(200)
+    })
+
+    it('should fail to delete friend user not found', async () => {
+      const user = getTestUser('asdf', 'otherName')
+
+      await getRepository(User).save(user)
+
+      await app.delete('/api/users/asdf/friends/aaaa').expect(404)
+    })
+
+    it('should fail to delete friend other user not found', async () => {
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user2)
+
+      await app.delete('/api/users/asdf/friends/aaaa').expect(404)
+    })
+  })
 })
 
 function getTestUser(id: string, name: string) {

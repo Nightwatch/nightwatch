@@ -254,8 +254,13 @@ export class UserService implements BaseService<User, string> {
     return this.userFriendRepository.save(friend)
   }
 
-  public async deleteFriend (_: string, friendId: number) {
-    const friend = await this.userFriendRepository.findOne(friendId)
+  public async deleteFriend (id: string, userId: string) {
+    const friend = await this.userFriendRepository.createQueryBuilder('friend')
+    .innerJoinAndSelect('friend.user', 'user')
+    .innerJoinAndSelect('friend.friend', 'other')
+    .where('user.id = :id and other.id = :userId', { id, userId })
+    .orWhere('user.id = :userId and other.id = :id', { id, userId })
+    .getOne()
 
     if (!friend) {
       return

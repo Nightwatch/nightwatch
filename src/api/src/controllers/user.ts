@@ -631,16 +631,16 @@ export class UserController implements BaseController<User, string> {
   /**
    * Deletes a friend.
    *
-   * DELETE /:id/friends/:friendId
+   * DELETE /:id/friends/:userId
    * @param {string} id
-   * @param {number} friendId
+   * @param {string} userId
    * @returns Promise<UserFriend | undefined>
    * @memberof UserController
    */
-  @httpDelete('/:id/friends/:friendId')
+  @httpDelete('/:id/friends/:userId')
   async removeFriend (
     @requestParam('id') id: string,
-    @requestParam('friendId') friendId: number,
+    @requestParam('userId') userId: string,
     @response() res: Response
   ) {
     const userExists = await this.userService.findById(id)
@@ -648,10 +648,20 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    const response = await this.userService.deleteFriend(id, friendId)
+    const otherUserExists = await this.userService.findById(userId)
+    if (!otherUserExists) {
+      res.sendStatus(404)
+      return
+    }
+    const friend = await this.userService.searchFriends(id, 0, 1, userId)
+    if (!friend[0]) {
+      res.sendStatus(400)
+      return
+    }
+    const response = await this.userService.deleteFriend(id, userId)
     this.socketService.send(Events.user.friend.deleted, {
       userId: id,
-      friendId
+      otherUserId: userId
     })
 
     return response
