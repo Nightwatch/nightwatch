@@ -13,7 +13,8 @@ import {
   UserReputation,
   UserProfile,
   UserLevel,
-  UserBalance
+  UserBalance,
+  UserFriendRequest
 } from '../../../db'
 import { getRepository, getConnection } from 'typeorm'
 import {
@@ -430,7 +431,51 @@ describe('UserController', () => {
     })
   })
 
-  // describe('findFriendRequests', () => {})
+  describe('findFriendRequests', () => {
+    it('should find friend requests', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user
+      friendRequest.user = user2
+
+      const friendRequest2 = new UserFriendRequest()
+      friendRequest2.receiver = user3
+      friendRequest2.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+      await getRepository(UserFriendRequest).save(friendRequest2)
+
+      const response = await app
+        .get('/api/users/asdf/friends/requests')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(2)
+    })
+
+    it('should succeed to find friend requests if none exist', async () => {
+      const user = getTestUser('asdf', 'Test')
+
+      await getRepository(User).save(user)
+
+      const response = await app
+        .get('/api/users/asdf/friends/requests')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(0)
+    })
+
+    it('should fail to find friend requests user not exist', async () => {
+      await app.get('/api/users/asdf/friends/requests').expect(404)
+    })
+  })
+
   // describe('searchFriendRequests', () => {})
   // describe('createFriendRequest', () => {})
   // describe('deleteFriendRequest', () => {})
