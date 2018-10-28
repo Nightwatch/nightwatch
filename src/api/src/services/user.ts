@@ -6,7 +6,7 @@ import {
   UserFriend,
   UserFriendRequest
 } from '../../../db'
-import { getRepository, Like, FindManyOptions } from 'typeorm'
+import { getRepository, Brackets } from 'typeorm'
 import { BaseService } from '../interfaces/BaseService'
 import { UserLevelBalance } from '../models/userLevelBalance.model'
 import { injectable } from 'inversify'
@@ -155,10 +155,13 @@ export class UserService implements BaseService<User, string> {
     return this.userFriendRequestRepository.save(request)
   }
 
-  public async deleteFriendRequest (_: string, requestId: number) {
-    const friendRequest = await this.userFriendRequestRepository.findOne({
-      where: { id: requestId }
-    })
+  public async deleteFriendRequest (id: string, userId: string) {
+    const friendRequest = await this.userFriendRequestRepository.createQueryBuilder('request')
+      .leftJoin('request.user', 'sender')
+      .leftJoin('request.receiver', 'receiver')
+      .where('sender.id = :id and receiver.id = :userId', { id, userId })
+      .orWhere('sender.id = :userId and receiver.id = :id', { id, userId })
+      .getOne()
 
     if (!friendRequest) {
       return
@@ -173,7 +176,7 @@ export class UserService implements BaseService<User, string> {
       .leftJoin('friend.friend', 'other')
       .where('user.id = :id', { id })
       .orWhere('other.id = :id', { id })
-      .getOne()
+      .getMany()
   }
 
   public async findFriendByUserId (id: string, userId: string) {
@@ -192,60 +195,33 @@ export class UserService implements BaseService<User, string> {
     userId?: string,
     name?: string
   ) {
-    let acceptedFriends: UserFriend[] = []
-    let requestedFriends: UserFriend[] = []
+    const queryBuilder = this.userFriendRepository.createQueryBuilder('friend')
+      .innerJoin('friend.user', 'user')
+      .innerJoin('friend.friend', 'other')
+      .where(new Brackets(qb => {
+        qb.where('user.id = :id', { id })
+          .orWhere('other.id = :id', { id })
+      }))
 
-    const query1: FindManyOptions<UserFriend> = {
-      skip,
-      take,
-      relations: ['user', 'friend'],
-      where: {}
+    if (userId || name) {
+      if (userId) {
+        queryBuilder.andWhere(new Brackets(qb => {
+          qb.where('other.id LIKE :userId', { userId: `%${userId.toLowerCase()}%` })
+          .orWhere('user.id LIKE :userId', { userId: `%${userId.toLowerCase()}%` })
+        }))
+      }
+      if (name) {
+        queryBuilder.andWhere(new Brackets(qb => {
+          qb.where('other.name LIKE :name', { name: `%${name.toLowerCase()}%` })
+            .orWhere('user.name LIKE :name', { name: `%${name.toLowerCase()}%` })
+        }))
+      }
     }
 
-    const userObj1 = { friend: { id } }
+    queryBuilder.skip(skip)
+    queryBuilder.take(take)
 
-    query1.where = userObj1
-
-    if (userId) {
-      const likeUserId = Like(`%${userId}%`)
-      const whereUserId = { user: { id: likeUserId } }
-      query1.where = { ...query1.where, ...whereUserId }
-    }
-
-    if (name) {
-      const likeName = Like(`%${name}%`)
-      const whereName = { user: { name: likeName } }
-      query1.where = { ...query1.where, ...whereName }
-    }
-
-    acceptedFriends = await this.userFriendRepository.find(query1)
-
-    const query2: FindManyOptions<UserFriend> = {
-      skip,
-      take,
-      relations: ['user', 'friend'],
-      where: {}
-    }
-
-    const userObj2 = { user: { id } }
-
-    query2.where = userObj2
-
-    if (userId) {
-      const likeUserId = Like(`%${userId}%`)
-      const whereUserId = { friend: { id: likeUserId } }
-      query2.where = { ...query2.where, ...whereUserId }
-    }
-
-    if (name) {
-      const likeName = Like(`%${name}%`)
-      const whereName = { friend: { name: likeName } }
-      query2.where = { ...query2.where, ...whereName }
-    }
-
-    requestedFriends = await this.userFriendRepository.find(query2)
-
-    return acceptedFriends.concat(requestedFriends)
+    return queryBuilder.getMany()
   }
 
   public async findFriendById (_: string, friendId: number) {

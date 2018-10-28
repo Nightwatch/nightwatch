@@ -481,21 +481,36 @@ export class UserController implements BaseController<User, string> {
   /**
    * Deletes a friend request.
    *
-   * DELETE /:id/friends/requests/:requestId
+   * DELETE /:id/friends/requests/:userId
    * @param {string} id
-   * @param {number} requestId
+   * @param {number} userId
    * @returns Promise<UserFriendRequest | undefined>
    * @memberof UserController
    */
-  @httpDelete('/:id/friends/requests/:requestId')
+  @httpDelete('/:id/friends/requests/:userId')
   async deleteFriendRequest (
     @requestParam('id') id: string,
-    @requestParam('requestId') requestId: number
+    @requestParam('userId') userId: string,
+    @response() res: Response
   ) {
-    const response = await this.userService.deleteFriendRequest(id, requestId)
+    if (id === userId) {
+      res.sendStatus(400)
+      return
+    }
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
+    const otherUserExists = await this.userService.findById(userId)
+    if (!otherUserExists) {
+      res.sendStatus(404)
+      return
+    }
+    const response = await this.userService.deleteFriendRequest(id, userId)
     this.socketService.send(Events.user.friend.request.deleted, {
       userId: id,
-      requestId
+      otherUserId: userId
     })
 
     return response
@@ -510,7 +525,12 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends')
-  async findFriends (@requestParam('id') id: string) {
+  async findFriends (@requestParam('id') id: string, @response() res: Response) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     return this.userService.findFriends(id)
   }
 
@@ -527,11 +547,17 @@ export class UserController implements BaseController<User, string> {
   @httpGet('/:id/friends/search')
   async searchFriends (
     @requestParam('id') id: string,
-    @queryParam('skip') skip?: number,
-    @queryParam('take') take?: number,
+    @queryParam('skip') skip: number,
+    @queryParam('take') take: number,
+    @response() res: Response,
     @queryParam('userId') userId?: string,
     @queryParam('name') name?: string
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     return this.userService.searchFriends(id, skip, take, userId, name)
   }
 
@@ -547,8 +573,14 @@ export class UserController implements BaseController<User, string> {
   @httpGet('/:id/friends/:friendId')
   async findFriendByUserId (
     @requestParam('id') id: string,
-    @requestParam('friendId') friendId: number
+    @requestParam('friendId') friendId: number,
+    @response() res: Response
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     return this.userService.findFriendById(id, friendId)
   }
 
@@ -564,8 +596,14 @@ export class UserController implements BaseController<User, string> {
   @httpPost('/:id/friends')
   async addFriend (
     @requestParam('id') id: string,
-    @requestBody() friend: UserFriend
+    @requestBody() friend: UserFriend,
+    @response() res: Response
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     const response = await this.userService.addFriend(id, friend)
     this.socketService.send(Events.user.friend.created, response)
 
@@ -584,8 +622,14 @@ export class UserController implements BaseController<User, string> {
   @httpDelete('/:id/friends/:friendId')
   async removeFriend (
     @requestParam('id') id: string,
-    @requestParam('friendId') friendId: number
+    @requestParam('friendId') friendId: number,
+    @response() res: Response
   ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
     const response = await this.userService.deleteFriend(id, friendId)
     this.socketService.send(Events.user.friend.deleted, {
       userId: id,

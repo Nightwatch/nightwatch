@@ -14,7 +14,8 @@ import {
   UserProfile,
   UserLevel,
   UserBalance,
-  UserFriendRequest
+  UserFriendRequest,
+  UserFriend
 } from '../../../db'
 import { getRepository, getConnection } from 'typeorm'
 import {
@@ -697,10 +698,310 @@ describe('UserController', () => {
     })
   })
 
-  // describe('createFriendRequest', () => {})
-  // describe('deleteFriendRequest', () => {})
-  // describe('findFriends', () => {})
-  // describe('searchFriends', () => {})
+  describe('createFriendRequest', () => {
+    it('should create friend request', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(200)
+    })
+
+    it('should fail to create friend request, request already exists', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user2
+      friendRequest.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(409)
+    })
+
+    it('should fail to create friend request, other sent them a request', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user
+      friendRequest.user = user2
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(409)
+    })
+
+    it('should fail to create friend request, users are friends', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      await getRepository(UserFriend).save(friend)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(409)
+    })
+
+    it('should fail to create friend request user not exist', async () => {
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user2)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(404)
+    })
+
+    it('should fail to create friend request other user not exist', async () => {
+      const user = getTestUser('asdf', 'otherName')
+
+      await getRepository(User).save(user)
+
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(404)
+    })
+  })
+
+  describe('deleteFriendRequest', () => {
+    it('should delete a friend request', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user2
+      friendRequest.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+
+      await app.delete('/api/users/asdf/friends/requests/aaaa').expect(200)
+    })
+
+    it('should fail to delete friend request user not found', async () => {
+      const user = getTestUser('asdf', 'otherName')
+
+      await getRepository(User).save(user)
+
+      await app.delete('/api/users/asdf/friends/requests/aaaa').expect(404)
+    })
+
+    it('should fail to delete friend request other user not found', async () => {
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user2)
+
+      await app.delete('/api/users/asdf/friends/requests/aaaa').expect(404)
+    })
+  })
+
+  describe('findFriends', () => {
+    it('should find friends', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      const friend2 = new UserFriend()
+      friend2.user = user3
+      friend2.friend = user
+
+      await getRepository(UserFriend).save(friend)
+      await getRepository(UserFriend).save(friend2)
+
+      const response = await app.get('/api/users/asdf/friends').expect(200)
+
+      expect(response.body).to.have.lengthOf(2)
+    })
+
+    it('should succeed to find friends if none exist', async () => {
+      const user = getTestUser('asdf', 'Test')
+
+      await getRepository(User).save(user)
+
+      const response = await app.get('/api/users/asdf/friends').expect(200)
+
+      expect(response.body).to.have.lengthOf(0)
+    })
+
+    it('should fail to find friends user not exist', async () => {
+      await app.get('/api/users/asdf/friends').expect(404)
+    })
+  })
+
+  describe('searchFriends', () => {
+    it('should search friends', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      const friend2 = new UserFriend()
+      friend2.user = user3
+      friend2.friend = user
+
+      await getRepository(UserFriend).save(friend)
+      await getRepository(UserFriend).save(friend2)
+
+      const response = await app
+        .get('/api/users/asdf/friends/search?skip=0&take=10')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(2)
+    })
+
+    it('should search friends by userId', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      const friend2 = new UserFriend()
+      friend2.user = user3
+      friend2.friend = user
+
+      await getRepository(UserFriend).save(friend)
+      await getRepository(UserFriend).save(friend2)
+
+      const response = await app
+        .get('/api/users/asdf/friends/search?skip=0&take=10&userId=bb')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should search friends by name', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      const friend2 = new UserFriend()
+      friend2.user = user3
+      friend2.friend = user
+
+      await getRepository(UserFriend).save(friend)
+      await getRepository(UserFriend).save(friend2)
+
+      const response = await app
+        .get('/api/users/asdf/friends/search?skip=0&take=10&name=ano')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should search friends with skip', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      const friend2 = new UserFriend()
+      friend2.user = user3
+      friend2.friend = user
+
+      await getRepository(UserFriend).save(friend)
+      await getRepository(UserFriend).save(friend2)
+
+      const response = await app
+        .get('/api/users/asdf/friends/search?skip=1&take=10')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should search friends with take', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      const friend2 = new UserFriend()
+      friend2.user = user3
+      friend2.friend = user
+
+      await getRepository(UserFriend).save(friend)
+      await getRepository(UserFriend).save(friend2)
+
+      const response = await app
+        .get('/api/users/asdf/friends/search?skip=0&take=1')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should succeed to search friends if none exist', async () => {
+      const user = getTestUser('asdf', 'Test')
+
+      await getRepository(User).save(user)
+
+      const response = await app
+        .get('/api/users/asdf/friends/search?skip=0&take=10')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(0)
+    })
+
+    it('should fail to search friends user not exist', async () => {
+      await app.get('/api/users/asdf/friends/search?skip=0&take=10').expect(404)
+    })
+  })
+
   // describe('findFriendById', () => {})
   // describe('addFriend', () => {})
   // describe('removeFriend', () => {})
