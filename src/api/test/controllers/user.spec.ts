@@ -402,7 +402,34 @@ describe('UserController', () => {
     })
   })
 
-  // describe('updateSettings', () => {})
+  describe('updateSettings', () => {
+    it('should update settings', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      await getRepository(User).save(user)
+
+      user.settings.directMessagesEnabled = false
+      user.settings.levelsEnabled = true
+
+      await app
+        .put('/api/users/asdf/settings')
+        .send(user.settings)
+        .expect(200)
+    })
+
+    it('should fail to update settings user not exists', async () => {
+      const user = getTestUser('asdf', 'someName')
+
+      user.settings.directMessagesEnabled = false
+      user.settings.levelsEnabled = true
+
+      await app
+        .put('/api/users/asdf/settings')
+        .send(user.settings)
+        .expect(404)
+    })
+  })
+
   // describe('findFriendRequests', () => {})
   // describe('searchFriendRequests', () => {})
   // describe('createFriendRequest', () => {})
