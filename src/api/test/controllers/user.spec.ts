@@ -388,7 +388,20 @@ describe('UserController', () => {
     })
   })
 
-  // describe('findSettingsById', () => {})
+  describe('findSettingsById', () => {
+    it('should find settings', async () => {
+      const user = getTestUser('asdf', 'Test')
+
+      await getRepository(User).save(user)
+
+      await app.get('/api/users/asdf/settings').expect(200)
+    })
+
+    it('should fail to find settings user not exist', async () => {
+      await app.get('/api/users/asdf/settings').expect(404)
+    })
+  })
+
   // describe('updateSettings', () => {})
   // describe('findFriendRequests', () => {})
   // describe('searchFriendRequests', () => {})
