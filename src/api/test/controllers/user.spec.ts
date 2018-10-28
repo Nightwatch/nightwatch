@@ -1002,7 +1002,40 @@ describe('UserController', () => {
     })
   })
 
-  // describe('findFriendById', () => {})
+  describe('findFriendByUserId', () => {
+    it('should find friend by user Id', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+
+      const friend = new UserFriend()
+      friend.user = user
+      friend.friend = user2
+
+      await getRepository(UserFriend).save(friend)
+
+      await app.get('/api/users/asdf/friends/aaaa').expect(200)
+    })
+
+    it('should fail to find friend user not exist', async () => {
+      const user = getTestUser('asdf', 'otherName')
+
+      await getRepository(User).save(user)
+
+      await app.get('/api/users/asdf/friends/aaaa').expect(404)
+    })
+
+    it('should fail to find friend other user not exist', async () => {
+      const user = getTestUser('aaaa', 'otherName')
+
+      await getRepository(User).save(user)
+
+      await app.get('/api/users/asdf/friends/aaaa').expect(404)
+    })
+  })
+
   // describe('addFriend', () => {})
   // describe('removeFriend', () => {})
 })

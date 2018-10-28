@@ -562,18 +562,18 @@ export class UserController implements BaseController<User, string> {
   }
 
   /**
-   * Gets a user's friend by a database object ID.
+   * Gets a user's friend by user ID.
    *
-   * GET /:id/friends/:friendId
+   * GET /:id/friends/:userId
    * @param {string} id
-   * @param {number} friendId
+   * @param {string} userId
    * @returns Promise<UserFriend | undefined>
    * @memberof UserController
    */
-  @httpGet('/:id/friends/:friendId')
+  @httpGet('/:id/friends/:userId')
   async findFriendByUserId (
     @requestParam('id') id: string,
-    @requestParam('friendId') friendId: number,
+    @requestParam('userId') userId: string,
     @response() res: Response
   ) {
     const userExists = await this.userService.findById(id)
@@ -581,7 +581,12 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    return this.userService.findFriendById(id, friendId)
+    const otherUserExists = await this.userService.findById(userId)
+    if (!otherUserExists) {
+      res.sendStatus(404)
+      return
+    }
+    return this.userService.findFriendByUserId(id, userId)
   }
 
   /**

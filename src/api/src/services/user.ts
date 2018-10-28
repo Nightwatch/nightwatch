@@ -224,10 +224,6 @@ export class UserService implements BaseService<User, string> {
     return queryBuilder.getMany()
   }
 
-  public async findFriendById (_: string, friendId: number) {
-    return this.userFriendRepository.findOne(friendId)
-  }
-
   public async addFriend (id: string, friend: UserFriend) {
     // Adding a friend consists of three steps:
     // 1) Delete the existing friend request, assuming it exists.
