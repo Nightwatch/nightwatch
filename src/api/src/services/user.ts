@@ -181,8 +181,8 @@ export class UserService implements BaseService<User, string> {
 
   public async findFriendByUserId (id: string, userId: string) {
     return this.userFriendRepository.createQueryBuilder('friend')
-      .leftJoin('friend.user', 'user')
-      .leftJoin('friend.friend', 'other')
+      .innerJoinAndSelect('friend.user', 'user')
+      .innerJoinAndSelect('friend.friend', 'other')
       .where('user.id = :id and other.id = :userId', { id, userId })
       .orWhere('user.id = :userId and other.id = :id', { id, userId })
       .getOne()
@@ -224,10 +224,6 @@ export class UserService implements BaseService<User, string> {
     return queryBuilder.getMany()
   }
 
-  public async findFriendById (_: string, friendId: number) {
-    return this.userFriendRepository.findOne(friendId)
-  }
-
   public async addFriend (id: string, friend: UserFriend) {
     // Adding a friend consists of three steps:
     // 1) Delete the existing friend request, assuming it exists.
@@ -258,8 +254,13 @@ export class UserService implements BaseService<User, string> {
     return this.userFriendRepository.save(friend)
   }
 
-  public async deleteFriend (_: string, friendId: number) {
-    const friend = await this.userFriendRepository.findOne(friendId)
+  public async deleteFriend (id: string, userId: string) {
+    const friend = await this.userFriendRepository.createQueryBuilder('friend')
+    .innerJoinAndSelect('friend.user', 'user')
+    .innerJoinAndSelect('friend.friend', 'other')
+    .where('user.id = :id and other.id = :userId', { id, userId })
+    .orWhere('user.id = :userId and other.id = :id', { id, userId })
+    .getOne()
 
     if (!friend) {
       return
