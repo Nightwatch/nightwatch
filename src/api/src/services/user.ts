@@ -155,10 +155,13 @@ export class UserService implements BaseService<User, string> {
     return this.userFriendRequestRepository.save(request)
   }
 
-  public async deleteFriendRequest (_: string, requestId: number) {
-    const friendRequest = await this.userFriendRequestRepository.findOne({
-      where: { id: requestId }
-    })
+  public async deleteFriendRequest (id: string, userId: string) {
+    const friendRequest = await this.userFriendRequestRepository.createQueryBuilder('request')
+      .leftJoin('request.user', 'sender')
+      .leftJoin('request.receiver', 'receiver')
+      .where('sender.id = :id and receiver.id = :userId', { id, userId })
+      .orWhere('sender.id = :userId and receiver.id = :id', { id, userId })
+      .getOne()
 
     if (!friendRequest) {
       return
