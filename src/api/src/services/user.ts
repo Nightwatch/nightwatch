@@ -131,37 +131,26 @@ export class UserService implements BaseService<User, string> {
     name?: string,
     type: 'incoming' | 'outgoing' = 'incoming'
   ) {
-    let query: FindManyOptions<UserFriendRequest> = {
-      skip,
-      take,
-      relations: ['user', 'receiver'],
-      where: {}
-    }
+    const queryBuilder = this.userFriendRequestRepository.createQueryBuilder('request')
 
-    const userObj =
-      type === 'incoming' ? { receiver: { id } } : { user: { id } }
+    const userType = type === 'incoming' ? 'receiver' : 'user'
+    const otherUserType = type === 'outgoing' ? 'receiver' : 'user'
 
-    query.where = userObj
+    queryBuilder.innerJoin(`request.${userType}`, 'user').where('user.id = :id', { id })
+    queryBuilder.innerJoin(`request.${otherUserType}`, 'other')
 
     if (userId) {
-      const likeUserId = Like(`%${userId}%`)
-      const whereUserId =
-        type === 'incoming'
-          ? { user: { id: likeUserId } }
-          : { receiver: { id: likeUserId } }
-      query.where = { ...query.where, ...whereUserId }
+      queryBuilder.andWhere(`other.id LIKE :userId`, { userId: `%${userId.toLowerCase()}%` })
     }
 
     if (name) {
-      const likeName = Like(`%${name}%`)
-      const whereName =
-        type === 'incoming'
-          ? { user: { name: likeName } }
-          : { receiver: { name: likeName } }
-      query.where = { ...query.where, ...whereName }
+      queryBuilder.andWhere(`other.name LIKE :name`, { name: `%${name.toLowerCase()}%` })
     }
 
-    return this.userFriendRequestRepository.find(query)
+    queryBuilder.skip(skip)
+    queryBuilder.take(take)
+
+    return queryBuilder.getMany()
   }
 
   public async createFriendRequest (

@@ -379,8 +379,8 @@ export class UserController implements BaseController<User, string> {
   async searchFriendRequests (
     @requestParam('id') id: string,
     @response() res: Response,
-    @queryParam('skip') skip?: number,
-    @queryParam('take') take?: number,
+    @queryParam('skip') skip: number,
+    @queryParam('take') take: number,
     @queryParam('userId') userId?: string,
     @queryParam('name') name?: string,
     @queryParam('type') type?: 'incoming' | 'outgoing'
