@@ -592,16 +592,16 @@ export class UserController implements BaseController<User, string> {
   /**
    * Creates a friend and deletes the related friend request.
    *
-   * POST /:id/friends
+   * POST /:id/friends/:userId
    * @param {string} id
    * @param {Request} request
    * @returns Promise<UserFriend | undefined>
    * @memberof UserController
    */
-  @httpPost('/:id/friends')
+  @httpPost('/:id/friends/:userId')
   async addFriend (
     @requestParam('id') id: string,
-    @requestBody() friend: UserFriend,
+    @requestParam('userId') userId: string,
     @response() res: Response
   ) {
     const userExists = await this.userService.findById(id)
@@ -609,7 +609,20 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    const response = await this.userService.addFriend(id, friend)
+    const otherUserExists = await this.userService.findById(userId)
+    if (!otherUserExists) {
+      res.sendStatus(404)
+      return
+    }
+    const friendRequest = await this.userService.searchFriendRequests(id, 0, 1, userId, undefined, 'incoming')
+    if (!friendRequest[0]) {
+      res.sendStatus(400)
+      return
+    }
+    const userFriend = new UserFriend()
+    userFriend.user = userExists
+    userFriend.friend = otherUserExists
+    const response = await this.userService.addFriend(id, userFriend)
     this.socketService.send(Events.user.friend.created, response)
 
     return response
