@@ -99,28 +99,21 @@ export class UserService implements BaseService<User, string> {
     return this.userSettingsRepository.findOne({ where: { user: { id } } })
   }
 
-  public async findFriendRequests (id: string, type?: 'incoming' | 'outgoing') {
-    let requests: UserFriendRequest[] = []
+  public async findFriendRequests (id: string, type: 'incoming' | 'outgoing' = 'incoming') {
+    return this.userFriendRequestRepository.createQueryBuilder('request')
+    .leftJoin('request.user', 'sender')
+    .leftJoin('request.receiver', 'receiver')
+    .where(`${type === 'incoming' ? 'sender' : 'receiver'}.id = :id`, { id })
+    .getMany()
+  }
 
-    if (!type || type === 'outgoing') {
-      const firstColumn = await this.userFriendRequestRepository.find({
-        where: { user: { id } },
-        relations: ['receiver']
-      })
-
-      requests = firstColumn
-
-      if (type) {
-        return requests
-      }
-    }
-
-    const secondColumn = await this.userFriendRequestRepository.find({
-      where: { receiver: { id } },
-      relations: ['user']
-    })
-
-    return requests.concat(secondColumn)
+  public async findFriendRequestByUserId (id: string, userId: string) {
+    return this.userFriendRequestRepository.createQueryBuilder('request')
+    .leftJoin('request.user', 'sender')
+    .leftJoin('request.receiver', 'receiver')
+    .where('sender.id = :id and receiver.id = :userId', { id, userId })
+    .orWhere('sender.id = :userId and receiver.id = :id', { id, userId })
+    .getOne()
   }
 
   public async searchFriendRequests (
@@ -164,15 +157,6 @@ export class UserService implements BaseService<User, string> {
     // 3) Save the friend request object.
 
     if (id === friendRequest.receiver.id) {
-      return
-    }
-
-    let existingFriendRequest = await this.userFriendRequestRepository.findOne({
-      where: { user: { id: friendRequest.receiver.id }, receiver: { id } },
-      relations: ['user', 'receiver']
-    })
-
-    if (existingFriendRequest) {
       return
     }
 
