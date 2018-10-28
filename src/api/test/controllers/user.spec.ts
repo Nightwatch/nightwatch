@@ -432,7 +432,7 @@ describe('UserController', () => {
   })
 
   describe('findFriendRequests', () => {
-    it('should find friend requests', async () => {
+    it('should find incoming friend requests', async () => {
       const user = getTestUser('asdf', 'Test')
       const user2 = getTestUser('aaaa', 'otherName')
       const user3 = getTestUser('bbb', 'anotherName')
@@ -453,10 +453,37 @@ describe('UserController', () => {
       await getRepository(UserFriendRequest).save(friendRequest2)
 
       const response = await app
-        .get('/api/users/asdf/friends/requests')
+        .get('/api/users/asdf/friends/requests?type=incoming')
         .expect(200)
 
-      expect(response.body).to.have.lengthOf(2)
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should find outgoing friend requests', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user
+      friendRequest.user = user2
+
+      const friendRequest2 = new UserFriendRequest()
+      friendRequest2.receiver = user3
+      friendRequest2.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+      await getRepository(UserFriendRequest).save(friendRequest2)
+
+      const response = await app
+        .get('/api/users/asdf/friends/requests?type=outgoing')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
     })
 
     it('should succeed to find friend requests if none exist', async () => {
@@ -476,7 +503,200 @@ describe('UserController', () => {
     })
   })
 
-  // describe('searchFriendRequests', () => {})
+  describe('searchFriendRequests', () => {
+    it('should search sent friend requests', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user
+      friendRequest.user = user2
+
+      const friendRequest2 = new UserFriendRequest()
+      friendRequest2.receiver = user3
+      friendRequest2.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+      await getRepository(UserFriendRequest).save(friendRequest2)
+
+      const response = await app
+        .get(
+          '/api/users/asdf/friends/requests/search?skip=0&take=10&type=outgoing'
+        )
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should search incoming friend requests', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user
+      friendRequest.user = user2
+
+      const friendRequest2 = new UserFriendRequest()
+      friendRequest2.receiver = user3
+      friendRequest2.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+      await getRepository(UserFriendRequest).save(friendRequest2)
+
+      const response = await app
+        .get(
+          '/api/users/asdf/friends/requests/search?skip=0&take=10&type=incoming'
+        )
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should search friend requests by id', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user2
+      friendRequest.user = user
+
+      const friendRequest2 = new UserFriendRequest()
+      friendRequest2.receiver = user3
+      friendRequest2.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+      await getRepository(UserFriendRequest).save(friendRequest2)
+
+      const response = await app
+        .get(
+          '/api/users/asdf/friends/requests/search?skip=0&take=10&type=outgoing&userId=bb'
+        )
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should search friend requests by name', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user2
+      friendRequest.user = user
+
+      const friendRequest2 = new UserFriendRequest()
+      friendRequest2.receiver = user3
+      friendRequest2.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+      await getRepository(UserFriendRequest).save(friendRequest2)
+
+      const response = await app
+        .get(
+          '/api/users/asdf/friends/requests/search?skip=0&take=10&type=outgoing&name=ano'
+        )
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should search friend requests with skip', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user2
+      friendRequest.user = user
+
+      const friendRequest2 = new UserFriendRequest()
+      friendRequest2.receiver = user3
+      friendRequest2.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+      await getRepository(UserFriendRequest).save(friendRequest2)
+
+      const response = await app
+        .get(
+          '/api/users/asdf/friends/requests/search?skip=1&take=10&type=outgoing'
+        )
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should search friend requests with take', async () => {
+      const user = getTestUser('asdf', 'Test')
+      const user2 = getTestUser('aaaa', 'otherName')
+      const user3 = getTestUser('bbb', 'anotherName')
+
+      await getRepository(User).save(user)
+      await getRepository(User).save(user2)
+      await getRepository(User).save(user3)
+
+      const friendRequest = new UserFriendRequest()
+      friendRequest.receiver = user2
+      friendRequest.user = user
+
+      const friendRequest2 = new UserFriendRequest()
+      friendRequest2.receiver = user3
+      friendRequest2.user = user
+
+      await getRepository(UserFriendRequest).save(friendRequest)
+      await getRepository(UserFriendRequest).save(friendRequest2)
+
+      const response = await app
+        .get(
+          '/api/users/asdf/friends/requests/search?skip=0&take=1&type=outgoing'
+        )
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(1)
+    })
+
+    it('should succeed to search friend requests if none exist', async () => {
+      const user = getTestUser('asdf', 'Test')
+
+      await getRepository(User).save(user)
+
+      const response = await app
+        .get('/api/users/asdf/friends/requests/search?skip=0&take=10')
+        .expect(200)
+
+      expect(response.body).to.have.lengthOf(0)
+    })
+
+    it('should fail to search friend requests user not exist', async () => {
+      await app
+        .get('/api/users/asdf/friends/requests/search?skip=0&take=10')
+        .expect(404)
+    })
+  })
+
   // describe('createFriendRequest', () => {})
   // describe('deleteFriendRequest', () => {})
   // describe('findFriends', () => {})

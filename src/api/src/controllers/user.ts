@@ -379,8 +379,8 @@ export class UserController implements BaseController<User, string> {
   async searchFriendRequests (
     @requestParam('id') id: string,
     @response() res: Response,
-    @queryParam('skip') skip?: number,
-    @queryParam('take') take?: number,
+    @queryParam('skip') skip: number,
+    @queryParam('take') take: number,
     @queryParam('userId') userId?: string,
     @queryParam('name') name?: string,
     @queryParam('type') type?: 'incoming' | 'outgoing'
@@ -401,6 +401,34 @@ export class UserController implements BaseController<User, string> {
   }
 
   /**
+   * Finds a friend request sent to or by other user ID.
+   *
+   * GET /:id/friends/requests/:userId
+   * @param {string} id
+   * @param {string} userId
+   * @returns Friend request
+   * @memberof UserController
+   */
+  @httpGet('/:id/friends/requests/:userId')
+  async findFriendRequestByUserId (
+    @requestParam('id') id: string,
+    @requestParam('userId') userId: string,
+    @response() res: Response
+  ) {
+    const userExists = await this.userService.findById(id)
+    if (!userExists) {
+      res.sendStatus(404)
+      return
+    }
+    const otherUserExists = await this.userService.findById(userId)
+    if (!otherUserExists) {
+      res.sendStatus(404)
+      return
+    }
+    return this.userService.findFriendRequestByUserId(id, userId)
+  }
+
+  /**
    * Creates a friend request.
    *
    * POST /:id/friends/requests
@@ -409,20 +437,41 @@ export class UserController implements BaseController<User, string> {
    * @returns Promise<UserFriendRequest | undefined>
    * @memberof UserController
    */
-  @httpPost('/:id/friends/requests')
+  @httpPost('/:id/friends/requests/:userId')
   async createFriendRequest (
     @requestParam('id') id: string,
-    @requestBody() friendRequest: UserFriendRequest,
+    @requestParam('userId') userId: string,
     @response() res: Response
   ) {
+    if (id === userId) {
+      res.sendStatus(400)
+      return
+    }
     const userExists = await this.userService.findById(id)
     if (!userExists) {
       res.sendStatus(404)
       return
     }
+    const otherUserExists = await this.userService.findById(userId)
+    if (!otherUserExists) {
+      res.sendStatus(404)
+      return
+    }
+    const sentRequest = await this.userService.findFriendRequestByUserId(id, userId)
+    if (sentRequest) {
+      res.sendStatus(409)
+      return
+    }
+    const friend = await this.userService.findFriendByUserId(id, userId)
+    if (friend) {
+      res.sendStatus(409)
+    }
+    const request = new UserFriendRequest()
+    request.user = userExists
+    request.receiver = otherUserExists
     const response = await this.userService.createFriendRequest(
       id,
-      friendRequest
+      request
     )
     this.socketService.send(Events.user.friend.request.created, response)
 
@@ -496,7 +545,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends/:friendId')
-  async findFriendById (
+  async findFriendByUserId (
     @requestParam('id') id: string,
     @requestParam('friendId') friendId: number
   ) {
