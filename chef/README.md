@@ -13,7 +13,7 @@
 - [ ] Install Redis
 - [x] Install Yarn for dependency management
 - [ ] Start projects on `vagrant up`
-  - [ ] Start API with pm2
+  - [x] Start API with pm2
   - [ ] Start bot after API starts
   - [ ] Start web server to host web interface
 - [ ] Change working directory to `/vagrant` (where the project lives in the VM) when the user connects to the VM via SSH

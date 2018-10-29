@@ -14,8 +14,11 @@ Vagrant.configure('2') do |config|
     chef.cookbooks_path = 'chef/cookbooks'
     chef.add_recipe 'main'
   end
-  config.vm.provision 'shell', inline: <<-EOL
+  config.vm.provision :shell, inline: <<-EOL
     sudo echo 'host   all             all           0.0.0.0/0          trust' > '/etc/postgresql/9.6/main/pg_hba.conf'
     sudo service postgresql restart
+  EOL
+  config.vm.provision :shell, run: 'always', privileged: false, inline: <<-EOL
+    pm2 start /vagrant/chef/ecosystem.json
   EOL
 end

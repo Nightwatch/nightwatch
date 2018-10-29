@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "api",
+      "cwd": "/vagrant",
+      "watch": true,
+      "script": "npm",
+      "args": "run \"api:start\"",
+      "env": {
+        "PORT": "4000"
+      }
+    }
+  ]
+}
