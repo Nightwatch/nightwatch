@@ -53,7 +53,7 @@ Generated documentation can be found here: <https://nightwatch.tk/api/docs/> (Cu
 2. Configure npm to point to our private registry (only for packages with the @nightwatch scope): `npm config set @nightwatch:registry http://51.15.253.55:4873`
 3. Run `npm i`
 4. Rename the `ormconfig.example.json` to `ormconfig.json` and modify the database settings.
-5. Rename the `api.example.json` to `api.json` and generate a **secure** secret. Use an online password generator if you don't know how. Also fill in the `apiServerIp` with the IP of the server the API is running on, which will be used to prevent local requests from using the API request limit.
+5. Rename the `api.example.json` to `api.json` and generate a **secure** secret. Use an online password generator if you don't know how.
 6. Run `npm start` to start the API on port 3001. You can do `npm run prod` to start the API in production mode on port 5000.
 
 ## Usage
