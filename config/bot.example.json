@@ -1,0 +1,19 @@
+{
+  "token": "",
+  "botName": "Nightwatch",
+  "prefix": "?",
+  "ownerId": "",
+  "autoReconnect": true,
+  "autoDeleteMessages": {
+    "enabled": true,
+    "delay": 15000
+  },
+  "playingStatus": "",
+  "dataDogApiKey": "",
+  "dataDogAppKey": "",
+  "steamWebApiKey": "",
+  "api": {
+    "address": "http://localhost:4000/api",
+    "token": ""
+  }
+}
