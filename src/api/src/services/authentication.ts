@@ -1,15 +1,8 @@
 import axios from 'axios'
 import { injectable } from 'inversify'
 
-let clientSecret: string = ''
-let clientId: string = ''
-
-try {
-  clientSecret = require('../../../../config/api.json').bot.clientSecret
-  clientId = require('../../../../config/api.json').bot.clientId
-} catch (err) {
-  // swallow
-}
+const clientSecret = require('../../../../config/api.json').bot.clientSecret
+const clientId = require('../../../../config/api.json').bot.clientId
 
 /**
  * Authentication service to handle authentication through Discord and web interface.

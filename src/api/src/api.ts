@@ -1,6 +1,6 @@
 import { createConnection } from 'typeorm'
 import * as express from 'express'
-import * as path from 'path'
+// import * as path from 'path'
 import { init } from './utilities'
 import { InversifyExpressServer } from 'inversify-express-utils'
 import * as bodyParser from 'body-parser'
@@ -14,13 +14,8 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
-let secret: string = 'password'
-
-try {
-  secret = require('../../../config/api.json').secret
-} catch (err) {
-  // swallow
-}
+const secret: string = require('../../../config/api.json').secret
+const ormConfig = require('../../../config/ormconfig.json')
 
 /**
  * The API server
@@ -50,7 +45,7 @@ export class Api {
   }
 
   private async init () {
-    await createConnection()
+    await createConnection(ormConfig)
     this.startServer()
   }
 
@@ -123,7 +118,7 @@ export class Api {
         })
       )
 
-      app.use('/api', express.static(path.join(__dirname, '../public')))
+      // app.use('/api', express.static(path.join(__dirname, '../public')))
 
       app.use(
         (
