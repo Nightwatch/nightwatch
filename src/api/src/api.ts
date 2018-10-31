@@ -1,6 +1,6 @@
 import { createConnection } from 'typeorm'
 import * as express from 'express'
-// import * as path from 'path'
+import * as path from 'path'
 import { init } from './utilities'
 import { InversifyExpressServer } from 'inversify-express-utils'
 import * as bodyParser from 'body-parser'
@@ -41,6 +41,9 @@ export class Api {
     })
   }
 
+  /**
+   * API secret for creating and validating JWT tokens.
+   */
   public static readonly secret = secret
 
   /**
@@ -99,7 +102,7 @@ export class Api {
       )
       app.use(
         jwt({
-          secret,
+          secret: Api.secret,
           getToken: req => {
             // Special routes I don't want the average user to see :)
             // TODO: Create route-based authentication, decorators would be nice.
@@ -112,7 +115,7 @@ export class Api {
               )
             ) {
               // *Hacky* approach to bypass request validation for GET requests, since I want anyone to be able to see the data.
-              return jsonwebtoken.sign('GET', secret)
+              return jsonwebtoken.sign('GET', Api.secret)
             }
 
             if (
@@ -128,7 +131,7 @@ export class Api {
         })
       )
 
-      // app.use('/api', express.static(path.join(__dirname, '../public')))
+      app.use('/api', express.static(path.join(__dirname, '../../../public')))
 
       app.use(
         (
