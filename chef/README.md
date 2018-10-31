@@ -10,7 +10,7 @@
 - [x] Install PostgreSQL
   - [x] Create database for unit tests
 - [ ] Install MongoDB
-- [ ] Install Redis
+- [x] Install Redis
 - [x] Install Yarn for dependency management
 - [ ] Start projects on `vagrant up`
   - [x] Start API
