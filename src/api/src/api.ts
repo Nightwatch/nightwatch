@@ -14,8 +14,9 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
+import { randomBytes } from 'crypto'
 
-let secret = 'secret'
+let secret = randomBytes(64).toString('hex')
 let ormConfig: any
 
 try {
@@ -40,6 +41,8 @@ export class Api {
       console.error(err)
     })
   }
+
+  public static readonly secret = secret
 
   /**
    * Starts the API server.
