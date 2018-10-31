@@ -14,8 +14,16 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
-const secret: string = require('../../../config/api.json').secret
-const ormConfig = require('../../../config/ormconfig.json')
+
+let secret = 'secret'
+let ormConfig: any
+
+try {
+  secret = require('../../../config/api.json').secret
+  ormConfig = require('../../../config/ormconfig.json')
+} catch (err) {
+  console.error(err)
+}
 
 /**
  * The API server
