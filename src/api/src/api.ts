@@ -99,7 +99,7 @@ export class Api {
       )
       app.use(
         jwt({
-          secret,
+          secret: Api.secret,
           getToken: req => {
             // Special routes I don't want the average user to see :)
             // TODO: Create route-based authentication, decorators would be nice.
@@ -112,7 +112,7 @@ export class Api {
               )
             ) {
               // *Hacky* approach to bypass request validation for GET requests, since I want anyone to be able to see the data.
-              return jsonwebtoken.sign('GET', secret)
+              return jsonwebtoken.sign('GET', Api.secret)
             }
 
             if (
