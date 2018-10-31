@@ -16,11 +16,10 @@ import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
 import { randomBytes } from 'crypto'
 
-let secret = randomBytes(64).toString('hex')
+const secret = randomBytes(64).toString('hex')
 let ormConfig: any
 
 try {
-  secret = require('../../../config/api.json').secret
   ormConfig = require('../../../config/ormconfig.json')
 } catch (err) {
   console.error(err)
