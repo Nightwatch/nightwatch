@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { injectable } from 'inversify'
 
-let clientSecret: string = ''
-let clientId: string = ''
+let clientSecret = ''
+let clientId = ''
 
 try {
   clientSecret = require('../../../../config/api.json').bot.clientSecret
   clientId = require('../../../../config/api.json').bot.clientId
 } catch (err) {
-  // swallow
+  console.error(err)
 }
 
 /**

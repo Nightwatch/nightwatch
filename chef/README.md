@@ -4,13 +4,13 @@
 
 ## Vagrant/Chef Roadmap
 
-- [ ] Install Node.js
+- [x] Install Node.js
   - [x] Install v8 LTS
-  - [ ] Update to latest v10 LTS
+  - [x] Update to latest v10 LTS
 - [x] Install PostgreSQL
   - [x] Create database for unit tests
 - [ ] Install MongoDB
-- [ ] Install Redis
+- [x] Install Redis
 - [x] Install Yarn for dependency management
 - [ ] Start projects on `vagrant up`
   - [x] Start API

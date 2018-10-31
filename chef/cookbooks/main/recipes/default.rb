@@ -2,8 +2,8 @@
 
 # Install Node.js
 node.default['nodejs']['install_method'] = 'binary'
-node.default['nodejs']['version'] = '10.12.0'
-node.default['nodejs']['binary']['checksum'] = '8d13d57aaf95177e97d29c0944d79a17de8c3a31ba3fe88d1846cfd907e52111'
+node.default['nodejs']['version'] = '10.13.0'
+node.default['nodejs']['binary']['checksum'] = 'b4b5d8f73148dcf277df413bb16827be476f4fa117cbbec2aaabc8cc0a8588e1'
 include_recipe 'nodejs'
 
 # Install Yarn
@@ -29,6 +29,9 @@ end
 postgresql_database 'nightwatch_test' do
   locale 'C.UTF-8'
 end
+
+include_recipe 'redisio'
+include_recipe 'redisio::enable'
 
 # Updates any packages
 apt_update 'Update' do

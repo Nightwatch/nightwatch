@@ -3,8 +3,8 @@
 
 Vagrant.configure('2') do |config|
   config.vm.box = 'ubuntu/bionic64'
-  config.vm.network 'private_network', ip: '192.168.33.10'
-  config.vm.synced_folder '.', '/vagrant'
+  config.vm.network :private_network, ip: '192.168.33.10'
+  config.vm.synced_folder '.', '/vagrant', type: 'nfs'
   config.vm.provider 'virtualbox' do |vb|
     vb.memory = '1024'
   end
@@ -17,6 +17,11 @@ Vagrant.configure('2') do |config|
   config.vm.provision :shell, inline: <<-EOL
     sudo echo 'host   all             all           0.0.0.0/0          trust' > '/etc/postgresql/9.6/main/pg_hba.conf'
     sudo service postgresql restart
+  EOL
+  config.vm.provision :shell, run: 'always', inline: <<-EOL
+    if ! grep -qF "192.168.33.10 localhost" /etc/hosts;then
+      echo "192.168.33.10 localhost" >> /etc/hosts
+    fi
   EOL
   config.vm.provision :shell, run: 'always', privileged: false, inline: <<-EOL
     pm2 start /vagrant/chef/ecosystem.json
