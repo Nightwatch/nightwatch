@@ -41,6 +41,9 @@ export class Api {
     })
   }
 
+  /**
+   * API secret for creating and validating JWT tokens.
+   */
   public static readonly secret = secret
 
   /**
