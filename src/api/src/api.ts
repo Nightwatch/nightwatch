@@ -1,6 +1,6 @@
 import { createConnection } from 'typeorm'
 import * as express from 'express'
-// import * as path from 'path'
+import * as path from 'path'
 import { init } from './utilities'
 import { InversifyExpressServer } from 'inversify-express-utils'
 import * as bodyParser from 'body-parser'
@@ -128,7 +128,7 @@ export class Api {
         })
       )
 
-      // app.use('/api', express.static(path.join(__dirname, '../public')))
+      app.use('/api', express.static(path.join(__dirname, '../../../public')))
 
       app.use(
         (
