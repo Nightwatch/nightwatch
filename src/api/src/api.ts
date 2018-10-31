@@ -14,12 +14,12 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
+import { randomBytes } from 'crypto'
 
-let secret = 'secret'
+const secret = randomBytes(64).toString('hex')
 let ormConfig: any
 
 try {
-  secret = require('../../../config/api.json').secret
   ormConfig = require('../../../config/ormconfig.json')
 } catch (err) {
   console.error(err)
@@ -40,6 +40,8 @@ export class Api {
       console.error(err)
     })
   }
+
+  public static readonly secret = secret
 
   /**
    * Starts the API server.
