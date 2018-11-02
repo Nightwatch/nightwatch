@@ -15,15 +15,20 @@ import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
 import { randomBytes } from 'crypto'
+import { ormSettings } from './config'
+import { Config } from '../../common'
 
 const secret = randomBytes(64).toString('hex')
-let ormConfig: any
+let ormConfig: any = {}
 
 try {
-  ormConfig = require('../../../config/ormconfig.json')
+  const config: Config = require('../../../config/config.json')
+  ormConfig = config.db
 } catch (err) {
   console.error(err)
 }
+
+const combinedOrmConfig = Object.assign({}, ormSettings, ormConfig)
 
 /**
  * The API server
@@ -58,7 +63,7 @@ export class Api {
   }
 
   private async init () {
-    await createConnection(ormConfig)
+    await createConnection(combinedOrmConfig)
     this.startServer()
   }
 

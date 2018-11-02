@@ -1,0 +1,41 @@
+{
+  "api": {
+    "address": "http://localhost:4000/api",
+    "token": "",
+    "mongodb": "mongodb://localhost:27017/api-logs"
+  },
+  "bot": {
+    "token": "",
+    "botName": "Nightwatch",
+    "prefix": "nw",
+    "ownerId": "",
+    "autoReconnect": true,
+    "autoDeleteMessages": {
+      "enabled": true,
+      "delay": 15000
+    },
+    "playingStatus": "",
+    "clientId": "",
+    "clientSecret": ""
+  },
+  "db": {
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "",
+    "database": "nightwatch",
+    "synchronize": true,
+    "logging": false,
+    "cache": {
+      "type": "redis",
+      "duration": 60000,
+      "options": {
+        "host": "localhost",
+        "port": 6379
+      }
+    }
+  },
+  "dataDogApiKey": "",
+  "dataDogAppKey": "",
+  "steamWebApiKey": ""
+}
