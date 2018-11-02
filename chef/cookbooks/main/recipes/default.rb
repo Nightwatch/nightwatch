@@ -30,6 +30,7 @@ postgresql_database 'nightwatch_test' do
   locale 'C.UTF-8'
 end
 
+# Install Redis
 include_recipe 'redisio'
 include_recipe 'redisio::enable'
 
@@ -39,8 +40,25 @@ apt_update 'Update' do
   action :update
 end
 
+# Install PM2 globally
 npm_package 'pm2'
 
 link '/usr/local/bin/pm2' do
   to "/usr/local/nodejs-#{node['nodejs']['install_method']}-#{node['nodejs']['version']}/bin/pm2"
 end
+
+# Install Python
+apt_package 'software-properties-common'
+apt_repository 'deadsnakes' do
+  uri 'ppa:deadsnakes/ppa'
+  action :add
+end
+
+# Updates any packages
+apt_update 'Update' do
+  ignore_failure true
+  action :update
+end
+
+# Install Python
+apt_package 'python3.6'
