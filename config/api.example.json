@@ -1,7 +1,0 @@
-{
-  "bot": {
-    "clientId": "",
-    "clientSecret": ""
-  },
-  "mongodb": "mongodb://localhost:27017/api-logs"
-}

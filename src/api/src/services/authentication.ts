@@ -1,12 +1,15 @@
 import axios from 'axios'
 import { injectable } from 'inversify'
+import { Config } from '../../../common'
 
 let clientSecret = ''
 let clientId = ''
 
 try {
-  clientSecret = require('../../../../config/api.json').bot.clientSecret
-  clientId = require('../../../../config/api.json').bot.clientId
+  const config: Config = require('../../../../config/config.json')
+  const { clientSecret: localclientSecret, clientId: localclientId } = config.bot
+  clientSecret = localclientSecret
+  clientId = localclientId
 } catch (err) {
   console.error(err)
 }
