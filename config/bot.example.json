@@ -1,7 +1,7 @@
 {
   "token": "",
   "botName": "Nightwatch",
-  "prefix": "?",
+  "prefix": "nw",
   "ownerId": "",
   "autoReconnect": true,
   "autoDeleteMessages": {
