@@ -62,13 +62,13 @@ In the client application, any request to hit the API will need to include a JWT
 
 There are two ways you can send the token to the API:
 
-* The token can be included in the request's query string:
+- The token can be included in the request's query string:
 
 ```ts
 axios.get(`${apiRoute}/users?token=${apiToken}`)
 ```
 
-* The token can be included in the request's **Authorization** header using the **Bearer** schema.
+- The token can be included in the request's **Authorization** header using the **Bearer** schema.
 
 To view the available endpoints for the API, view the generated documentation. See **Documentation**.
 
@@ -120,11 +120,11 @@ Rate limits do apply. See **Security > Rate Limiting** for more information.
 
 If you access data from the production API, at <https://nightwatch.tk/api>, you agree that:
 
-* Your usage of the data will be compliant with the [Discord Developer Terms of Service](https://discordapp.com/developers/docs/legal).
-* You will not use the data for commercial purposes.
-* The application or service that uses this API's data must be provided free of charge and the implementation of the API and/or API data must be open-source.
-* Credit will be given to the Nightwatch API project. The project's GitHub and production API URL must be linked where the API data is used.
-  * GitHub: <https://github.com/Nightwatch/api>
-  * Production API: <https://nightwatch.tk/api>
-* You will not exceed the given request rate limit.
-  * It is recommended to cache the data you receive to reduce the number of requests made.
+- Your usage of the data will be compliant with the [Discord Developer Terms of Service](https://discordapp.com/developers/docs/legal).
+- You will not use the data for commercial purposes.
+- The application or service that uses this API's data must be provided free of charge and the implementation of the API and/or API data must be open-source.
+- Credit will be given to the Nightwatch API project. The project's GitHub and production API URL must be linked where the API data is used.
+  - GitHub: <https://github.com/Nightwatch/api>
+  - Production API: <https://nightwatch.tk/api>
+- You will not exceed the given request rate limit.
+  - It is recommended to cache the data you receive to reduce the number of requests made.
