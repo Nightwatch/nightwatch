@@ -4,7 +4,7 @@
 Vagrant.configure('2') do |config|
   config.vm.box = 'ubuntu/bionic64'
   config.vm.network :private_network, ip: '192.168.33.10'
-  config.vm.synced_folder '.', '/vagrant', type: 'nfs'
+  config.vm.synced_folder '.', '/opt/nightwatch', type: 'nfs'
   config.vm.provider 'virtualbox' do |vb|
     vb.memory = '1024'
   end
@@ -24,6 +24,8 @@ Vagrant.configure('2') do |config|
     fi
   EOL
   config.vm.provision :shell, run: 'always', privileged: false, inline: <<-EOL
-    pm2 start /vagrant/chef/ecosystem.json
+    cd /opt/nightwatch
+    yarn
+    pm2 start /opt/nightwatch/chef/ecosystem.json
   EOL
 end
