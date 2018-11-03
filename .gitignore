@@ -1,5 +1,4 @@
-.idea/
-.vscode/
+.DS_Store
 node_modules/
 dist/
 tmp/
@@ -8,9 +7,21 @@ logs/
 .npmrc
 coverage
 .nyc*
-bot/
 config/*.json
 !config/*.example.json
 **/*.log
 public/docs
 .vagrant
+
+# local env files
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*

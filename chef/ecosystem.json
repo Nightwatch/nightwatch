@@ -1,13 +1,32 @@
 {
-  "apps": [
-    {
+  "apps": [{
       "name": "api",
-      "cwd": "/vagrant",
+      "cwd": "/opt/nightwatch",
       "watch": true,
       "script": "npm",
       "args": "run \"api:start\"",
       "env": {
         "PORT": "4000"
+      }
+    },
+    {
+      "name": "web",
+      "cwd": "/opt/nightwatch",
+      "watch": true,
+      "script": "npm",
+      "args": "run \"web:start\"",
+      "env": {
+        "PORT": "8080"
+      }
+    },
+    {
+      "name": "bot",
+      "cwd": "/opt/nightwatch",
+      "watch": true,
+      "script": "npm",
+      "args": "run \"bot:start\"",
+      "env": {
+        "PORT": "3000"
       }
     }
   ]

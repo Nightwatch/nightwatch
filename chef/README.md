@@ -12,10 +12,10 @@
 - [ ] Install MongoDB
 - [x] Install Redis
 - [x] Install Yarn for dependency management
-- [ ] Start projects on `vagrant up`
+- [x] Start projects on `vagrant up`
   - [x] Start API
-  - [ ] Start bot after API starts
-  - [ ] Start web server to host web interface
+  - [x] Start bot after API starts
+  - [x] Start web server to host web interface
 - [ ] Change working directory to `/opt/nightwatch` (where the project lives in the VM) when the user connects to the VM via SSH
 
 ## Prerequisites
