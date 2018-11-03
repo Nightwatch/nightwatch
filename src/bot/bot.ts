@@ -21,11 +21,11 @@ export class Bot {
   public async start () {
     console.info(`Starting ${botName}.`)
 
-    this.client.on('ready', await this.onReady)
-    this.client.on('disconnect', await this.onDisconnect)
-    this.client.on('message', await this.onMessage)
-    this.client.on('error', await this.onError)
-    this.client.on('commandRun', await this.onCommandRun)
+    this.client.on('ready', this.onReady)
+    this.client.on('disconnect', this.onDisconnect)
+    this.client.on('message', this.onMessage)
+    this.client.on('error', this.onError)
+    this.client.on('commandRun', this.onCommandRun)
 
     const commandGroups = getDirectoryNames(path.join(__dirname, 'commands'))
       .map(name => [name, upperCaseFirstLetter(name)])
