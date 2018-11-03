@@ -9,6 +9,42 @@
 ![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](https://opensource.org/licenses/GPL-3.0)
 
+## Features
+
+Nightwatch aims to provide the features of all popular bots into one bot.
+
+Features include:
+
+- Moderation
+- Music
+- Games
+- Giveaways
+- Referral rewards
+- Custom Social Media/Friend system
+- Image/Game/Music/Anime/etc search
+- Server linking
+- Plugins
+- Integration with other services
+- REST API for third party integration
+- Beautiful web interface
+- Custom user/role/permission system
+- ...And much more
+
+Want other features added? Let us know by making a [Feature Request](https://github.com/Nightwatch/nightwatch/issues)
+
+Please note that all listed features may not be implemented yet. This list mainly serves as a roadmap.
+
+## Background
+
+Nightwatch started as a tiny bot for a single Discord server. Over the years, it has transformed and scaled to work in any server. It has been through several rewrites, and has evolved in performance, functionality, and design.
+
+### Why was this bot created?
+
+I created this bot to eliminate how many bots you use in your server. Having several bots makes your server look unprofessional and gives users the feeling that the bots are the only good thing about the server.
+
+I wanted to make a bot that combines all the popular features from the other bots into a single bot. Bots should compliment your server, not control it.
+
+Lastly, I wanted to introduce a bot that was professionally designed, using enterprise design patterns and a highly scalable architecture. Compared to other bots, Nightwatch is built for scale with industry standards to back its design. It was intended to be a commercial application, but was open sourced to show off its clean code and prove its abilities.
 
 ## Contribute
 
@@ -23,4 +59,4 @@
 
 ## Donate
 
- This API costs money to host. If you would like to support the development of the API, and allow the production API to be publicly available, consider becoming a patron on [Patreon](https://www.patreon.com/natsukibot).
+ If you appreciate what we do and want to support the development of this project, please consider donating. https://liberapay.com/ihaxjoker/donate
