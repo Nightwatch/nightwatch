@@ -33,6 +33,7 @@
     "@types/mocha": "^5.2.5",
     "@types/morgan": "^1.7.35",
     "@types/node": "^10.12.2",
+    "@types/ramda": "^0.26.0",
     "@types/sinon": "^5.0.5",
     "@types/socket.io": "^1.4.38",
     "@types/supertest": "^2.0.6",
