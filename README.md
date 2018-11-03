@@ -3,7 +3,6 @@
 <br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
 [![Build Status](https://travis-ci.com/Nightwatch/nightwatch.svg?branch=master)](https://travis-ci.com/Nightwatch/nightwatch)
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/Nightwatch/nightwatch.svg)](https://github.com/Nightwatch/Nightwatch/issues)
