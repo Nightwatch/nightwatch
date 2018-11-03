@@ -34,6 +34,22 @@ Want other features added? Let us know by making a [Feature Request](https://git
 
 Please note that all listed features may not be implemented yet. This list mainly serves as a roadmap.
 
+## Contact Us
+
+Want to talk about my bot, have questions about it, or just want to chat?
+
+Come visit [my Discord server](https://invite.gg/welounge). I'd be happy to talk to you.
+
+See the bot in action, test it out, see what it can do for you.
+
+## Donate
+
+If you appreciate what we do and want to support the development of this project, please consider donating. https://liberapay.com/ihaxjoker/donate
+
+If you would like to support us without spending money, give the repo a star. We value those as well!
+
+Whether you donate or star, we appreciate your support.
+
 ## Background
 
 Nightwatch started as a tiny bot for a single Discord server. Over the years, it has transformed and scaled to work in any server. It has been through several rewrites, and has evolved in performance, functionality, and design.
@@ -48,15 +64,11 @@ Lastly, I wanted to introduce a bot that was professionally designed, using ente
 
 ## Contribute
 
- Any developer is allowed to contribute. Fork the repo, make some changes (e.g. add features, fix bugs, etc.) and make a Pull Request to the **develop** branch.
- If approved, we will merge your changes, and you will be added as a contributor!
+Any developer is allowed to contribute. Fork the repo, make some changes (e.g. add features, fix bugs, etc.) and make a Pull Request to the **develop** branch.
+If approved, we will merge your changes, and you will be added as a contributor!
 
- We are open for suggestions, and want the end-product to be awesome. If you have an idea, please share it.
+We are open for suggestions, and want the end-product to be awesome. If you have an idea, please share it.
 
 ## Support
 
- If there are any questions or issues, please make a ticket in GitHub and we will respond as soon as we can. <https://github.com/Nightwatch/nightwatch/issues>
-
-## Donate
-
- If you appreciate what we do and want to support the development of this project, please consider donating. https://liberapay.com/ihaxjoker/donate
+If there are any questions or issues, please make a ticket in GitHub and we will respond as soon as we can. <https://github.com/Nightwatch/nightwatch/issues>
