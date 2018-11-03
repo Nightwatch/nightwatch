@@ -11,7 +11,7 @@
 
 ## Features
 
-Nightwatch aims to provide the features of all popular bots into one bot.
+Nightwatch aims to combine the features of all popular bots into one bot.
 
 Features include:
 
