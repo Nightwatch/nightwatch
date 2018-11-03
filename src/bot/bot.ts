@@ -18,6 +18,7 @@ export class Bot {
     messageSweepInterval: 60,
     unknownCommandResponse: false
   })
+
   public async start () {
     console.info(`Starting ${botName}.`)
 
