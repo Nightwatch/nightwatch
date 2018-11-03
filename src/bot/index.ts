@@ -2,7 +2,7 @@ import { Bot } from './bot'
 
 let bot: Bot = new Bot()
 
-bot.start()
+bot.start().catch(onError)
 
 process.on('uncaughtException', onError)
 process.on('unhandledRejection', onError)
