@@ -23,6 +23,10 @@ Vagrant.configure('2') do |config|
       echo "192.168.33.10 localhost" >> /etc/hosts
     fi
   EOL
+  config.vm.provision :shell, privileged: false, inline: <<-EOL
+    echo "alias python=python3" >> ~/.bashrc
+    source ~/.bashrc
+  EOL
   config.vm.provision :shell, run: 'always', privileged: false, inline: <<-EOL
     cd /opt/nightwatch
     yarn
