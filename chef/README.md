@@ -40,7 +40,7 @@ Then run `vagrant up`. The first time you run the command, it will install a vir
 
 The VM uses the IP address `192.168.33.10`, and each application uses a port within that IP.
 
-- To access the API, you would use `192.168.33.10:4000/api/`
+- To access the API, you would use `192.168.33.10:4000/api`
 - The web interface can be accessed at `192.168.33.10:8080`
 - The bot also runs inside the VM, but cannot be accessed via web browser
 
