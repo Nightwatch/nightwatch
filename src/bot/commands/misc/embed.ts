@@ -11,7 +11,7 @@ export default class EmbedCommand extends Command {
     super(client, {
       name: 'embed',
       aliases: [],
-      group: 'util',
+      group: 'misc',
       memberName: 'embed',
       description: 'Creates a RichEmbed.',
       details: `Creates a RichEmbed. Here is a list of options:
