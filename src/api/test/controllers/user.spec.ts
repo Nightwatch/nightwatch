@@ -91,14 +91,10 @@ describe('UserController', () => {
     it('should create a user', async () => {
       const user = getTestUser('asdf', 'Test')
 
-      const response = await app
+      await app
         .post('/api/users')
         .send(user)
-        .expect(200)
-
-      expect(response.body)
-        .to.haveOwnProperty('id')
-        .which.equals('asdf')
+        .expect(201)
 
       const allUserResponse = await getRepository(User).find()
 
@@ -110,20 +106,14 @@ describe('UserController', () => {
     it('should error if the same user is created twice', async () => {
       const user = getTestUser('asdf', 'Test')
 
-      const response = await app
+      await app
         .post('/api/users')
         .send(user)
-        .expect(200)
-      const response2 = await app
+        .expect(201)
+      await app
         .post('/api/users')
         .send(user)
         .expect(409)
-
-      expect(response.body)
-        .to.haveOwnProperty('id')
-        .which.equals('asdf')
-      expect(response2.text).to.contain('already exists')
-      expect(response2.body).to.be.empty
     })
   })
 
@@ -139,7 +129,7 @@ describe('UserController', () => {
         .to.be.instanceof(Array)
         .with.lengthOf(1)
 
-      await app.delete('/api/users/aaa').expect(200)
+      await app.delete('/api/users/aaa').expect(204)
 
       allUsers = await getRepository(User).find()
 
@@ -161,14 +151,10 @@ describe('UserController', () => {
 
       user.name = 'someOtherName'
 
-      const response = await app
+      await app
         .put('/api/users/asdf')
         .send(user)
-        .expect(200)
-
-      expect(response.body)
-        .to.have.property('name')
-        .which.equals('someOtherName')
+        .expect(204)
     })
 
     it('should fail to update user not exists', async () => {
@@ -195,7 +181,7 @@ describe('UserController', () => {
       await app
         .put('/api/users/asdf/level')
         .send({ level: user.level })
-        .expect(200)
+        .expect(204)
     })
 
     it('should update level and balance', async () => {
@@ -210,7 +196,7 @@ describe('UserController', () => {
       await app
         .put('/api/users/asdf/level')
         .send({ level: user.level, balance: user.balance })
-        .expect(200)
+        .expect(204)
     })
 
     it('should fail to update level for user not exists', async () => {
@@ -238,7 +224,7 @@ describe('UserController', () => {
       await app
         .put('/api/users/asdf/balance')
         .send(user.balance)
-        .expect(200)
+        .expect(204)
     })
 
     it('should fail to update balance for user not exists', async () => {
@@ -266,7 +252,7 @@ describe('UserController', () => {
       await app
         .put('/api/users/asdf/balance/transfer/aaa')
         .send({ amount: 50 })
-        .expect(200)
+        .expect(204)
     })
 
     it('should fail to transfer balance user not exist', async () => {
@@ -376,7 +362,7 @@ describe('UserController', () => {
       await app
         .put('/api/users/asdf/profile')
         .send(user.profile)
-        .expect(200)
+        .expect(204)
     })
 
     it('should fail to update profile user not exists', async () => {
@@ -416,7 +402,7 @@ describe('UserController', () => {
       await app
         .put('/api/users/asdf/settings')
         .send(user.settings)
-        .expect(200)
+        .expect(204)
     })
 
     it('should fail to update settings user not exists', async () => {
@@ -706,7 +692,7 @@ describe('UserController', () => {
       await getRepository(User).save(user)
       await getRepository(User).save(user2)
 
-      await app.post('/api/users/asdf/friends/requests/aaaa').expect(200)
+      await app.post('/api/users/asdf/friends/requests/aaaa').expect(201)
     })
 
     it('should fail to create friend request, request already exists', async () => {
@@ -788,7 +774,7 @@ describe('UserController', () => {
 
       await getRepository(UserFriendRequest).save(friendRequest)
 
-      await app.delete('/api/users/asdf/friends/requests/aaaa').expect(200)
+      await app.delete('/api/users/asdf/friends/requests/aaaa').expect(204)
     })
 
     it('should fail to delete friend request user not found', async () => {
@@ -1050,7 +1036,7 @@ describe('UserController', () => {
 
       await getRepository(UserFriendRequest).save(friendRequest)
 
-      await app.post('/api/users/asdf/friends/aaaa').expect(200)
+      await app.post('/api/users/asdf/friends/aaaa').expect(201)
 
       const friends = await app.get('/api/users/asdf/friends')
       const friendRequests = await app.get('/api/users/asdf/friends/requests')
@@ -1124,7 +1110,7 @@ describe('UserController', () => {
 
       await getRepository(UserFriend).save(friend)
 
-      await app.delete('/api/users/asdf/friends/aaaa').expect(200)
+      await app.delete('/api/users/asdf/friends/aaaa').expect(204)
     })
 
     it('should fail to delete friend user not found', async () => {

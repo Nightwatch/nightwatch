@@ -7,9 +7,9 @@ import {
   UserFriendRequest
 } from '../../../db'
 import { getRepository, Brackets } from 'typeorm'
-import { BaseService } from '../interfaces/BaseService'
 import { UserLevelBalance } from '../models/userLevelBalance.model'
 import { injectable } from 'inversify'
+import { UserService as IUserService } from '../interfaces'
 
 /**
  * User service that handles storing and modifying user data.
@@ -17,7 +17,7 @@ import { injectable } from 'inversify'
  * @class UserService
  */
 @injectable()
-export class UserService implements BaseService<User, string> {
+export class UserService implements IUserService {
   private userRepository = getRepository(User)
   private userBalanceRepository = getRepository(UserBalance)
   private userProfileRepository = getRepository(UserProfile)
@@ -35,13 +35,13 @@ export class UserService implements BaseService<User, string> {
     })
   }
 
-  public create (user: User) {
+  public async create (user: User) {
     user.dateCreated = new Date()
-    return this.userRepository.save(user)
+    await this.userRepository.save(user)
   }
 
-  public update (_: string, user: User) {
-    return this.userRepository.save(user)
+  public async update (_: string, user: User) {
+    await this.userRepository.save(user)
   }
 
   public async delete (id: string) {
@@ -53,7 +53,7 @@ export class UserService implements BaseService<User, string> {
       return
     }
 
-    return this.userRepository.remove(user)
+    await this.userRepository.remove(user)
   }
 
   public async updateLevel (id: string, userLevelBalance: UserLevelBalance) {
@@ -76,11 +76,11 @@ export class UserService implements BaseService<User, string> {
       user.balance.netWorth = balance.netWorth
     }
 
-    return this.userRepository.save(user)
+    await this.userRepository.save(user)
   }
 
   public async updateBalance (id: string, userBalance: UserBalance) {
-    return this.userBalanceRepository.update({ user: { id } }, userBalance)
+    await this.userBalanceRepository.update({ user: { id } }, userBalance)
   }
 
   public async findProfile (id: string) {
@@ -88,11 +88,11 @@ export class UserService implements BaseService<User, string> {
   }
 
   public async updateProfile (id: string, userProfile: UserProfile) {
-    return this.userProfileRepository.update({ user: { id } }, userProfile)
+    await this.userProfileRepository.update({ user: { id } }, userProfile)
   }
 
   public async updateSettings (id: string, userSettings: UserSettings) {
-    return this.userSettingsRepository.update({ user: { id } }, userSettings)
+    await this.userSettingsRepository.update({ user: { id } }, userSettings)
   }
 
   public async findSettings (id: string) {
@@ -152,7 +152,7 @@ export class UserService implements BaseService<User, string> {
   ) {
     request.timestamp = new Date()
 
-    return this.userFriendRequestRepository.save(request)
+    await this.userFriendRequestRepository.save(request)
   }
 
   public async deleteFriendRequest (id: string, userId: string) {
@@ -167,7 +167,7 @@ export class UserService implements BaseService<User, string> {
       return
     }
 
-    return this.userFriendRequestRepository.remove(friendRequest)
+    await this.userFriendRequestRepository.remove(friendRequest)
   }
 
   public async findFriends (id: string) {
@@ -251,7 +251,7 @@ export class UserService implements BaseService<User, string> {
 
     friend.dateAdded = new Date()
 
-    return this.userFriendRepository.save(friend)
+    await this.userFriendRepository.save(friend)
   }
 
   public async deleteFriend (id: string, userId: string) {
@@ -266,6 +266,6 @@ export class UserService implements BaseService<User, string> {
       return
     }
 
-    return this.userFriendRepository.remove(friend)
+    await this.userFriendRepository.remove(friend)
   }
 }

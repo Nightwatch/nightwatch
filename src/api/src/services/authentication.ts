@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { injectable } from 'inversify'
 import { Config } from '../../../common'
+import { AuthenticationService as IAuthenticationService } from '../interfaces'
 
 let clientSecret = ''
 let clientId = ''
@@ -20,7 +21,7 @@ try {
  * @class AuthenticationService
  */
 @injectable()
-export class AuthenticationService {
+export class AuthenticationService implements IAuthenticationService {
   public async getDiscordAccessToken (code: string, redirect: string) {
     const creds = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
     const response = await axios.post(

@@ -22,7 +22,7 @@ import {
   UserSettings,
   UserFriendRequest
 } from '../../../db'
-import { BaseController } from '../interfaces/BaseController'
+import { BaseController } from '../interfaces/base-controller'
 import { validate } from 'class-validator'
 import { UserLevelBalance } from '../models'
 
@@ -94,10 +94,9 @@ export class UserController implements BaseController<User, string> {
       res.status(409).send('User already exists')
       return
     }
-    const createdUser = await this.userService.create(user)
-    this.socketService.send(Events.user.created, createdUser)
-
-    return createdUser
+    await this.userService.create(user)
+    this.socketService.send(Events.user.created, user)
+    res.sendStatus(201)
   }
 
   /**
@@ -115,10 +114,8 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    const deleteResponse = await this.userService.delete(id)
+    await this.userService.delete(id)
     this.socketService.send(Events.user.deleted, id)
-
-    return deleteResponse
   }
 
   /**
@@ -137,10 +134,8 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    const updateResponse = await this.userService.update(id, user)
-    this.socketService.send(Events.user.updated, updateResponse)
-
-    return updateResponse
+    await this.userService.update(id, user)
+    this.socketService.send(Events.user.updated, user)
   }
 
   /**
@@ -163,10 +158,8 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    const levelResponse = await this.userService.updateLevel(id, levelBalance)
-    this.socketService.send(Events.user.levelUpdated, levelResponse)
-
-    return levelResponse
+    await this.userService.updateLevel(id, levelBalance)
+    this.socketService.send(Events.user.levelUpdated, levelBalance)
   }
 
   /**
@@ -189,10 +182,8 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    const balanceResponse = await this.userService.updateBalance(id, balance)
-    this.socketService.send(Events.user.balanceUpdated, balanceResponse)
-
-    return balanceResponse
+    await this.userService.updateBalance(id, balance)
+    this.socketService.send(Events.user.balanceUpdated, balance)
   }
 
   /**
@@ -242,19 +233,14 @@ export class UserController implements BaseController<User, string> {
     toUser.balance.balance += amount
     toUser.balance.netWorth += amount
 
-    const transferFromResponse = await this.userService.updateBalance(
+    await this.userService.updateBalance(
       id,
       fromUser.balance
     )
-    const transferToResponse = await this.userService.updateBalance(
+    await this.userService.updateBalance(
       receiverId,
       toUser.balance
     )
-
-    return {
-      transferFromResponse,
-      transferToResponse
-    }
   }
 
   /**
@@ -294,10 +280,8 @@ export class UserController implements BaseController<User, string> {
       return
     }
 
-    const profileResponse = await this.userService.updateProfile(id, profile)
-    this.socketService.send(Events.user.profileUpdated, profileResponse)
-
-    return profileResponse
+    await this.userService.updateProfile(id, profile)
+    this.socketService.send(Events.user.profileUpdated, profile)
   }
 
   /**
@@ -336,10 +320,8 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    const settingsResponse = await this.userService.updateSettings(id, settings)
-    this.socketService.send(Events.user.settingsUpdated, settingsResponse)
-
-    return settingsResponse
+    await this.userService.updateSettings(id, settings)
+    this.socketService.send(Events.user.settingsUpdated, settings)
   }
 
   /**
@@ -465,17 +447,17 @@ export class UserController implements BaseController<User, string> {
     const friend = await this.userService.findFriendByUserId(id, userId)
     if (friend) {
       res.sendStatus(409)
+      return
     }
     const request = new UserFriendRequest()
     request.user = userExists
     request.receiver = otherUserExists
-    const response = await this.userService.createFriendRequest(
+    await this.userService.createFriendRequest(
       id,
       request
     )
-    this.socketService.send(Events.user.friend.request.created, response)
-
-    return response
+    this.socketService.send(Events.user.friend.request.created, request)
+    res.sendStatus(201)
   }
 
   /**
@@ -507,13 +489,11 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(404)
       return
     }
-    const response = await this.userService.deleteFriendRequest(id, userId)
+    await this.userService.deleteFriendRequest(id, userId)
     this.socketService.send(Events.user.friend.request.deleted, {
       userId: id,
       otherUserId: userId
     })
-
-    return response
   }
 
   /**
@@ -622,10 +602,9 @@ export class UserController implements BaseController<User, string> {
     const userFriend = new UserFriend()
     userFriend.user = userExists
     userFriend.friend = otherUserExists
-    const response = await this.userService.addFriend(id, userFriend)
-    this.socketService.send(Events.user.friend.created, response)
-
-    return response
+    await this.userService.addFriend(id, userFriend)
+    this.socketService.send(Events.user.friend.created, userFriend)
+    res.sendStatus(201)
   }
 
   /**
@@ -658,12 +637,10 @@ export class UserController implements BaseController<User, string> {
       res.sendStatus(400)
       return
     }
-    const response = await this.userService.deleteFriend(id, userId)
+    await this.userService.deleteFriend(id, userId)
     this.socketService.send(Events.user.friend.deleted, {
       userId: id,
       otherUserId: userId
     })
-
-    return response
   }
 }

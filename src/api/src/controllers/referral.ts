@@ -12,7 +12,7 @@ import { Types, Events } from '../constants'
 import { SocketService } from '../services/socket'
 import { Referral } from '../../../db'
 import { ReferralService } from '../services/referral'
-import { BaseController } from '../interfaces/BaseController'
+import { BaseController } from '../interfaces/base-controller'
 
 /**
  * The referral controller. Contains all endpoints for the referral system.
@@ -62,10 +62,8 @@ export class ReferralController implements BaseController<Referral, number> {
    */
   @httpPost('/')
   async create (@requestBody() referral: Referral) {
-    const referralResponse = await this.referralService.create(referral)
-    this.socketService.send(Events.referral.created, referralResponse)
-
-    return referralResponse
+    await this.referralService.create(referral)
+    this.socketService.send(Events.referral.created, referral)
   }
 
   /**
@@ -78,10 +76,8 @@ export class ReferralController implements BaseController<Referral, number> {
    */
   @httpDelete('/:id')
   async deleteById (@requestParam('id') id: number) {
-    const deleteResponse = await this.referralService.delete(id)
+    await this.referralService.delete(id)
     this.socketService.send(Events.referral.deleted, id)
-
-    return deleteResponse
   }
 
   /**
@@ -98,9 +94,7 @@ export class ReferralController implements BaseController<Referral, number> {
     @requestParam('id') id: number,
     @requestBody() referral: Referral
   ) {
-    const updateResponse = await this.referralService.update(id, referral)
-    this.socketService.send(Events.referral.updated, updateResponse)
-
-    return updateResponse
+    await this.referralService.update(id, referral)
+    this.socketService.send(Events.referral.updated, referral)
   }
 }

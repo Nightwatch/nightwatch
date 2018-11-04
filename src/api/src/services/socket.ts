@@ -1,5 +1,6 @@
 import { getSocketServer } from '../utilities'
 import { injectable } from 'inversify'
+import { SocketService as ISocketService } from '../interfaces'
 
 /**
  * Socket service for emitting live updates to clients.
@@ -7,7 +8,7 @@ import { injectable } from 'inversify'
  * @class SocketService
  */
 @injectable()
-export class SocketService {
+export class SocketService implements ISocketService {
   public send (event: string, content: any) {
     try {
       getSocketServer().emit(event, content)

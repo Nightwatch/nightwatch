@@ -1,7 +1,7 @@
 import { Giveaway } from '../../../db'
 import { getRepository } from 'typeorm'
-import { BaseService } from '../interfaces/BaseService'
 import { injectable } from 'inversify'
+import { GiveawayService as IGiveawayService } from '../interfaces'
 
 /**
  * Giveaway service that handles storing and modifying giveaway data.
@@ -9,7 +9,7 @@ import { injectable } from 'inversify'
  * @class GiveawayService
  */
 @injectable()
-export class GiveawayService implements BaseService<Giveaway, number> {
+export class GiveawayService implements IGiveawayService {
   private giveawayRepository = getRepository(Giveaway)
 
   public find () {
@@ -20,13 +20,13 @@ export class GiveawayService implements BaseService<Giveaway, number> {
     return this.giveawayRepository.findOne(id, { relations: ['items'] })
   }
 
-  public create (giveaway: Giveaway) {
+  public async create (giveaway: Giveaway) {
     giveaway.dateCreated = new Date()
-    return this.giveawayRepository.save(giveaway)
+    await this.giveawayRepository.save(giveaway)
   }
 
   public async update (_: number, giveaway: Giveaway) {
-    return this.giveawayRepository.save(giveaway)
+    await this.giveawayRepository.save(giveaway)
   }
 
   public async delete (id: number) {
@@ -36,6 +36,6 @@ export class GiveawayService implements BaseService<Giveaway, number> {
       return
     }
 
-    return this.giveawayRepository.remove(giveaway)
+    await this.giveawayRepository.remove(giveaway)
   }
 }
