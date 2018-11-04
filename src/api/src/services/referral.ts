@@ -1,7 +1,7 @@
 import { Referral } from '../../../db'
 import { getRepository } from 'typeorm'
-import { BaseService } from '../interfaces/BaseService'
 import { injectable } from 'inversify'
+import { ReferralService as IReferralService } from '../interfaces'
 
 /**
  * Referral service to handle referral logic
@@ -9,7 +9,7 @@ import { injectable } from 'inversify'
  * @class ReferralService
  */
 @injectable()
-export class ReferralService implements BaseService<Referral, number> {
+export class ReferralService implements IReferralService {
   private referralRepository = getRepository(Referral)
 
   public find () {
@@ -22,12 +22,12 @@ export class ReferralService implements BaseService<Referral, number> {
     })
   }
 
-  public create (referral: Referral) {
-    return this.referralRepository.save(referral)
+  public async create (referral: Referral) {
+    await this.referralRepository.save(referral)
   }
 
-  public update (_: number, referral: Referral) {
-    return this.referralRepository.save(referral)
+  public async update (_: number, referral: Referral) {
+    await this.referralRepository.save(referral)
   }
 
   public async delete (id: number) {
@@ -37,6 +37,6 @@ export class ReferralService implements BaseService<Referral, number> {
       return
     }
 
-    return this.referralRepository.remove(referral)
+    await this.referralRepository.remove(referral)
   }
 }

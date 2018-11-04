@@ -6,8 +6,8 @@ import {
   GuildUser
 } from '../../../db'
 import { getRepository } from 'typeorm'
-import { BaseService } from '../interfaces/BaseService'
 import { injectable } from 'inversify'
+import { GuildService as IGuildService } from '../interfaces'
 
 /**
  * Guild service that handles storing and modifying guild data
@@ -15,7 +15,7 @@ import { injectable } from 'inversify'
  * @class GuildService
  */
 @injectable()
-export class GuildService implements BaseService<Guild, string> {
+export class GuildService implements IGuildService {
   private guildRepository = getRepository(Guild)
   private suggestionRepository = getRepository(GuildSuggestion)
   private supportTicketRepository = getRepository(GuildSupportTicket)
@@ -32,13 +32,13 @@ export class GuildService implements BaseService<Guild, string> {
     })
   }
 
-  public create (guild: Guild) {
+  public async create (guild: Guild) {
     guild.dateCreated = new Date()
-    return this.guildRepository.save(guild)
+    await this.guildRepository.save(guild)
   }
 
-  public update (_: string, guild: Guild) {
-    return this.guildRepository.save(guild)
+  public async update (_: string, guild: Guild) {
+    await this.guildRepository.save(guild)
   }
 
   public async delete (id: string) {
@@ -48,20 +48,20 @@ export class GuildService implements BaseService<Guild, string> {
       return
     }
 
-    return this.guildRepository.remove(guild)
+    await this.guildRepository.remove(guild)
   }
 
-  public findSuggestions (id: string) {
+  public async findSuggestions (id: string) {
     return this.suggestionRepository.find({ where: { guildId: id } })
   }
 
-  public findSuggestionById (_: string, suggestionId: number) {
+  public async findSuggestionById (_: string, suggestionId: number) {
     return this.suggestionRepository.findOne(suggestionId)
   }
 
-  public createSuggestion (_: string, suggestion: GuildSuggestion) {
+  public async createSuggestion (_: string, suggestion: GuildSuggestion) {
     suggestion.dateCreated = new Date()
-    return this.suggestionRepository.save(suggestion)
+    await this.suggestionRepository.save(suggestion)
   }
 
   public async deleteSuggestion (_: string, suggestionId: number) {
@@ -71,7 +71,7 @@ export class GuildService implements BaseService<Guild, string> {
       return
     }
 
-    return this.suggestionRepository.remove(suggestion)
+    await this.suggestionRepository.remove(suggestion)
   }
 
   public async updateSuggestion (
@@ -79,7 +79,7 @@ export class GuildService implements BaseService<Guild, string> {
     suggestionId: number,
     suggestion: GuildSuggestion
   ) {
-    return this.suggestionRepository.update(suggestionId, suggestion)
+    await this.suggestionRepository.update(suggestionId, suggestion)
   }
 
   public findSupportTickets (id: string) {
@@ -90,9 +90,9 @@ export class GuildService implements BaseService<Guild, string> {
     return this.supportTicketRepository.findOne(ticketId)
   }
 
-  public createSupportTicket (_: string, supportTicket: GuildSupportTicket) {
+  public async createSupportTicket (_: string, supportTicket: GuildSupportTicket) {
     supportTicket.dateCreated = new Date()
-    return this.supportTicketRepository.save(supportTicket)
+    await this.supportTicketRepository.save(supportTicket)
   }
 
   public async deleteSupportTicket (_: string, ticketId: number) {
@@ -102,7 +102,7 @@ export class GuildService implements BaseService<Guild, string> {
       return
     }
 
-    return this.supportTicketRepository.remove(ticket)
+    await this.supportTicketRepository.remove(ticket)
   }
 
   public async updateSupportTicket (
@@ -110,15 +110,15 @@ export class GuildService implements BaseService<Guild, string> {
     ticketId: number,
     supportTicket: GuildSupportTicket
   ) {
-    return this.supportTicketRepository.update(ticketId, supportTicket)
+    await this.supportTicketRepository.update(ticketId, supportTicket)
   }
 
   public async findSettings (id: string) {
-    return this.settingsRepository.find({ where: { guild: { id } } })
+    return this.settingsRepository.findOne({ where: { guild: { id } } })
   }
 
   public async updateSettings (id: string, settings: GuildSettings) {
-    return this.settingsRepository.update({ guild: { id } }, settings)
+    await this.settingsRepository.update({ guild: { id } }, settings)
   }
 
   public async findUsers (id: string) {
@@ -133,7 +133,7 @@ export class GuildService implements BaseService<Guild, string> {
 
   public async createUser (_: string, user: GuildUser) {
     user.dateJoined = new Date()
-    return this.userRepository.save(user)
+    await this.userRepository.save(user)
   }
 
   public async deleteUser (id: string, userId: string) {
@@ -145,11 +145,11 @@ export class GuildService implements BaseService<Guild, string> {
       return
     }
 
-    return this.userRepository.remove(user)
+    await this.userRepository.remove(user)
   }
 
   public async updateUser (id: string, userId: string, user: GuildUser) {
-    return this.userRepository.update(
+    await this.userRepository.update(
       { guild: { id }, user: { id: userId } },
       user
     )

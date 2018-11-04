@@ -97,14 +97,15 @@ To be consistent, always return the status code that matches one of the followin
 - Success Responses:
 
   - GET: 200
-  - PUT: 200
-  - POST:
+  - PUT:
     - Returning item: 200
-    - No return: 204
+    - No return (preferred): 204
+  - POST:
+    - Created something: 201
+    - Did something with side effects: 200
   - DELETE: 204
 
-  The libraries used should handle the success cases for you.
-
+For more information, see the [RFC7231 Section 4.3](https://tools.ietf.org/html/rfc7231#section-4.3)
 
 ## Unit Tests
 
