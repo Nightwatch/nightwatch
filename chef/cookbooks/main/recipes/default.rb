@@ -30,6 +30,12 @@ postgresql_database 'nightwatch_test' do
   locale 'C.UTF-8'
 end
 
+# Creates database for development use
+postgresql_database 'nightwatch' do
+  locale 'C.UTF-8'
+end
+
+
 # Install Redis
 include_recipe 'redisio'
 include_recipe 'redisio::enable'
