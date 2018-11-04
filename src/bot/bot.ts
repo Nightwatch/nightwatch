@@ -1,8 +1,12 @@
-import { Message } from 'discord.js'
+import { Message, Guild, GuildMember } from 'discord.js'
 import { CommandoClient, CommandMessage } from 'discord.js-commando'
 import * as path from 'path'
 import { Config } from '../common'
 import { readdirSync, statSync } from 'fs'
+import { container } from './config/inversify'
+import { GuildService } from './interfaces'
+import { Types } from './constants'
+import { UserService } from './services'
 
 const getDirectoryNames = (p: string) => readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
 const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
@@ -22,27 +26,41 @@ export class Bot {
   public async start () {
     console.info(`Starting ${botName}.`)
 
+    this.registerEvents()
+    this.registerCommands()
+    await this.login()
+  }
+
+  public registerEvents() {
     this.client.on('ready', this.onReady)
     this.client.on('disconnect', this.onDisconnect)
     this.client.on('message', this.onMessage)
     this.client.on('error', this.onError)
     this.client.on('commandRun', this.onCommandRun)
+    this.client.on('guildCreate', this.onGuildCreate)
+    this.client.on('guildMemberAdd', this.onGuildMemberAdd)
+  }
 
+  public registerCommands() {
     const commandGroups = getDirectoryNames(path.join(__dirname, 'commands'))
-      .map(name => [name, upperCaseFirstLetter(name)])
+    .map(name => [name, upperCaseFirstLetter(name)])
 
     this.client.registry
-      .registerDefaultTypes()
-      .registerGroups(commandGroups)
-      .registerDefaultGroups()
-      .registerDefaultCommands()
-      .registerCommandsIn(path.join(__dirname, 'commands'))
+    .registerDefaultTypes()
+    .registerGroups(commandGroups)
+    .registerDefaultGroups()
+    .registerDefaultCommands()
+    .registerCommandsIn(path.join(__dirname, 'commands'))
+  }
 
-    await this.client.login(token).catch((err: Error) => {
-      console.error(err)
+  public async login() {
+    try {
+      await this.client.login(token)
+    } catch (error) {
+      console.error(error)
       console.warn('Failed to login, retrying in 5 seconds.')
       setTimeout(this.start, 5000)
-    })
+    }
   }
 
   public stop (): void {
@@ -95,5 +113,17 @@ export class Bot {
     if (autoDeleteMessages.enabled && message.deletable) {
       await message.delete(autoDeleteMessages.delay).catch(console.error)
     }
+  }
+
+  public onGuildCreate = async (guild: Guild) => {
+    const guildService = container.get<GuildService>(Types.GuildService)
+    await guildService.createGuild(guild).catch(console.error)
+    const userService = container.get<UserService>(Types.UserService)
+    guild.members.forEach(member => userService.createUser(member))
+  }
+
+  public onGuildMemberAdd = async (member: GuildMember) => {
+    const userService = container.get<UserService>(Types.UserService)
+    await userService.createUser(member)
   }
 }
