@@ -4,9 +4,8 @@ import * as path from 'path'
 import { Config } from '../common'
 import { readdirSync, statSync } from 'fs'
 import { container } from './config/inversify'
-import { GuildService } from './interfaces'
+import { GuildService, UserService } from './interfaces'
 import { Types } from './constants'
-import { UserService } from './services'
 
 const getDirectoryNames = (p: string) => readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
 const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
