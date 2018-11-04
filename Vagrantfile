@@ -6,7 +6,8 @@ Vagrant.configure('2') do |config|
   config.vm.network :private_network, ip: '192.168.33.10'
   config.vm.synced_folder '.', '/opt/nightwatch', type: 'nfs'
   config.vm.provider 'virtualbox' do |vb|
-    vb.memory = '1024'
+    vb.memory = 2048
+    vb.cpus = 2
   end
   config.berkshelf.enabled = true
   config.berkshelf.berksfile_path = 'chef/cookbooks/main/Berksfile'
