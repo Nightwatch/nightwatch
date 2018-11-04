@@ -18,6 +18,7 @@ Features include:
 - Moderation
 - Music
 - Games
+- Economy
 - Giveaways
 - Referral rewards
 - Custom Social Media/Friend system
