@@ -105,7 +105,11 @@
       ".tsx"
     ],
     "exclude": [
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "src/web",
+      "src/bot",
+      "dist",
+      "coverage"
     ],
     "reporter": [
       "html"
