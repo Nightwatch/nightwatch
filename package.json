@@ -106,7 +106,6 @@
     ],
     "exclude": [
       "**/*.d.ts",
-      "**/*.js",
       "src/web",
       "src/bot",
       "dist",
