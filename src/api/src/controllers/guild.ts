@@ -268,7 +268,7 @@ export class GuildController implements BaseController<Guild, string> {
     @requestParam('ticketId') ticketId: number,
     @requestBody() supportTicket: GuildSupportTicket
   ) {
-    this.guildService.updateSupportTicket(
+    await this.guildService.updateSupportTicket(
       id,
       ticketId,
       supportTicket

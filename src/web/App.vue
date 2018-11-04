@@ -21,14 +21,9 @@
 </template>
 
 <script>
-import HelloWorld from './pages/HelloWorld'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  },
-  data() {
+  data () {
     return {
       //
     }
