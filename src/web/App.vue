@@ -16,21 +16,19 @@
       </v-btn>
     </v-toolbar>
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
+    <router-view></router-view>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import HelloWorld from './pages/HelloWorld'
 
 export default {
   name: 'App',
   components: {
     HelloWorld
   },
-  data () {
+  data() {
     return {
       //
     }
