@@ -22,10 +22,8 @@ import { BaseController } from '../interfaces/base-controller'
  */
 @controller('/api/referrals')
 export class ReferralController implements BaseController<Referral, number> {
-  constructor (
-    @inject(Types.ReferralService) private referralService: ReferralService,
-    @inject(Types.SocketService) private socketService: SocketService
-  ) {}
+  @inject(Types.ReferralService) private referralService: ReferralService
+  @inject(Types.SocketService) private socketService: SocketService
 
   /**
    * Gets all referrals from the database, excluding most related information.

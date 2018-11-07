@@ -22,10 +22,8 @@ import { Giveaway } from '../../../db'
  */
 @controller('/api/giveaways')
 export class GiveawayController implements BaseController<Giveaway, number> {
-  constructor (
-    @inject(Types.GiveawayService) private giveawayService: GiveawayService,
-    @inject(Types.SocketService) private socketService: SocketService
-  ) {}
+  @inject(Types.GiveawayService) private giveawayService: GiveawayService
+  @inject(Types.SocketService) private socketService: SocketService
 
   /**
    * Gets all giveaways from the database.

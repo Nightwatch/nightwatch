@@ -43,14 +43,14 @@ export class Bot implements IBot {
 
   public registerCommands() {
     const commandGroups = getDirectoryNames(path.join(__dirname, 'commands'))
-    .map(name => [name, upperCaseFirstLetter(name)])
+      .map(name => [name, upperCaseFirstLetter(name)])
 
     this.client.registry
-    .registerDefaultTypes()
-    .registerGroups(commandGroups)
-    .registerDefaultGroups()
-    .registerDefaultCommands()
-    .registerCommandsIn(path.join(__dirname, 'commands'))
+      .registerDefaultTypes()
+      .registerGroups(commandGroups)
+      .registerDefaultGroups()
+      .registerDefaultCommands()
+      .registerCommandsIn(path.join(__dirname, 'commands'))
   }
 
   public async login() {
