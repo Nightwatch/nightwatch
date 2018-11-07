@@ -1,6 +1,9 @@
-import { Bot } from './bot'
+import { container } from './config/inversify'
+import { Types } from './constants'
+import { Bot } from './interfaces'
 
-let bot: Bot = new Bot()
+/* prettier-ignore */
+const bot = container.get<Bot>(Types.Bot)
 
 bot.start().catch(onError)
 
