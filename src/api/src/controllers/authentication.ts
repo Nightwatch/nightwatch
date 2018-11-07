@@ -12,7 +12,7 @@ import { AuthenticationService } from '../services/authentication'
  */
 @controller('/api/auth')
 export class AuthenticationController {
-  constructor (@inject(Types.AuthenticationService) private authenticationService: AuthenticationService) {}
+  @inject(Types.AuthenticationService) private authenticationService: AuthenticationService
 
   /**
    * Gets an access token from Discord.

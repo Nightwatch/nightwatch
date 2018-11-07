@@ -34,10 +34,8 @@ import { UserLevelBalance } from '../models'
  */
 @controller('/api/users')
 export class UserController implements BaseController<User, string> {
-  constructor (
-    @inject(Types.UserService) private userService: UserService,
-    @inject(Types.SocketService) private socketService: SocketService
-  ) {}
+  @inject(Types.UserService) private userService: UserService
+  @inject(Types.SocketService) private socketService: SocketService
 
   /**
    * Gets all users from the database, excluding most user information.
