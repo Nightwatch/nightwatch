@@ -14,7 +14,13 @@
       "enabled": true,
       "delay": 15000
     },
-    "playingStatus": "",
+    "playingStatus": {
+      "url": "https://twitch.tv/ihaxjoker",
+      "cycleIntervalMinutes": 60,
+      "options": [
+        "nw help"
+      ]
+    },
     "clientId": "",
     "clientSecret": ""
   },

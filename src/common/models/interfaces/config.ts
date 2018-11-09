@@ -1,46 +1,50 @@
 export interface Config {
-  api: ApiConfig,
-  bot: BotConfig,
-  db: DatabaseConfig,
+  api: ApiConfig
+  bot: BotConfig
+  db: DatabaseConfig
   dataDogApiKey: string
   dataDogAppKey: string
   steamWebApiKey: string
 }
 
 export interface ApiConfig {
-  address: string,
-  token: string,
+  address: string
+  token: string
   mongodb: string
 }
 
 export interface BotConfig {
-  token: string,
-  botName: string,
-  prefix: string,
-  ownerId: string,
-  autoReconnect: boolean,
+  token: string
+  botName: string
+  prefix: string
+  ownerId: string
+  autoReconnect: boolean
   autoDeleteMessages: {
-    enabled: boolean,
+    enabled: boolean
     delay: number
   },
-  playingStatus: string,
-  clientId: string,
+  playingStatus: {
+    url: string
+    cycleIntervalMinutes: number
+    options: string[]
+  },
+  clientId: string
   clientSecret: string
 }
 
 export interface DatabaseConfig {
-  host: string,
-  port: number,
-  username: string,
-  password: string,
-  database: string,
-  synchronize: boolean,
-  logging: boolean,
+  host: string
+  port: number
+  username: string
+  password: string
+  database: string
+  synchronize: boolean
+  logging: boolean
   cache: {
-    type: string,
-    duration: number,
+    type: string
+    duration: number
     options: {
-      host: string,
+      host: string
       port: number
     }
   }

@@ -8,7 +8,7 @@ import {
   EventController as IEventController
 } from '../interfaces'
 import { GuildService, UserService } from '../services'
-import { Types } from '../constants'
+import { Types } from '../../common'
 import { Bot } from '../bot'
 import { EventController } from '../controllers'
 

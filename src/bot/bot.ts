@@ -1,9 +1,8 @@
 import { CommandoClient } from 'discord.js-commando'
 import * as path from 'path'
-import { Config } from '../common'
+import { Config, Types } from '../common'
 import { readdirSync, statSync } from 'fs'
 import { Bot as IBot, EventController } from './interfaces'
-import { Types } from './constants'
 import { injectable, inject } from 'inversify'
 
 const getDirectoryNames = (p: string) => readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
@@ -69,16 +68,25 @@ export class Bot implements IBot {
   }
 
   public onReady = async () => {
+    const playingStatusOptions = config.bot.playingStatus.options
+    const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
+
     await this.client.user
       .setPresence({
         status: 'online',
         activity: {
-          name: config.bot.playingStatus,
-          url: 'https://twitch.tv/ihaxjoker',
-          type: 'STREAMING'
+          type: 'STREAMING',
+          name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
+          url
         }
       })
       .catch((error: Error) => console.error(error))
+
+    setInterval(() => this.client.user.setActivity({
+      type: 'STREAMING',
+      name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
+      url
+    }), config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60)
 
     console.info(`${config.bot.botName} ready.`)
   }

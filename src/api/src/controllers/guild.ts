@@ -8,7 +8,7 @@ import {
   requestBody
 } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import { Types, Events } from '../constants'
+import { Events } from '../constants'
 import { GuildService } from '../services/guild'
 import { SocketService } from '../services/socket'
 import { BaseController } from '../interfaces/base-controller'
@@ -19,6 +19,7 @@ import {
   GuildUser,
   GuildSuggestion
 } from '../../../db'
+import { Types } from '../../../common'
 
 /**
  * The Guild controller. Contains all endpoints for handling Guilds and Guild data.

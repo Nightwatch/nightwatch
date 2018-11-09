@@ -1,5 +1,5 @@
 import { container } from './config/inversify'
-import { Types } from './constants'
+import { Types } from '../common'
 import { Bot } from './interfaces'
 
 /* prettier-ignore */
