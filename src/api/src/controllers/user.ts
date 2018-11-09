@@ -11,7 +11,7 @@ import {
   requestBody
 } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import { Types, Events } from '../constants'
+import { Events } from '../constants'
 import { UserService } from '../services/user'
 import { SocketService } from '../services/socket'
 import {
@@ -25,6 +25,7 @@ import {
 import { BaseController } from '../interfaces/base-controller'
 import { validate } from 'class-validator'
 import { UserLevelBalance } from '../models'
+import { Types } from '../../../common'
 
 /**
  * The user controller. Contains all endpoints for handling users and user data.

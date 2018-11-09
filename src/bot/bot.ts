@@ -1,9 +1,8 @@
 import { CommandoClient } from 'discord.js-commando'
 import * as path from 'path'
-import { Config } from '../common'
+import { Config, Types } from '../common'
 import { readdirSync, statSync } from 'fs'
 import { Bot as IBot, EventController } from './interfaces'
-import { Types } from './constants'
 import { injectable, inject } from 'inversify'
 
 const getDirectoryNames = (p: string) => readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())

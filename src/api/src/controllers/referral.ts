@@ -8,11 +8,12 @@ import {
   requestBody
 } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import { Types, Events } from '../constants'
+import { Events } from '../constants'
 import { SocketService } from '../services/socket'
 import { Referral } from '../../../db'
 import { ReferralService } from '../services/referral'
 import { BaseController } from '../interfaces/base-controller'
+import { Types } from '../../../common'
 
 /**
  * The referral controller. Contains all endpoints for the referral system.

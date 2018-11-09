@@ -1,5 +1,5 @@
 import { Container } from 'inversify'
-import { Types } from '../constants'
+import { Types } from '../../../common'
 import './loader'
 
 import {

@@ -1,9 +1,8 @@
 import { inject, injectable } from 'inversify'
-import { Types } from '../constants/types'
+import { Types, Config } from '../../common'
 import { EventController as IEventController, GuildService, UserService } from '../interfaces'
 import { Message, GuildMember, Guild } from 'discord.js'
 import { CommandMessage } from 'discord.js-commando'
-import { Config } from '../../common'
 
 const config: Config = require('../../../config/config.json')
 

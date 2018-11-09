@@ -8,11 +8,12 @@ import {
   requestBody
 } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import { Types, Events } from '../constants'
+import { Events } from '../constants'
 import { GiveawayService } from '../services/giveaway'
 import { SocketService } from '../services/socket'
 import { BaseController } from '../interfaces/base-controller'
 import { Giveaway } from '../../../db'
+import { Types } from '../../../common'
 
 /**
  * The Giveaway controller. Contains all endpoints for handling Giveaways.

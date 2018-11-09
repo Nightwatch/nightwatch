@@ -1,7 +1,7 @@
 import { Response } from 'express'
 import { controller, httpGet, queryParam, response } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import { Types } from '../constants'
+import { Types } from '../../../common'
 import { AuthenticationService } from '../services/authentication'
 
 /**
