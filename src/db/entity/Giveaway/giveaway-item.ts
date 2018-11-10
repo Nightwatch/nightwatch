@@ -7,7 +7,7 @@ import {
 } from 'typeorm'
 import { Giveaway } from '.'
 import { IsFQDN, IsString } from 'class-validator'
-import { GiveawayItemKey } from './GiveawayItemKey'
+import { GiveawayItemKey } from './giveaway-item-key'
 
 @Entity()
 export class GiveawayItem {
