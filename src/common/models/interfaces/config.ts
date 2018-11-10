@@ -9,7 +9,7 @@ export interface Config {
 
 export interface ApiConfig {
   address: string
-  token: string
+  secret: string
   mongodb: string
 }
 

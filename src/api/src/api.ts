@@ -14,16 +14,16 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
-import { randomBytes } from 'crypto'
 import { ormSettings } from './config'
 import { Config } from '../../common'
 
-const secret = randomBytes(64).toString('hex')
 let ormConfig: any = {}
+let secret = ''
 
 try {
   const config: Config = require('../../../config/config.json')
   ormConfig = config.db
+  secret = config.api.secret
 } catch (err) {
   console.error(err)
 }
@@ -45,11 +45,6 @@ export class Api {
       console.error(err)
     })
   }
-
-  /**
-   * API secret for creating and validating JWT tokens.
-   */
-  public static readonly secret = secret
 
   /**
    * Starts the API server.
@@ -107,7 +102,7 @@ export class Api {
       )
       app.use(
         jwt({
-          secret: Api.secret,
+          secret,
           getToken: req => {
             // Special routes I don't want the average user to see :)
             // TODO: Create route-based authentication, decorators would be nice.
@@ -120,12 +115,12 @@ export class Api {
               )
             ) {
               // *Hacky* approach to bypass request validation for GET requests, since I want anyone to be able to see the data.
-              return jsonwebtoken.sign('GET', Api.secret)
+              return jsonwebtoken.sign('GET', secret)
             }
 
             if (
               req.headers.authorization &&
-              req.headers.authorization.split(' ')[0] === 'Bearer'
+              req.headers.authorization.split(' ')[0].toLowerCase() === 'bearer'
             ) {
               return req.headers.authorization.split(' ')[1]
             } else if (req.query && req.query.token) {
