@@ -1,24 +1,22 @@
 import { UserService as IUserService } from '../interfaces'
-import { GuildMember } from 'discord.js'
+import { User } from 'discord.js'
 import { api } from '../utils'
-import { User, UserLevel, UserVerification, UserSettings, UserBalance, UserProfile } from '../../db'
+import { User as BotUser, UserLevel, UserVerification, UserSettings, UserBalance, UserProfile } from '../../db'
 import { injectable } from 'inversify'
 
 @injectable()
 export class UserService implements IUserService {
-  public createUser = async (member: GuildMember) => {
-    const existingUser = await this.findUser(member.id)
+  public createUser = async (user: User) => {
+    const existingUser = await this.findById(user.id)
 
     if (existingUser) {
       return
     }
 
-    const guildUser = member.user
-
-    const newUser = new User()
-    newUser.id = guildUser.id
-    newUser.name = guildUser.username
-    newUser.avatarUrl = guildUser.avatarURL({ format: 'png', size: 512 } || null)
+    const newUser = new BotUser()
+    newUser.id = user.id
+    newUser.name = user.username
+    newUser.avatarUrl = user.avatarURL({ format: 'png', size: 512 } || null)
     newUser.dateLastMessage = null
     newUser.level = new UserLevel()
     newUser.verification = new UserVerification()
@@ -26,14 +24,19 @@ export class UserService implements IUserService {
     newUser.balance = new UserBalance()
     newUser.profile = new UserProfile()
 
-    const { data } = await api.post('/users', newUser)
-
-    return data
+    try {
+      await api.post('/users', newUser)
+    } catch (error) {
+      // swallow. may change later
+    }
   }
 
-  public findUser = async (id: string) => {
-    const { data } = await api.get(`/users/${id}`)
-
-    return data
+  public findById = async (id: string): Promise<BotUser | undefined> => {
+    try {
+      const response = await api.get(`/users/${id}`)
+      return response.data
+    } catch (error) {
+      return undefined
+    }
   }
 }

@@ -19,14 +19,23 @@ export class GuildService implements IGuildService {
     newGuild.name = guild.name
 
     const postRoute = `/guilds`
-    await api.post(postRoute, newGuild)
+
+    try {
+      await api.post(postRoute, newGuild)
+    } catch {
+      // swallow
+    }
   }
 
   public findGuild = async (id: string) => {
     const route = `/guilds/${id}`
 
-    const { data } = await api.get(route)
+    try {
+      const { data } = await api.get(route)
 
-    return data
+      return data
+    } catch {
+      return undefined
+    }
   }
 }
