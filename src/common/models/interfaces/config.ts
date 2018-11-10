@@ -10,7 +10,6 @@ export interface Config {
 export interface ApiConfig {
   address: string
   secret: string
-  mongodb: string
 }
 
 export interface BotConfig {

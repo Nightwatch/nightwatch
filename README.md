@@ -51,6 +51,32 @@ If you would like to support us without spending money, give the repo a star. We
 
 Whether you donate or star, we appreciate your support.
 
+## Installation
+
+### Prerequisites
+
+- Node.js >= v10 LTS
+- PostgreSQL
+- Redis
+- An HTTP server for the web interface
+- (optional) Yarn
+
+### Setup
+
+1. Clone the repo
+2. Inside the repo, run `npm install`, or `yarn` if you are using Yarn
+3. In the `config` directory, duplicate the `config.example.json` and name it `config.json`
+4. Edit the file and fill in the values. Remove any comments
+    - Any field with a default value does not have to be modified!
+    - Only the `bot`, `api`, and `db` sections are required; anything outside of those sections are optional
+    - Obtain a bot token from [here](https://discordapp.com/developers/applications/). You'll have to create a bot if you haven't already
+5. Create a database in PostgreSQL for the bot
+6. Start the API with `npm run api:start` or `yarn api:start`
+7. Start the bot with `npm run bot:start` or `yarn bot:start`
+8. Build the web interface with `npm run web:prod` or `yarn web:prod`
+    - Or run it on a development server with `npm run web:start` or `yarn web:start`
+9. Invite the bot to your server
+
 ## Background
 
 Nightwatch started as a tiny bot for a single Discord server. Over the years, it has transformed and scaled to work in any server. It has been through several rewrites, and has evolved in performance, functionality, and design.
