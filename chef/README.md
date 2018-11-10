@@ -9,7 +9,6 @@
   - [x] Update to latest v10 LTS
 - [x] Install PostgreSQL
   - [x] Create database for unit tests
-- [ ] Install MongoDB
 - [x] Install Redis
 - [x] Install Yarn for dependency management
 - [x] Start projects on `vagrant up`
