@@ -1,7 +1,7 @@
 {
   "api": {
     "address": "http://localhost:4000/api",
-    "token": "",
+    "secret": "", // Generate it from here: https://passwordsgenerator.net/?length=64&symbols=1&numbers=1&lowercase=1&uppercase=1&similar=1&ambiguous=1&client=1&autoselect=0
     "mongodb": "mongodb://localhost:27017/api-logs"
   },
   "bot": {
