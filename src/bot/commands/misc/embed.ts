@@ -90,12 +90,16 @@ export default class EmbedCommand extends Command {
     const embed = new MessageEmbed()
 
     embed
-      .setAuthor(title || '', this.client.user.avatarURL({ format: 'png' }))
       .setThumbnail(msg.member.user.avatarURL({ format: 'png', size: 512 }))
       .setColor(color)
       .setDescription(description)
       .setFooter(footer || config.bot.botName)
       .setTimestamp(new Date())
+
+    if (this.client.user) {
+      embed
+      .setAuthor(title || '', this.client.user.avatarURL({ format: 'png' }))
+    }
 
     for (const field of fields) {
       embed.addField(field.name || '', field.value || '', field.inline || false)
@@ -122,13 +126,17 @@ export default class EmbedCommand extends Command {
     }
 
     const embed = new MessageEmbed()
-      .setAuthor(
-        'Embed Help' || '',
-        this.client.user.avatarURL({ format: 'png' })
-      )
       .setColor(materialColors['blue']['500'])
       .setFooter(config.bot.botName)
       .setTimestamp(new Date())
+
+    if (this.client.user) {
+      embed
+        .setAuthor(
+          'Embed Help' || '',
+          this.client.user.avatarURL({ format: 'png' })
+        )
+    }
 
     Object.entries(options).forEach(option => {
       embed.addField(`--${option[0]}`, option[1].description)
