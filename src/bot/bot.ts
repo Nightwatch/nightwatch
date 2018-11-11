@@ -71,7 +71,10 @@ export class Bot implements IBot {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
 
-    await this.client.user
+    if (this.client.user) {
+      const clientUser = this.client.user
+
+      await clientUser
       .setPresence({
         status: 'online',
         activity: {
@@ -82,11 +85,12 @@ export class Bot implements IBot {
       })
       .catch((error: Error) => console.error(error))
 
-    setInterval(() => this.client.user.setActivity({
-      type: 'STREAMING',
-      name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
-      url
-    }), config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60)
+      setInterval(() => clientUser.setActivity({
+        type: 'STREAMING',
+        name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
+        url
+      }), config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60)
+    }
 
     console.info(`${config.bot.botName} ready.`)
   }

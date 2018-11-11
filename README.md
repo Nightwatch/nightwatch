@@ -1,6 +1,7 @@
 <p align="center"><img width="55%" src="./img/nightwatch.png"/></p>
 <p align="center"><img width="55%" src="./img/slogan.png"/></p>
-<br>
+
+<p align="center"> All-in-one Discord bot including a web interface and its own mobile app!</p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![Build Status](https://travis-ci.com/Nightwatch/nightwatch.svg?branch=master)](https://travis-ci.com/Nightwatch/nightwatch)
