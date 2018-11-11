@@ -30,6 +30,7 @@ Features include:
 - REST API for third party integration
 - Beautiful web interface
 - Custom user/role/permission system
+- Cross-platform mobile app
 - ...And much more
 
 Want other features added? Let us know by making a [Feature Request](https://github.com/Nightwatch/nightwatch/issues)
