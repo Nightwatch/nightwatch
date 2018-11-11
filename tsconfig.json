@@ -3,15 +3,16 @@
     "target": "es2017" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */ ,
     "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */ ,
     "lib": [
+      "es5",
+      "es6",
       "es2017",
       "esnext",
       "dom"
     ],
     "declaration": true,
-    /* Generates corresponding '.d.ts' file. */
-    "sourceMap": true /* Generates corresponding '.map' file. */ ,
     "outDir": "dist",
     "rootDir": "src",
+    "sourceMap": true,
     "strict": true /* Enable all strict type-checking options. */ ,
     "noImplicitAny": true /* Raise error on expressions and declarations with an implied 'any' type. */ ,
     "strictNullChecks": true /* Enable strict null checks. */ ,
@@ -31,6 +32,10 @@
   },
   "compileOnSave": true,
   "include": [
-    "src/**/*.ts"
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/mobile"
   ]
 }
