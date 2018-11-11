@@ -3,6 +3,6 @@
     "v8Flags": "--expose_gc"
   },
   "main": "main",
-  "name": "vue-mobile",
+  "name": "nightwatch-mobile",
   "version": "1.0.0"
 }
