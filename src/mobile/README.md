@@ -1,5 +1,10 @@
 # Nightwatch Mobile
 
+## Prerequisites
+
+- Node.js >= v10 LTS
+- NativeScript (`npm install -g nativescript` or `yarn global add nativescript`)
+
 ## Usage
 
 ``` bash
