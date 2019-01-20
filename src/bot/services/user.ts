@@ -6,8 +6,8 @@ import { injectable } from 'inversify'
 
 @injectable()
 export class UserService implements IUserService {
-  public createUser = async (user: User) => {
-    const existingUser = await this.findById(user.id)
+  public create = async (user: User) => {
+    const existingUser = await this.find(user.id)
 
     if (existingUser) {
       return
@@ -24,19 +24,11 @@ export class UserService implements IUserService {
     newUser.balance = new UserBalance()
     newUser.profile = new UserProfile()
 
-    try {
-      await api.post('/users', newUser)
-    } catch (error) {
-      // swallow. may change later
-    }
+    await api.post('/users', newUser)
   }
 
-  public findById = async (id: string): Promise<BotUser | undefined> => {
-    try {
-      const response = await api.get(`/users/${id}`)
-      return response.data
-    } catch (error) {
-      return undefined
-    }
+  public find = async (id: string): Promise<BotUser | undefined> => {
+    const response = await api.get(`/users/${id}`)
+    return response.data
   }
 }

@@ -6,8 +6,8 @@ import { injectable } from 'inversify'
 
 @injectable()
 export class GuildService implements IGuildService {
-  public createGuild = async (guild: Guild) => {
-    const existingGuild = await this.findGuild(guild.id)
+  public create = async (guild: Guild) => {
+    const existingGuild = await this.find(guild.id)
 
     if (existingGuild) {
       return
@@ -20,22 +20,14 @@ export class GuildService implements IGuildService {
 
     const postRoute = `/guilds`
 
-    try {
-      await api.post(postRoute, newGuild)
-    } catch {
-      // swallow
-    }
+    await api.post(postRoute, newGuild)
   }
 
-  public findGuild = async (id: string) => {
+  public find = async (id: string) => {
     const route = `/guilds/${id}`
 
-    try {
-      const { data } = await api.get(route)
+    const { data } = await api.get(route)
 
-      return data
-    } catch {
-      return undefined
-    }
+    return data
   }
 }

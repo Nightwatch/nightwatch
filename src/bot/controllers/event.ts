@@ -30,19 +30,21 @@ export class EventController implements IEventController {
   }
 
   public onGuildCreate = async (guild: Guild) => {
-    await this.guildService.createGuild(guild).catch(console.error)
-    guild.members.forEach(member => this.userService.createUser(member.user))
+    await this.guildService.create(guild).catch(console.error)
+    guild.members.forEach(async member => {
+      await this.userService.create(member.user).catch(console.error)
+    })
   }
 
   public onGuildMemberAdd = async (member: GuildMember) => {
-    await this.userService.createUser(member.user)
+    await this.userService.create(member.user).catch(console.error)
   }
 
   private createUserIfNotExists = async (author: User) => {
-    const user = await this.userService.findById(author.id)
+    const user = await this.userService.find(author.id)
 
     if (!user) {
-      await this.userService.createUser(author)
+      await this.userService.create(author).catch(console.error)
     }
   }
 }
