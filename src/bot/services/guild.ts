@@ -25,7 +25,7 @@ export class GuildService implements IGuildService {
       })
   }
 
-  public find = (id: string) => {
+  public find = (id: string): Promise<BotGuild | undefined> => {
     const route = `/guilds/${id}`
 
     return Promise.resolve(api.get(route))

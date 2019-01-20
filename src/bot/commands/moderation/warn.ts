@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import { Command, CommandMessage, CommandoClient } from 'discord.js-commando'
+import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 
 export default class WarnCommand extends Command {
   constructor (client: CommandoClient) {
@@ -28,14 +28,14 @@ export default class WarnCommand extends Command {
     })
   }
 
-  public hasPermission (msg: CommandMessage): boolean {
+  public hasPermission (msg: CommandoMessage): boolean {
     return (
       this.client.isOwner(msg.author) ||
       msg.member.hasPermission('MANAGE_MESSAGES')
     )
   }
 
-  public async run (msg: CommandMessage): Promise<Message | Message[]> {
+  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
     const args = msg.argString.trim()
     const member = msg.mentions.members.first()!
     const reason = args.substring(member.nickname.length)
