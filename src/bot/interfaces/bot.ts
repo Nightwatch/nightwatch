@@ -1,12 +1,12 @@
 import { CommandoClient } from 'discord.js-commando'
+import * as Promise from 'bluebird'
 
 export interface Bot {
   client: CommandoClient
   start: () => Promise<void>
   registerEvents: () => void
   registerCommands: () => void
-  login: () => Promise<void>
   stop: () => void
-  onDisconnect: () => Promise<void>
-  onError: (error: Error) => Promise<void>
+  onDisconnect: () => void
+  onError: (error: Error) => void
 }

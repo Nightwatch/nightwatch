@@ -1,5 +1,5 @@
 import { Message, MessageEmbed, TextChannel } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { Command, CommandMessage, CommandoClient } from 'discord.js-commando'
 import * as yargs from 'yargs'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
@@ -32,7 +32,7 @@ export default class EmbedCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run (msg: CommandMessage): Promise<Message | Message[]> {
     const message = msg.argString
 
     const argv = yargs
