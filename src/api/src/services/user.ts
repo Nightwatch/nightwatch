@@ -6,10 +6,10 @@ import {
   UserFriend,
   UserFriendRequest
 } from '../../../db'
-import { getRepository, Like, FindManyOptions } from 'typeorm'
-import { BaseService } from '../interfaces/BaseService'
+import { getRepository, Brackets } from 'typeorm'
 import { UserLevelBalance } from '../models/userLevelBalance.model'
 import { injectable } from 'inversify'
+import { UserService as IUserService } from '../interfaces'
 
 /**
  * User service that handles storing and modifying user data.
@@ -17,7 +17,7 @@ import { injectable } from 'inversify'
  * @class UserService
  */
 @injectable()
-export class UserService implements BaseService<User, string> {
+export class UserService implements IUserService {
   private userRepository = getRepository(User)
   private userBalanceRepository = getRepository(UserBalance)
   private userProfileRepository = getRepository(UserProfile)
@@ -35,13 +35,13 @@ export class UserService implements BaseService<User, string> {
     })
   }
 
-  public create (user: User) {
+  public async create (user: User) {
     user.dateCreated = new Date()
-    return this.userRepository.save(user)
+    await this.userRepository.save(user)
   }
 
-  public update (_: string, user: User) {
-    return this.userRepository.save(user)
+  public async update (_: string, user: User) {
+    await this.userRepository.save(user)
   }
 
   public async delete (id: string) {
@@ -53,7 +53,7 @@ export class UserService implements BaseService<User, string> {
       return
     }
 
-    return this.userRepository.remove(user)
+    await this.userRepository.remove(user)
   }
 
   public async updateLevel (id: string, userLevelBalance: UserLevelBalance) {
@@ -76,11 +76,11 @@ export class UserService implements BaseService<User, string> {
       user.balance.netWorth = balance.netWorth
     }
 
-    return this.userRepository.save(user)
+    await this.userRepository.save(user)
   }
 
   public async updateBalance (id: string, userBalance: UserBalance) {
-    return this.userBalanceRepository.update({ user: { id } }, userBalance)
+    await this.userBalanceRepository.update({ user: { id } }, userBalance)
   }
 
   public async findProfile (id: string) {
@@ -88,39 +88,32 @@ export class UserService implements BaseService<User, string> {
   }
 
   public async updateProfile (id: string, userProfile: UserProfile) {
-    return this.userProfileRepository.update({ user: { id } }, userProfile)
+    await this.userProfileRepository.update({ user: { id } }, userProfile)
   }
 
   public async updateSettings (id: string, userSettings: UserSettings) {
-    return this.userSettingsRepository.update({ user: { id } }, userSettings)
+    await this.userSettingsRepository.update({ user: { id } }, userSettings)
   }
 
   public async findSettings (id: string) {
     return this.userSettingsRepository.findOne({ where: { user: { id } } })
   }
 
-  public async findFriendRequests (id: string, type?: 'incoming' | 'outgoing') {
-    let requests: UserFriendRequest[] = []
+  public async findFriendRequests (id: string, type: 'incoming' | 'outgoing' = 'incoming') {
+    return this.userFriendRequestRepository.createQueryBuilder('request')
+    .leftJoin('request.user', 'sender')
+    .leftJoin('request.receiver', 'receiver')
+    .where(`${type === 'incoming' ? 'sender' : 'receiver'}.id = :id`, { id })
+    .getMany()
+  }
 
-    if (!type || type === 'outgoing') {
-      const firstColumn = await this.userFriendRequestRepository.find({
-        where: { user: { id } },
-        relations: ['receiver']
-      })
-
-      requests = firstColumn
-
-      if (type) {
-        return requests
-      }
-    }
-
-    const secondColumn = await this.userFriendRequestRepository.find({
-      where: { receiver: { id } },
-      relations: ['user']
-    })
-
-    return requests.concat(secondColumn)
+  public async findFriendRequestByUserId (id: string, userId: string) {
+    return this.userFriendRequestRepository.createQueryBuilder('request')
+    .leftJoin('request.user', 'sender')
+    .leftJoin('request.receiver', 'receiver')
+    .where('sender.id = :id and receiver.id = :userId', { id, userId })
+    .orWhere('sender.id = :userId and receiver.id = :id', { id, userId })
+    .getOne()
   }
 
   public async searchFriendRequests (
@@ -131,107 +124,68 @@ export class UserService implements BaseService<User, string> {
     name?: string,
     type: 'incoming' | 'outgoing' = 'incoming'
   ) {
-    let query: FindManyOptions<UserFriendRequest> = {
-      skip,
-      take,
-      relations: ['user', 'receiver'],
-      where: {}
-    }
+    const queryBuilder = this.userFriendRequestRepository.createQueryBuilder('request')
 
-    const userObj =
-      type === 'incoming' ? { receiver: { id } } : { user: { id } }
+    const userType = type === 'incoming' ? 'receiver' : 'user'
+    const otherUserType = type === 'outgoing' ? 'receiver' : 'user'
 
-    query.where = userObj
+    queryBuilder.innerJoin(`request.${userType}`, 'user').where('user.id = :id', { id })
+    queryBuilder.innerJoin(`request.${otherUserType}`, 'other')
 
     if (userId) {
-      const likeUserId = Like(`%${userId}%`)
-      const whereUserId =
-        type === 'incoming'
-          ? { user: { id: likeUserId } }
-          : { receiver: { id: likeUserId } }
-      query.where = { ...query.where, ...whereUserId }
+      queryBuilder.andWhere(`other.id LIKE :userId`, { userId: `%${userId.toLowerCase()}%` })
     }
 
     if (name) {
-      const likeName = Like(`%${name}%`)
-      const whereName =
-        type === 'incoming'
-          ? { user: { name: likeName } }
-          : { receiver: { name: likeName } }
-      query.where = { ...query.where, ...whereName }
+      queryBuilder.andWhere(`other.name LIKE :name`, { name: `%${name.toLowerCase()}%` })
     }
 
-    return this.userFriendRequestRepository.find(query)
+    queryBuilder.skip(skip)
+    queryBuilder.take(take)
+
+    return queryBuilder.getMany()
   }
 
   public async createFriendRequest (
-    id: string,
-    friendRequest: UserFriendRequest
+    _: string,
+    request: UserFriendRequest
   ) {
-    // Creating a friend request is a three step process:
-    // 1) Check if other user already sent a friend request.
-    //    This is a completely valid and possible scenario.
-    // 2) Check if the users are already friends.
-    // 3) Save the friend request object.
+    request.timestamp = new Date()
 
-    if (id === friendRequest.receiver.id) {
-      return
-    }
-
-    let existingFriendRequest = await this.userFriendRequestRepository.findOne({
-      where: { user: { id: friendRequest.receiver.id }, receiver: { id } },
-      relations: ['user', 'receiver']
-    })
-
-    if (existingFriendRequest) {
-      return
-    }
-
-    let existingFriend = await this.userFriendRepository.findOne({
-      where: { user: { id }, friend: { id: friendRequest.receiver.id } },
-      relations: ['user', 'friend']
-    })
-
-    if (!existingFriend) {
-      existingFriend = await this.userFriendRepository.findOne({
-        where: { friend: { id }, user: { id: friendRequest.receiver.id } },
-        relations: ['user', 'friend']
-      })
-    }
-
-    if (existingFriend) {
-      return
-    }
-
-    friendRequest.timestamp = new Date()
-
-    return this.userFriendRequestRepository.save(friendRequest)
+    await this.userFriendRequestRepository.save(request)
   }
 
-  public async deleteFriendRequest (_: string, requestId: number) {
-    const friendRequest = await this.userFriendRequestRepository.findOne({
-      where: { id: requestId }
-    })
+  public async deleteFriendRequest (id: string, userId: string) {
+    const friendRequest = await this.userFriendRequestRepository.createQueryBuilder('request')
+      .leftJoin('request.user', 'sender')
+      .leftJoin('request.receiver', 'receiver')
+      .where('sender.id = :id and receiver.id = :userId', { id, userId })
+      .orWhere('sender.id = :userId and receiver.id = :id', { id, userId })
+      .getOne()
 
     if (!friendRequest) {
       return
     }
 
-    return this.userFriendRequestRepository.remove(friendRequest)
+    await this.userFriendRequestRepository.remove(friendRequest)
   }
 
   public async findFriends (id: string) {
-    const results: UserFriend[] = []
-    const friends = await this.userFriendRepository.find({
-      where: { user: { id } },
-      relations: ['friend']
-    })
-    const otherFriends = await this.userFriendRepository.find({
-      where: { friend: { id } },
-      relations: ['user']
-    })
+    return this.userFriendRepository.createQueryBuilder('friend')
+      .leftJoin('friend.user', 'user')
+      .leftJoin('friend.friend', 'other')
+      .where('user.id = :id', { id })
+      .orWhere('other.id = :id', { id })
+      .getMany()
+  }
 
-    return results.concat(friends, otherFriends)
+  public async findFriendByUserId (id: string, userId: string) {
+    return this.userFriendRepository.createQueryBuilder('friend')
+      .innerJoinAndSelect('friend.user', 'user')
+      .innerJoinAndSelect('friend.friend', 'other')
+      .where('user.id = :id and other.id = :userId', { id, userId })
+      .orWhere('user.id = :userId and other.id = :id', { id, userId })
+      .getOne()
   }
 
   public async searchFriends (
@@ -241,64 +195,33 @@ export class UserService implements BaseService<User, string> {
     userId?: string,
     name?: string
   ) {
-    let acceptedFriends: UserFriend[] = []
-    let requestedFriends: UserFriend[] = []
+    const queryBuilder = this.userFriendRepository.createQueryBuilder('friend')
+      .innerJoin('friend.user', 'user')
+      .innerJoin('friend.friend', 'other')
+      .where(new Brackets(qb => {
+        qb.where('user.id = :id', { id })
+          .orWhere('other.id = :id', { id })
+      }))
 
-    const query1: FindManyOptions<UserFriend> = {
-      skip,
-      take,
-      relations: ['user', 'friend'],
-      where: {}
+    if (userId || name) {
+      if (userId) {
+        queryBuilder.andWhere(new Brackets(qb => {
+          qb.where('other.id LIKE :userId', { userId: `%${userId.toLowerCase()}%` })
+          .orWhere('user.id LIKE :userId', { userId: `%${userId.toLowerCase()}%` })
+        }))
+      }
+      if (name) {
+        queryBuilder.andWhere(new Brackets(qb => {
+          qb.where('other.name LIKE :name', { name: `%${name.toLowerCase()}%` })
+            .orWhere('user.name LIKE :name', { name: `%${name.toLowerCase()}%` })
+        }))
+      }
     }
 
-    const userObj1 = { friend: { id } }
+    queryBuilder.skip(skip)
+    queryBuilder.take(take)
 
-    query1.where = userObj1
-
-    if (userId) {
-      const likeUserId = Like(`%${userId}%`)
-      const whereUserId = { user: { id: likeUserId } }
-      query1.where = { ...query1.where, ...whereUserId }
-    }
-
-    if (name) {
-      const likeName = Like(`%${name}%`)
-      const whereName = { user: { name: likeName } }
-      query1.where = { ...query1.where, ...whereName }
-    }
-
-    acceptedFriends = await this.userFriendRepository.find(query1)
-
-    const query2: FindManyOptions<UserFriend> = {
-      skip,
-      take,
-      relations: ['user', 'friend'],
-      where: {}
-    }
-
-    const userObj2 = { user: { id } }
-
-    query2.where = userObj2
-
-    if (userId) {
-      const likeUserId = Like(`%${userId}%`)
-      const whereUserId = { friend: { id: likeUserId } }
-      query2.where = { ...query2.where, ...whereUserId }
-    }
-
-    if (name) {
-      const likeName = Like(`%${name}%`)
-      const whereName = { friend: { name: likeName } }
-      query2.where = { ...query2.where, ...whereName }
-    }
-
-    requestedFriends = await this.userFriendRepository.find(query2)
-
-    return acceptedFriends.concat(requestedFriends)
-  }
-
-  public async findFriendById (_: string, friendId: number) {
-    return this.userFriendRepository.findOne(friendId)
+    return queryBuilder.getMany()
   }
 
   public async addFriend (id: string, friend: UserFriend) {
@@ -328,16 +251,21 @@ export class UserService implements BaseService<User, string> {
 
     friend.dateAdded = new Date()
 
-    return this.userFriendRepository.save(friend)
+    await this.userFriendRepository.save(friend)
   }
 
-  public async deleteFriend (_: string, friendId: number) {
-    const friend = await this.userFriendRepository.findOne(friendId)
+  public async deleteFriend (id: string, userId: string) {
+    const friend = await this.userFriendRepository.createQueryBuilder('friend')
+    .innerJoinAndSelect('friend.user', 'user')
+    .innerJoinAndSelect('friend.friend', 'other')
+    .where('user.id = :id and other.id = :userId', { id, userId })
+    .orWhere('user.id = :userId and other.id = :id', { id, userId })
+    .getOne()
 
     if (!friend) {
       return
     }
 
-    return this.userFriendRepository.remove(friend)
+    await this.userFriendRepository.remove(friend)
   }
 }

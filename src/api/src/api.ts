@@ -14,13 +14,21 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
-let secret: string = 'password'
+import { ormSettings } from './config'
+import { Config } from '../../common'
+
+let ormConfig: any = {}
+let secret = ''
 
 try {
-  secret = require('../../../config/api.json').secret
+  const config: Config = require('../../../config/config.json')
+  ormConfig = config.db
+  secret = config.api.secret
 } catch (err) {
-  // swallow
+  console.error(err)
 }
+
+const combinedOrmConfig = Object.assign({}, ormSettings, ormConfig)
 
 /**
  * The API server
@@ -50,7 +58,7 @@ export class Api {
   }
 
   private async init () {
-    await createConnection()
+    await createConnection(combinedOrmConfig)
     this.startServer()
   }
 
@@ -112,7 +120,7 @@ export class Api {
 
             if (
               req.headers.authorization &&
-              req.headers.authorization.split(' ')[0] === 'Bearer'
+              req.headers.authorization.split(' ')[0].toLowerCase() === 'bearer'
             ) {
               return req.headers.authorization.split(' ')[1]
             } else if (req.query && req.query.token) {
@@ -123,7 +131,7 @@ export class Api {
         })
       )
 
-      app.use('/api', express.static(path.join(__dirname, '../public')))
+      app.use('/api', express.static(path.join(__dirname, '../../../public')))
 
       app.use(
         (

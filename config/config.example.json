@@ -1,0 +1,46 @@
+{
+  "api": {
+    "address": "http://localhost:4000/api",
+    "secret": "" // Generate it from here: https://passwordsgenerator.net/?length=64&symbols=1&numbers=1&lowercase=1&uppercase=1&similar=1&ambiguous=1&client=1&autoselect=0
+  },
+  "bot": {
+    "token": "",
+    "botName": "Nightwatch",
+    "prefix": "nw",
+    "ownerId": "",
+    "autoReconnect": true,
+    "autoDeleteMessages": {
+      "enabled": true,
+      "delay": 15000
+    },
+    "playingStatus": {
+      "url": "https://twitch.tv/ihaxjoker",
+      "cycleIntervalMinutes": 60,
+      "options": [
+        "nw help"
+      ]
+    },
+    "clientId": "",
+    "clientSecret": ""
+  },
+  "db": {
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "",
+    "database": "nightwatch",
+    "synchronize": true,
+    "logging": false,
+    "cache": {
+      "type": "redis",
+      "duration": 60000,
+      "options": {
+        "host": "localhost",
+        "port": 6379
+      }
+    }
+  },
+  "dataDogApiKey": "",
+  "dataDogAppKey": "",
+  "steamWebApiKey": ""
+}

@@ -1,6 +1,16 @@
 import { Container } from 'inversify'
-import { Types } from '../constants'
+import { Types } from '../../../common'
 import './loader'
+
+import {
+  AuthenticationService as IAuthenticationService,
+  GiveawayService as IGiveawayService,
+  GuildService as IGuildService,
+  ReferralService as IReferralService,
+  SocketService as ISocketService,
+  UserService as IUserService
+} from '../interfaces'
+
 import {
   GiveawayService,
   UserService,
@@ -12,11 +22,17 @@ import {
 
 const container = new Container()
 
-container.bind<GuildService>(Types.GuildService).to(GuildService)
-container.bind<UserService>(Types.UserService).to(UserService)
-container.bind<GiveawayService>(Types.GiveawayService).to(GiveawayService)
-container.bind<AuthenticationService>(Types.AuthenticationService).to(AuthenticationService)
-container.bind<ReferralService>(Types.ReferralService).to(ReferralService)
-container.bind<SocketService>(Types.SocketService).to(SocketService)
+/* prettier-ignore */
+container.bind<IGuildService>(Types.GuildService).to(GuildService)
+/* prettier-ignore */
+container.bind<IUserService>(Types.UserService).to(UserService)
+/* prettier-ignore */
+container.bind<IGiveawayService>(Types.GiveawayService).to(GiveawayService)
+/* prettier-ignore */
+container.bind<IAuthenticationService>(Types.AuthenticationService).to(AuthenticationService)
+/* prettier-ignore */
+container.bind<IReferralService>(Types.ReferralService).to(ReferralService)
+/* prettier-ignore */
+container.bind<ISocketService>(Types.SocketService).to(SocketService)
 
 export { container }

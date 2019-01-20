@@ -13,4 +13,4 @@ script:
   - yarn global add typescript
   - tsc
   - yarn lint
-  - yarn test
+  - yarn api:test

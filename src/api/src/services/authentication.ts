@@ -1,14 +1,18 @@
 import axios from 'axios'
 import { injectable } from 'inversify'
+import { Config } from '../../../common'
+import { AuthenticationService as IAuthenticationService } from '../interfaces'
 
-let clientSecret: string = ''
-let clientId: string = ''
+let clientSecret = ''
+let clientId = ''
 
 try {
-  clientSecret = require('../../../../config/api.json').bot.clientSecret
-  clientId = require('../../../../config/api.json').bot.clientId
+  const config: Config = require('../../../../config/config.json')
+  const { clientSecret: localclientSecret, clientId: localclientId } = config.bot
+  clientSecret = localclientSecret
+  clientId = localclientId
 } catch (err) {
-  // swallow
+  console.error(err)
 }
 
 /**
@@ -17,7 +21,7 @@ try {
  * @class AuthenticationService
  */
 @injectable()
-export class AuthenticationService {
+export class AuthenticationService implements IAuthenticationService {
   public async getDiscordAccessToken (code: string, redirect: string) {
     const creds = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
     const response = await axios.post(
