@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify'
 import { Types, Config } from '../../common'
 import { EventController as IEventController, GuildService, UserService } from '../interfaces'
 import { Message, GuildMember, Guild, User } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 
 const config: Config = require('../../../config/config.json')
 
@@ -20,9 +20,9 @@ export class EventController implements IEventController {
   }
 
   public onCommandRun = async (
-    _command: CommandMessage,
+    _command: CommandoMessage,
     _promise: Promise<any>,
-    message: CommandMessage
+    message: CommandoMessage
   ) => {
     if (config.bot.autoDeleteMessages.enabled && message.deletable) {
       await message.delete(config.bot.autoDeleteMessages.delay).catch(console.error)

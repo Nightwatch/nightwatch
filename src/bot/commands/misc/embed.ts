@@ -1,5 +1,5 @@
 import { Message, MessageEmbed, TextChannel } from 'discord.js'
-import { Command, CommandMessage, CommandoClient } from 'discord.js-commando'
+import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as yargs from 'yargs'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
@@ -32,11 +32,8 @@ export default class EmbedCommand extends Command {
     })
   }
 
-  public async run (
-    msg: CommandMessage,
-    args: { message: string }
-  ): Promise<Message | Message[]> {
-    const { message } = args
+  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
+    const message = msg.argString
 
     const argv = yargs
       .option('title', {
@@ -74,7 +71,6 @@ export default class EmbedCommand extends Command {
       ? materialColors[argv.color || 'red']['500']
       : materialColors['red']['500'] as string
     const footer = argv.footer || null
-    const fields = argv.fields || []
     let channel = argv.channel
       ? msg.guild.channels.find(
           x =>
@@ -99,10 +95,6 @@ export default class EmbedCommand extends Command {
     if (this.client.user) {
       embed
       .setAuthor(title || '', this.client.user.avatarURL({ format: 'png' }))
-    }
-
-    for (const field of fields) {
-      embed.addField(field.name || '', field.value || '', field.inline || false)
     }
 
     return (channel as TextChannel).send(embed)

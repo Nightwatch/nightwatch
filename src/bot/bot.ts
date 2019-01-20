@@ -18,8 +18,7 @@ export class Bot implements IBot {
     owner: config.bot.ownerId,
     commandPrefix: config.bot.prefix,
     messageCacheLifetime: 30,
-    messageSweepInterval: 60,
-    unknownCommandResponse: false
+    messageSweepInterval: 60
   })
 
   public async start () {

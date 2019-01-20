@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import { Command, CommandMessage, CommandoClient } from 'discord.js-commando'
+import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 
 export default class EchoCommand extends Command {
   constructor (client: CommandoClient) {
@@ -16,7 +16,7 @@ export default class EchoCommand extends Command {
     })
   }
 
-  public async run (msg: CommandMessage): Promise<Message | Message[]> {
+  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
     if (!msg.argString || !msg.argString.trim()) {
       return msg.reply(
         'I cannot echo an empty string. Well I could, but that would be boring.'
