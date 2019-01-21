@@ -36,7 +36,7 @@ export default class GifCommand extends Command {
     }
 
     try {
-      const response = await axios.get(`http://api.giphy.com/v1/gifs/search?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(search)}`)
+      const response = await axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(search)}`)
 
       if (!response.data.url) {
         return msg.channel.send('Nothing found!')
