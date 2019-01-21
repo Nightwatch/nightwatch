@@ -36,14 +36,14 @@ export default class GifCommand extends Command {
     }
 
     try {
-      const response = await axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(search)}`)
+      const response = await axios.get(`http://api.giphy.com/v1/gifs/search?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(search)}`)
 
-      if (!response.data.image_url) {
+      if (!response.data.url) {
         return msg.channel.send('Nothing found!')
       }
 
       const embed = new MessageEmbed()
-          .setImage(`${response.data.image_url}`)
+          .setImage(`${response.data.url}`)
           .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
           .setColor('#0066CC')
 
