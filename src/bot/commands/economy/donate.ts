@@ -1,0 +1,73 @@
+import { Message } from 'discord.js'
+import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { UserService } from '../../services'
+
+export default class DonateCommand extends Command {
+  constructor (client: CommandoClient) {
+    super(client, {
+      name: 'donate',
+      group: 'economy',
+      memberName: 'donate',
+      description: 'Donate some of your credits to someone else.',
+      guildOnly: true,
+      throttling: {
+        usages: 2,
+        duration: 3
+      },
+      args: [
+        {
+          key: 'user',
+          prompt: 'Who would you like to donate to?\n',
+          type: 'member'
+        },
+        {
+          key: 'amount',
+          prompt: 'How many credits would you like to donate?\n',
+          type: 'integer'
+        }
+      ]
+    })
+  }
+
+  public async run (
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
+    const userService = new UserService()
+    const donor = await userService.find(msg.author.id)
+    const receiver = await userService.find(args.user.id)
+
+    if (!donor || !receiver) {
+      return msg.reply('Command failed. Either you or the receiver does not exist in my database.')
+    }
+
+    if (args.user.id === msg.author.id) {
+      return msg.reply("You can't donate to yourself ;)")
+    }
+
+    if (args.amount <= 0) {
+      return msg.reply('Donations must be larger than zero.')
+    }
+
+    if (donor.balance.balance < args.amount) {
+      return msg.reply(
+        `Insufficient funds. You only have ${donor.balance.balance} credits.`
+      )
+    }
+
+    donor.balance.balance -= args.amount
+    donor.balance.netWorth -= args.amount
+
+    receiver.balance.balance += args.amount
+    receiver.balance.netWorth += args.amount
+
+    await userService.updateBalance(donor.id, donor.balance)
+    await userService.updateBalance(receiver.id, receiver.balance)
+
+    return msg.reply(
+      `You donated ${args.amount} credit${args.amount === 1
+        ? ''
+        : 's'} to ${args.user}!`
+    )
+  }
+}

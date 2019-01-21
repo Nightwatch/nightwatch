@@ -30,7 +30,10 @@ export class UserService implements IUserService {
   }
 
   public find = (id: string): Promise<BotUser | undefined> => {
-    return Promise.resolve(api.get(`/users/${id}`))
-      .then(response => response.data)
+    return Promise.resolve(api.get(`/users/${id}`)).then(response => response.data)
+  }
+
+  public updateBalance = (id: string, balance: UserBalance) => {
+    return Promise.resolve(api.put(`/users/${id}/balance`, balance)).thenReturn()
   }
 }

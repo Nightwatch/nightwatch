@@ -2,6 +2,7 @@
   "extends": "tslint-config-standard",
   "rules": {
     "no-unused-variable": false,
-    "space-before-function-paren": false
+    "space-before-function-paren": false,
+    "await-promise": [true, "Bluebird"]
   }
 }
