@@ -133,7 +133,7 @@ export default class FriendCommand extends Command {
 
     try {
       const { data: friendRequest } = await api.post(
-        `/users/${msg.author.id}/friends/requests`,
+        `/users/${msg.author.id}/friends/requests/${receiver.id}`,
         {
           user: sender,
           receiver
