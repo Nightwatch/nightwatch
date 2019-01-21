@@ -21,7 +21,9 @@ export default class DailiesCommand extends Command {
   }
 
   public async run (msg: CommandoMessage): Promise<Message | Message[]> {
-    const user = await new UserService().find(msg.author.id)
+    const userService = new UserService()
+
+    const user = await userService.find(msg.author.id)
 
     if (!user) {
       return msg.reply('Command failed. You did not have a profile set up in my database.')
@@ -37,7 +39,7 @@ export default class DailiesCommand extends Command {
 
       user.balance.dateLastClaimedDailies = new Date()
 
-      await new UserService().updateBalance(msg.author.id, user.balance)
+      await userService.updateBalance(msg.author.id, user.balance)
 
       const atmEmoji = '🏧'
       const dollarEmoji = '💵'
