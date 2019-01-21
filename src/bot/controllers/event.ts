@@ -17,7 +17,7 @@ export class EventController implements IEventController {
       return Promise.resolve()
     }
 
-    return this.createUserIfNotExists(message.author)
+    return this.createUserIfNotExists(message.author).thenReturn()
   }
 
   public onCommandRun = (
