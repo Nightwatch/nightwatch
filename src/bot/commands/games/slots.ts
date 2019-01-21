@@ -143,6 +143,12 @@ export default class SlotsCommand extends Command {
       ${this.showRoll(roll)}**`)
     }
 
+    owner.balance.balance -= winnings * args.coins
+    owner.balance.netWorth -= winnings * args.coins
+
+    user.balance.balance += winnings * args.coins
+    user.balance.netWorth += winnings * args.coins
+
     await userService.updateBalance(userId, user.balance)
     await userService.updateBalance(botOwnerId, owner.balance)
 
