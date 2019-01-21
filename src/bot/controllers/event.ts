@@ -56,6 +56,7 @@ export class EventController implements IEventController {
           this.userService.create(author)
         }
       })
+      .thenReturn()
       .catch(console.error)
   }
 }
