@@ -27,6 +27,7 @@ export class UserService implements IUserService {
 
         api.post('/users', newUser)
       })
+      .thenReturn()
   }
 
   public find = (id: string): Promise<BotUser | undefined> => {
