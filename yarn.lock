@@ -3297,10 +3297,9 @@ dir-glob@^2.0.0:
 
 discord.js-commando@discordjs/commando#master:
   version "0.11.0-dev"
-  resolved "https://codeload.github.com/discordjs/commando/tar.gz/09f883317da6d7d8431367ffff827939dfbb2d74"
+  resolved "https://codeload.github.com/discordjs/commando/tar.gz/8d6d518984f9c65435a3c65dcfc68144bbc6a4b3"
   dependencies:
-    common-tags "^1.0.0"
-    escape-string-regexp "^1.0.0"
+    common-tags "^1.8.0"
     require-all "^3.0.0"
 
 discord.js@discordjs/discord.js:
