@@ -28,15 +28,13 @@ export default class GifCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
-    const search = msg.argString
-
-    if (!search.trim()) {
+  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+    if (!args.search.trim()) {
       return msg.reply('You must enter a search term or phrase.')
     }
 
     try {
-      const response = await axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(search)}`)
+      const response = await axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(args.search)}`)
 
       if (!response.data.data.image_url) {
         return msg.channel.send('Nothing found!')

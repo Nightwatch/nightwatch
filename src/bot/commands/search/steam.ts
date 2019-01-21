@@ -24,16 +24,13 @@ export default class SteamCommand extends Command {
     })
   }
 
-  public async run (
-    msg: CommandoMessage
-  ): Promise<Message | Message[]> {
-    const game = msg.argString
+  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
     const provider = new SteamProvider()
 
-    const searchResults = await provider.search(game)
+    const searchResults = await provider.search(args.game)
 
     if (!searchResults || searchResults.length === 0) {
-      return msg.reply(`I wasn't able to find anything for **${game}**.`)
+      return msg.reply(`I wasn't able to find anything for **${args.game}**.`)
     }
 
     if (searchResults.length === 1) {

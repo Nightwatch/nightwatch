@@ -35,21 +35,17 @@ export default class KickCommand extends Command {
     )
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
-    const args = msg.argString.trim()
-    const member = msg.mentions.members.first()!
-    const reason = args.substring(member.nickname.length)
-
-    if (msg.author.id === member.id) {
+  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+    if (msg.author.id === args.member.id) {
       return msg.reply("You can't kick yourself.")
     }
 
-    if (member.hasPermission('KICK_MEMBERS') || msg.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+    if (args.member.hasPermission('KICK_MEMBERS') || msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0) {
       return msg.reply("You can't kick that member.")
     }
 
-    await member.kick(reason)
+    await args.member.kick(args.reason)
 
-    return msg.channel.send(`${member.user} has been kicked.`)
+    return msg.channel.send(`${args.member.user} has been kicked.`)
   }
 }

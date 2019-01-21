@@ -12,17 +12,24 @@ export default class EchoCommand extends Command {
       throttling: {
         usages: 2,
         duration: 3
-      }
+      },
+      args: [
+        {
+          key: 'phrase',
+          prompt: 'What would you like me to echo?\n',
+          type: 'string'
+        }
+      ]
     })
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
-    if (!msg.argString || !msg.argString.trim()) {
+  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+    if (!args.phrase || !args.phrase.trim()) {
       return msg.reply(
         'I cannot echo an empty string. Well I could, but that would be boring.'
       )
     }
 
-    return msg.reply(msg.argString)
+    return msg.reply(args.phrase)
   }
 }
