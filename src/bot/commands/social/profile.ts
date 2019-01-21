@@ -39,7 +39,7 @@ export default class ProfileCommand extends Command {
     const user = args.user || msg.member
     const { Image } = Canvas
 
-    msg.channel.startTyping()
+    msg.channel.startTyping().then().catch()
 
     const foundUser = await userService.find(user.id)
 
