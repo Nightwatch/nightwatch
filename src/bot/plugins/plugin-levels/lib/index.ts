@@ -60,12 +60,6 @@ export const giveXp = async (user: User, message: Message) => {
     const levelBonusString =
       levelBonus > 0 ? `\n\n**Level Bonus! +${levelBonus} credits**` : ''
 
-    message.channel.send(
-      `**${popcornEmoji} | ${
-        message.member.displayName
-      } just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**${levelBonusString}`
-    )
-
     user.balance.balance += rewardAmount + levelBonus
     user.balance.netWorth += rewardAmount + levelBonus
 
@@ -82,6 +76,12 @@ export const giveXp = async (user: User, message: Message) => {
     }
 
     await userService.updateLevelBalance(message.author.id, postData as UserLevelBalance)
+
+    await message.channel.send(
+      `**${popcornEmoji} | ${
+        message.member.displayName
+      } just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**${levelBonusString}`
+    )
     return
   }
 
@@ -92,5 +92,5 @@ export const giveXp = async (user: User, message: Message) => {
     }
   }
 
-  await userService.updateLevelBalance(message.author.id, postData as UserLevelBalance)
+  userService.updateLevelBalance(message.author.id, postData as UserLevelBalance)
 }
