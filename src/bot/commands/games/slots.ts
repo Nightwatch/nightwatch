@@ -54,10 +54,11 @@ export default class SlotsCommand extends Command {
 
           How many credits would you like to bet?\n`,
           type: 'integer',
-          validate: async (coins: number | string, message: CommandoMessage) => {
+          validate: (coins: number | string) => {
             if (isNaN(Number(coins)) || coins <= 0) {
               return 'Amount must be a number greater than zero.'
             }
+            return true
           }
         }
       ]
