@@ -113,6 +113,6 @@ export class Bot implements IBot {
 
   public onError = (error: Error) => {
     console.error(error)
-    setTimeout(this.start, 5000)
+    process.exit(1)
   }
 }
