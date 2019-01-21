@@ -25,7 +25,7 @@ export default class GifCommand extends Command {
           type: 'string'
         }
       ],
-      hidden: !config.optional.steamWebApiKey || !config.optional.steamWebApiKey.trim()
+      hidden: !config.optional.giphyApiKey || !config.optional.giphyApiKey.trim()
     })
   }
 
@@ -36,23 +36,23 @@ export default class GifCommand extends Command {
       return msg.reply('You must enter a search term or phrase.')
     }
 
-    return BluebirdPromise.resolve(axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(search)}`))
-      .then(response => {
-        if (!response.data.data.image_url) {
-          return msg.channel.send('Nothing found!')
-        }
+    try {
+      const response = await axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(search)}`)
 
-        const embed = new MessageEmbed()
-          .setImage(`${response.data.data.image_url}`)
+      if (!response.data.image_url) {
+        return msg.channel.send('Nothing found!')
+      }
+
+      const embed = new MessageEmbed()
+          .setImage(`${response.data.image_url}`)
           .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
           .setColor('#0066CC')
 
-        msg.channel.send({ embed })
+      msg.channel.send({ embed })
 
-        return msg.reply(msg.argString)
-      })
-      .catch(_ => {
-        return msg.reply('An error occurred while searching for gifs.')
-      })
+      return msg.reply(msg.argString)
+    } catch {
+      return msg.reply('An error occurred while searching for gifs.')
+    }
   }
 }
