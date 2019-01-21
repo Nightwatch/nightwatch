@@ -22,12 +22,12 @@ export const loadPlugins = async (client: CommandoClient, config: Config) => {
   console.log(`${prefix}: ${pluginsPaths.length} external plugins found.`)
 
   pluginsPaths.forEach(async (file) => {
-    const BotPlugin = require(path.resolve(file) + '/dist/').Plugin
+    const BotPlugin = require(path.resolve(file)).Plugin
     let commandsRegistered: boolean | null = null
     try {
       console.log(`${prefix}[${BotPlugin.id}]: Loading plugin...`)
 
-      if (existsSync(file + '/dist/commands')) {
+      if (existsSync(file + '/commands')) {
         try {
           console.log(`${prefix}[${BotPlugin.id}]: Registering commands...`)
           if (BotPlugin.commandGroups && BotPlugin.commandGroups.length > 0) {
@@ -39,7 +39,7 @@ export const loadPlugins = async (client: CommandoClient, config: Config) => {
                 : 's'}.`
             )
           }
-          client.registry.registerCommandsIn(file + '/dist/commands')
+          client.registry.registerCommandsIn(file + '/commands')
           console.info(`${prefix}[${BotPlugin.id}]: Successfully registered commands!`)
           commandsRegistered = true
         } catch (err) {
