@@ -14,7 +14,7 @@ export interface PluginStatus {
 const isDirectory = (source: string) => lstatSync(source).isDirectory()
 const getDirectories = (source: string) =>
   readdirSync(source).map((name) => path.join(source, name)).filter(isDirectory)
-const pluginsPaths = getDirectories(path.join(__dirname, '..', '..', '..', '..', 'plugins'))
+const pluginsPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
 
 export const loadPlugins = async (client: CommandoClient, config: Config) => {
   const pluginStatuses: PluginStatus[] = []
