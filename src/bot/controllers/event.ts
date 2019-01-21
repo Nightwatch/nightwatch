@@ -17,7 +17,7 @@ export class EventController implements IEventController {
       return Promise.resolve()
     }
 
-    return this.createUserIfNotExists(message.author).thenReturn()
+    return this.createUserIfNotExists(message.author).thenReturn().catch(console.error)
   }
 
   public onCommandRun = (
@@ -56,5 +56,6 @@ export class EventController implements IEventController {
           this.userService.create(author)
         }
       })
+      .catch(console.error)
   }
 }
