@@ -36,4 +36,8 @@ export class UserService implements IUserService {
   public updateBalance = (id: string, balance: UserBalance) => {
     return Promise.resolve(api.put(`/users/${id}/balance`, balance)).thenReturn()
   }
+
+  public delete = (id: string) => {
+    return Promise.resolve(api.delete(`/users/${id}`)).thenReturn()
+  }
 }

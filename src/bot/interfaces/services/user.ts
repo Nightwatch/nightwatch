@@ -6,4 +6,5 @@ export interface UserService {
   create: (user: User) => Promise<void>
   find: (id: string) => Promise<BotUser | undefined>
   updateBalance: (id: string, balance: UserBalance) => Promise<void>
+  delete: (id: string) => Promise<void>
 }
