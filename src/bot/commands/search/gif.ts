@@ -47,9 +47,7 @@ export default class GifCommand extends Command {
           .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
           .setColor('#0066CC')
 
-      msg.channel.send({ embed })
-
-      return msg.reply(msg.argString)
+      return msg.channel.send({ embed })
     } catch {
       return msg.reply('An error occurred while searching for gifs.')
     }
