@@ -34,7 +34,7 @@ export default class ProfileCommand extends Command {
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
-    msg.channel.startTyping()
+    await msg.channel.startTyping()
     const userService = new UserService()
 
     const user = args.user || msg.member
@@ -181,7 +181,7 @@ export default class ProfileCommand extends Command {
       ctx.shadowColor = 'rgba(0, 0, 0, 0.2)'
       ctx.drawImage(cond, 24, 21, 110, 110)
     }
-    base.src = await fs.readFileSync(
+    base.src = fs.readFileSync(
       path.join(
         __dirname,
         '..',
@@ -193,7 +193,7 @@ export default class ProfileCommand extends Command {
         `${userProfile.background}.png`
       )
     ) // eslint-disable-line max-len
-    cond.src = await request({
+    cond.src = request({
       uri: user.user.displayAvatarURL({ format: 'png' }),
       encoding: null
     })
