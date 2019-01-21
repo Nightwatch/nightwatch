@@ -11,6 +11,7 @@ export default class GifCommand extends Command {
       name: 'gif',
       group: 'search',
       memberName: 'gif',
+      aliases: ['giphy'],
       description: 'Express yourself with a gif.',
       guildOnly: false,
       throttling: {
