@@ -13,7 +13,14 @@ export default class SteamCommand extends Command {
       throttling: {
         usages: 2,
         duration: 3
-      }
+      },
+      args: [
+        {
+          key: 'game',
+          prompt: 'What game would you like to search?\n',
+          type: 'string'
+        }
+      ]
     })
   }
 

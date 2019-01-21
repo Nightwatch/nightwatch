@@ -2,9 +2,7 @@ export interface Config {
   api: ApiConfig
   bot: BotConfig
   db: DatabaseConfig
-  dataDogApiKey: string
-  dataDogAppKey: string
-  steamWebApiKey: string
+  optional: OptionalSettings
 }
 
 export interface ApiConfig {
@@ -47,4 +45,11 @@ export interface DatabaseConfig {
       port: number
     }
   }
+}
+
+export interface OptionalSettings {
+  dataDogApiKey?: string
+  dataDogAppKey?: string
+  steamWebApiKey?: string
+  giphyApiKey?: string
 }
