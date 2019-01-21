@@ -35,21 +35,17 @@ export default class WarnCommand extends Command {
     )
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
-    const args = msg.argString.trim()
-    const member = msg.mentions.members.first()!
-    const reason = args.substring(member.nickname.length)
-
-    if (msg.author.id === member.id) {
+  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+    if (msg.author.id === args.member.id) {
       return msg.reply("You can't warn yourself.")
     }
 
-    if (member.hasPermission('MANAGE_MESSAGES') || msg.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+    if (args.member.hasPermission('MANAGE_MESSAGES') || msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0) {
       return msg.reply("You can't warn that member.")
     }
 
-    const dm = await member.createDM()
-    await dm.send(`You have received a warning from ${msg.guild.name} for: ${reason}`)
-    return msg.channel.send(`${member.user} has been warned.`)
+    const dm = await args.member.createDM()
+    await dm.send(`You have received a warning from ${msg.guild.name} for: ${args.reason}`)
+    return msg.channel.send(`${args.member.user} has been warned.`)
   }
 }

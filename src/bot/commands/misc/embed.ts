@@ -32,8 +32,8 @@ export default class EmbedCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
-    const message = msg.argString
+  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+    const message = args.message
 
     const argv = yargs
       .option('title', {
