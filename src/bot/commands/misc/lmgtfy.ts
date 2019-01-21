@@ -23,7 +23,7 @@ export default class LMGTFYCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
-    return msg.reply(`https://lmgtfy.com/?q=${encodeURIComponent(msg.argString)}`)
+  public async run(msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+    return msg.reply(`https://lmgtfy.com/?q=${encodeURIComponent(args.search)}`)
   }
 }
