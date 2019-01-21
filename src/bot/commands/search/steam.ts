@@ -50,7 +50,7 @@ export default class SteamCommand extends Command {
       'Reply with the number of the game you would like to see. Ex.: 2'
     )
 
-    msg.reply(resultsEmbed)
+    await msg.reply(resultsEmbed)
 
     const messages = await msg.channel.awaitMessages(
       (message: Message) =>
