@@ -122,3 +122,5 @@ export class Bot implements IBot {
     process.exit(1)
   }
 }
+
+export { pluginInfo }
