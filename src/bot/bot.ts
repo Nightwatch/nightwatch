@@ -6,9 +6,12 @@ import { Bot as IBot, EventController } from './interfaces'
 import { injectable, inject } from 'inversify'
 import * as Promise from 'bluebird'
 import { ClientUser } from 'discord.js'
+import { PluginStatus, loadPlugins } from './utils/plugin-loader'
 
 const getDirectoryNames = (p: string) => readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
 const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
+
+let pluginInfo: PluginStatus[] = []
 
 const config: Config = require('../../config/config.json')
 
@@ -83,8 +86,11 @@ export class Bot implements IBot {
       }))
       .then(_ => setInterval(() => this.setRandomActivity(clientUser), config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60))
       .catch(console.error)
-
     }
+
+    loadPlugins(this.client, config).then(pluginStatuses => {
+      pluginInfo = pluginStatuses
+    }).catch(console.error)
 
     console.info(`${config.bot.botName} ready.`)
   }
@@ -116,3 +122,5 @@ export class Bot implements IBot {
     process.exit(1)
   }
 }
+
+export { pluginInfo }

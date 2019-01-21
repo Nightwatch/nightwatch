@@ -4,6 +4,7 @@ import { api } from '../utils'
 import { User as BotUser, UserLevel, UserVerification, UserSettings, UserBalance, UserProfile } from '../../db'
 import { injectable } from 'inversify'
 import * as Promise from 'bluebird'
+import { UserLevelBalance } from '../../api/src/models'
 
 @injectable()
 export class UserService implements IUserService {
@@ -43,5 +44,9 @@ export class UserService implements IUserService {
 
   public updateProfile = (id: string, profile: UserProfile) => {
     return Promise.resolve(api.put(`/users/${id}/profile`, profile)).thenReturn()
+  }
+
+  public updateLevelBalance = (id: string, levelBalance: UserLevelBalance) => {
+    return Promise.resolve(api.put(`/users/${id}/level`, levelBalance)).thenReturn()
   }
 }
