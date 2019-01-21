@@ -222,9 +222,7 @@ export default class FriendCommand extends Command {
 
     try {
       await api.post(
-        `/users/${msg.author.id}/friends`,
-        friend
-      )
+        `/users/${msg.author.id}/friends/${senderId}`)
     } catch (err) {
       return msg.reply(`Failed to add **${friendName}** as a friend. Are you two already friends?`)
     }
