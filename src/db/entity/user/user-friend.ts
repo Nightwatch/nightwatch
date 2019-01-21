@@ -26,7 +26,7 @@ export class UserFriend {
   @ManyToOne(_ => User, user => user.friends)
   friend: User
 
-  constructor (userFriend?: UserFriend) {
+  constructor(userFriend?: UserFriend) {
     if (userFriend) {
       Object.assign(this, userFriend)
     }

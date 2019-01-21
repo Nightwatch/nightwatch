@@ -20,13 +20,13 @@ export class UserFriendRequest {
 
   @Index()
   @ManyToOne(_ => User, user => user.outgoingFriendRequests)
-  user: User
+  sender: User
 
   @Index()
   @ManyToOne(_ => User, user => user.incomingFriendRequests)
   receiver: User
 
-  constructor (userFriendRequest?: UserFriendRequest) {
+  constructor(userFriendRequest?: UserFriendRequest) {
     if (userFriendRequest) {
       Object.assign(this, userFriendRequest)
     }

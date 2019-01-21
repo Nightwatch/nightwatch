@@ -449,7 +449,7 @@ export class UserController implements BaseController<User, string> {
       return
     }
     const request = new UserFriendRequest()
-    request.user = userExists
+    request.sender = userExists
     request.receiver = otherUserExists
     await this.userService.createFriendRequest(
       id,

@@ -68,7 +68,7 @@ export class User {
 
   @OneToMany(
     _ => UserFriendRequest,
-    userFriendRequest => userFriendRequest.user,
+    userFriendRequest => userFriendRequest.sender,
     {
       cascade: ['remove']
     }
