@@ -1,5 +1,5 @@
 import { CommandoClient } from 'discord.js-commando'
-import { onMessage } from './lib/Events'
+import { onMessage } from './lib/events'
 import { Config } from '../../../common'
 
 export class Plugin {
