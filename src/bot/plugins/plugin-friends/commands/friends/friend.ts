@@ -284,7 +284,7 @@ export default class FriendCommand extends Command {
     }
 
     const { data: friends }: { data: UserFriend[] } = await api.get(
-      `/users/${userId || msg.author.id}/friends/search`
+      `/users/${userId || msg.author.id}/friends/search?skip=0&take=10`
     )
 
     if (!friends || friends.length === 0) {
@@ -328,7 +328,7 @@ export default class FriendCommand extends Command {
   async listFriendRequests (msg: CommandoMessage, argument: 'incoming' | 'outgoing'): Promise<Message | Message[]> {
     const filter = !argument || argument === 'incoming' ? 'incoming' : 'outgoing'
     const { data: friendRequests } = await api.get(
-      `/users/${msg.author.id}/friends/requests/search?type=${filter}`
+      `/users/${msg.author.id}/friends/requests/search?type=${filter}&skip=0&take=10`
     )
 
     if (!friendRequests || friendRequests.length === 0) {
