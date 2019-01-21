@@ -196,8 +196,9 @@ export default class ProfileCommand extends Command {
         'backgrounds',
         `${userProfile.background}.png`
       )
-    ) // eslint-disable-line max-len
-    cond.src = request({
+    )
+    // tslint:disable-next-line
+    cond.src = await request({
       uri: user.user.displayAvatarURL({ format: 'png' }),
       encoding: null
     })
