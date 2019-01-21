@@ -40,7 +40,10 @@
       }
     }
   },
-  "dataDogApiKey": "",
-  "dataDogAppKey": "",
-  "steamWebApiKey": ""
+  "optional": {
+    "dataDogApiKey": "",
+    "dataDogAppKey": "",
+    "steamWebApiKey": "",
+    "giphyApiKey": ""
+  }
 }
