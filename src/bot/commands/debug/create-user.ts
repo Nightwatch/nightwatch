@@ -7,7 +7,7 @@ export default class CreateUserCommand extends Command {
     super(client, {
       name: 'createuser',
       group: 'debug',
-      memberName: 'createUser',
+      memberName: 'createuser',
       description: 'Force create a user.',
       guildOnly: false,
       throttling: {
