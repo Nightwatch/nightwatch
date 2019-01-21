@@ -65,7 +65,7 @@ export default class SlotsCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: { coins: number }): Promise<Message | Message[]> {
+  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
     const userService = new UserService()
 
     const isUserOwner = this.client.owners[0].id === msg.author.id
