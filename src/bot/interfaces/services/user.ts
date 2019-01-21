@@ -1,5 +1,5 @@
 import { User } from 'discord.js'
-import { User as BotUser, UserBalance } from '../../../db'
+import { User as BotUser, UserBalance, UserProfile } from '../../../db'
 import * as Promise from 'bluebird'
 
 export interface UserService {
@@ -7,4 +7,5 @@ export interface UserService {
   find: (id: string) => Promise<BotUser | undefined>
   updateBalance: (id: string, balance: UserBalance) => Promise<void>
   delete: (id: string) => Promise<void>
+  updateProfile: (id: string, profile: UserProfile) => Promise<void>
 }

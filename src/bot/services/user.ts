@@ -40,4 +40,8 @@ export class UserService implements IUserService {
   public delete = (id: string) => {
     return Promise.resolve(api.delete(`/users/${id}`)).thenReturn()
   }
+
+  public updateProfile = (id: string, profile: UserProfile) => {
+    return Promise.resolve(api.put(`/users/${id}/profile`, profile)).thenReturn()
+  }
 }
