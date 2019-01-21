@@ -17,7 +17,9 @@ export class EventController implements IEventController {
       return Promise.resolve()
     }
 
-    return this.createUserIfNotExists(message.author).thenReturn().catch(console.error)
+    return this.userService.create(message.author)
+      .thenReturn()
+      .catch(console.error)
   }
 
   public onCommandRun = (
@@ -46,17 +48,6 @@ export class EventController implements IEventController {
 
   public onGuildMemberAdd = (member: GuildMember) => {
     return this.userService.create(member.user)
-      .catch(console.error)
-  }
-
-  private createUserIfNotExists = (author: User) => {
-    return this.userService.find(author.id)
-      .then(user => {
-        if (!user) {
-          this.userService.create(author)
-        }
-      })
-      .thenReturn()
       .catch(console.error)
   }
 }
