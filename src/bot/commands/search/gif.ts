@@ -2,7 +2,6 @@ import { Message, MessageEmbed } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import axios from 'axios'
 import { Config } from '../../../common'
-import * as BluebirdPromise from 'bluebird'
 
 const config: Config = require('../../../../config/config.json')
 
