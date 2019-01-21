@@ -4,6 +4,8 @@ import { Config, Types } from '../common'
 import { readdirSync, statSync } from 'fs'
 import { Bot as IBot, EventController } from './interfaces'
 import { injectable, inject } from 'inversify'
+import * as Promise from 'bluebird'
+import { ClientUser } from 'discord.js'
 
 const getDirectoryNames = (p: string) => readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
 const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
@@ -21,12 +23,20 @@ export class Bot implements IBot {
     messageSweepInterval: 60
   })
 
-  public async start () {
+  public start () {
     console.info(`Starting ${config.bot.botName}.`)
 
     this.registerEvents()
     this.registerCommands()
-    await this.login()
+    return Promise.resolve(this.client.login(config.bot.token))
+      .return()
+      .catch(this.handleLoginFailure)
+  }
+
+  private handleLoginFailure(error: any) {
+    console.error(error)
+    console.warn('Failed to login, retrying in 5 seconds.')
+    setTimeout(this.start, 5000)
   }
 
   public registerEvents() {
@@ -51,50 +61,46 @@ export class Bot implements IBot {
       .registerCommandsIn(path.join(__dirname, 'commands'))
   }
 
-  public async login() {
-    try {
-      await this.client.login(config.bot.token)
-    } catch (error) {
-      console.error(error)
-      console.warn('Failed to login, retrying in 5 seconds.')
-      setTimeout(this.start, 5000)
-    }
-  }
-
   public stop (): void {
     this.client.destroy()
     process.exit(1)
   }
 
-  public onReady = async () => {
+  public onReady = () => {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
 
     if (this.client.user) {
       const clientUser = this.client.user
 
-      await clientUser
-      .setPresence({
+      Promise.resolve(clientUser.setPresence({
         status: 'online',
         activity: {
           type: 'STREAMING',
-          name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
+          name: playingStatusOptions[0],
           url
         }
-      })
-      .catch((error: Error) => console.error(error))
+      }))
+      .then(_ => setInterval(() => this.setRandomActivity(clientUser), config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60))
+      .catch(console.error)
 
-      setInterval(() => clientUser.setActivity({
-        type: 'STREAMING',
-        name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
-        url
-      }), config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60)
     }
 
     console.info(`${config.bot.botName} ready.`)
   }
 
-  public onDisconnect = async () => {
+  private setRandomActivity(clientUser: ClientUser) {
+    const playingStatusOptions = config.bot.playingStatus.options
+    const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
+    return Promise.resolve(clientUser.setActivity({
+      type: 'STREAMING',
+      name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
+      url
+    }))
+      .catch(console.error)
+  }
+
+  public onDisconnect = () => {
     console.info(`${config.bot.botName} disconnected.`)
 
     if (!config.bot.autoReconnect) {
@@ -105,7 +111,7 @@ export class Bot implements IBot {
     setTimeout(this.start, 1000 * 10)
   }
 
-  public onError = async (error: Error) => {
+  public onError = (error: Error) => {
     console.error(error)
     setTimeout(this.start, 5000)
   }

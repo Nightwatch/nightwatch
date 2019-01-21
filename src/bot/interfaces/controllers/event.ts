@@ -1,5 +1,6 @@
 import { Message, GuildMember, Guild } from 'discord.js'
 import { CommandoMessage } from 'discord.js-commando'
+import * as Promise from 'bluebird'
 
 export interface EventController {
   onMessage: (message: Message) => Promise<void>

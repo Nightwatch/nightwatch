@@ -1,11 +1,12 @@
 import { container } from './config/inversify'
 import { Types } from '../common'
 import { Bot } from './interfaces'
+import * as Promise from 'bluebird'
 
 /* prettier-ignore */
 const bot = container.get<Bot>(Types.Bot)
 
-bot.start().catch(onError)
+Promise.resolve(bot.start()).catch(onError)
 
 process.on('uncaughtException', onError)
 process.on('unhandledRejection', onError)

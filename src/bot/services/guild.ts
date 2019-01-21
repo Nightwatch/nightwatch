@@ -3,39 +3,32 @@ import { Guild } from 'discord.js'
 import { api } from '../utils'
 import { Guild as BotGuild, GuildSettings } from '../../db'
 import { injectable } from 'inversify'
+import * as Promise from 'bluebird'
 
 @injectable()
 export class GuildService implements IGuildService {
-  public createGuild = async (guild: Guild) => {
-    const existingGuild = await this.findGuild(guild.id)
+  public create = (guild: Guild) => {
+    return this.find(guild.id)
+      .then(existingGuild => {
+        if (existingGuild) {
+          return
+        }
 
-    if (existingGuild) {
-      return
-    }
+        const newGuild = new BotGuild()
+        newGuild.id = guild.id
+        newGuild.settings = new GuildSettings()
+        newGuild.name = guild.name
 
-    const newGuild = new BotGuild()
-    newGuild.id = guild.id
-    newGuild.settings = new GuildSettings()
-    newGuild.name = guild.name
+        const postRoute = `/guilds`
 
-    const postRoute = `/guilds`
-
-    try {
-      await api.post(postRoute, newGuild)
-    } catch {
-      // swallow
-    }
+        api.post(postRoute, newGuild)
+      })
   }
 
-  public findGuild = async (id: string) => {
+  public find = (id: string): Promise<BotGuild | undefined> => {
     const route = `/guilds/${id}`
 
-    try {
-      const { data } = await api.get(route)
-
-      return data
-    } catch {
-      return undefined
-    }
+    return Promise.resolve(api.get(route))
+      .then(response => response.data)
   }
 }
