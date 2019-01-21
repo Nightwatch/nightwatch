@@ -9,25 +9,24 @@ import * as Promise from 'bluebird'
 export class UserService implements IUserService {
   public create = (user: User) => {
     return this.find(user.id)
-      .then(existingUser => {
-        if (existingUser) {
-          return
+      .catch(error => {
+        if (error.response.status === 404) {
+          const newUser = new BotUser()
+          newUser.id = user.id
+          newUser.name = user.username
+          newUser.avatarUrl = user.displayAvatarURL({ format: 'png', size: 512 })
+          newUser.dateLastMessage = null
+          newUser.level = new UserLevel()
+          newUser.verification = new UserVerification()
+          newUser.settings = new UserSettings()
+          newUser.balance = new UserBalance()
+          newUser.profile = new UserProfile()
+
+          api.post('/users', newUser)
         }
-
-        const newUser = new BotUser()
-        newUser.id = user.id
-        newUser.name = user.username
-        newUser.avatarUrl = user.displayAvatarURL({ format: 'png', size: 512 })
-        newUser.dateLastMessage = null
-        newUser.level = new UserLevel()
-        newUser.verification = new UserVerification()
-        newUser.settings = new UserSettings()
-        newUser.balance = new UserBalance()
-        newUser.profile = new UserProfile()
-
-        api.post('/users', newUser)
       })
       .thenReturn()
+
   }
 
   public find = (id: string): Promise<BotUser | undefined> => {
