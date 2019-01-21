@@ -5,7 +5,7 @@ import { UserService } from '../../services'
 export default class CreateUserCommand extends Command {
   constructor (client: CommandoClient) {
     super(client, {
-      name: 'createUser',
+      name: 'createuser',
       group: 'debug',
       memberName: 'createUser',
       description: 'Force create a user.',
