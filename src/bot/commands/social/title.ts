@@ -26,7 +26,7 @@ export default class TitleCommand extends Command {
 
   public async run (
     msg: CommandoMessage,
-    args: { description: string }
+    args: any
   ): Promise<Message | Message[]> {
     const userService = new UserService()
 

@@ -33,12 +33,12 @@ export default class BioCommand extends Command {
     const user = await userService.find(msg.author.id)
 
     if (!user) {
-      msg.reply('Command failed. I was unable to find you in my database.')
+      return msg.reply('Command failed. I was unable to find you in my database.')
     }
 
     user.profile.bio = args.description
 
-    await userService.updateProfile(msg.autor.id, user.profile)
+    await userService.updateProfile(msg.author.id, user.profile)
 
     return msg.reply('Bio updated!')
   }
