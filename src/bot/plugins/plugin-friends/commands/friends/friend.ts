@@ -338,7 +338,7 @@ export default class FriendCommand extends Command {
     const friendRequestsMapped = friendRequests
       .map((request: UserFriendRequest, i: number) => {
         return `${i + 1}.) **${filter === 'incoming'
-          ? `${request.user.name}** (${request.user.id})`
+          ? `${request.sender.name}** (${request.sender.id})`
           : `${request.receiver.name}** (${request.receiver.id})`}`
       })
       .join('\n')

@@ -430,11 +430,11 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user
-      friendRequest.user = user2
+      friendRequest.sender = user2
 
       const friendRequest2 = new UserFriendRequest()
       friendRequest2.receiver = user3
-      friendRequest2.user = user
+      friendRequest2.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
       await getRepository(UserFriendRequest).save(friendRequest2)
@@ -457,11 +457,11 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user
-      friendRequest.user = user2
+      friendRequest.sender = user2
 
       const friendRequest2 = new UserFriendRequest()
       friendRequest2.receiver = user3
-      friendRequest2.user = user
+      friendRequest2.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
       await getRepository(UserFriendRequest).save(friendRequest2)
@@ -502,11 +502,11 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user
-      friendRequest.user = user2
+      friendRequest.sender = user2
 
       const friendRequest2 = new UserFriendRequest()
       friendRequest2.receiver = user3
-      friendRequest2.user = user
+      friendRequest2.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
       await getRepository(UserFriendRequest).save(friendRequest2)
@@ -531,11 +531,11 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user
-      friendRequest.user = user2
+      friendRequest.sender = user2
 
       const friendRequest2 = new UserFriendRequest()
       friendRequest2.receiver = user3
-      friendRequest2.user = user
+      friendRequest2.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
       await getRepository(UserFriendRequest).save(friendRequest2)
@@ -560,11 +560,11 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user2
-      friendRequest.user = user
+      friendRequest.sender = user
 
       const friendRequest2 = new UserFriendRequest()
       friendRequest2.receiver = user3
-      friendRequest2.user = user
+      friendRequest2.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
       await getRepository(UserFriendRequest).save(friendRequest2)
@@ -589,11 +589,11 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user2
-      friendRequest.user = user
+      friendRequest.sender = user
 
       const friendRequest2 = new UserFriendRequest()
       friendRequest2.receiver = user3
-      friendRequest2.user = user
+      friendRequest2.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
       await getRepository(UserFriendRequest).save(friendRequest2)
@@ -618,11 +618,11 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user2
-      friendRequest.user = user
+      friendRequest.sender = user
 
       const friendRequest2 = new UserFriendRequest()
       friendRequest2.receiver = user3
-      friendRequest2.user = user
+      friendRequest2.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
       await getRepository(UserFriendRequest).save(friendRequest2)
@@ -647,11 +647,11 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user2
-      friendRequest.user = user
+      friendRequest.sender = user
 
       const friendRequest2 = new UserFriendRequest()
       friendRequest2.receiver = user3
-      friendRequest2.user = user
+      friendRequest2.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
       await getRepository(UserFriendRequest).save(friendRequest2)
@@ -704,7 +704,7 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user2
-      friendRequest.user = user
+      friendRequest.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
 
@@ -720,7 +720,7 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user
-      friendRequest.user = user2
+      friendRequest.sender = user2
 
       await getRepository(UserFriendRequest).save(friendRequest)
 
@@ -770,7 +770,7 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user2
-      friendRequest.user = user
+      friendRequest.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
 
@@ -1032,7 +1032,7 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user
-      friendRequest.user = user2
+      friendRequest.sender = user2
 
       await getRepository(UserFriendRequest).save(friendRequest)
 
@@ -1054,7 +1054,7 @@ describe('UserController', () => {
 
       const friendRequest = new UserFriendRequest()
       friendRequest.receiver = user2
-      friendRequest.user = user
+      friendRequest.sender = user
 
       await getRepository(UserFriendRequest).save(friendRequest)
 
