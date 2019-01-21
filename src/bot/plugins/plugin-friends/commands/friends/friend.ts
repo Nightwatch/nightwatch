@@ -145,7 +145,7 @@ export default class FriendCommand extends Command {
       }
 
       try {
-        const discordUser = await this.client.users.find(u => u.id === receiver.id)
+        const discordUser = this.client.users.find(u => u.id === receiver.id)
         const dm = await discordUser.createDM()
         await dm.send(stripIndents`**${msg.author.username}** has sent you a friend request!
 
@@ -273,7 +273,7 @@ export default class FriendCommand extends Command {
     const userId = user instanceof User ? user.id : user
 
     if (userId === msg.author.id) {
-      msg.reply("*You don't have to specify yourself.*")
+      await msg.reply("*You don't have to specify yourself.*")
     }
 
     let apiUser: BotUser | undefined
