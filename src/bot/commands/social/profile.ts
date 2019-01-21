@@ -34,11 +34,12 @@ export default class ProfileCommand extends Command {
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
-    await msg.channel.startTyping()
     const userService = new UserService()
 
     const user = args.user || msg.member
     const { Image } = Canvas
+
+    msg.channel.startTyping()
 
     const foundUser = await userService.find(user.id)
 
