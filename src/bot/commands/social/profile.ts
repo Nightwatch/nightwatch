@@ -61,6 +61,7 @@ export default class ProfileCommand extends Command {
         '..',
         '..',
         '..',
+        '..',
         'assets',
         'profile',
         'fonts',
@@ -73,6 +74,7 @@ export default class ProfileCommand extends Command {
     Canvas.registerFont(
       path.join(
         __dirname,
+        '..',
         '..',
         '..',
         '..',
@@ -185,6 +187,7 @@ export default class ProfileCommand extends Command {
     base.src = fs.readFileSync(
       path.join(
         __dirname,
+        '..',
         '..',
         '..',
         '..',
