@@ -33,6 +33,6 @@ export class UserBalance {
   constructor() {
     this.netWorth = 0
     this.balance = 0
-    this.dateLastClaimedDailies = new Date()
+    this.dateLastClaimedDailies = null
   }
 }
