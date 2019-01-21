@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
 import { Types, Config } from '../../common'
 import { EventController as IEventController, GuildService, UserService } from '../interfaces'
-import { Message, GuildMember, Guild, User } from 'discord.js'
+import { Message, GuildMember, Guild } from 'discord.js'
 import { CommandoMessage } from 'discord.js-commando'
 import * as Promise from 'bluebird'
 
