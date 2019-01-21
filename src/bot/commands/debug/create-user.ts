@@ -20,7 +20,8 @@ export default class CreateUserCommand extends Command {
           prompt: 'Who should I add to my database?\n',
           type: 'member'
         }
-      ]
+      ],
+      ownerOnly: true
     })
   }
 
