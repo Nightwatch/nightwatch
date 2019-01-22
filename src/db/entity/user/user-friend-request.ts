@@ -9,7 +9,7 @@ import { User } from '.'
 import { IsDate } from 'class-validator'
 
 @Entity()
-@Index(['user', 'receiver'], { unique: true })
+@Index(['sender', 'receiver'], { unique: true })
 export class UserFriendRequest {
   @PrimaryGeneratedColumn()
   id: number
