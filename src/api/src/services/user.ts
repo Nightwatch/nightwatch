@@ -101,7 +101,7 @@ export class UserService implements IUserService {
 
   public async findFriendRequests (id: string, type: 'incoming' | 'outgoing' = 'incoming') {
     return this.userFriendRequestRepository.createQueryBuilder('request')
-    .leftJoin('request.user', 'sender')
+    .leftJoin('request.sender', 'sender')
     .leftJoin('request.receiver', 'receiver')
     .where(`${type === 'incoming' ? 'sender' : 'receiver'}.id = :id`, { id })
     .getMany()
@@ -109,7 +109,7 @@ export class UserService implements IUserService {
 
   public async findFriendRequestByUserId (id: string, userId: string) {
     return this.userFriendRequestRepository.createQueryBuilder('request')
-    .leftJoin('request.user', 'sender')
+    .leftJoin('request.sender', 'sender')
     .leftJoin('request.receiver', 'receiver')
     .where('sender.id = :id and receiver.id = :userId', { id, userId })
     .orWhere('sender.id = :userId and receiver.id = :id', { id, userId })
@@ -126,8 +126,8 @@ export class UserService implements IUserService {
   ) {
     const queryBuilder = this.userFriendRequestRepository.createQueryBuilder('request')
 
-    const userType = type === 'incoming' ? 'receiver' : 'user'
-    const otherUserType = type === 'outgoing' ? 'receiver' : 'user'
+    const userType = type === 'incoming' ? 'receiver' : 'sender'
+    const otherUserType = type === 'outgoing' ? 'receiver' : 'sender'
 
     queryBuilder.innerJoin(`request.${userType}`, 'user').where('user.id = :id', { id })
     queryBuilder.innerJoin(`request.${otherUserType}`, 'other')
@@ -157,7 +157,7 @@ export class UserService implements IUserService {
 
   public async deleteFriendRequest (id: string, userId: string) {
     const friendRequest = await this.userFriendRequestRepository.createQueryBuilder('request')
-      .leftJoin('request.user', 'sender')
+      .leftJoin('request.sender', 'sender')
       .leftJoin('request.receiver', 'receiver')
       .where('sender.id = :id and receiver.id = :userId', { id, userId })
       .orWhere('sender.id = :userId and receiver.id = :id', { id, userId })
@@ -233,7 +233,7 @@ export class UserService implements IUserService {
     // 3) Save the friend object.
     let friendRequest = await this.userFriendRequestRepository.findOne({
       where: { receiver: { id }, user: { id: friend.user.id } },
-      relations: ['user', 'receiver']
+      relations: ['sender', 'receiver']
     })
 
     if (friendRequest) {
