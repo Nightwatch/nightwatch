@@ -233,7 +233,7 @@ export class UserService implements IUserService {
     // 3) Save the friend object.
     let friendRequest = await this.userFriendRequestRepository.findOne({
       where: { receiver: { id }, user: { id: friend.user.id } },
-      relations: ['user', 'receiver']
+      relations: ['sender', 'receiver']
     })
 
     if (friendRequest) {
