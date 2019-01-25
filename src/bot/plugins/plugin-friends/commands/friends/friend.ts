@@ -359,7 +359,7 @@ export default class FriendCommand extends Command {
       `/users/${id}/friends/`
     )
 
-    const friendFirstSentence = `You have ${friends.length} friend${friends.length === 1 ? 's' : ''}. ${friends.length === 0
+    const friendFirstSentence = `You have ${friends.length} friend${friends.length === 1 ? '' : 's'}. ${friends.length === 0
       ? this.client.emojis.find((e: Emoji) => e.id === '467808089731760149')
       : ''}`
 
@@ -387,7 +387,7 @@ export default class FriendCommand extends Command {
 
   async getFriendRequestSummary (id: string) {
     const { data: friendRequests }: { data: UserFriendRequest[] } = await api.get(
-      `/users/${id}/friends/requests`
+      `/users/${id}/friends/requests/search?skip=0&take=10`
     )
 
     const incomingRequestCount = friendRequests.filter(request => !request.receiver).length
