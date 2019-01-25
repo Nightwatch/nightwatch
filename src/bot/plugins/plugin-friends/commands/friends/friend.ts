@@ -87,9 +87,10 @@ export default class FriendCommand extends Command {
     const id = displayUser.id
     const prefix = getPrefix(msg)
 
-    const friendSummary = await this.getFriendSummary(id)
-    const friendRequestSummary = await this.getFriendRequestSummary(id)
-    const availableActions = stripIndents`
+    try {
+      const friendSummary = await this.getFriendSummary(id)
+      const friendRequestSummary = await this.getFriendRequestSummary(id)
+      const availableActions = stripIndents`
       • View your friend list with \`${prefix}friend list\`
       • View other people's friends with \`${prefix}friend list <mention|id>\`
       • Review pending friend requests with \`${prefix}friend requests\`
@@ -102,7 +103,7 @@ export default class FriendCommand extends Command {
       Anyone can add me with \`${prefix}friend add ${msg.author.id}\`
     `
 
-    const embed = new MessageEmbed()
+      const embed = new MessageEmbed()
       .setAuthor(`👪 ${displayUser.username}'s Friend Dashboard`, this.client.user ? this.client.user.avatarURL() : undefined)
       .setFooter(Plugin.config.bot.botName)
       .setTimestamp(new Date())
@@ -112,11 +113,14 @@ export default class FriendCommand extends Command {
       .addField('Friend Requests', friendRequestSummary, true)
       .addBlankField()
 
-    if (!user) {
-      embed.addField('Available Actions', availableActions, false)
-    }
+      if (!user) {
+        embed.addField('Available Actions', availableActions, false)
+      }
 
-    return msg.channel.send(embed)
+      return msg.channel.send(embed)
+    } catch (err) {
+      return msg.reply('An error occurred while fetching the friend dashboard.')
+    }
   }
 
   async sendFriendRequest (msg: CommandoMessage, user: User | string): Promise<Message | Message[]> {
@@ -323,15 +327,17 @@ export default class FriendCommand extends Command {
 
   async listFriendRequests (msg: CommandoMessage, argument: 'incoming' | 'outgoing'): Promise<Message | Message[]> {
     const filter = !argument || argument === 'incoming' ? 'incoming' : 'outgoing'
-    const { data: friendRequests }: {data: UserFriendRequest[]} = await api.get(
+
+    try {
+      const { data: friendRequests }: {data: UserFriendRequest[]} = await api.get(
       `/users/${msg.author.id}/friends/requests/search?type=${filter}&skip=0&take=10`
     )
 
-    if (!friendRequests || friendRequests.length === 0) {
-      return msg.reply(`You have no ${filter} friend requests.`)
-    }
+      if (!friendRequests || friendRequests.length === 0) {
+        return msg.reply(`You have no ${filter} friend requests.`)
+      }
 
-    const friendRequestsMapped = friendRequests
+      const friendRequestsMapped = friendRequests
       .map((request: UserFriendRequest, i: number) => {
         return `${i + 1}.) **${filter === 'incoming'
           ? `${request.sender.name}** (${request.sender.id})`
@@ -339,13 +345,13 @@ export default class FriendCommand extends Command {
       })
       .join('\n')
 
-    const description = stripIndents`${friendRequestsMapped}
+      const description = stripIndents`${friendRequestsMapped}
 
       ${filter === 'incoming'
         ? `You can accept any friend request by typing \`nw friend accept @User\` or \`nw friend accept <user ID>\``
         : `If they aren't responding to your request, try sending them a DM to accept it.`}`
 
-    const embed = new MessageEmbed()
+      const embed = new MessageEmbed()
       .setAuthor(`Your ${filter === 'incoming' ? 'Incoming' : 'Outgoing'} Friend Requests:`)
       .setFooter(Plugin.config.bot.botName)
       .setTimestamp(new Date())
@@ -353,7 +359,10 @@ export default class FriendCommand extends Command {
       .setDescription(description)
       .setColor('BLUE')
 
-    return msg.channel.send(embed)
+      return msg.channel.send(embed)
+    } catch {
+      return msg.reply('Failed to fetch friend requests.')
+    }
   }
 
   async getFriendSummary (id: string) {
