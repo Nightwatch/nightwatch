@@ -19,8 +19,13 @@ export const onMessage = async (message: Message) => {
   const firstTwoMatch = message.content
     .trim()
     .substring(0, 2)
+    .toLowerCase()
     .match(/[a-z]/gi)
-  if (!firstTwoMatch || firstTwoMatch.length !== 2) {
+  if (
+    !firstTwoMatch ||
+    firstTwoMatch.length !== 2 ||
+    message.content.indexOf(' ') <= 2
+  ) {
     return
   }
 
