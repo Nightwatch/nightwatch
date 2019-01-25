@@ -29,7 +29,7 @@
     "compression": "^1.7.3",
     "cors": "^2.8.4",
     "discord.js": "discordjs/discord.js",
-    "discord.js-commando": "discordjs/commando#master",
+    "discord.js-commando": "discordjs/commando",
     "errorhandler": "^1.5.0",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
