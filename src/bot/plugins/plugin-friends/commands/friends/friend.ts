@@ -180,7 +180,7 @@ export default class FriendCommand extends Command {
     }
 
     const { data: friendRequest }: { data: UserFriendRequest[] } = await api.get(
-      `/users/${msg.author.id}/friends/requests/search?userId=${senderId}`
+      `/users/${msg.author.id}/friends/requests/search?skip=0&take=10&userId=${senderId}`
     )
 
     if (!friendRequest || !friendRequest[0]) {
@@ -206,7 +206,7 @@ export default class FriendCommand extends Command {
     }
 
     const { data: friendRequest } = await api.get(
-      `/users/${msg.author.id}/friends/requests/search?userId=${senderId}`
+      `/users/${msg.author.id}/friends/requests/search?skip=0&take=10&userId=${senderId}`
     )
 
     if (!friendRequest || !friendRequest[0]) {
@@ -248,7 +248,7 @@ export default class FriendCommand extends Command {
     }
 
     const { data: friend } = await api.get(
-      `/users/${msg.author.id}/friends/search?userId=${userId}`
+      `/users/${msg.author.id}/friends/search?skip=0&take=10&userId=${userId}`
     )
 
     if (!friend || !friend[0]) {
