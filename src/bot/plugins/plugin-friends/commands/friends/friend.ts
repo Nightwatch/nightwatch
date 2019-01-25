@@ -45,10 +45,10 @@ export default class FriendCommand extends Command {
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
-    const { action, argument }: { action: string; argument: User | string } = args
+    const { action, argument }: { action: string | User; argument: User | string } = args
 
-    if (!action) {
-      return this.displayFriendDashboard(msg)
+    if (!action || action instanceof User) {
+      return this.displayFriendDashboard(msg, action as User)
     }
 
     try {
@@ -82,8 +82,9 @@ export default class FriendCommand extends Command {
     }
   }
 
-  async displayFriendDashboard (msg: CommandoMessage) {
-    const id = msg.author.id
+  async displayFriendDashboard (msg: CommandoMessage, user?: User) {
+    const displayUser = user ? user : msg.author
+    const id = displayUser.id
     const prefix = getPrefix(msg)
 
     const friendSummary = await this.getFriendSummary(id)
@@ -97,18 +98,23 @@ export default class FriendCommand extends Command {
       • Remove someone from your friend list with \`${prefix}friend remove <mention|id>\`
       • Accept a friend request with \`${prefix}friend accept <mention|id>\`
       • Decline a friend request with \`${prefix}friend <decline|deny> <mention|id>\`
+
+      Anyone can add me with \`${prefix}friend add ${msg.author.id}\`
     `
 
     const embed = new MessageEmbed()
-      .setAuthor(`👪 ${msg.author.username}'s Friend Dashboard`, this.client.user ? this.client.user.avatarURL() : undefined)
+      .setAuthor(`👪 ${displayUser.username}'s Friend Dashboard`, this.client.user ? this.client.user.avatarURL() : undefined)
       .setFooter(Plugin.config.bot.botName)
       .setTimestamp(new Date())
-      .setThumbnail(msg.author.avatarURL() || msg.author.defaultAvatarURL)
+      .setThumbnail(displayUser.avatarURL() || displayUser.defaultAvatarURL)
       .setColor('BLUE')
       .addField('Friend Summary', friendSummary, true)
       .addField('Friend Requests', friendRequestSummary, true)
       .addBlankField()
-      .addField('Available Actions', availableActions, false)
+
+    if (!user) {
+      embed.addField('Available Actions', availableActions, false)
+    }
 
     return msg.channel.send(embed)
   }
