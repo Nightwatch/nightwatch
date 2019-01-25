@@ -167,25 +167,21 @@ export default class FriendCommand extends Command {
       return msg.reply('Invalid user.')
     }
 
-    const sender = await getApiUser(senderId)
+    try {
+      const sender = await getApiUser(senderId)
 
-    if (!sender) {
-      return msg.reply('Failed to get user data from API.')
-    }
+      if (!sender) {
+        return msg.reply('Failed to get user data from API.')
+      }
 
-    const { data: friendRequest }: { data: UserFriendRequest[] } = await api.get(
-      `/users/${msg.author.id}/friends/requests/search?skip=0&take=10&userId=${senderId}`
+      await api.delete(
+      `/users/${msg.author.id}/friends/requests/${senderId}`
     )
 
-    if (!friendRequest || !friendRequest[0]) {
-      return msg.reply('Failed to find a friend request from that user.')
+      return msg.reply(`**${sender.name}**'s friend request has been declined.`)
+    } catch {
+      return msg.reply(`Failed to decline their friend request. Do you have a friend request from that user?`)
     }
-
-    await api.delete(
-      `/users/${msg.author.id}/friends/requests/${friendRequest[0].id}`
-    )
-
-    return msg.reply(`**${sender.name}**'s friend request has been declined.`)
   }
 
   async acceptFriendRequest (msg: CommandoMessage, user: User | string): Promise<Message | Message[]> {
