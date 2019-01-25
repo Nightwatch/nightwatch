@@ -251,7 +251,7 @@ export default class FriendCommand extends Command {
 
     try {
       await api.delete(
-        `/users/${msg.author.id}/friends/${friends[0].id}`
+        `/users/${msg.author.id}/friends/${userId}`
       )
     } catch (err) {
       console.error(err)
@@ -359,7 +359,7 @@ export default class FriendCommand extends Command {
       `/users/${id}/friends/`
     )
 
-    const friendFirstSentence = `You have ${friends.length} friends. ${friends.length === 0
+    const friendFirstSentence = `You have ${friends.length} friend${friends.length === 1 ? 's' : ''}. ${friends.length === 0
       ? this.client.emojis.find((e: Emoji) => e.id === '467808089731760149')
       : ''}`
 
