@@ -101,16 +101,16 @@ export class UserService implements IUserService {
 
   public async findFriendRequests (id: string, type: 'incoming' | 'outgoing' = 'incoming') {
     return this.userFriendRequestRepository.createQueryBuilder('request')
-    .leftJoin('request.sender', 'sender')
-    .leftJoin('request.receiver', 'receiver')
+    .leftJoinAndSelect('request.sender', 'sender')
+    .leftJoinAndSelect('request.receiver', 'receiver')
     .where(`${type === 'incoming' ? 'sender' : 'receiver'}.id = :id`, { id })
     .getMany()
   }
 
   public async findFriendRequestByUserId (id: string, userId: string) {
     return this.userFriendRequestRepository.createQueryBuilder('request')
-    .leftJoin('request.sender', 'sender')
-    .leftJoin('request.receiver', 'receiver')
+    .leftJoinAndSelect('request.sender', 'sender')
+    .leftJoinAndSelect('request.receiver', 'receiver')
     .where('sender.id = :id and receiver.id = :userId', { id, userId })
     .orWhere('sender.id = :userId and receiver.id = :id', { id, userId })
     .getOne()
@@ -129,8 +129,8 @@ export class UserService implements IUserService {
     const userType = type === 'incoming' ? 'receiver' : 'sender'
     const otherUserType = type === 'outgoing' ? 'receiver' : 'sender'
 
-    queryBuilder.innerJoin(`request.${userType}`, 'user').where('user.id = :id', { id })
-    queryBuilder.innerJoin(`request.${otherUserType}`, 'other')
+    queryBuilder.innerJoinAndSelect(`request.${userType}`, 'user').where('user.id = :id', { id })
+    queryBuilder.innerJoinAndSelect(`request.${otherUserType}`, 'other')
 
     if (userId) {
       queryBuilder.andWhere(`other.id LIKE :userId`, { userId: `%${userId.toLowerCase()}%` })
