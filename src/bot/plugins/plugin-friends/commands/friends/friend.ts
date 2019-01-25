@@ -390,7 +390,7 @@ export default class FriendCommand extends Command {
       `/users/${id}/friends/requests/search?skip=0&take=10`
     )
 
-    const incomingRequestCount = friendRequests.filter(request => !request.receiver).length
+    const incomingRequestCount = friendRequests.filter(request => request.sender.id !== id).length
 
     const friendRequestObj = {
       incoming: incomingRequestCount,
