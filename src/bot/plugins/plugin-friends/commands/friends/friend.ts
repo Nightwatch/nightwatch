@@ -100,7 +100,7 @@ export default class FriendCommand extends Command {
     `
 
     const embed = new MessageEmbed()
-      .setAuthor(`👪 ${msg.author.username}'s Friend Dashboard`, this.client.user!.avatarURL())
+      .setAuthor(`👪 ${msg.author.username}'s Friend Dashboard`, this.client.user.avatarURL())
       .setFooter(Plugin.config.bot.botName)
       .setTimestamp(new Date())
       .setThumbnail(msg.author.avatarURL() || msg.author.defaultAvatarURL)
@@ -132,13 +132,7 @@ export default class FriendCommand extends Command {
     }
 
     try {
-      const { data: friendRequest } = await api.post(
-        `/users/${msg.author.id}/friends/requests/${receiver.id}`,
-        {
-          user: sender,
-          receiver
-        }
-      )
+      const { data: friendRequest }: {data: UserFriendRequest} = await api.post(`/users/${msg.author.id}/friends/requests/${receiver.id}`)
 
       if (!friendRequest) {
         return msg.reply(`**${receiver.name}** has already sent you a friend request.`)
@@ -205,17 +199,17 @@ export default class FriendCommand extends Command {
       return msg.reply('Invalid user.')
     }
 
-    const { data: friendRequest } = await api.get(
+    const { data: friendRequests }: {data: UserFriendRequest[]} = await api.get(
       `/users/${msg.author.id}/friends/requests/search?skip=0&take=10&userId=${senderId}`
     )
 
-    if (!friendRequest || !friendRequest[0]) {
+    if (!friendRequests || !friendRequests[0]) {
       return msg.reply('Failed to accept friend request. Does the friend request exist?')
     }
 
     const friend = {
-      user: friendRequest[0].user,
-      friend: friendRequest[0].receiver
+      user: friendRequests[0].sender,
+      friend: friendRequests[0].receiver
     }
 
     const friendName = friend.user.id === senderId ? friend.user.name : friend.friend.name
@@ -247,17 +241,17 @@ export default class FriendCommand extends Command {
       return msg.reply('Failed to find user in API.')
     }
 
-    const { data: friend } = await api.get(
+    const { data: friends }: {data: UserFriend[]} = await api.get(
       `/users/${msg.author.id}/friends/search?skip=0&take=10&userId=${userId}`
     )
 
-    if (!friend || !friend[0]) {
+    if (!friends || !friends[0]) {
       return msg.reply(`You aren't friends with **${apiUser.name}**.`)
     }
 
     try {
       await api.delete(
-        `/users/${msg.author.id}/friends/${friend[0].id}`
+        `/users/${msg.author.id}/friends/${friends[0].id}`
       )
     } catch (err) {
       console.error(err)
@@ -327,7 +321,7 @@ export default class FriendCommand extends Command {
 
   async listFriendRequests (msg: CommandoMessage, argument: 'incoming' | 'outgoing'): Promise<Message | Message[]> {
     const filter = !argument || argument === 'incoming' ? 'incoming' : 'outgoing'
-    const { data: friendRequests } = await api.get(
+    const { data: friendRequests }: {data: UserFriendRequest[]} = await api.get(
       `/users/${msg.author.id}/friends/requests/search?type=${filter}&skip=0&take=10`
     )
 
