@@ -172,8 +172,8 @@ export class UserService implements IUserService {
 
   public async findFriends (id: string) {
     return this.userFriendRepository.createQueryBuilder('friend')
-      .leftJoin('friend.user', 'user')
-      .leftJoin('friend.friend', 'other')
+      .leftJoinAndSelect('friend.user', 'user')
+      .leftJoinAndSelect('friend.friend', 'other')
       .where('user.id = :id', { id })
       .orWhere('other.id = :id', { id })
       .getMany()
@@ -196,8 +196,8 @@ export class UserService implements IUserService {
     name?: string
   ) {
     const queryBuilder = this.userFriendRepository.createQueryBuilder('friend')
-      .innerJoin('friend.user', 'user')
-      .innerJoin('friend.friend', 'other')
+      .innerJoinAndSelect('friend.user', 'user')
+      .innerJoinAndSelect('friend.friend', 'other')
       .where(new Brackets(qb => {
         qb.where('user.id = :id', { id })
           .orWhere('other.id = :id', { id })
@@ -256,8 +256,8 @@ export class UserService implements IUserService {
 
   public async deleteFriend (id: string, userId: string) {
     const friend = await this.userFriendRepository.createQueryBuilder('friend')
-    .innerJoinAndSelect('friend.user', 'user')
-    .innerJoinAndSelect('friend.friend', 'other')
+    .innerJoin('friend.user', 'user')
+    .innerJoin('friend.friend', 'other')
     .where('user.id = :id and other.id = :userId', { id, userId })
     .orWhere('user.id = :userId and other.id = :id', { id, userId })
     .getOne()
