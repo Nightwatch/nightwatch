@@ -365,7 +365,7 @@ export default class FriendCommand extends Command {
     }
 
     if (friends.length > 0) {
-      const acceptedCount = friends.filter(x => !x.friend).length
+      const acceptedCount = friends.filter(x => x.friend.id === id).length
       friendSummaryObj.received = acceptedCount
       friendSummaryObj.sent = friends.length - acceptedCount
     }
