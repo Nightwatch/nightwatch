@@ -100,7 +100,7 @@ export default class FriendCommand extends Command {
     `
 
     const embed = new MessageEmbed()
-      .setAuthor(`👪 ${msg.author.username}'s Friend Dashboard`, this.client.user.avatarURL())
+      .setAuthor(`👪 ${msg.author.username}'s Friend Dashboard`, this.client.user ? this.client.user.avatarURL() : undefined)
       .setFooter(Plugin.config.bot.botName)
       .setTimestamp(new Date())
       .setThumbnail(msg.author.avatarURL() || msg.author.defaultAvatarURL)
