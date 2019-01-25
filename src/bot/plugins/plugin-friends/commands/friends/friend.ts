@@ -27,7 +27,7 @@ export default class FriendCommand extends Command {
           key: 'action',
           label: 'action',
           prompt: 'Would you like to `add/remove/list` friends, `accept/deny` requests, or list `requests`?\n',
-          type: 'string|user',
+          type: 'user|string',
           default: ''
         },
         {
@@ -45,7 +45,7 @@ export default class FriendCommand extends Command {
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
-    const { action, argument }: { action: string | User; argument: User | string } = args
+    const { action, argument }: { action: User | string; argument: User | string } = args
 
     if (!action || action instanceof User) {
       return this.displayFriendDashboard(msg, action as User)
