@@ -294,8 +294,8 @@ export default class SupportCommand extends Command {
       )
     }
 
-    const ticketId = description.substring(0, description.indexOf(' '))
-    const ticket = guild.supportTickets.find(x => x.id === Number(ticketId))
+    const ticketId = Number(description.substring(0, description.indexOf(' ')))
+    const ticket = guild.supportTickets.find(x => x.id === ticketId)
 
     if (!ticket) {
       return msg.reply('Invalid ticketId')
@@ -361,7 +361,7 @@ export default class SupportCommand extends Command {
       .addField('Description', ticket.description)
       .setTimestamp(new Date(ticket.dateCreated))
 
-    await guildService.updateSupportTicket(msg.guild.id, ticket)
+    await guildService.updateSupportTicket(msg.guild.id, ticketId, ticket)
 
     const textChannel = channel as TextChannel
     textChannel.send(newEmbed)
