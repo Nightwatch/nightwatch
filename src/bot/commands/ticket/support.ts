@@ -130,7 +130,7 @@ export default class SupportCommand extends Command {
     // }
 
     embed
-      .setAuthor(title, this.client.user.avatarURL({ format: 'png' }))
+      .setAuthor(title, this.client.user ? this.client.user.avatarURL({ format: 'png' }) : undefined)
       .setColor(color)
       .addField('Status', 'Open', true)
       .addField('Submitted By', msg.member, true)
@@ -164,7 +164,7 @@ export default class SupportCommand extends Command {
         const editedEmbed = new MessageEmbed()
 
         editedEmbed
-          .setAuthor(title, this.client.user.avatarURL({ format: 'png' }))
+          .setAuthor(title, this.client.user ? this.client.user.avatarURL({ format: 'png' }) : undefined)
           .setColor(color)
           .addField('Status', 'Open', true)
           .addField('Submitted By', msg.member, true)
@@ -237,7 +237,7 @@ export default class SupportCommand extends Command {
     const embed = new MessageEmbed()
 
     embed
-      .setAuthor(ticket.title, this.client.user.avatarURL({ format: 'png' }))
+      .setAuthor(ticket.title, this.client.user ? this.client.user.avatarURL({ format: 'png' }) : undefined)
       .setColor(ticket.color)
       .addField('ID', ticket.id, true)
       .addField(
@@ -333,7 +333,7 @@ export default class SupportCommand extends Command {
     const newEmbed = new MessageEmbed()
 
     newEmbed
-      .setAuthor(ticket.title, this.client.user.avatarURL({ format: 'png' }))
+      .setAuthor(ticket.title, this.client.user ? this.client.user.avatarURL({ format: 'png' }) : undefined)
       .setColor(ticket.color)
       .addField('ID', ticket.id, true)
       .addField(
@@ -430,7 +430,7 @@ export default class SupportCommand extends Command {
     const newEmbed = new MessageEmbed()
 
     newEmbed
-      .setAuthor(ticket.title, this.client.user.avatarURL({ format: 'png' }))
+      .setAuthor(ticket.title, this.client.user ? this.client.user.avatarURL({ format: 'png' }) : undefined)
       .setColor(ticket.color)
       .addField('ID', ticket.id, true)
       .addField(

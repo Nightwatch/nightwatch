@@ -87,7 +87,7 @@ export default class SuggestionCommand extends Command {
     embed
       .setAuthor(
         'New Suggestion',
-        this.client.user.avatarURL({ format: 'png' })
+        this.client.user ? this.client.user.avatarURL({ format: 'png' }) : undefined
       )
       .setColor(msg.member ? msg.member.displayHexColor : '#ff0000')
       .setFooter('Like it? 👍 or 👎')
@@ -114,7 +114,7 @@ export default class SuggestionCommand extends Command {
         editedEmbed
           .setAuthor(
             'New Suggestion',
-            this.client.user.avatarURL({ format: 'png' })
+            this.client.user ? this.client.user.avatarURL({ format: 'png' }) : undefined
           )
           .setColor(msg.member ? msg.member.displayHexColor : '#ff0000')
           .setFooter('Like it? 👍 or 👎')
@@ -205,7 +205,7 @@ export default class SuggestionCommand extends Command {
     newEmbed
       .setAuthor(
         'New Suggestion',
-        this.client.user.avatarURL({ format: 'png' })
+        this.client.user ? this.client.user.avatarURL({ format: 'png' }) : undefined
       )
       .setColor(suggestion.color)
       .setFooter('Like it? 👍 or 👎')
