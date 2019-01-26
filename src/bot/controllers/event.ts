@@ -20,6 +20,9 @@ export class EventController implements IEventController {
     return this.userService.create(message.author)
       .thenReturn()
       .catch(console.error)
+      .then(() => this.guildService.create(message.guild))
+      .thenReturn()
+      .catch(console.error)
   }
 
   public onCommandRun = (
