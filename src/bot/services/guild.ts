@@ -1,7 +1,7 @@
 import { GuildService as IGuildService } from '../interfaces'
 import { Guild } from 'discord.js'
 import { api } from '../utils'
-import { Guild as BotGuild, GuildSettings } from '../../db'
+import { Guild as BotGuild, GuildSettings, GuildSupportTicket } from '../../db'
 import { injectable } from 'inversify'
 import * as Promise from 'bluebird'
 
@@ -30,5 +30,17 @@ export class GuildService implements IGuildService {
 
     return Promise.resolve(api.get(route))
       .then(response => response.data)
+  }
+
+  public createSupportTicket = (id: string, ticket: GuildSupportTicket) => {
+    const route = `/guilds/${id}/support-tickets`
+
+    return Promise.resolve(api.post(route, ticket))
+  }
+
+  public updateSupportTicket = (id: string, ticket: GuildSupportTicket) => {
+    const route = `/guilds/${id}/support-tickets`
+
+    return Promise.resolve(api.put(route, ticket))
   }
 }
