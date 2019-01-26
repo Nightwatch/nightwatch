@@ -222,7 +222,7 @@ export default class SuggestionCommand extends Command {
       return msg.reply('Message not editable.')
     }
 
-    originalMessage.edit(newEmbed)
+    await originalMessage.edit(newEmbed)
 
     return msg.reply('Edit successful.')
   }

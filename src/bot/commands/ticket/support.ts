@@ -364,7 +364,7 @@ export default class SupportCommand extends Command {
     await guildService.updateSupportTicket(msg.guild.id, ticketId, ticket)
 
     const textChannel = channel as TextChannel
-    textChannel.send(newEmbed)
+    await textChannel.send(newEmbed)
 
     return msg.reply(`Support ticket ${ticket.id} has been closed.`)
   }
@@ -465,7 +465,7 @@ export default class SupportCommand extends Command {
       return msg.reply('Message not editable.')
     }
 
-    originalMessage.edit(newEmbed)
+    await originalMessage.edit(newEmbed)
 
     return msg.reply('Edit successful.')
   }
