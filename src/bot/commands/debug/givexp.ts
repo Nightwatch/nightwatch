@@ -47,6 +47,6 @@ export default class GiveXpCommand extends Command {
 
     await userService.updateLevelBalance(member.id, { level: user.level } as UserLevelBalance)
 
-    return msg.reply('Successfully reset user level.')
+    return msg.reply('Updated user xp.')
   }
 }
