@@ -29,12 +29,16 @@ export default class ImgurCommand extends Command {
     const query = args.query as string
 
     interface Album {
+      link: string
       nsfw: boolean
       images: Image[]
+      is_album: boolean
     }
 
     interface Image {
       link: string
+      nsfw: boolean
+      is_album: boolean
     }
 
     const { data: { data: albums } }: {data: {data: Album[]}} = await axios.get(`https://api.imgur.com/3/gallery/search?q=${encodeURI(query)}`, {
@@ -49,6 +53,22 @@ export default class ImgurCommand extends Command {
       return msg.reply('No results found.')
     }
 
-    return msg.channel.send(new MessageAttachment(filteredAlbums[Math.floor(Math.random() * filteredAlbums.length)].images[0].link))
+    const randomAlbum = filteredAlbums[Math.floor(Math.random() * filteredAlbums.length)]
+
+    if (!randomAlbum.images) {
+      if (randomAlbum.is_album) {
+        return msg.reply('Command failed. Try again.')
+      }
+
+      return msg.channel.send(new MessageAttachment(randomAlbum.link))
+    }
+
+    const filteredImages = randomAlbum.images.filter(image => image && ((msg.channel as TextChannel).nsfw ? true : !image.nsfw))
+
+    if (!filteredImages || !filteredImages.length) {
+      return msg.reply('No results found.')
+    }
+
+    return msg.channel.send(new MessageAttachment(filteredImages[0].link))
   }
 }
