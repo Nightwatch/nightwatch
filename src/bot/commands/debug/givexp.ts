@@ -24,7 +24,7 @@ export default class GiveXpCommand extends Command {
         {
           key: 'amount',
           prompt: 'How much xp should I give?\n',
-          type: 'number'
+          type: 'integer'
         }
       ],
       ownerOnly: true
