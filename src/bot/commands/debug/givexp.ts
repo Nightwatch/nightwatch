@@ -18,13 +18,13 @@ export default class GiveXpCommand extends Command {
       args: [
         {
           key: 'member',
-          prompt: 'Who\'s level should I reset?\n',
+          prompt: 'Who should I give xp to?\n',
           type: 'member'
         },
         {
           key: 'amount',
           prompt: 'How much xp should I give?\n',
-          type: 'number'
+          type: 'integer'
         }
       ],
       ownerOnly: true
