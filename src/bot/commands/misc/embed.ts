@@ -67,11 +67,20 @@ export default class EmbedCommand extends Command {
       return msg.replyEmbed(this.getHelpMessageEmbed())
     }
 
-    const color = argv.color.contains('#')
-      ? argv.color
-      : materialColors[argv.color || 'blue']
-        ? materialColors[argv.color || 'blue']['500']
-        : materialColors['blue']['500'] as string
+    const getColor = () => {
+      if (!argv.color) {
+        return materialColors['blue']['500'] as string
+      }
+
+      const argColor = argv.color as string
+
+      if (argColor.includes('#')) {
+        return argColor
+      }
+
+      return materialColors[argColor]['500']
+    }
+
     const footer = argv.footer || null
     let channel = argv.channel
       ? msg.guild.channels.find(
@@ -88,7 +97,7 @@ export default class EmbedCommand extends Command {
     const embed = new MessageEmbed()
 
     embed
-      .setColor(color)
+      .setColor(getColor())
       .setDescription(description)
       .setFooter(footer || config.bot.botName)
       .setTimestamp(new Date())
