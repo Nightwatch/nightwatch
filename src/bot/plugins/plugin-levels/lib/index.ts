@@ -1,4 +1,4 @@
-import { Message } from 'discord.js'
+import { Message, MessageAttachment } from 'discord.js'
 import { User } from '../../../../db'
 import { UserService } from '../../../services/user'
 import { UserLevelBalance } from '../../../../api/src/models'
@@ -77,11 +77,14 @@ export const giveXp = async (user: User, message: Message) => {
 
     await userService.updateLevelBalance(message.author.id, postData as UserLevelBalance)
 
+    await message.channel.send(new MessageAttachment('../../../../../assets/level-up.png'))
+
     await message.channel.send(
       `**${popcornEmoji} | ${
         message.member.displayName
       } just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**${levelBonusString}`
     )
+
     return
   }
 
