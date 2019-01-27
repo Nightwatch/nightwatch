@@ -37,7 +37,7 @@ export default class ImgurCommand extends Command {
       link: string
     }
 
-    const { data: albums }: {data: Album[]} = await axios.get(`https://api.imgur.com/3/gallery/search?q=${encodeURI(query)}`, {
+    const { data: { data: albums } }: {data: {data: Album[]}} = await axios.get(`https://api.imgur.com/3/gallery/search?q=${encodeURI(query)}`, {
       headers: {
         'Authorization': `Client-ID ${config.optional.imgur.clientId}`
       }
