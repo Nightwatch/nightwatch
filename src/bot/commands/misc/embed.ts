@@ -86,16 +86,11 @@ export default class EmbedCommand extends Command {
     const embed = new MessageEmbed()
 
     embed
-      .setThumbnail(msg.member.user.avatarURL({ format: 'png', size: 512 }))
       .setColor(color)
       .setDescription(description)
       .setFooter(footer || config.bot.botName)
       .setTimestamp(new Date())
-
-    if (this.client.user) {
-      embed
-      .setAuthor(title || '', this.client.user.avatarURL({ format: 'png' }))
-    }
+      .setAuthor(title || '')
 
     return (channel as TextChannel).send(embed)
   }
@@ -121,14 +116,7 @@ export default class EmbedCommand extends Command {
       .setColor(materialColors['blue']['500'])
       .setFooter(config.bot.botName)
       .setTimestamp(new Date())
-
-    if (this.client.user) {
-      embed
-        .setAuthor(
-          'Embed Help' || '',
-          this.client.user.avatarURL({ format: 'png' })
-        )
-    }
+      .setAuthor('Embed Help' || '')
 
     Object.entries(options).forEach(option => {
       embed.addField(`--${option[0]}`, option[1].description)
