@@ -52,7 +52,7 @@ export interface OptionalSettings {
   dataDogAppKey?: string
   steamWebApiKey?: string
   giphyApiKey?: string
-  imgur: ImgurSettings
+  imgur?: ImgurSettings
 }
 
 export interface ImgurSettings {
