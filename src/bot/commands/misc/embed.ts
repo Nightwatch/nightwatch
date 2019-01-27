@@ -50,7 +50,7 @@ export default class EmbedCommand extends Command {
       })
       .option('color', {
         type: 'string',
-        default: materialColors['red']['500']
+        default: materialColors['blue']['500']
       })
       .option('channel', {
         type: 'string',
@@ -67,9 +67,11 @@ export default class EmbedCommand extends Command {
       return msg.replyEmbed(this.getHelpMessageEmbed())
     }
 
-    const color = materialColors[argv.color || 'red']
-      ? materialColors[argv.color || 'red']['500']
-      : materialColors['red']['500'] as string
+    const color = argv.color.contains('#')
+      ? argv.color
+      : materialColors[argv.color || 'blue']
+        ? materialColors[argv.color || 'blue']['500']
+        : materialColors['blue']['500'] as string
     const footer = argv.footer || null
     let channel = argv.channel
       ? msg.guild.channels.find(
