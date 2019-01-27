@@ -21,6 +21,8 @@ export default class UpdateCommand extends Command {
   public async run (msg: CommandoMessage): Promise<Message | Message[]> {
     const git = simplegit()
 
+    await git.checkout('.')
+
     const result = await git.pull()
 
     if (!result || result.summary.changes === 0) {
