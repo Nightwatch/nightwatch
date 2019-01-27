@@ -52,4 +52,10 @@ export interface OptionalSettings {
   dataDogAppKey?: string
   steamWebApiKey?: string
   giphyApiKey?: string
+  imgur?: ImgurSettings
+}
+
+export interface ImgurSettings {
+  clientId: string
+  clientSecret: string
 }
