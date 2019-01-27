@@ -32,7 +32,7 @@ export default class SupportCommand extends Command {
   constructor (client: CommandoClient) {
     super(client, {
       name: 'support',
-      group: 'misc',
+      group: 'ticket',
       memberName: 'support',
       description: 'Create a support ticket.',
       details: `Creates/closes a support ticket. The supported actions:
