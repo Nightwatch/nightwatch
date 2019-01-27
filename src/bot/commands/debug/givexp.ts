@@ -3,7 +3,7 @@ import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { UserLevelBalance } from '../../../api/src/models'
 
-export default class ResetLevelCommand extends Command {
+export default class GiveXpCommand extends Command {
   constructor (client: CommandoClient) {
     super(client, {
       name: 'givexp',
