@@ -8,7 +8,7 @@ export default class SuggestionCommand extends Command {
   constructor (client: CommandoClient) {
     super(client, {
       name: 'suggest',
-      group: 'misc',
+      group: 'ticket',
       memberName: 'suggest',
       description: 'Create a suggestion that people can vote on.',
       details: `Create a suggestion that people can vote on.
