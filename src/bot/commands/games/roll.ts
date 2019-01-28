@@ -15,18 +15,18 @@ export default class RollCommand extends Command {
       },
       args: [
         {
-          key: 'numberOfDie',
-          prompt: 'How many die should I roll?\n',
-          type: 'integer',
-          default: 1,
-          max: 10
-        },
-        {
           key: 'numberOfSides',
           prompt: 'How many sides does each dice have?\n',
           type: 'integer',
           default: 6,
           max: 100
+        },
+        {
+          key: 'numberOfDie',
+          prompt: 'How many die should I roll?\n',
+          type: 'integer',
+          default: 1,
+          max: 10
         },
         {
           key: 'repeat',
