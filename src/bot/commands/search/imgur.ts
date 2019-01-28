@@ -10,6 +10,7 @@ export default class ImgurCommand extends Command {
       name: 'imgur',
       group: 'search',
       memberName: 'imgur',
+      aliases: ['img'],
       description: 'Searches Imgur for an image.',
       args: [
         {
