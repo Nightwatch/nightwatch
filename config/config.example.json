@@ -6,7 +6,7 @@
   "bot": {
     "token": "",
     "botName": "Nightwatch",
-    "prefix": "nw",
+    "prefix": "n.",
     "ownerId": "",
     "autoReconnect": true,
     "autoDeleteMessages": {
