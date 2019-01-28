@@ -348,7 +348,7 @@ export default class FriendCommand extends Command {
       const description = stripIndents`${friendRequestsMapped}
 
       ${filter === 'incoming'
-        ? `You can accept any friend request by typing \`nw friend accept @User\` or \`nw friend accept <user ID>\``
+        ? `You can accept any friend request by typing \`n. friend accept @User\` or \`n. friend accept <user ID>\``
         : `If they aren't responding to your request, try sending them a DM to accept it.`}`
 
       const embed = new MessageEmbed()
