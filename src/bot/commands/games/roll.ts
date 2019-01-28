@@ -44,7 +44,7 @@ export default class RollCommand extends Command {
     const numberOfSides = args.numberOfSides as number
     const repeat = args.repeat as number
 
-    const roll = () => Math.floor(Math.random() * numberOfSides)
+    const roll = () => Math.floor(Math.random() * numberOfSides) + 1
 
     let result = 'Here\'s what I rolled:\n\n'
 
