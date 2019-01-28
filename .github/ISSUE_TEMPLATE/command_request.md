@@ -1,6 +1,6 @@
 ---
 name: Command request
-about: Suggest a new feature to be added.
+about: Suggest a new command
 
 ---
 
