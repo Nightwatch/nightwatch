@@ -19,7 +19,7 @@ export default class PurgeCommand extends Command {
           prompt: 'How many messages should I delete?\n',
           type: 'integer',
           max: 100,
-          min: 1
+          min: 2
         }
       ]
     })
