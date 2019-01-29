@@ -1,5 +1,7 @@
 import { Message, MessageEmbed } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { Config } from '../../../common'
+const config: Config = require('../../../../config/config.json')
 
 export default class DonateCommand extends Command {
   constructor (client: CommandoClient) {
@@ -23,8 +25,9 @@ export default class DonateCommand extends Command {
       .setTitle('Support Nightwatch')
       .setURL(url)
       .setColor('BLUE')
-      .setTimestamp(new Date())
       .setDescription(`Donating helps support my development and pays for my hosting.\nIf you would like to donate, please visit ${url}`)
+      .setFooter(config.bot.botName)
+      .setTimestamp(new Date())
 
     return msg.channel.send(embed)
   }
