@@ -1,7 +1,7 @@
 import { Message } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 
-export default class WarnCommand extends Command {
+export default class BanCommand extends Command {
   constructor (client: CommandoClient) {
     super(client, {
       name: 'ban',
