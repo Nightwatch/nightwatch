@@ -2,13 +2,13 @@ import { Message } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 
-export default class DonateCommand extends Command {
+export default class TransferCommand extends Command {
   constructor (client: CommandoClient) {
     super(client, {
-      name: 'donate',
+      name: 'transfer',
       group: 'economy',
-      memberName: 'donate',
-      description: 'Donate some of your credits to someone else.',
+      memberName: 'transfer',
+      description: 'Transfer some of your credits to someone else.',
       guildOnly: true,
       throttling: {
         usages: 2,
@@ -17,12 +17,12 @@ export default class DonateCommand extends Command {
       args: [
         {
           key: 'user',
-          prompt: 'Who would you like to donate to?\n',
+          prompt: 'Who would you like to transfer credits to?\n',
           type: 'member'
         },
         {
           key: 'amount',
-          prompt: 'How many credits would you like to donate?\n',
+          prompt: 'How many credits would you like to trasfer?\n',
           type: 'integer'
         }
       ]
@@ -42,11 +42,11 @@ export default class DonateCommand extends Command {
     }
 
     if (args.user.id === msg.author.id) {
-      return msg.reply("You can't donate to yourself ;)")
+      return msg.reply("You can't transfer credits to yourself ;)")
     }
 
     if (args.amount <= 0) {
-      return msg.reply('Donations must be larger than zero.')
+      return msg.reply('Transfers must be larger than zero.')
     }
 
     if (donor.balance.balance < args.amount) {
@@ -65,7 +65,7 @@ export default class DonateCommand extends Command {
     await userService.updateBalance(receiver.id, receiver.balance)
 
     return msg.reply(
-      `You donated ${args.amount} credit${args.amount === 1
+      `You transferred ${args.amount} credit${args.amount === 1
         ? ''
         : 's'} to ${args.user}!`
     )
