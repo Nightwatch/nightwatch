@@ -76,7 +76,13 @@ export const giveXp = async (user: User, message: Message) => {
       }
     }
 
+    const notifyLevelUp = level % 5 === 0 || level >= 10
+
     await userService.updateLevelBalance(message.author.id, postData as UserLevelBalance)
+
+    if (!notifyLevelUp) {
+      return
+    }
 
     await message.channel.send(new MessageAttachment(path.join(__dirname, '../../../../../assets/level-up.png')))
 
