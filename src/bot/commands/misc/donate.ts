@@ -17,10 +17,14 @@ export default class DonateCommand extends Command {
   }
 
   public async run (msg: CommandoMessage): Promise<Message | Message[]> {
+    const url = 'https://patreon.com/ihaxjoker'
+
     const embed = new MessageEmbed()
       .setTitle('Support Nightwatch')
-      .setURL('https://patreon.com/ihaxjoker')
+      .setURL(url)
+      .setColor('BLUE')
       .setTimestamp(new Date())
+      .setDescription(`Donating helps support my development and pays for my hosting.\nIf you would like to donate, please visit ${url}`)
 
     return msg.channel.send(embed)
   }
