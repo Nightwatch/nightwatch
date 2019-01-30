@@ -4,7 +4,8 @@ import {
   GuildSuggestion,
   GuildSupportTicket,
   GuildUser,
-  GuildPerk
+  GuildPerk,
+  GuildSelfAssignableRole
 } from '.'
 import { IsString, MaxLength, IsDate, IsNotEmpty } from 'class-validator'
 
@@ -84,7 +85,10 @@ export class Guild {
   @OneToMany(_ => GuildPerk, guildPerk => guildPerk.guild)
   perks: GuildPerk[]
 
-  constructor (guild?: Guild) {
+  @OneToMany(_ => GuildSelfAssignableRole, sar => sar.guild)
+  selfAssignableRoles: GuildSelfAssignableRole[]
+
+  constructor(guild?: Guild) {
     if (guild) {
       Object.assign(this, guild)
     }
