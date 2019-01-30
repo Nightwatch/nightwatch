@@ -64,7 +64,7 @@ export default class PollCommand extends Command {
     const sentMessage = await textChannel.send(embed) as Message
 
     for (let i = 0; i < result.options.length; i++) {
-      await sentMessage.react(`:${String.fromCharCode(97 + i)}: ${result.options[i]}`)
+      await sentMessage.react(`:${String.fromCharCode(97 + i)}:`)
     }
 
     return msg.channel.send(`There's a new poll in #poll! Go check it out.`)
