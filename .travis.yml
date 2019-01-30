@@ -13,6 +13,6 @@ script:
   - yarn global add typescript
   - tsc
   - mv ormconfig.test.json ormconfig.json
-  - yarn migrate
+  - yarn db:migrate
   - yarn lint
   - yarn api:test
