@@ -51,7 +51,7 @@ export default class PollCommand extends Command {
 
     const embed = new MessageEmbed()
 
-    let options = result.options.map((value, index) => `:${String.fromCharCode(97 + index)}: ${value}`).join('\n')
+    let options = result.options.map((value, index) => `regional_indicator_${String.fromCharCode(97 + index)} ${value}`).join('\n')
 
     embed
       .setAuthor(result.poll)
