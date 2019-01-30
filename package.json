@@ -4,7 +4,7 @@
   "author": "Tanner Goins <tannergz28@gmail.com>",
   "scripts": {
     "lint": "tslint --project . --format stylish --fix && yarn web:lint",
-    "api:dev": "tsc && nodemon --watch 'src/api/src/**/*.ts' --exec 'ts-node' src/api/src/index.ts",
+    "api:dev": "tsc && yarn migrate && nodemon --watch 'src/api/src/**/*.ts' --exec 'ts-node' src/api/src/index.ts",
     "api:docs": "cross-env typedoc --out public/docs src --name \"Nightwatch API\" --excludeExternals --mode file",
     "api:prod": "tsc && cross-env NODE_ENV=production nodemon --exec ts-node src/api/src/index.ts",
     "api:start": "pm2 delete api || true && pm2 start --name api npm -- run api:dev",
@@ -17,7 +17,8 @@
     "web:dev": "vue-cli-service serve src/web/main.js",
     "web:lint": "vue-cli-service lint",
     "web:prod": "vue-cli-service build src/web/main.js",
-    "web:start": "yarn web:dev"
+    "web:start": "yarn web:dev",
+    "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.2.0",
