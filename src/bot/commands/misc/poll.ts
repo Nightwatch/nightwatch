@@ -69,7 +69,7 @@ export default class PollCommand extends Command {
       await sentMessage.react(letters[i])
     }
 
-    return msg.channel.send(`There's a new poll in #poll! Go check it out.`)
+    return msg.channel.send(`There's a new poll in ${textChannel}! Go check it out.`)
   }
 
   private parseOptions(poll: string) {
