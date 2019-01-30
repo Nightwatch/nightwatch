@@ -25,3 +25,5 @@ public/docs
 *.njsproj
 *.sln
 *.sw*
+
+ormconfig.json

@@ -1,0 +1,26 @@
+{
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "",
+  "database": "nightwatch",
+  "synchronize": true,
+  "logging": false,
+  "cache": {
+    "type": "redis",
+    "duration": 60000,
+    "options": {
+      "host": "localhost",
+      "port": 6379
+    }
+  },
+  "type": "postgres",
+  "entities": ["src/db/entity/**/*.ts"],
+  "migrations": ["src/db/migrations/**/*.ts"],
+  "subscribers": ["src/db/subscribers/**/*.ts"],
+  "cli": {
+    "entitiesDir": "src/db/entities",
+    "migrationsDir": "src/db/migrations",
+    "subscribersDir": "src/db/subscribers"
+  }
+}

@@ -5,7 +5,7 @@ import {
   OneToMany,
   ManyToOne
 } from 'typeorm'
-import { GiveawayEntry, GiveawayItem } from '.'
+import { GiveawayItem } from '.'
 import { Guild, User } from '..'
 import { IsDate, IsBoolean } from 'class-validator'
 
@@ -89,16 +89,18 @@ export class Giveaway {
   })
   items: GiveawayItem[]
 
-  /**
-   * The entries into the giveaway.
-   *
-   * @type {GiveawayEntry[]}
-   * @memberof Giveaway
-   */
-  @OneToMany(_ => GiveawayEntry, entry => entry.giveaway)
-  entries: GiveawayEntry[]
+  // /**
+  //  * The entries into the giveaway.
+  //  *
+  //  * @type {GiveawayEntry[]}
+  //  * @memberof Giveaway
+  //  */
+  // @OneToMany(_ => GiveawayEntry, entry => entry.giveaway, {
+  //   cascade: true
+  // })
+  // entries: GiveawayEntry[]
 
-  constructor () {
+  constructor() {
     this.guild = null
     this.dateCreated = new Date()
   }

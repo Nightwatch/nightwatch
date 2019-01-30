@@ -39,10 +39,10 @@ export class GiveawayEntry {
    * @type {Giveaway}
    * @memberof GiveawayEntry
    */
-  @ManyToOne(_ => Giveaway, giveaway => giveaway.entries)
+  @ManyToOne(_ => Giveaway)
   giveaway: Giveaway
 
-  constructor () {
+  constructor() {
     this.timestamp = new Date()
   }
 }

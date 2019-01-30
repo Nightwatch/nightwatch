@@ -14,21 +14,16 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
-import { ormSettings } from './config'
 import { Config } from '../../common'
 
-let ormConfig: any = {}
 let secret = ''
 
 try {
   const config: Config = require('../../../config/config.json')
-  ormConfig = config.db
   secret = config.api.secret
 } catch (err) {
   console.error(err)
 }
-
-const combinedOrmConfig = Object.assign({}, ormSettings, ormConfig)
 
 /**
  * The API server
@@ -58,7 +53,7 @@ export class Api {
   }
 
   private async init () {
-    await createConnection(combinedOrmConfig)
+    await createConnection()
     this.startServer()
   }
 

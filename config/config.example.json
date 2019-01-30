@@ -23,23 +23,6 @@
     "clientId": "",
     "clientSecret": ""
   },
-  "db": {
-    "host": "localhost",
-    "port": 5432,
-    "username": "postgres",
-    "password": "",
-    "database": "nightwatch",
-    "synchronize": true,
-    "logging": false,
-    "cache": {
-      "type": "redis",
-      "duration": 60000,
-      "options": {
-        "host": "localhost",
-        "port": 6379
-      }
-    }
-  },
   "optional": {
     "dataDogApiKey": "",
     "dataDogAppKey": "",
