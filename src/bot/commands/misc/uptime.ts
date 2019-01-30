@@ -1,7 +1,6 @@
 import { Message, MessageEmbed } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { describe } from 'pm2'
-import * as prettyMs from 'pretty-ms'
 
 export default class UptimeCommand extends Command {
   constructor (client: CommandoClient) {
@@ -38,14 +37,14 @@ export default class UptimeCommand extends Command {
         embed
           .setAuthor('Uptime')
           .setColor('BLUE')
-          .addField('Bot', prettyMs(botUptime), true)
-          .addField('API', prettyMs(apiUptime), true)
+          .addField('Bot', botUptime, true)
+          .addField('API', apiUptime, true)
           .setTimestamp(new Date())
 
         return msg.channel.send(embed)
       })
     })
 
-    return msg.reply(null)
+    return msg.channel.send(null)
   }
 }
