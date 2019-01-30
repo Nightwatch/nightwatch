@@ -7,7 +7,7 @@ cache:
 services:
     - postgresql
 before_script:
-  - psql -c 'create database nightwatch_test' -U postgres
+  - psql -c 'create database nightwatch' -U postgres
 script:
   - yarn
   - yarn global add typescript
