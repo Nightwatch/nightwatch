@@ -12,5 +12,6 @@ script:
   - yarn
   - yarn global add typescript
   - tsc
+  - yarn migrate
   - yarn lint
   - yarn api:test
