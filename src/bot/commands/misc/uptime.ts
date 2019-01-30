@@ -1,7 +1,6 @@
 import { Message, MessageEmbed } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { describe } from 'pm2'
-import * as Bluebird from 'bluebird'
 import * as prettyMs from 'pretty-ms'
 
 export default class UptimeCommand extends Command {
@@ -20,23 +19,33 @@ export default class UptimeCommand extends Command {
   }
 
   public async run (msg: CommandoMessage): Promise<Message | Message[]> {
-    const asyncDescribe = Bluebird.promisify(describe)
+    describe('api', (err, apiDescriptions) => {
+      if (err) {
+        return msg.reply('Command failed. An error occurred.')
+      }
 
-    const api = await asyncDescribe('api')
-    const bot = await asyncDescribe('bot')
+      const apiUptime = apiDescriptions[0].pm2_env!.pm_uptime || 0
 
-    const apiUptime = api[0].pm2_env!.pm_uptime || 0
-    const botUptime = bot[0].pm2_env!.pm_uptime || 0
+      return describe('bot', (err, botDescriptions) => {
+        if (err) {
+          return msg.reply('Command failed. An error occurred.')
+        }
 
-    const embed = new MessageEmbed()
+        const botUptime = botDescriptions[0].pm2_env!.pm_uptime || 0
 
-    embed
-      .setAuthor('Uptime')
-      .setColor('BLUE')
-      .addField('Bot', prettyMs(botUptime), true)
-      .addField('API', prettyMs(apiUptime), true)
-      .setTimestamp(new Date())
+        const embed = new MessageEmbed()
 
-    return msg.channel.send(embed)
+        embed
+          .setAuthor('Uptime')
+          .setColor('BLUE')
+          .addField('Bot', prettyMs(botUptime), true)
+          .addField('API', prettyMs(apiUptime), true)
+          .setTimestamp(new Date())
+
+        return msg.channel.send(embed)
+      })
+    })
+
+    return msg.reply(null)
   }
 }
