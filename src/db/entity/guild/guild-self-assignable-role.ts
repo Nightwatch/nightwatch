@@ -3,8 +3,6 @@ import {
   Column,
   ManyToOne,
   PrimaryGeneratedColumn,
-  OneToOne,
-  Index,
   JoinColumn
 } from 'typeorm'
 import { Guild } from '.'
