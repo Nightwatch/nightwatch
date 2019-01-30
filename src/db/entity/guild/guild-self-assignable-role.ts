@@ -1,4 +1,12 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  Index,
+  JoinColumn
+} from 'typeorm'
 import { Guild } from '.'
 import { IsString } from 'class-validator'
 
@@ -24,11 +32,12 @@ export class GuildSelfAssignableRole {
   roleId: string
 
   /**
-   * The guild the self assignable role belongs to.
+   * The guild the self assignable roles belong to.
    *
    * @type {Guild}
    * @memberof GuildSelfAssignableRole
    */
-  @ManyToOne(_ => Guild)
+  @ManyToOne(_ => Guild, guild => guild.selfAssignableRoles)
+  @JoinColumn()
   guild: Guild
 }
