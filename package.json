@@ -4,7 +4,7 @@
   "author": "Tanner Goins <tannergz28@gmail.com>",
   "scripts": {
     "lint": "tslint --project . --format stylish --fix && yarn web:lint",
-    "api:dev": "tsc && yarn db:migrate && nodemon --watch 'src/api/src/**/*.ts' --exec 'ts-node' src/api/src/index.ts",
+    "api:dev": "tsc && nodemon --watch 'src/api/src/**/*.ts' --exec 'ts-node' src/api/src/index.ts",
     "api:docs": "cross-env typedoc --out public/docs src --name \"Nightwatch API\" --excludeExternals --mode file",
     "api:prod": "tsc && cross-env NODE_ENV=production nodemon --exec ts-node src/api/src/index.ts",
     "api:start": "pm2 delete api || true && pm2 start --name api npm -- run api:dev",
