@@ -7,12 +7,12 @@ cache:
 services:
     - postgresql
 before_script:
-  - psql -c 'create database nightwatch' -U postgres
+  - psql -c 'create database nightwatch_test' -U postgres
 script:
   - yarn
   - yarn global add typescript
   - tsc
-  - mv ormconfig.example.json ormconfig.json
+  - mv ormconfig.test.json ormconfig.json
   - yarn migrate
   - yarn lint
   - yarn api:test
