@@ -1,6 +1,7 @@
 import { Message, MessageEmbed } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { describe } from 'pm2'
+import * as prettyMs from 'pretty-ms'
 
 export default class UptimeCommand extends Command {
   constructor (client: CommandoClient) {
@@ -31,20 +32,21 @@ export default class UptimeCommand extends Command {
         }
 
         const botUptime = botDescriptions[0].pm2_env!.pm_uptime || 0
+        const currentTime = Date.now()
 
         const embed = new MessageEmbed()
 
         embed
           .setAuthor('Uptime')
           .setColor('BLUE')
-          .addField('Bot', botUptime, true)
-          .addField('API', apiUptime, true)
+          .addField('Bot', prettyMs(currentTime - botUptime), true)
+          .addField('API', prettyMs(currentTime - apiUptime), true)
           .setTimestamp(new Date())
 
         return msg.channel.send(embed)
       })
     })
 
-    return msg.channel.send(null)
+    return msg.channel.send('I am updated frequently, so my uptime is probably low!')
   }
 }
