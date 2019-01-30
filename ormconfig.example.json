@@ -4,7 +4,7 @@
   "username": "postgres",
   "password": "",
   "database": "nightwatch",
-  "synchronize": true,
+  "synchronize": false,
   "logging": false,
   "cache": {
     "type": "redis",
