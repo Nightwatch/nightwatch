@@ -1,7 +1,6 @@
 export interface Config {
   api: ApiConfig
   bot: BotConfig
-  db: DatabaseConfig
   optional: OptionalSettings
 }
 
@@ -27,24 +26,6 @@ export interface BotConfig {
   },
   clientId: string
   clientSecret: string
-}
-
-export interface DatabaseConfig {
-  host: string
-  port: number
-  username: string
-  password: string
-  database: string
-  synchronize: boolean
-  logging: boolean
-  cache: {
-    type: string
-    duration: number
-    options: {
-      host: string
-      port: number
-    }
-  }
 }
 
 export interface OptionalSettings {
