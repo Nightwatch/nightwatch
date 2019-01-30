@@ -1,14 +1,14 @@
 import { createConnection } from 'typeorm'
 
 export async function createTestDatabaseConnection() {
-  await createConnection({
+  const connection = await createConnection({
     type: 'postgres',
     host: 'localhost',
     port: 5432,
     username: 'postgres',
     password: '',
     database: 'nightwatch_test',
-    synchronize: true,
+    synchronize: false,
     logging: false,
     entities: ['src/db/entity/**/*.ts'],
     migrations: ['src/db/migrations/**/*.ts'],
@@ -19,4 +19,6 @@ export async function createTestDatabaseConnection() {
       subscribersDir: 'src/db/subscribers'
     }
   })
+
+  await connection.runMigrations()
 }
