@@ -3,7 +3,8 @@ import {
   GuildSuggestion,
   GuildSupportTicket,
   GuildSettings,
-  GuildUser
+  GuildUser,
+  GuildSelfAssignableRole
 } from '../../../db'
 import { getRepository } from 'typeorm'
 import { injectable } from 'inversify'
@@ -21,6 +22,7 @@ export class GuildService implements IGuildService {
   private supportTicketRepository = getRepository(GuildSupportTicket)
   private settingsRepository = getRepository(GuildSettings)
   private userRepository = getRepository(GuildUser)
+  private selfAssignableRoleRepository = getRepository(GuildSelfAssignableRole)
 
   public find () {
     return this.guildRepository.find()
@@ -154,4 +156,27 @@ export class GuildService implements IGuildService {
       user
     )
   }
+
+  public async findSelfAssignableRoles (id: string) {
+    return this.selfAssignableRoleRepository.find({ where: { guild: { id } } })
+  }
+
+  public async findSelfAssignableRole (id: string, roleId: string) {
+    return this.selfAssignableRoleRepository.findOne({ where: { guild: { id }, roleId } })
+  }
+
+  public async createSelfAssignableRole (_: string, selfAssignableRole: GuildSelfAssignableRole) {
+    await this.selfAssignableRoleRepository.save(selfAssignableRole)
+  }
+
+  public async deleteSelfAssignableRole (id: string, roleId: string) {
+    const selfAssignableRole = await this.selfAssignableRoleRepository.findOne({ where: { guild: { id }, roleId } })
+
+    if (!selfAssignableRole) {
+      return
+    }
+
+    await this.selfAssignableRoleRepository.remove(selfAssignableRole)
+  }
+
 }

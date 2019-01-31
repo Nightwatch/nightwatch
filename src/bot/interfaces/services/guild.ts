@@ -1,5 +1,5 @@
 import { Guild } from 'discord.js'
-import { Guild as BotGuild, GuildSupportTicket, GuildSuggestion } from '../../../db'
+import { Guild as BotGuild, GuildSupportTicket, GuildSuggestion, GuildSelfAssignableRole } from '../../../db'
 import * as Promise from 'bluebird'
 
 export interface GuildService {
@@ -9,4 +9,8 @@ export interface GuildService {
   updateSupportTicket: (id: string, ticketId: number, ticket: GuildSupportTicket) => Promise<void>
   createSuggestion: (id: string, ticket: GuildSuggestion) => Promise<void>
   updateSuggestion: (id: string, ticketId: number, ticket: GuildSuggestion) => Promise<void>
+  findSelfAssignableRoles: (id: string) => Promise<GuildSelfAssignableRole[]>
+  findSelfAssignableRole: (id: string, roleId: string) => Promise<GuildSelfAssignableRole | undefined>
+  createSelfAssignableRole: (id: string, selfAssignableRole: GuildSelfAssignableRole) => Promise<void>
+  deleteSelfAssignableRole: (id: string, roleId: string) => Promise<void>
 }

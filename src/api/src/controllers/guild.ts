@@ -1,3 +1,4 @@
+import { Response } from 'express'
 import {
   controller,
   httpGet,
@@ -5,7 +6,8 @@ import {
   httpPut,
   httpPost,
   requestParam,
-  requestBody
+  requestBody,
+  response
 } from 'inversify-express-utils'
 import { inject } from 'inversify'
 import { Events } from '../constants'
@@ -17,7 +19,8 @@ import {
   GuildSupportTicket,
   GuildSettings,
   GuildUser,
-  GuildSuggestion
+  GuildSuggestion,
+  GuildSelfAssignableRole
 } from '../../../db'
 import { Types } from '../../../common'
 
@@ -417,5 +420,70 @@ export class GuildController implements BaseController<Guild, string> {
       guildId: id,
       userId
     })
+  }
+
+  /**
+   * Finds a Guild's self assignable roles.
+   *
+   * GET /:id/self-assignable-roles
+   * @param {string} id The ID of the guild.
+   * @returns Promise<GuildSelfAssignableRoles>
+   * @memberof GuildController
+   */
+  @httpGet('/:id/self-assignable-roles')
+  async findSelfAssignableRoles(@requestParam('id') id: string) {
+    return this.guildService.findSelfAssignableRoles(id)
+  }
+
+  /**
+   * Finds a Guild's self assignable role by Discord role ID.
+   *
+   * GET /:id/self-assignable-roles/:roleId
+   * @param {string} id The ID of the guild.
+   * @param {string} roleId The ID of the Discord role.
+   * @returns Promise<GuildSelfAssignableRole | undefined>
+   * @memberof GuildController
+   */
+  @httpGet('/:id/self-assignable-roles/:roleId')
+  async findSelfAssignableRole(@requestParam('id') id: string, @requestParam('roleId') roleId: string) {
+    return this.guildService.findSelfAssignableRole(id, roleId)
+  }
+
+  /**
+   * Creates a self assignable role.
+   *
+   * POST /:id/self-assignable-roles
+   * @param {string} id The ID of the guild.
+   * @param {GuildSelfAssignableRole} selfAssignableRole The self assignable role object.
+   * @returns Promise<void>
+   * @memberof GuildController
+   */
+  @httpPost('/:id/self-assignable-roles')
+  async createSelfAssignableRole(@requestParam('id') id: string, @requestBody() selfAssignableRole: GuildSelfAssignableRole, @response() res: Response) {
+    const existingAssignableRole = await this.findSelfAssignableRole(id, selfAssignableRole.roleId)
+
+    if (existingAssignableRole) {
+      res.sendStatus(409)
+      return
+    }
+
+    return this.guildService.createSelfAssignableRole(id, selfAssignableRole)
+  }
+
+  /**
+   * Deletes a Guild self assignable role by Discord role ID.
+   *
+   * DELETE /:id/self-assignable-roles/:roleId
+   * @param {string} id The ID of the guild.
+   * @param {string} roleId The ID of the role.
+   * @returns Promise<void>
+   * @memberof GuildController
+   */
+  @httpDelete('/:id/self-assignable-roles/:roleId')
+  async deleteSelfAssignableRole (
+    @requestParam('id') id: string,
+    @requestParam('roleId') roleId: string
+  ) {
+    await this.guildService.deleteSelfAssignableRole(id, roleId)
   }
 }

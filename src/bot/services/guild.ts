@@ -1,7 +1,7 @@
 import { GuildService as IGuildService } from '../interfaces'
 import { Guild } from 'discord.js'
 import { api } from '../utils'
-import { Guild as BotGuild, GuildSettings, GuildSupportTicket, GuildSuggestion } from '../../db'
+import { Guild as BotGuild, GuildSettings, GuildSupportTicket, GuildSuggestion, GuildSelfAssignableRole } from '../../db'
 import { injectable } from 'inversify'
 import * as Promise from 'bluebird'
 
@@ -54,5 +54,29 @@ export class GuildService implements IGuildService {
     const route = `/guilds/${id}/suggestions/${ticketId}`
 
     return Promise.resolve(api.put(route, ticket)).thenReturn()
+  }
+
+  public findSelfAssignableRoles = (id: string) => {
+    const route = `/guilds/${id}/self-assignable-roles`
+
+    return Promise.resolve(api.get(route)).then(response => response.data)
+  }
+
+  public findSelfAssignableRole = (id: string, roleId: string) => {
+    const route = `/guilds/${id}/self-assignable-roles/${roleId}`
+
+    return Promise.resolve(api.get(route)).then(response => response.data)
+  }
+
+  public createSelfAssignableRole = (id: string, selfAssignableRole: GuildSelfAssignableRole) => {
+    const route = `/guilds/${id}/self-assignable-roles`
+
+    return Promise.resolve(api.post(route, selfAssignableRole)).thenReturn()
+  }
+
+  public deleteSelfAssignableRole = (id: string, roleId: string) => {
+    const route = `/guilds/${id}/self-assignable-roles/${roleId}`
+
+    return Promise.resolve(api.delete(route)).thenReturn()
   }
 }
