@@ -36,6 +36,10 @@ export default class AddSelfAssignableRoleCommand extends Command {
       return msg.reply(`Could not find a role named ${args.role}`)
     }
 
+    if (role.position > msg.member.roles.highest.position) {
+      return msg.reply('You cannot add a role above you as a self assignable role.')
+    }
+
     const guildService = new GuildService()
 
     const guild = await guildService.find(msg.guild.id)
