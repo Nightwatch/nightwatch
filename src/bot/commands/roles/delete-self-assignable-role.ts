@@ -35,6 +35,10 @@ export default class DeleteSelfAssignableRoleCommand extends Command {
       return msg.reply(`Could not find a role named ${args.role}`)
     }
 
+    if (role.position > msg.member.roles.highest.position) {
+      return msg.reply('You cannot remove a role above you as a self assignable role.')
+    }
+
     const guildService = new GuildService()
 
     try {
