@@ -1,7 +1,5 @@
 import { Message, Role } from 'discord.js'
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
-import { GuildService } from '../../services'
-import { GuildSelfAssignableRole } from '../../../db'
 
 export default class IAmRoleCommand extends Command {
   constructor (client: CommandoClient) {
