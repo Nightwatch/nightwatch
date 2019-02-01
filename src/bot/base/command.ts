@@ -8,11 +8,11 @@ export class Command extends CommandoCommand {
     this.premiumOnly = info.premiumOnly || false
   }
 
-  public hasPermission(_msg: CommandoMessage) {
-    if (!this.premiumOnly) {
+  public hasPermission(msg: CommandoMessage) {
+    if (!this.premiumOnly || this.client.isOwner(msg.author)) {
       return true
     }
 
-    return 'Only guilds with premium access can use this command.'
+    return `Only guilds with premium access can use the \`${this.name}\` command.`
   }
 }
