@@ -1,10 +1,14 @@
 import { Command as CommandoCommand } from 'discord.js-commando'
-import { Message } from 'discord.js'
+import { Message, Guild } from 'discord.js'
 
 export class Command extends CommandoCommand {
-  premiumOnly: boolean
+  premiumOnly: boolean = false
 
   public isUsable(_msg: Message) {
+    return !this.premiumOnly
+  }
+
+  public isEnabledIn(_guild: Guild) {
     return !this.premiumOnly
   }
 }
