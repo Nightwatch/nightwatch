@@ -1,5 +1,6 @@
 import { Message, TextChannel } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { Command } from '../../base'
 
 export default class PurgeCommand extends Command {
   constructor (client: CommandoClient) {

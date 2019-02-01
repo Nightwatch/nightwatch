@@ -1,10 +1,11 @@
 import { Message, MessageEmbed, TextChannel } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as yargs from 'yargs'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
 import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
+import { Command } from '../../base'
 
 export default class EmbedCommand extends Command {
   constructor (client: CommandoClient) {

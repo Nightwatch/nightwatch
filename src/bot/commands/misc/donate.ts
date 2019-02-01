@@ -1,7 +1,8 @@
 import { Message, MessageEmbed } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
+import { Command } from '../../base'
 
 export default class DonateCommand extends Command {
   constructor (client: CommandoClient) {

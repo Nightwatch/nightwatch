@@ -1,7 +1,8 @@
 import { Message } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { stripIndents } from 'common-tags'
 import { UserService } from '../../services'
+import { Command } from '../../base'
 
 const combinations = [
   [ 0, 1, 2 ],

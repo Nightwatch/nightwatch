@@ -1,7 +1,8 @@
 import { Message, MessageEmbed } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import axios from 'axios'
 import { Config } from '../../../common'
+import { Command } from '../../base'
 
 const config: Config = require('../../../../config/config.json')
 
