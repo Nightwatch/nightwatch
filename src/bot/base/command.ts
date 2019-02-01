@@ -10,7 +10,7 @@ export class Command extends CommandoCommand {
 
   public hasPermission(msg: CommandoMessage) {
     if (!this.premiumOnly || this.client.isOwner(msg.author)) {
-      return true
+      return super.hasPermission(msg)
     }
 
     return `Only guilds with premium access can use the \`${this.name}\` command.`
