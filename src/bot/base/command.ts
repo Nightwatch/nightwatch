@@ -3,7 +3,7 @@ import { Command as CommandoCommand, CommandoMessage } from 'discord.js-commando
 export class Command extends CommandoCommand {
   premiumOnly: boolean = false
 
-  public hasPermission(msg: CommandoMessage) {
+  public hasPermission(_msg: CommandoMessage) {
     if (!this.premiumOnly) {
       return true
     }
