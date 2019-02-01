@@ -41,7 +41,7 @@ Please note that all listed features may not be implemented yet. This list mainl
 
 Want to talk about my bot, have questions about it, or just want to chat?
 
-Come visit [my Discord server](https://invite.gg/welounge). I'd be happy to talk to you.
+Come visit [my Discord server](https://invite.gg/nightwatch). I'd be happy to talk to you.
 
 See the bot in action, test it out, see what it can do for you.
 
