@@ -19,6 +19,6 @@ export default class PremiumOnlyCommand extends Command {
   }
 
   public async run (msg: CommandoMessage): Promise<Message | Message[]> {
-    return msg.channel.send('Only premium users can see this.')
+    return msg.channel.send('This message should not appear.')
   }
 }
