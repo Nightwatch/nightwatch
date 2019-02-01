@@ -1,6 +1,7 @@
 import { Message } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as simplegit from 'simple-git/promise'
+import { Command } from '../../base'
 
 export default class UpdateCommand extends Command {
   constructor (client: CommandoClient) {
