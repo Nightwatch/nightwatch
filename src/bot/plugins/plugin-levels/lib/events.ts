@@ -12,6 +12,11 @@ export const onMessage = async (message: Message) => {
     return
   }
 
+  if (Math.floor(Math.random() * 2) === 1) {
+    // 50% chance the message won't get processed. Halves the amount of API requests made.
+    return
+  }
+
   const userService = new UserService()
 
   // prevent the user from earning xp for bot commands.

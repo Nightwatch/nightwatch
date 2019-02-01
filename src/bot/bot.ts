@@ -50,6 +50,7 @@ export class Bot implements IBot {
     this.client.on('commandRun', this.eventController.onCommandRun)
     this.client.on('guildCreate', this.eventController.onGuildCreate)
     this.client.on('guildMemberAdd', this.eventController.onGuildMemberAdd)
+    this.client.on('commandError', this.eventController.onCommandError)
   }
 
   public registerCommands() {

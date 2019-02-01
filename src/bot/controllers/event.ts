@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify'
 import { Types, Config } from '../../common'
 import { EventController as IEventController, GuildService, UserService } from '../interfaces'
 import { Message, GuildMember, Guild } from 'discord.js'
-import { CommandoMessage } from 'discord.js-commando'
+import { CommandoMessage, Command } from 'discord.js-commando'
 import * as Promise from 'bluebird'
 
 const config: Config = require('../../../config/config.json')
@@ -17,12 +17,7 @@ export class EventController implements IEventController {
       return Promise.resolve()
     }
 
-    return this.userService.create(message.author)
-      .thenReturn()
-      .catch(console.error)
-      .then(() => this.guildService.create(message.guild))
-      .thenReturn()
-      .catch(console.error)
+    return Promise.resolve()
   }
 
   public onCommandRun = (
@@ -51,6 +46,19 @@ export class EventController implements IEventController {
 
   public onGuildMemberAdd = (member: GuildMember) => {
     return this.userService.create(member.user)
+      .catch(console.error)
+  }
+
+  public onCommandError = (_command: Command, _error: Error, message: CommandoMessage) => {
+    if (message.author.bot || message.channel.type !== 'text') {
+      return Promise.resolve()
+    }
+
+    return this.userService.create(message.author)
+      .thenReturn()
+      .catch(console.error)
+      .then(() => this.guildService.create(message.guild))
+      .thenReturn()
       .catch(console.error)
   }
 }
