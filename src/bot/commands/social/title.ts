@@ -1,6 +1,7 @@
 import { Message } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services/user'
+import { Command } from '../../base'
 
 export default class TitleCommand extends Command {
   constructor (client: CommandoClient) {

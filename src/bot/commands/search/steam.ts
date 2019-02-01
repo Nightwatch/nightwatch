@@ -1,6 +1,7 @@
 import { Message, MessageEmbed } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { SteamProvider, SteamSearchEntry } from 'steam-provider'
+import { Command } from '../../base'
 
 export default class SteamCommand extends Command {
   constructor (client: CommandoClient) {

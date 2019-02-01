@@ -1,7 +1,8 @@
 import { Message } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
 import { UserService } from '../../services'
+import { Command } from '../../base'
 
 const awardAmount: number = 1
 const lossAmount: number = 10

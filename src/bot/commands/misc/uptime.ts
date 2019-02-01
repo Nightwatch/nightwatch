@@ -1,7 +1,8 @@
 import { Message, MessageEmbed } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { describe } from 'pm2'
 import * as prettyMs from 'pretty-ms'
+import { Command } from '../../base'
 
 export default class UptimeCommand extends Command {
   constructor (client: CommandoClient) {

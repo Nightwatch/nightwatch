@@ -1,6 +1,7 @@
 import { Message, MessageEmbed, TextChannel } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
+import { Command } from '../../base'
 
 export default class PollCommand extends Command {
   constructor (client: CommandoClient) {

@@ -1,9 +1,10 @@
 import { Message, MessageEmbed, TextChannel } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
 import { GuildSupportTicket } from '../../../db'
 import { GuildService } from '../../services'
+import { Command } from '../../base'
 
 interface SupportTicket {
   color: string

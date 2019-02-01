@@ -1,8 +1,9 @@
 import { Message } from 'discord.js'
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as prettyMs from 'pretty-ms'
 import { oneLine } from 'common-tags'
 import { UserService } from '../../services'
+import { Command } from '../../base'
 
 export default class DailiesCommand extends Command {
   constructor (client: CommandoClient) {
