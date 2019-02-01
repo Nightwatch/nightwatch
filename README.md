@@ -33,6 +33,9 @@ Features include:
 - Cross-platform mobile app
 - ...And much more
 
+Want to unlock Nightwatch Premium and get access to some cool commands and features?
+Get Premium: https://patreon.com/ihaxjoker
+
 Want other features added? Let us know by making a [Feature Request](https://github.com/Nightwatch/nightwatch/issues)
 
 Please note that all listed features may not be implemented yet. This list mainly serves as a roadmap.
