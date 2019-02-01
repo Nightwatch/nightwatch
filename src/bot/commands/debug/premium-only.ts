@@ -3,7 +3,6 @@ import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class PremiumOnlyCommand extends Command {
-  premiumOnly: true
   constructor (client: CommandoClient) {
     super(client, {
       name: 'premiumonly',
@@ -15,7 +14,8 @@ export default class PremiumOnlyCommand extends Command {
         usages: 2,
         duration: 3
       },
-      ownerOnly: false // Intentional, so it can be tested.
+      ownerOnly: false, // Intentional, so it can be tested.,
+      premiumOnly: true
     })
   }
 
