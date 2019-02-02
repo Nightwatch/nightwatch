@@ -20,8 +20,13 @@ Features include:
 - Music
 - Games
 - Economy
+- Gambling
 - Giveaways
 - Referral rewards
+- Self assignable roles
+- Suggestions
+- Support tickets
+- Polls
 - Custom Social Media/Friend system
 - Image/Game/Music/Anime/etc search
 - Server linking
