@@ -19,6 +19,7 @@ Features include:
 - Moderation
 - Anti spam **Ƥ**
 - Anti raid **Ƥ**
+- Anti nuke **Ƥ**
 - Auto purge **Ƥ**
 - Music **Ƥ**
 - Games
