@@ -167,22 +167,12 @@ export default class SuggestionCommand extends Command {
     }
 
     const isSuggestionOwner = msg.member.id === suggestion.userId
+
     const newDescription = description
       .substring(description.indexOf(' '))
       .trim()
 
-    const rolesWithPerm = [
-      'Owner',
-      'Co-Owner',
-      'Manager',
-      'Senior Administrator',
-      'Administrator'
-    ]
-
-    if (
-      !msg.member.roles.some(x => rolesWithPerm.includes(x.name)) &&
-      !isSuggestionOwner
-    ) {
+    if (!isSuggestionOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
       return msg.reply("You don't have permission to do that.")
     }
 
