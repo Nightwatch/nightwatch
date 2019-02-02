@@ -21,6 +21,4 @@ export async function createTestDatabaseConnection() {
   })
 
   await connection.runMigrations()
-
-  return connection
 }
