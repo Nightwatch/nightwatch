@@ -31,6 +31,10 @@
     "imgur": {
       "clientId": "",
       "clientSecret": ""
+    },
+    "premium": {
+      "primaryGuildId": "",
+      "premiumPatreonRoleId": ""
     }
   }
 }

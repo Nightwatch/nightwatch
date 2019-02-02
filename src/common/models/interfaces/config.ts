@@ -34,9 +34,15 @@ export interface OptionalSettings {
   steamWebApiKey?: string
   giphyApiKey?: string
   imgur?: ImgurSettings
+  premium?: PremiumSettings
 }
 
 export interface ImgurSettings {
   clientId: string
   clientSecret: string
+}
+
+export interface PremiumSettings {
+  primaryGuildId?: string
+  premiumPatreonRoleId?: string
 }
