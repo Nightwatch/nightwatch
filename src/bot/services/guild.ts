@@ -35,7 +35,7 @@ export class GuildService implements IGuildService {
   public createSupportTicket = (id: string, ticket: GuildSupportTicket) => {
     const route = `/guilds/${id}/support-tickets`
 
-    return Promise.resolve(api.post(route, ticket)).thenReturn()
+    return Promise.resolve(api.post(route, ticket)).then(x => x.data)
   }
 
   public updateSupportTicket = (id: string, ticketId: number, ticket: GuildSupportTicket) => {
@@ -47,7 +47,7 @@ export class GuildService implements IGuildService {
   public createSuggestion = (id: string, ticket: GuildSuggestion) => {
     const route = `/guilds/${id}/suggestions`
 
-    return Promise.resolve(api.post(route, ticket)).thenReturn()
+    return Promise.resolve(api.post(route, ticket)).then(x => x.data)
   }
 
   public updateSuggestion = (id: string, ticketId: number, ticket: GuildSuggestion) => {
