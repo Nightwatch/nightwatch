@@ -41,6 +41,10 @@ export class UserController implements IUserController {
       return false
     }
 
+    if (client.isOwner(id)) {
+      return true
+    }
+
     return member.roles.has(config.optional.premium.premiumPatreonRoleId)
   }
 }
