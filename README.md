@@ -17,20 +17,25 @@ Nightwatch aims to combine the features of all popular bots into one bot.
 Features include:
 
 - Moderation
-- Spam Prevention
-- Music
+- Anti spam **Ƥ**
+- Anti raid **Ƥ**
+- Auto purge **Ƥ**
+- Music **Ƥ**
 - Games
 - Economy
 - Gambling
 - Giveaways
+- Lockdown **Ƥ**
 - Referral rewards
 - Self assignable roles
+- Slow mode **Ƥ**
 - Suggestions
 - Support tickets
 - Polls
 - Custom Social Media/Friend system
 - Image/Game/Music/Anime/etc search
-- Server linking
+- Server linking **Ƥ**
+- Voice/Text linking **Ƥ**
 - Plugins
 - Integration with other services
 - REST API for third party integration
@@ -43,11 +48,22 @@ Want other features added? Let us know by making a [Feature Request](https://git
 
 Please note that all listed features may not be implemented yet. This list mainly serves as a roadmap.
 
+_Features marked with **Ƥ** require Nightwatch Premium_
+
 ## Nightwatch Premium
 
 Want to unlock Nightwatch Premium and get access to some cool commands and features?
 
-Get Premium: https://patreon.com/ihaxjoker
+**Get Premium: https://patreon.com/ihaxjoker**
+
+Benefits of Premium:
+
+- Works in *all* Discord servers you are the owner of!
+- Unlocks all features marked with **Ƥ**
+- Premium commands can be used in all servers, regardless of whether the server owner has Premium
+- Priority support
+- Early access to new features
+- Exclusive role in the [Nightwatch Discord](https://invite.gg/nightwatch)
 
 ## Contact Us
 
