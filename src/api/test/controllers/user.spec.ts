@@ -17,7 +17,7 @@ import {
   UserFriendRequest,
   UserFriend
 } from '../../../db'
-import { getRepository, getConnection } from 'typeorm'
+import { getRepository, getConnection, Connection } from 'typeorm'
 import {
   InversifyExpressServer,
   cleanUpMetadata
@@ -27,9 +27,10 @@ import * as bodyParser from 'body-parser'
 describe('UserController', () => {
   let server: InversifyExpressServer
   let app: supertest.SuperTest<supertest.Test>
+  let connection: Connection
 
   before(async () => {
-    await createTestDatabaseConnection()
+    connection = await createTestDatabaseConnection()
     server = new InversifyExpressServer(container)
     server.setConfig(app => {
       app.use(bodyParser.json())
@@ -42,6 +43,10 @@ describe('UserController', () => {
     const connection = getConnection()
     await connection.dropDatabase()
     await connection.synchronize()
+  })
+
+  after(() => {
+    connection.close()
   })
 
   describe('find', () => {

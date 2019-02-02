@@ -6,7 +6,7 @@ import { expect } from 'chai'
 import { createTestDatabaseConnection } from '..'
 import { container } from '../../src/ioc/inversify.config'
 import * as supertest from 'supertest'
-import { getRepository, getConnection } from 'typeorm'
+import { getRepository, getConnection, Connection } from 'typeorm'
 import {
   InversifyExpressServer,
   cleanUpMetadata
@@ -17,9 +17,10 @@ import { Guild, GuildSettings } from '../../../db'
 describe('GuildController', () => {
   let server: InversifyExpressServer
   let app: supertest.SuperTest<supertest.Test>
+  let connection: Connection
 
   before(async () => {
-    await createTestDatabaseConnection()
+    connection = await createTestDatabaseConnection()
     server = new InversifyExpressServer(container)
     server.setConfig(app => {
       app.use(bodyParser.json())
@@ -32,6 +33,10 @@ describe('GuildController', () => {
     const connection = getConnection()
     await connection.dropDatabase()
     await connection.synchronize()
+  })
+
+  after(() => {
+    connection.close()
   })
 
   describe('find', () => {
