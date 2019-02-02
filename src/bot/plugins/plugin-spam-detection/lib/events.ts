@@ -15,7 +15,7 @@ export const onMessage = async (message: Message) => {
 
   const userController = new UserController()
 
-  if (!userController.userHasPremium(message.guild.ownerID, Plugin.client)) {
+  if (Plugin.premiumOnly && !userController.userHasPremium(message.guild.ownerID, Plugin.client)) {
     return
   }
 

@@ -1,9 +1,10 @@
-import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Message, User, MessageEmbed, Emoji } from 'discord.js'
 import { stripIndents } from 'common-tags'
 import { Plugin } from '../../index'
 import { api } from '../../../../utils'
 import { User as BotUser, UserFriend, UserFriendRequest } from '../../../../../db'
+import { Command } from '../../../../base'
 
 export default class FriendCommand extends Command {
   constructor (client: CommandoClient) {
