@@ -5,9 +5,9 @@ import * as Promise from 'bluebird'
 export interface GuildService {
   create: (guild: Guild) => Promise<void>
   find: (id: string) => Promise<BotGuild | undefined>
-  createSupportTicket: (id: string, ticket: GuildSupportTicket) => Promise<void>
+  createSupportTicket: (id: string, ticket: GuildSupportTicket) => Promise<GuildSupportTicket>
   updateSupportTicket: (id: string, ticketId: number, ticket: GuildSupportTicket) => Promise<void>
-  createSuggestion: (id: string, ticket: GuildSuggestion) => Promise<void>
+  createSuggestion: (id: string, ticket: GuildSuggestion) => Promise<GuildSuggestion>
   updateSuggestion: (id: string, ticketId: number, ticket: GuildSuggestion) => Promise<void>
   findSelfAssignableRoles: (id: string) => Promise<GuildSelfAssignableRole[]>
   findSelfAssignableRole: (id: string, roleId: string) => Promise<GuildSelfAssignableRole | undefined>

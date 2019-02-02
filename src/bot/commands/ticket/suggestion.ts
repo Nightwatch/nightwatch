@@ -105,7 +105,7 @@ export default class SuggestionCommand extends Command {
         dbSuggestion.userId = msg.author.id
         dbSuggestion.messageId = suggestionMessage.id
 
-        await guildService.createSuggestion(msg.guild.id, dbSuggestion)
+        const ticket = await guildService.createSuggestion(msg.guild.id, dbSuggestion)
 
         const editedEmbed = new MessageEmbed()
 
@@ -113,6 +113,7 @@ export default class SuggestionCommand extends Command {
           .setAuthor('New Suggestion')
           .setColor(msg.member ? msg.member.displayHexColor : '#ff0000')
           .setFooter('Like it? 👍 or 👎')
+          .addField('ID', ticket.id, true)
           .addField('Suggested By', msg.member, true)
           .addField('Description', suggestion)
           .setTimestamp(new Date())
