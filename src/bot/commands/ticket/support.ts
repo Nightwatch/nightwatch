@@ -39,8 +39,9 @@ export default class SupportCommand extends Command {
       details: `Creates/closes a support ticket. The supported actions:
         __support create <description>:__ Creates a support ticket.
         __support create bug <description>:__ Creates a bug ticket.
-        __support close <ticket ID>:__ Closes a ticket.
-        __support get <ticket ID>:__ Gets a ticket.`,
+        __support close <ticket ID> <reason>:__ Closes a ticket.
+        __support get <ticket ID>:__ Gets a ticket.
+        __support edit <ticket ID> <new description>:__ Updates a ticket.`,
       guildOnly: true,
       throttling: {
         usages: 2,
@@ -340,8 +341,15 @@ export default class SupportCommand extends Command {
 
     await guildService.updateSupportTicket(msg.guild.id, ticketId, ticket)
 
-    const textChannel = channel as TextChannel
-    await textChannel.send(newEmbed)
+    const messages = await (channel as TextChannel).messages.fetch({ limit: 100 })
+
+    const originalMessage = messages.find(x => x.id === ticket.messageId)
+
+    try {
+      await originalMessage.edit(newEmbed)
+    } catch {
+      await (channel as TextChannel).send(newEmbed)
+    }
 
     return msg.reply(`Support ticket ${ticket.id} has been closed.`)
   }
