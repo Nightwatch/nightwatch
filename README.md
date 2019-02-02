@@ -17,6 +17,7 @@ Nightwatch aims to combine the features of all popular bots into one bot.
 Features include:
 
 - Moderation
+- Spam Prevention
 - Music
 - Games
 - Economy
