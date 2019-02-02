@@ -406,22 +406,13 @@ export default class SupportCommand extends Command {
       .substring(description.indexOf(' '))
       .trim()
 
-    const rolesWithPerm = [
-      'Owner',
-      'Co-Owner',
-      'Manager',
-      'Senior Administrator',
-      'Administrator'
-    ]
-
-    if (
-      !msg.member.roles.some(x => rolesWithPerm.includes(x.name)) &&
-      !isTicketOwner
-    ) {
+    if (!isTicketOwner) {
       return msg.reply("You don't have permission to do that.")
     }
 
-    const originalMessage = msg.channel.messages.get(ticket.messageId)
+    const messages = await (channel as TextChannel).messages.fetch({ limit: 100 })
+
+    const originalMessage = messages.get(ticket.messageId)
 
     if (!originalMessage) {
       return msg.reply(
