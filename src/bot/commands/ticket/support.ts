@@ -215,21 +215,6 @@ export default class SupportCommand extends Command {
       )
     }
 
-    const rolesWithPerm = [
-      'Owner',
-      'Co-Owner',
-      'Manager',
-      'Senior Administrator',
-      'Administrator'
-    ]
-    if (!msg.member.roles) {
-      return msg.reply("You don't have permission to do that.")
-    }
-
-    if (!msg.member.roles.some(x => rolesWithPerm.includes(x.name))) {
-      return msg.reply("You don't have permission to do that.")
-    }
-
     const ticketId = description.trim()
     const ticket = guild.supportTickets.find(x => x.id === Number(ticketId))
     if (!ticket) {
@@ -304,20 +289,10 @@ export default class SupportCommand extends Command {
     }
 
     const isTicketOwner = msg.member.id === ticket.userId
+
     const closedReason = description.substring(description.indexOf(' ')).trim()
 
-    const rolesWithPerm = [
-      'Owner',
-      'Co-Owner',
-      'Manager',
-      'Senior Administrator',
-      'Administrator'
-    ]
-
-    if (
-      !msg.member.roles.some(x => rolesWithPerm.includes(x.name)) &&
-      !isTicketOwner
-    ) {
+    if (!isTicketOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
       return msg.reply("You don't have permission to do that.")
     }
 
@@ -402,11 +377,12 @@ export default class SupportCommand extends Command {
     }
 
     const isTicketOwner = msg.member.id === ticket.userId
+
     const newDescription = description
       .substring(description.indexOf(' '))
       .trim()
 
-    if (!isTicketOwner) {
+    if (!isTicketOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
       return msg.reply("You don't have permission to do that.")
     }
 
