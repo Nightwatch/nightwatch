@@ -59,7 +59,7 @@ function isMostlyDuplicates(msg: Message) {
   let duplicateCount = 0
   const words = msg.content.split(' ').sort()
   words.forEach((w, i) => {
-    if (w[i + 1]) {
+    if (!w[i] || !w[i + 1]) {
       return
     }
 
