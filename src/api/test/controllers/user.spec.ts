@@ -46,6 +46,7 @@ describe('UserController', () => {
 
   after(async () => {
     const connection = getConnection()
+    await connection.dropDatabase()
     await connection.close().catch(() => {
       // swallow
     })

@@ -34,8 +34,9 @@ describe('GuildController', () => {
     await connection.synchronize()
   })
 
-  after(() => {
+  after(async () => {
     const connection = getConnection()
+    await connection.dropDatabase()
     connection.close().catch(() => {
       // swallow
     })
