@@ -33,6 +33,6 @@ export default class CheckPremiumCommand extends Command {
 
     const hasPremium = userController.userHasPremium(user.id, this.client)
 
-    return msg.channel.send(`**${user.nickname}** ${hasPremium ? 'has' : 'does not have'} premium.`)
+    return msg.channel.send(`**${user.displayName}** ${hasPremium ? 'has' : 'does not have'} premium.`)
   }
 }
