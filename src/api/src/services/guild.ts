@@ -63,7 +63,7 @@ export class GuildService implements IGuildService {
 
   public async createSuggestion (_: string, suggestion: GuildSuggestion) {
     suggestion.dateCreated = new Date()
-    await this.suggestionRepository.save(suggestion)
+    return this.suggestionRepository.save(suggestion)
   }
 
   public async deleteSuggestion (_: string, suggestionId: number) {
@@ -94,7 +94,7 @@ export class GuildService implements IGuildService {
 
   public async createSupportTicket (_: string, supportTicket: GuildSupportTicket) {
     supportTicket.dateCreated = new Date()
-    await this.supportTicketRepository.save(supportTicket)
+    return this.supportTicketRepository.save(supportTicket)
   }
 
   public async deleteSupportTicket (_: string, ticketId: number) {
