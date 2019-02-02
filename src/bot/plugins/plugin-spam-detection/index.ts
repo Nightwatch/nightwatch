@@ -5,6 +5,7 @@ import { Config } from '../../../common'
 export class Plugin {
   public static config: Config
   public static client: CommandoClient
+  public static premiumOnly = true
   public static id = 'Spam Detection'
   public static description =
     'Plugin to detect spam and punish the spammer.'
