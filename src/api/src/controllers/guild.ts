@@ -56,8 +56,14 @@ export class GuildController implements BaseController<Guild, string> {
    * @memberof GuildController
    */
   @httpGet('/:id')
-  async findById (@requestParam('id') id: string) {
-    return this.guildService.findById(id)
+  async findById (@requestParam('id') id: string, @response() res: Response) {
+    const guild = await this.guildService.findById(id)
+
+    if (!guild) {
+      res.sendStatus(404)
+    }
+
+    return guild
   }
 
   /**
