@@ -186,7 +186,9 @@ export default class SuggestionCommand extends Command {
       return msg.reply("You don't have permission to do that.")
     }
 
-    const originalMessage = (channel as TextChannel).messages.find(
+    const messages = await (channel as TextChannel).messages.fetch({ limit: 100 })
+
+    const originalMessage = messages.find(
       x => x.id === suggestion.messageId
     )
 
