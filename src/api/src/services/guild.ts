@@ -54,7 +54,7 @@ export class GuildService implements IGuildService {
   }
 
   public async findSuggestions (id: string) {
-    return this.suggestionRepository.find({ where: { guildId: id } })
+    return this.suggestionRepository.find({ where: { guild: { id } } })
   }
 
   public async findSuggestionById (_: string, suggestionId: number) {
