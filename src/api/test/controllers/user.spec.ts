@@ -29,7 +29,9 @@ describe('UserController', () => {
   let app: supertest.SuperTest<supertest.Test>
 
   before(async () => {
-    createTestDatabaseConnection()
+    await createTestDatabaseConnection().catch(() => {
+      // swallow
+    })
     server = new InversifyExpressServer(container)
     server.setConfig(app => {
       app.use(bodyParser.json())
@@ -42,16 +44,6 @@ describe('UserController', () => {
     const connection = getConnection()
     await connection.dropDatabase()
     await connection.synchronize()
-  })
-
-  after(async () => {
-    const connection = getConnection()
-    await connection.dropDatabase().catch(() => {
-      // swallow
-    })
-    await connection.close().catch(() => {
-      // swallow
-    })
   })
 
   describe('find', () => {

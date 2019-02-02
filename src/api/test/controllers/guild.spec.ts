@@ -19,7 +19,9 @@ describe('GuildController', () => {
   let app: supertest.SuperTest<supertest.Test>
 
   before(async () => {
-    await createTestDatabaseConnection()
+    await createTestDatabaseConnection().catch(() => {
+      // swallow
+    })
     server = new InversifyExpressServer(container)
     server.setConfig(app => {
       app.use(bodyParser.json())
@@ -32,16 +34,6 @@ describe('GuildController', () => {
     const connection = getConnection()
     await connection.dropDatabase()
     await connection.synchronize()
-  })
-
-  after(async () => {
-    const connection = getConnection()
-    await connection.dropDatabase().catch(() => {
-      // swallow
-    })
-    connection.close().catch(() => {
-      // swallow
-    })
   })
 
   describe('find', () => {
