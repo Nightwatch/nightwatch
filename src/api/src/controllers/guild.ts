@@ -150,11 +150,12 @@ export class GuildController implements BaseController<Guild, string> {
     @requestParam('id') id: string,
     @requestBody() suggestion: GuildSuggestion
   ) {
-    await this.guildService.createSuggestion(
+    const ticket = await this.guildService.createSuggestion(
       id,
       suggestion
     )
     this.socketService.send(Events.guild.suggestion.created, suggestion)
+    return ticket
   }
 
   /**
@@ -246,12 +247,12 @@ export class GuildController implements BaseController<Guild, string> {
     @requestParam('id') id: string,
     @requestBody() supportTicket: GuildSupportTicket
   ) {
-    await this.guildService.createSupportTicket(
+    const ticket = await this.guildService.createSupportTicket(
       id,
       supportTicket
     )
     this.socketService.send(Events.guild.supportTicket.created, supportTicket)
-
+    return ticket
   }
 
   /**
