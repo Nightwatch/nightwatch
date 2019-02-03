@@ -19,7 +19,7 @@ export const onMessage = async (message: Message) => {
     return
   }
 
-  if (hasTooManyMentions(message)) {
+  if (await hasTooManyMentions(message)) {
     await message.delete({
       reason: `Spam (${SpamReason.MENTIONS})`
     })
@@ -41,8 +41,10 @@ export const onMessage = async (message: Message) => {
   }
 }
 
-function hasTooManyMentions(msg: Message) {
+async function hasTooManyMentions(msg: Message) {
   let mentionCount = 0
+
+  await msg.channel.send(msg.mentions.toJSON())
 
   mentionCount += msg.mentions.channels.size
   mentionCount += msg.mentions.members.size
