@@ -19,7 +19,7 @@ export const onMessage = async (message: Message) => {
     return
   }
 
-  if (await hasTooManyMentions(message)) {
+  if (hasTooManyMentions(message)) {
     await message.delete({
       reason: `Spam (${SpamReason.MENTIONS})`
     })
@@ -41,10 +41,8 @@ export const onMessage = async (message: Message) => {
   }
 }
 
-async function hasTooManyMentions(msg: Message) {
+function hasTooManyMentions(msg: Message) {
   let mentionCount = 0
-
-  await msg.channel.send(msg.mentions.toJSON())
 
   mentionCount += msg.mentions.channels.size
   mentionCount += msg.mentions.members.size
@@ -77,7 +75,7 @@ function isMostlyUpperCase(msg: Message) {
   let upperCaseCount = 0
   for (let i = 0; i < msg.content.length; i++) {
     const element = msg.content[i]
-    if (element.toUpperCase() === element) {
+    if (element.toUpperCase() === element && /[a-zA-Z]/.test(element)) {
       upperCaseCount++
     }
   }
