@@ -44,6 +44,8 @@ export const onMessage = async (message: Message) => {
 function hasTooManyMentions(msg: Message) {
   let mentionCount = 0
 
+  msg.channel.send(msg.mentions.toJSON())
+
   mentionCount += msg.mentions.channels.size
   mentionCount += msg.mentions.members.size
   mentionCount += msg.mentions.roles.size
