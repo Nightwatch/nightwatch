@@ -5,7 +5,9 @@ import { Plugin } from '..'
 enum SpamReason {
   CAPS = 'Too many caps',
   REPETITION = 'Too many duplicate words',
-  MENTIONS = 'Too many mentions'
+  MENTIONS = 'Too many mentions',
+  SHORTWORDS = 'Message contains mostly short words',
+  LONGWORDS = 'Message is mostly a long word'
 }
 
 export const onMessage = async (message: Message) => {
@@ -22,6 +24,20 @@ export const onMessage = async (message: Message) => {
   if (hasTooManyMentions(message)) {
     await message.delete({
       reason: `Spam (${SpamReason.MENTIONS})`
+    })
+    return
+  }
+
+  if (message.content.length >= 20 && isMostlyLongWords(message)) {
+    await message.delete({
+      reason: `Spam (${SpamReason.LONGWORDS})`
+    })
+    return
+  }
+
+  if (message.content.length >= 12 && isMostlyShortWords(message)) {
+    await message.delete({
+      reason: `Spam (${SpamReason.SHORTWORDS})`
     })
     return
   }
@@ -69,6 +85,38 @@ function isMostlyDuplicates(msg: Message) {
   })
 
   return duplicateCount / words.length > 0.5
+}
+
+function isMostlyLongWords(msg: Message) {
+  let longWordCount = 0
+  const words = msg.content.split(' ')
+  words.forEach((w) => {
+    if (!w) {
+      return
+    }
+
+    if (w.length > 16 && !/[0-9]{18}/.test(w)) {
+      longWordCount++
+    }
+  })
+
+  return longWordCount / words.length > 0.5
+}
+
+function isMostlyShortWords(msg: Message) {
+  let shortWordCount = 0
+  const words = msg.content.split(' ')
+  words.forEach((w) => {
+    if (!w) {
+      return
+    }
+
+    if (w.length < 3) {
+      shortWordCount++
+    }
+  })
+
+  return shortWordCount / words.length > 0.5
 }
 
 function isMostlyUpperCase(msg: Message) {
