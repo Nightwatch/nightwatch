@@ -1,7 +1,8 @@
 <p align="center"><img width="55%" src="./img/nightwatch.png"/></p>
 <p align="center"><img width="55%" src="./img/slogan.png"/></p>
 
-<p align="center"> All-in-one Discord bot including a web interface and its own mobile app!</p>
+<p align="center">All-in-one Discord bot including a web interface and its own mobile app!</p>
+<p align="center"><a href="https://discordapp.com/api/oauth2/authorize?client_id=465260354126086144&permissions=8&scope=bot">Add me to your server</a></p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![Build Status](https://travis-ci.com/Nightwatch/nightwatch.svg?branch=master)](https://travis-ci.com/Nightwatch/nightwatch)

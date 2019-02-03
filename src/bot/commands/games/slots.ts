@@ -73,9 +73,13 @@ export default class SlotsCommand extends Command {
 
     const userId = msg.author.id
     const user = await userService.find(msg.author.id)
+      .catch(_ => userService.create(msg.author))
+      .catch(() => {
+        // swallow
+      })
 
     if (!user) {
-      return msg.reply('Command failed. You do not exist in my database.')
+      return msg.reply('Command failed. You do not exist in my database. Try again.')
     }
 
     if (user.balance.balance < Number(args.coins)) {
