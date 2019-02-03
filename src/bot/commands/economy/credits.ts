@@ -33,6 +33,11 @@ export default class CreditsCommand extends Command {
     const userName = args.user ? args.user.displayName : msg.author.username
 
     const user = await userService.find(userId)
+      .catch(_ => userService.create(args.user))
+      .catch(() => {
+        // swallow
+      })
+
     const credits = user ? user.balance.balance : 0
     const dollarEmoji = '💵'
 

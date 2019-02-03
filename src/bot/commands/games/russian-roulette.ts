@@ -50,6 +50,10 @@ export default class RussianRouletteCommand extends Command {
 
     const userId = msg.author.id
     const user = await userService.find(userId)
+      .catch(_ => userService.create(msg.author))
+      .catch(() => {
+        // swallow
+      })
 
     const botOwnerId = this.client.owners[0].id
     const owner = await userService.find(botOwnerId)

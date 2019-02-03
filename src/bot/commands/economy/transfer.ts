@@ -36,7 +36,15 @@ export default class TransferCommand extends Command {
   ): Promise<Message | Message[]> {
     const userService = new UserService()
     const donor = await userService.find(msg.author.id)
+      .catch(_ => userService.create(msg.author))
+      .catch(() => {
+        // swallow
+      })
     const receiver = await userService.find(args.user.id)
+      .catch(_ => userService.create(args.user))
+      .catch(() => {
+        // swallow
+      })
 
     if (!donor || !receiver) {
       return msg.reply('Command failed. Either you or the receiver does not exist in my database.')

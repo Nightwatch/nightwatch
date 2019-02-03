@@ -25,10 +25,15 @@ export default class DailiesCommand extends Command {
     const userService = new UserService()
 
     const user = await userService.find(msg.author.id)
+    .catch(_ => userService.create(msg.author))
+    .catch(() => {
+      // swallow
+    })
 
     if (!user) {
-      return msg.reply('Command failed. You did not have a profile set up in my database.')
+      return msg.reply('Command failed. You did not have a profile set up in my database. Try again.')
     }
+
     const lastClaimed = user.balance.dateLastClaimedDailies
       ? new Date(user.balance.dateLastClaimedDailies).getTime()
       : 0
