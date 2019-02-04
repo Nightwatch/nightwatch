@@ -2,7 +2,7 @@
 <p align="center"><img width="55%" src="./img/slogan.png"/></p>
 
 <p align="center">All-in-one Discord bot including a web interface and its own mobile app!</p>
-<p align="center"><a href="https://discordapp.com/api/oauth2/authorize?client_id=465260354126086144&permissions=8&scope=bot">Add me to your server</a></p>
+<p align="center"><a href="https://discordapp.com/api/oauth2/authorize?client_id=465260354126086144&permissions=8&scope=bot">Invite me</a>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;<a href="https://invite.gg/nightwatch">Join my server</a></p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![Build Status](https://travis-ci.com/Nightwatch/nightwatch.svg?branch=master)](https://travis-ci.com/Nightwatch/nightwatch)
@@ -66,6 +66,24 @@ Benefits of Premium:
 - Priority support
 - Early access to new features
 - Exclusive role in the [Nightwatch Discord](https://invite.gg/nightwatch)
+
+## Help Wanted!
+
+Nightwatch is looking for contributors.
+
+There are two ways you can contribute:
+
+- Indirect contribution: Creating issues in GitHub that we can address (Feature requests, bug reports, etc.).
+- Direct contribution: Submitting pull requests to add functionality or improve the codebase.
+
+If you want to indirectly contribute, feel free! Just follow the community guidelines, and try to follow the issue templates.
+
+ If you would like to directly contribute to Nightwatch:
+
+1. Join the [Nightwatch Discord](https://invite.gg/nightwatch)
+2. Claim a Contributor role with `n.iam Contributor` to get access to a channel for discussing Nightwatch development.
+3. Fork the repo.
+4. Point all pull requests to the `develop` branch.
 
 ## Contact Us
 
