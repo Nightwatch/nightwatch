@@ -24,6 +24,10 @@
     "clientSecret": ""
   },
   "optional": {
+    "premium": {
+      "primaryGuildId": "",
+      "premiumPatreonRoleId": ""
+    },
     "dataDogApiKey": "",
     "dataDogAppKey": "",
     "steamWebApiKey": "",
@@ -32,9 +36,6 @@
       "clientId": "",
       "clientSecret": ""
     },
-    "premium": {
-      "primaryGuildId": "",
-      "premiumPatreonRoleId": ""
-    }
+    "googleApiKey": ""
   }
 }
