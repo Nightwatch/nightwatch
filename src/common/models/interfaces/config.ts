@@ -35,6 +35,7 @@ export interface OptionalSettings {
   giphyApiKey?: string
   imgur?: ImgurSettings
   premium?: PremiumSettings
+  googleApiKey?: string
 }
 
 export interface ImgurSettings {
