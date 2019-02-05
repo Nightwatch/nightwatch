@@ -12,7 +12,7 @@ export default class PlayCommand extends Command {
       group: 'music',
       memberName: 'play',
       description: 'Play a song!',
-      guildOnly: false,
+      guildOnly: true,
       throttling: {
         usages: 2,
         duration: 3
