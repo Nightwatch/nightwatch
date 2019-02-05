@@ -43,8 +43,8 @@ export default class UpdateCommand extends Command {
 
         await git.clone(repo, path.join(__dirname, '..', '..', '..', 'src', 'plugins'))
       }
-    } catch {
-      // swallow
+    } catch (err) {
+      await msg.channel.send(err)
     }
 
     if (!result || result.summary.changes === 0) {
