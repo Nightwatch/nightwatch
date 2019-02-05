@@ -31,7 +31,7 @@ export default class UpdateCommand extends Command {
     const result = await git.pull()
 
     try {
-      const premium = await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'plugins', 'plugin-premium'))
+      const premium = await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins', 'plugin-premium'))
         .catch(() => undefined)
 
       if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
@@ -45,7 +45,7 @@ export default class UpdateCommand extends Command {
           }
         }
 
-        await git.clone(repo, path.resolve(__dirname, '..', '..', '..', '..', 'src', 'plugins'))
+        await git.clone(repo, path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
       }
     } catch (err) {
       await msg.channel.send((err as Error).message)
