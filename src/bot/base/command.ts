@@ -1,10 +1,13 @@
 import { Command as CommandoCommand, CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserController } from '../controllers'
+import { CommandInfo } from '../../common'
+
+const userController = new UserController()
 
 export class Command extends CommandoCommand {
   premiumOnly: boolean
 
-  constructor(client: CommandoClient, info: any) {
+  constructor(client: CommandoClient, info: CommandInfo) {
     super(client, info)
     this.premiumOnly = info.premiumOnly || false
   }
@@ -13,8 +16,6 @@ export class Command extends CommandoCommand {
     if (!this.premiumOnly || this.client.isOwner(msg.author)) {
       return super.hasPermission(msg)
     }
-
-    const userController = new UserController()
 
     if (userController.userHasPremium(msg.guild.ownerID, this.client)) {
       return true
