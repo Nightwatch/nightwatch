@@ -14,8 +14,13 @@ export interface PluginStatus {
 const isDirectory = (source: string) => lstatSync(source).isDirectory()
 const getDirectories = (source: string) =>
   readdirSync(source).map((name) => path.join(source, name)).filter(isDirectory)
-const pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
-  .concat(getDirectories(path.join(__dirname, '..', 'plugins', 'plugin-premium')))
+let pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
+
+try {
+  pluginPaths.concat(getDirectories(path.join(__dirname, '..', 'plugins', 'plugin-premium')))
+} catch {
+  // swallow
+}
 
 export const loadPlugins = async (client: CommandoClient, config: Config) => {
   const pluginStatuses: PluginStatus[] = []
