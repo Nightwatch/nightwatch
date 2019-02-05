@@ -1889,6 +1889,11 @@ better-assert@~1.0.0:
   dependencies:
     callsite "1.0.0"
 
+better-youtube-api@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/better-youtube-api/-/better-youtube-api-0.3.6.tgz#3c0ac1b7e36034af9e6f4245dd5544b409a98839"
+  integrity sha512-ror3IBTyReOKEKenglnCrTv/W/m2H1NgPd5B42UTCVBlyeWlSp56cDf812a9sg6xfisIGgLm+RIhW6XBe+N4nA==
+
 bfj@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-6.1.1.tgz#05a3b7784fbd72cfa3c22e56002ef99336516c48"
@@ -5830,11 +5835,6 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
 
-iso8601-duration@^1.0.0:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/iso8601-duration/-/iso8601-duration-1.1.7.tgz#79ff651d4e4623a3af285dd4e257db0d591e8987"
-  integrity sha512-vH8UmELp9cRY3RGPM/E7x8d2uY5/1yMzuphia7YbRBrQFN7HiQll/2syPV23wD/7J2hVZVHHpI+Vi49LjiLYUA==
-
 isobject@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-2.1.0.tgz#f065561096a3f1da2ef46272f815c840d87e0c89"
@@ -6920,7 +6920,7 @@ node-cmd@^3.0.0:
   resolved "https://registry.yarnpkg.com/node-cmd/-/node-cmd-3.0.0.tgz#38fff70a4aaa4f659d203eb57862737018e24f6f"
   integrity sha1-OP/3CkqqT2WdID61eGJzcBjiT28=
 
-node-fetch@^2.1.2, node-fetch@^2.2.1:
+node-fetch@^2.1.2:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.3.0.tgz#1a1d940bbfb916a1d3e0219f037e89e71f8c5fa5"
   integrity sha512-MOd8pV3fxENbryESLgVIeaGKrdl+uaYhCSSVkjeOb/31/njTpcis5aWfdqgNlHIrKOLRbMnfPINPOML2CIFeXA==
@@ -9307,14 +9307,6 @@ simple-swizzle@^0.2.2:
   integrity sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=
   dependencies:
     is-arrayish "^0.3.1"
-
-simple-youtube-api@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/simple-youtube-api/-/simple-youtube-api-5.1.1.tgz#6e6d3892f6651c87cd7591d07f8e0259860447b4"
-  integrity sha512-cbWRGTDjWDrC+8LR3gpLaXeRb0+e/eiX/bKYIS0tQ4gBUimhXVhsWWhzWJ49aTBnAA0vChrD3U0ZDL8/CUWNcA==
-  dependencies:
-    iso8601-duration "^1.0.0"
-    node-fetch "^2.2.1"
 
 sinon@^7.1.0:
   version "7.2.3"

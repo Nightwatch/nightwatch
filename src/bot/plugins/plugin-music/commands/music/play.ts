@@ -1,7 +1,7 @@
 import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../../../base'
-import * as YouTube from 'simple-youtube-api'
+import { YouTube } from 'better-youtube-api'
 import * as ytdl from 'ytdl-core'
 import { Plugin } from '../..'
 
@@ -29,8 +29,11 @@ export default class PlayCommand extends Command {
   }
 
   public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
-    const url = args.url as string
+    if (!Plugin.config.optional || !Plugin.config.optional.googleApiKey) {
+      return msg.reply('Command failed. Google API key not set.')
+    }
 
+    const url = args.url as string
     const voiceChannel = msg.member.voice.channel
 
     if (!voiceChannel) {
