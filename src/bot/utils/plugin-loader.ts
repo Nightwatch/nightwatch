@@ -23,52 +23,56 @@ export const loadPlugins = async (client: CommandoClient, config: Config) => {
   console.log(`${prefix}: ${pluginPaths.length} external plugins found.`)
 
   pluginPaths.forEach(async (file) => {
-    const BotPlugin = require(path.resolve(file)).Plugin
-    let commandsRegistered: boolean | null = null
     try {
-      console.log(`${prefix}[${BotPlugin.id}]: Loading plugin...`)
+      const BotPlugin = require(path.resolve(file)).Plugin
+      let commandsRegistered: boolean | null = null
+      try {
+        console.log(`${prefix}[${BotPlugin.id}]: Loading plugin...`)
 
-      if (existsSync(file + '/commands')) {
-        try {
-          console.log(`${prefix}[${BotPlugin.id}]: Registering commands...`)
-          if (BotPlugin.commandGroups && BotPlugin.commandGroups.length > 0) {
-            client.registry.registerGroups(BotPlugin.commandGroups)
-            console.log(
+        if (existsSync(file + '/commands')) {
+          try {
+            console.log(`${prefix}[${BotPlugin.id}]: Registering commands...`)
+            if (BotPlugin.commandGroups && BotPlugin.commandGroups.length > 0) {
+              client.registry.registerGroups(BotPlugin.commandGroups)
+              console.log(
               `${prefix}[${BotPlugin.id}]: Registered ${BotPlugin.commandGroups.length} new command group${BotPlugin
                 .commandGroups.length === 1
                 ? ''
                 : 's'}.`
             )
-          }
-          client.registry.registerCommandsIn(file + '/commands')
-          console.info(`${prefix}[${BotPlugin.id}]: Successfully registered commands!`)
-          commandsRegistered = true
-        } catch (err) {
-          console.warn(`${prefix}[${BotPlugin.id}]: An error occurred while registering commands.
+            }
+            client.registry.registerCommandsIn(file + '/commands')
+            console.info(`${prefix}[${BotPlugin.id}]: Successfully registered commands!`)
+            commandsRegistered = true
+          } catch (err) {
+            console.warn(`${prefix}[${BotPlugin.id}]: An error occurred while registering commands.
             Plugin may still load, but none of its commands will work.`)
-          console.error(err)
-          commandsRegistered = false
+            console.error(err)
+            commandsRegistered = false
+          }
         }
-      }
 
-      await new BotPlugin().init(client, config)
+        await new BotPlugin().init(client, config)
 
-      pluginStatuses.push({
-        Plugin: BotPlugin,
-        loaded: true,
-        commandsRegistered
-      })
+        pluginStatuses.push({
+          Plugin: BotPlugin,
+          loaded: true,
+          commandsRegistered
+        })
 
-      console.log(`${prefix}[${BotPlugin.id}]: Successfully loaded!`)
-    } catch (err) {
-      console.warn(`${prefix}[${BotPlugin.id}]: An error occurred while loading plugin.
+        console.log(`${prefix}[${BotPlugin.id}]: Successfully loaded!`)
+      } catch (err) {
+        console.warn(`${prefix}[${BotPlugin.id}]: An error occurred while loading plugin.
         Some of its features may not work.`)
-      console.error(err)
-      pluginStatuses.push({
-        Plugin: BotPlugin,
-        loaded: false,
-        commandsRegistered
-      })
+        console.error(err)
+        pluginStatuses.push({
+          Plugin: BotPlugin,
+          loaded: false,
+          commandsRegistered
+        })
+      }
+    } catch {
+    // swallow
     }
   })
   return pluginStatuses

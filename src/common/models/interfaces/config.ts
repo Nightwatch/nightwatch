@@ -46,4 +46,5 @@ export interface ImgurSettings {
 export interface PremiumSettings {
   primaryGuildId?: string
   premiumPatreonRoleId?: string
+  premiumPluginRepo?: string
 }

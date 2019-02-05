@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.2.0",
+    "@types/rimraf": "^2.0.2",
     "accesscontrol": "^2.2.1",
     "axios": "^0.18.0",
     "better-youtube-api": "^0.3.6",
@@ -55,6 +56,7 @@
     "redis": "^2.8.0",
     "reflect-metadata": "^0.1.12",
     "request-promise": "^4.2.2",
+    "rimraf": "^2.6.3",
     "roboto-fontface": "*",
     "simple-git": "^1.107.0",
     "socket.io": "^2.1.1",

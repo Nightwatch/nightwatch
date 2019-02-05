@@ -2,6 +2,10 @@ import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as simplegit from 'simple-git/promise'
 import { Command } from '../../base'
+import * as path from 'path'
+import { Config } from '../../../common'
+const config: Config = require('../../../../config/config.json')
+import * as rimraf from 'rimraf'
 
 export default class UpdateCommand extends Command {
   constructor (client: CommandoClient) {
@@ -25,6 +29,19 @@ export default class UpdateCommand extends Command {
     await git.checkout('.')
 
     const result = await git.pull()
+
+    try {
+      const premium = await git.cwd(path.join(__dirname, '..', '..', 'plugins', 'plugin-premium'))
+
+      if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
+        const repo = config.optional.premium.premiumPluginRepo
+
+        await rimraf.__promisify__(premium)
+        await git.clone(repo, path.join(__dirname, '..', '..', 'plugins'))
+      }
+    } catch {
+      // swallow
+    }
 
     if (!result || result.summary.changes === 0) {
       return msg.reply('I am already up to date.')
