@@ -27,3 +27,5 @@ public/docs
 *.sw*
 
 ormconfig.json
+
+**/**/plugin-premium/
