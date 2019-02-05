@@ -34,6 +34,8 @@ export default class UpdateCommand extends Command {
       const premium = await git.cwd(path.resolve(__dirname, '..', '..', '..', 'src', 'plugins', 'plugin-premium'))
         .catch(() => undefined)
 
+      await msg.channel.send('premium plugin dir: ' + premium ? premium : 'Not found')
+
       if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
         const repo = config.optional.premium.premiumPluginRepo
 
