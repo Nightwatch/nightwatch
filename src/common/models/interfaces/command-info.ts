@@ -26,7 +26,7 @@ export type CommandInfo = {
   guarded?: boolean
   hidden?: boolean
   unknown?: boolean
-  premiumOnly: boolean
+  premiumOnly?: boolean
 }
 
 type ArgumentInfo = {
