@@ -14,14 +14,15 @@ export interface PluginStatus {
 const isDirectory = (source: string) => lstatSync(source).isDirectory()
 const getDirectories = (source: string) =>
   readdirSync(source).map((name) => path.join(source, name)).filter(isDirectory)
-const pluginsPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
+const pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
+  .concat(getDirectories(path.join(__dirname, '..', 'plugins', 'plugin-premium')))
 
 export const loadPlugins = async (client: CommandoClient, config: Config) => {
   const pluginStatuses: PluginStatus[] = []
 
-  console.log(`${prefix}: ${pluginsPaths.length} external plugins found.`)
+  console.log(`${prefix}: ${pluginPaths.length} external plugins found.`)
 
-  pluginsPaths.forEach(async (file) => {
+  pluginPaths.forEach(async (file) => {
     const BotPlugin = require(path.resolve(file)).Plugin
     let commandsRegistered: boolean | null = null
     try {
