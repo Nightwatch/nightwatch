@@ -31,13 +31,13 @@ export default class UpdateCommand extends Command {
     const result = await git.pull()
 
     try {
-      const premium = await git.cwd(path.join(__dirname, '..', '..', 'plugins', 'plugin-premium'))
+      const premium = await git.cwd(path.join(__dirname, '..', '..', '..', 'src', 'plugins', 'plugin-premium'))
 
       if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
         const repo = config.optional.premium.premiumPluginRepo
 
         await rimraf.__promisify__(premium)
-        await git.clone(repo, path.join(__dirname, '..', '..', 'plugins'))
+        await git.clone(repo, path.join(__dirname, '..', '..', '..', 'src', 'plugins'))
       }
     } catch {
       // swallow
