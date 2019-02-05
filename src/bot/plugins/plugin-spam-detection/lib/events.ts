@@ -91,7 +91,7 @@ function isMostlyLongWords(msg: Message) {
   let longWordCount = 0
   const words = msg.content.split(' ')
   words.forEach((w) => {
-    if (!w) {
+    if (!w || w.startsWith('http')) {
       return
     }
 
