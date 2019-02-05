@@ -46,7 +46,7 @@ export default class SoftBanCommand extends Command {
       return msg.reply("You can't softban that member.")
     }
 
-    await member.ban({ reason: args.reason })
+    await member.ban({ reason: args.reason, days: 7 })
 
     await (msg.guild as any).unban(member.id)
 
