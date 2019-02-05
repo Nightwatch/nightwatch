@@ -38,7 +38,11 @@ export default class UpdateCommand extends Command {
         const repo = config.optional.premium.premiumPluginRepo
 
         if (premium) {
-          await rimraf.__promisify__(premium)
+          try {
+            await rimraf.__promisify__(premium)
+          } catch {
+            // swallow
+          }
         }
 
         await git.clone(repo, path.resolve(__dirname, '..', '..', '..', 'src', 'plugins'))
