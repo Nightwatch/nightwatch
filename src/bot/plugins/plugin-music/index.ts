@@ -9,6 +9,9 @@ export class Plugin {
   public static id = 'Music'
   public static description =
     'A music system. Listen to your favorite music with others.'
+  public static commandGroups = [
+    ['music', 'Music']
+  ]
 
   /**
    * Initializes plugin
