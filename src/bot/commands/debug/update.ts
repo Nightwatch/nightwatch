@@ -39,12 +39,11 @@ export default class UpdateCommand extends Command {
           const repo = config.optional.premium.premiumPluginRepo
 
           await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
-          await msg.channel.send('Cloning premium plugins...')
           await git.clone(repo, 'plugin-premium')
         }
       }
     } catch (err) {
-      await msg.channel.send((err as Error).message)
+      // ¯\_(ツ)_/¯
     }
 
     if (!result || result.summary.changes === 0) {
