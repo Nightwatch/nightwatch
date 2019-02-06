@@ -17,7 +17,7 @@ const getDirectories = (source: string) =>
 let pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
 
 try {
-  pluginPaths.concat(getDirectories(path.join(__dirname, '..', 'plugins', 'plugin-premium')))
+  pluginPaths = pluginPaths.concat(getDirectories(path.join(__dirname, '..', 'plugins', 'plugin-premium')))
 } catch {
   // swallow
 }

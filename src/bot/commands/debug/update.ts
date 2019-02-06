@@ -28,25 +28,31 @@ export default class UpdateCommand extends Command {
     await git.checkout('.')
 
     const result = await git.pull()
+    let premiumUpdated = false
 
     try {
       try {
         const premiumPath = path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins', 'plugin-premium')
         await git.cwd(premiumPath)
-        await git.pull()
+        const premiumResult = await git.pull()
+
+        if (premiumResult && premiumResult.summary.changes > 0) {
+          premiumUpdated = true
+        }
       } catch {
         if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
           const repo = config.optional.premium.premiumPluginRepo
 
           await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
           await git.clone(repo, 'plugin-premium')
+          premiumUpdated = true
         }
       }
     } catch (err) {
       // ¯\_(ツ)_/¯
     }
 
-    if (!result || result.summary.changes === 0) {
+    if (!premiumUpdated && (!result || result.summary.changes === 0)) {
       return msg.reply('I am already up to date.')
     }
 
