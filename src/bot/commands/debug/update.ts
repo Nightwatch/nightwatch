@@ -31,19 +31,15 @@ export default class UpdateCommand extends Command {
     const result = await git.pull()
 
     try {
-      const premium = await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins', 'plugin-premium'))
-        .catch(() => undefined)
+      try {
+        const premium = await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins', 'plugin-premium'))
+        await rimraf.__promisify__(premium)
+      } catch {
+        // swallow
+      }
 
       if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
         const repo = config.optional.premium.premiumPluginRepo
-
-        if (premium) {
-          try {
-            await rimraf.__promisify__(premium)
-          } catch {
-            // swallow
-          }
-        }
 
         await git.clone(repo, path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
       }
@@ -57,6 +53,5 @@ export default class UpdateCommand extends Command {
 
     await msg.channel.send('I have evolved! I will restart now.')
 
-    return process.exit(1)
-  }
+    return process.exit( 
 }
