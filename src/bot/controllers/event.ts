@@ -35,13 +35,13 @@ export class EventController implements IEventController {
   }
 
   public onGuildCreate = (guild: Guild) => {
-    return this.guildService.create(guild)
-      .finally(() => {
-        guild.members.forEach(member => {
-          this.userService.create(member.user)
-        })
-      })
+    this.guildService.create(guild)
       .catch(console.error)
+
+    guild.members.forEach(async member => {
+      await this.userService.create(member.user)
+        .catch(console.error)
+    })
   }
 
   public onGuildMemberAdd = (member: GuildMember) => {
