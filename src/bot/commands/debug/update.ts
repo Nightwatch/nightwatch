@@ -53,5 +53,6 @@ export default class UpdateCommand extends Command {
 
     await msg.channel.send('I have evolved! I will restart now.')
 
-    return process.exit( 
+    return process.exit(1)
+  }
 }
