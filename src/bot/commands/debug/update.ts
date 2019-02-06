@@ -5,7 +5,6 @@ import { Command } from '../../base'
 import * as path from 'path'
 import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
-import * as rimraf from 'rimraf'
 
 export default class UpdateCommand extends Command {
   constructor (client: CommandoClient) {
@@ -32,20 +31,19 @@ export default class UpdateCommand extends Command {
 
     try {
       try {
-        const premium = await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins', 'plugin-premium'))
-        await rimraf.__promisify__(premium)
+        const premiumPath = path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins', 'plugin-premium'))
+        await git.cwd(premiumPath)
+        await git.pull()
       } catch {
-        // swallow
-      } finally {
-        git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
+        if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
+          const repo = config.optional.premium.premiumPluginRepo
+
+          await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
+          await msg.channel.send('Cloning premium plugins...')
+          await git.clone(repo, 'plugin-premium')
+        }
       }
 
-      if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
-        const repo = config.optional.premium.premiumPluginRepo
-
-        await msg.channel.send('Cloning premium plugins...')
-        await git.clone(repo, 'plugin-premium')
-      }
     } catch (err) {
       await msg.channel.send((err as Error).message)
     }
@@ -56,6 +54,6 @@ export default class UpdateCommand extends Command {
 
     await msg.channel.send('I have evolved! I will restart now.')
 
-    return process.exit(1)
+    return process.exit(0)
   }
 }
