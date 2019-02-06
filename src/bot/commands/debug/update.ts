@@ -36,12 +36,15 @@ export default class UpdateCommand extends Command {
         await rimraf.__promisify__(premium)
       } catch {
         // swallow
+      } finally {
+        git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
       }
 
       if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
         const repo = config.optional.premium.premiumPluginRepo
 
-        await git.clone(repo, path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
+        await msg.channel.send('Cloning premium plugins...')
+        await git.clone(repo, 'plugin-premium')
       }
     } catch (err) {
       await msg.channel.send((err as Error).message)
