@@ -41,6 +41,7 @@ export default class UpdateCommand extends Command {
       if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
         const repo = config.optional.premium.premiumPluginRepo
 
+        await msg.channel.send('Cloning premium plugins...')
         await git.clone(repo, path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
       }
     } catch (err) {
