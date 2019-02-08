@@ -1,7 +1,7 @@
 import { GuildService as IGuildService } from '../interfaces'
 import { Guild } from 'discord.js'
 import { api } from '../utils'
-import { Guild as BotGuild, GuildSettings, GuildSupportTicket, GuildSuggestion, GuildSelfAssignableRole } from '../../db'
+import { Guild as BotGuild, GuildSettings, GuildSupportTicket, GuildSuggestion, GuildSelfAssignableRole, Song } from '../../db'
 import { injectable } from 'inversify'
 import * as Promise from 'bluebird'
 
@@ -76,6 +76,42 @@ export class GuildService implements IGuildService {
 
   public deleteSelfAssignableRole = (id: string, roleId: string) => {
     const route = `/guilds/${id}/self-assignable-roles/${roleId}`
+
+    return Promise.resolve(api.delete(route)).thenReturn()
+  }
+
+  public findPlaylist = (id: string) => {
+    const route = `/guilds/${id}/playlist`
+
+    return Promise.resolve(api.get(route)).then(r => r.data)
+  }
+
+  public findPlaylistSongsByUserId = (id: string, userId: string) => {
+    const route = `/guilds/${id}/playlist/user/${userId}`
+
+    return Promise.resolve(api.get(route)).then(r => r.data)
+  }
+
+  public createSong = (id: string, song: Song) => {
+    const route = `/guilds/${id}/playlist`
+
+    return Promise.resolve(api.post(route, song)).thenReturn()
+  }
+
+  public deleteSong = (id: string, songId: number) => {
+    const route = `/guilds/${id}/playlist/${songId}`
+
+    return Promise.resolve(api.delete(route)).thenReturn()
+  }
+
+  public clearPlaylist = (id: string) => {
+    const route = `/guilds/${id}/playlist`
+
+    return Promise.resolve(api.delete(route)).thenReturn()
+  }
+
+  public deleteSongsByUserId = (id: string, userId: string) => {
+    const route = `/guilds/${id}/playlist/user/${userId}`
 
     return Promise.resolve(api.delete(route)).thenReturn()
   }
