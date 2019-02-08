@@ -15,7 +15,7 @@ export interface GuildService {
   deleteSelfAssignableRole: (id: string, roleId: string) => Promise<void>
   findPlaylist: (id: string) => Promise<Song[]>
   findPlaylistSongsByUserId: (id: string, userId: string) => Promise<Song[]>
-  createSong: (id: string, song: Song) => Promise<void>
+  createSong: (id: string, song: Song) => Promise<Song>
   deleteSong: (id: string, songId: number) => Promise<void>
   clearPlaylist: (id: string) => Promise<void>
   deleteSongsByUserId: (id: string, userId: string) => Promise<void>
