@@ -515,7 +515,7 @@ export class GuildController implements BaseController<Guild, string> {
    *
    * POST /:id/playlist
    * @param {string} id The ID of the guild.
-   * @returns Promise<void>
+   * @returns Promise<Song>
    * @memberof GuildController
    */
   @httpPost('/:id/playlist')

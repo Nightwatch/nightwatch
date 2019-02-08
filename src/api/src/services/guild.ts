@@ -190,7 +190,7 @@ export class GuildService implements IGuildService {
   }
 
   public async createSong(_: string, song: Song) {
-    await this.songRepository.save(song)
+    return this.songRepository.save(song)
   }
 
   public async deleteSong(id: string, songId: number) {

@@ -95,7 +95,7 @@ export class GuildService implements IGuildService {
   public createSong = (id: string, song: Song) => {
     const route = `/guilds/${id}/playlist`
 
-    return Promise.resolve(api.post(route, song)).thenReturn()
+    return Promise.resolve(api.post(route, song)).then(r => r.data)
   }
 
   public deleteSong = (id: string, songId: number) => {
