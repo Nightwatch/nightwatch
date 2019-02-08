@@ -20,7 +20,8 @@ import {
   GuildSettings,
   GuildUser,
   GuildSuggestion,
-  GuildSelfAssignableRole
+  GuildSelfAssignableRole,
+  Song
 } from '../../../db'
 import { Types } from '../../../common'
 
@@ -492,5 +493,102 @@ export class GuildController implements BaseController<Guild, string> {
     @requestParam('roleId') roleId: string
   ) {
     await this.guildService.deleteSelfAssignableRole(id, roleId)
+  }
+
+  /**
+   * Finds a Guild's playlist.
+   *
+   * GET /:id/playlist
+   * @param {string} id The ID of the guild.
+   * @returns Promise<Song[]>
+   * @memberof GuildController
+   */
+  @httpGet('/:id/playlist')
+  async findPlaylist(
+    @requestParam('id') id: string
+  ) {
+    return this.guildService.findPlaylist(id)
+  }
+
+  /**
+   * Creates a song in a Guild's playlist.
+   *
+   * POST /:id/playlist
+   * @param {string} id The ID of the guild.
+   * @returns Promise<void>
+   * @memberof GuildController
+   */
+  @httpPost('/:id/playlist')
+  async createSong(
+    @requestParam('id') id: string,
+    @requestBody() song: Song
+  ) {
+    return this.guildService.createSong(id, song)
+  }
+
+  /**
+   * Clears a Guild's playlist.
+   *
+   * DELETE /:id/playlist
+   * @param {string} id The ID of the guild.
+   * @returns Promise<void>
+   * @memberof GuildController
+   */
+  @httpDelete('/:id/playlist')
+  async clearPlaylist(
+    @requestParam('id') id: string
+  ) {
+    return this.guildService.clearPlaylist(id)
+  }
+
+  /**
+   * Finds songs in a Guild's playlist by user ID.
+   *
+   * GET /:id/playlist/user/:userId
+   * @param {string} id The ID of the guild.
+   * @param {string} userId The ID of the user.
+   * @returns Promise<Song[]>
+   * @memberof GuildController
+   */
+  @httpGet('/:id/playlist/user/:userId')
+  async findSongsByUserId (
+    @requestParam('id') id: string,
+    @requestParam('userId') userId: string
+  ) {
+    return this.guildService.findPlaylistSongsByUserId(id, userId)
+  }
+
+  /**
+   * Deletes songs in a Guild's playlist by user ID.
+   *
+   * DELETE /:id/playlist/user/:userId
+   * @param {string} id The ID of the guild.
+   * @param {string} userId The ID of the user.
+   * @returns Promise<void>
+   * @memberof GuildController
+   */
+  @httpDelete('/:id/playlist/user/:userId')
+  async deleteSongsByUserId(
+    @requestParam('id') id: string,
+    @requestParam('userId') userId: string
+  ) {
+    return this.guildService.deleteSongsByUserId(id, userId)
+  }
+
+  /**
+   * Deletes a song in a Guild's playlist by song ID.
+   *
+   * DELETE /:id/playlist/:songId
+   * @param {string} id The ID of the guild.
+   * @param {string} songId The ID of the song.
+   * @returns Promise<void>
+   * @memberof GuildController
+   */
+  @httpDelete('/:id/playlist/:songId')
+  async deleteSongById(
+    @requestParam('id') id: string,
+    @requestParam('songId') songId: number
+  ) {
+    return this.guildService.deleteSong(id, songId)
   }
 }
