@@ -4,7 +4,8 @@ import {
   GuildSupportTicket,
   GuildSettings,
   GuildUser,
-  GuildSelfAssignableRole
+  GuildSelfAssignableRole,
+  Song
 } from '../../../db'
 import { getRepository } from 'typeorm'
 import { injectable } from 'inversify'
@@ -23,6 +24,7 @@ export class GuildService implements IGuildService {
   private settingsRepository = getRepository(GuildSettings)
   private userRepository = getRepository(GuildUser)
   private selfAssignableRoleRepository = getRepository(GuildSelfAssignableRole)
+  private songRepository = getRepository(Song)
 
   public find () {
     return this.guildRepository.find()
@@ -179,4 +181,37 @@ export class GuildService implements IGuildService {
     await this.selfAssignableRoleRepository.remove(selfAssignableRole)
   }
 
+  public async findPlaylist(id: string) {
+    return this.songRepository.find({ where: { guild: { id } } })
+  }
+
+  public async findPlaylistSongsByUserId(id: string, userId: string) {
+    return this.songRepository.find({ where: { guild: { id }, userId } })
+  }
+
+  public async createSong(_: string, song: Song) {
+    await this.songRepository.save(song)
+  }
+
+  public async deleteSong(id: string, songId: number) {
+    const song = await this.songRepository.findOne({ where: { guild: { id }, id: songId } })
+
+    if (!song) {
+      return
+    }
+
+    await this.songRepository.remove(song)
+  }
+
+  public async clearPlaylist(id: string) {
+    const songs = await this.songRepository.find({ where: { guild: { id } } })
+
+    await this.songRepository.remove(songs)
+  }
+
+  public async deleteSongsByUserId(id: string, userId: string) {
+    const songs = await this.songRepository.find({ where: { guild: { id }, userId } })
+
+    await this.songRepository.remove(songs)
+  }
 }

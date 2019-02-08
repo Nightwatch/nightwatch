@@ -8,6 +8,7 @@ import {
   GuildSelfAssignableRole
 } from '.'
 import { IsString, MaxLength, IsDate, IsNotEmpty } from 'class-validator'
+import { Song } from '../music'
 
 @Entity()
 export class Guild {
@@ -84,6 +85,9 @@ export class Guild {
 
   @OneToMany(_ => GuildPerk, guildPerk => guildPerk.guild)
   perks: GuildPerk[]
+
+  @OneToMany(_ => Song, song => song.guild)
+  playlist: Song[]
 
   @OneToMany(_ => GuildSelfAssignableRole, sar => sar.guild)
   selfAssignableRoles: GuildSelfAssignableRole[]

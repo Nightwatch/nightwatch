@@ -1,5 +1,5 @@
 import { BaseService } from '../base-service'
-import { Guild, GuildSuggestion, GuildSupportTicket, GuildSettings, GuildUser, GuildSelfAssignableRole } from '../../../../db'
+import { Guild, GuildSuggestion, GuildSupportTicket, GuildSettings, GuildUser, GuildSelfAssignableRole, Song } from '../../../../db'
 
 export interface GuildService extends BaseService<Guild, string> {
   findSuggestions: (id: string) => Promise<GuildSuggestion[]>
@@ -23,4 +23,10 @@ export interface GuildService extends BaseService<Guild, string> {
   findSelfAssignableRole: (id: string, roleId: string) => Promise<GuildSelfAssignableRole | undefined>
   createSelfAssignableRole: (id: string, selfAssignableRole: GuildSelfAssignableRole) => Promise<void>
   deleteSelfAssignableRole: (id: string, roleId: string) => Promise<void>
+  findPlaylist: (id: string) => Promise<Song[]>
+  findPlaylistSongsByUserId: (id: string, userId: string) => Promise<Song[]>
+  createSong: (id: string, song: Song) => Promise<void>
+  deleteSong: (id: string, songId: number) => Promise<void>
+  clearPlaylist: (id: string) => Promise<void>
+  deleteSongsByUserId: (id: string, userId: string) => Promise<void>
 }
