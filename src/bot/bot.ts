@@ -108,14 +108,9 @@ export class Bot implements IBot {
   }
 
   public onDisconnect = () => {
-    console.info(`${config.bot.botName} disconnected.`)
+    console.info(`${config.bot.botName} disconnected. Restarting...`)
 
-    if (!config.bot.autoReconnect) {
-      process.exit(1)
-    }
-
-    console.info('Attempting to reconnect in 10 seconds.')
-    setTimeout(this.start, 1000 * 10)
+    process.exit(1)
   }
 
   public onError = (error: Error) => {

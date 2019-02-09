@@ -17,5 +17,6 @@ function onError(error?: Error) {
     console.error(error)
   }
 
-  setTimeout(bot.start, 5000)
+  // Will restart automatically
+  process.exit(1)
 }
