@@ -31,7 +31,6 @@ try {
  * @class Api
  */
 export class Api {
-
   /**
    * Starts the API server.
    *
@@ -106,7 +105,8 @@ export class Api {
                 req.path.toLowerCase().includes(route)
               )
             ) {
-              // *Hacky* approach to bypass request validation for GET requests, since I want anyone to be able to see the data.
+              // *Hacky* approach to bypass request validation for GET requests
+              // Allows anyone to make a GET request
               return jsonwebtoken.sign('GET', secret)
             }
 
@@ -140,9 +140,9 @@ export class Api {
       app.use(errorHandler())
     })
 
-    const app = server.build()
+    const api = server.build()
     const port = process.env.PORT || 4000
-    const instance = app.listen(port)
+    const instance = api.listen(port)
 
     const io = socketIo.listen(instance)
     init(io)

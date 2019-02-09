@@ -40,14 +40,14 @@ export default class BanCommand extends Command {
     args: any
   ): Promise<Message | Message[]> {
     if (msg.author.id === args.member.id) {
-      return msg.reply('You can\'t ban yourself.')
+      return msg.reply("You can't ban yourself.")
     }
 
     if (
       args.member.hasPermission('BAN_MEMBERS') ||
       msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0
     ) {
-      return msg.reply('You can\'t ban that member.')
+      return msg.reply("You can't ban that member.")
     }
 
     await args.member.ban({ reason: args.reason })

@@ -8,7 +8,7 @@ import {
   requestBody
 } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import { Events } from '../constants'
+import { ReferralEvent } from '../constants'
 import { SocketService } from '../services/socket'
 import { Referral } from '../../../db'
 import { ReferralService } from '../services/referral'
@@ -62,7 +62,7 @@ export class ReferralController implements BaseController<Referral, number> {
   @httpPost('/')
   public async create(@requestBody() referral: Referral) {
     await this.referralService.create(referral)
-    this.socketService.send(Events.referral.created, referral)
+    this.socketService.send(ReferralEvent.REFERRAL_CREATE, referral)
   }
 
   /**
@@ -76,7 +76,7 @@ export class ReferralController implements BaseController<Referral, number> {
   @httpDelete('/:id')
   public async deleteById(@requestParam('id') id: number) {
     await this.referralService.delete(id)
-    this.socketService.send(Events.referral.deleted, id)
+    this.socketService.send(ReferralEvent.REFERRAL_DELETE, id)
   }
 
   /**
@@ -94,6 +94,6 @@ export class ReferralController implements BaseController<Referral, number> {
     @requestBody() referral: Referral
   ) {
     await this.referralService.update(id, referral)
-    this.socketService.send(Events.referral.updated, referral)
+    this.socketService.send(ReferralEvent.REFERRAL_UPDATE, referral)
   }
 }

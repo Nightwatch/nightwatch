@@ -8,7 +8,7 @@ import {
   requestBody
 } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import { Events } from '../constants'
+import { GiveawayEvent } from '../constants'
 import { GiveawayService } from '../services/giveaway'
 import { SocketService } from '../services/socket'
 import { BaseController } from '../interfaces/base-controller'
@@ -62,7 +62,10 @@ export class GiveawayController implements BaseController<Giveaway, number> {
   @httpPost('/')
   public async create(@requestBody() giveaway: Giveaway) {
     await this.giveawayService.create(giveaway)
-    this.socketService.send(Events.giveaway.created, this.redactKey(giveaway))
+    this.socketService.send(
+      GiveawayEvent.GIVEAWAY_CREATE,
+      this.redactKey(giveaway)
+    )
   }
 
   /**
@@ -76,7 +79,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
   @httpDelete('/:id')
   public async deleteById(@requestParam('id') id: number) {
     await this.giveawayService.delete(id)
-    this.socketService.send(Events.giveaway.deleted, id)
+    this.socketService.send(GiveawayEvent.GIVEAWAY_DELETE, id)
   }
 
   /**
@@ -94,7 +97,10 @@ export class GiveawayController implements BaseController<Giveaway, number> {
     @requestBody() giveaway: Giveaway
   ) {
     await this.giveawayService.update(id, giveaway)
-    this.socketService.send(Events.giveaway.updated, this.redactKey(giveaway))
+    this.socketService.send(
+      GiveawayEvent.GIVEAWAY_UPDATE,
+      this.redactKey(giveaway)
+    )
   }
 
   private redactKey(giveaway: Giveaway) {

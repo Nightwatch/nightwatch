@@ -1,3 +1,5 @@
+import { Event } from '../../constants'
+
 export interface SocketService {
-  send: (event: string, content: any) => void
+  send: (event: Event, content: any) => void
 }

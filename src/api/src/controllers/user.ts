@@ -11,7 +11,15 @@ import {
   requestBody
 } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import { Events } from '../constants'
+import {
+  UserEvent,
+  UserBalanceEvent,
+  UserFriendEvent,
+  UserFriendRequestEvent,
+  UserLevelEvent,
+  UserProfileEvent,
+  UserSettingsEvent
+} from '../constants'
 import { UserService } from '../services/user'
 import { SocketService } from '../services/socket'
 import {
@@ -94,7 +102,7 @@ export class UserController implements BaseController<User, string> {
       return
     }
     await this.userService.create(user)
-    this.socketService.send(Events.user.created, user)
+    this.socketService.send(UserEvent.USER_CREATE, user)
     res.sendStatus(201)
   }
 
@@ -107,14 +115,17 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpDelete('/:id')
-  public async deleteById(@requestParam('id') id: string, @response() res: Response) {
+  public async deleteById(
+    @requestParam('id') id: string,
+    @response() res: Response
+  ) {
     const userExists = await this.userService.findById(id)
     if (!userExists) {
       res.sendStatus(404)
       return
     }
     await this.userService.delete(id)
-    this.socketService.send(Events.user.deleted, id)
+    this.socketService.send(UserEvent.USER_DELETE, id)
   }
 
   /**
@@ -138,7 +149,7 @@ export class UserController implements BaseController<User, string> {
       return
     }
     await this.userService.update(id, user)
-    this.socketService.send(Events.user.updated, user)
+    this.socketService.send(UserEvent.USER_UPDATE, user)
   }
 
   /**
@@ -162,7 +173,7 @@ export class UserController implements BaseController<User, string> {
       return
     }
     await this.userService.updateLevel(id, levelBalance)
-    this.socketService.send(Events.user.levelUpdated, levelBalance)
+    this.socketService.send(UserLevelEvent.USER_LEVEL_UPDATE, levelBalance)
   }
 
   /**
@@ -186,7 +197,7 @@ export class UserController implements BaseController<User, string> {
       return
     }
     await this.userService.updateBalance(id, balance)
-    this.socketService.send(Events.user.balanceUpdated, balance)
+    this.socketService.send(UserBalanceEvent.USER_BALANCE_UPDATE, balance)
   }
 
   /**
@@ -281,7 +292,7 @@ export class UserController implements BaseController<User, string> {
     }
 
     await this.userService.updateProfile(id, profile)
-    this.socketService.send(Events.user.profileUpdated, profile)
+    this.socketService.send(UserProfileEvent.USER_PROFILE_UPDATE, profile)
   }
 
   /**
@@ -324,7 +335,7 @@ export class UserController implements BaseController<User, string> {
       return
     }
     await this.userService.updateSettings(id, settings)
-    this.socketService.send(Events.user.settingsUpdated, settings)
+    this.socketService.send(UserSettingsEvent.USER_SETTINGS_UPDATE, settings)
   }
 
   /**
@@ -459,7 +470,10 @@ export class UserController implements BaseController<User, string> {
     request.sender = userExists
     request.receiver = otherUserExists
     await this.userService.createFriendRequest(id, request)
-    this.socketService.send(Events.user.friend.request.created, request)
+    this.socketService.send(
+      UserFriendRequestEvent.USER_FRIEND_REQUEST_CREATE,
+      request
+    )
     res.sendStatus(201)
   }
 
@@ -493,7 +507,7 @@ export class UserController implements BaseController<User, string> {
       return
     }
     await this.userService.deleteFriendRequest(id, userId)
-    this.socketService.send(Events.user.friend.request.deleted, {
+    this.socketService.send(UserFriendRequestEvent.USER_FRIEND_REQUEST_DELETE, {
       userId: id,
       otherUserId: userId
     })
@@ -508,7 +522,10 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends')
-  public async findFriends(@requestParam('id') id: string, @response() res: Response) {
+  public async findFriends(
+    @requestParam('id') id: string,
+    @response() res: Response
+  ) {
     const userExists = await this.userService.findById(id)
     if (!userExists) {
       res.sendStatus(404)
@@ -613,7 +630,7 @@ export class UserController implements BaseController<User, string> {
     userFriend.user = userExists
     userFriend.friend = otherUserExists
     await this.userService.addFriend(id, userFriend)
-    this.socketService.send(Events.user.friend.created, userFriend)
+    this.socketService.send(UserFriendEvent.USER_FRIEND_CREATE, userFriend)
     res.sendStatus(201)
   }
 
@@ -648,7 +665,7 @@ export class UserController implements BaseController<User, string> {
       return
     }
     await this.userService.deleteFriend(id, userId)
-    this.socketService.send(Events.user.friend.deleted, {
+    this.socketService.send(UserFriendEvent.USER_FRIEND_DELETE, {
       userId: id,
       otherUserId: userId
     })
