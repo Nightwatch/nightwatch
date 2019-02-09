@@ -10,32 +10,32 @@ export interface ApiConfig {
 }
 
 export interface BotConfig {
-  token: string
-  botName: string
-  prefix: string
-  ownerId: string
-  autoReconnect: boolean
   autoDeleteMessages: {
-    enabled: boolean
     delay: number
-  },
-  playingStatus: {
-    url: string
-    cycleIntervalMinutes: number
-    options: string[]
-  },
+    enabled: boolean
+  }
+  autoReconnect: boolean
+  botName: string
   clientId: string
   clientSecret: string
+  ownerId: string
+  playingStatus: {
+    cycleIntervalMinutes: number
+    options: string[]
+    url: string
+  }
+  prefix: string
+  token: string
 }
 
 export interface OptionalSettings {
   dataDogApiKey?: string
   dataDogAppKey?: string
-  steamWebApiKey?: string
   giphyApiKey?: string
+  googleApiKey?: string
   imgur?: ImgurSettings
   premium?: PremiumSettings
-  googleApiKey?: string
+  steamWebApiKey?: string
 }
 
 export interface ImgurSettings {
@@ -44,7 +44,7 @@ export interface ImgurSettings {
 }
 
 export interface PremiumSettings {
-  primaryGuildId?: string
   premiumPatreonRoleId?: string
   premiumPluginRepo?: string
+  primaryGuildId?: string
 }

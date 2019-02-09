@@ -1,13 +1,13 @@
+import { IsDate, IsString } from 'class-validator'
 import {
+  Column,
   Entity,
-  JoinColumn,
   Index,
+  JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
-  Column
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { GuildUser } from '.'
-import { IsDate, IsString } from 'class-validator'
 
 @Entity()
 export class GuildUserWarning {
@@ -18,27 +18,7 @@ export class GuildUserWarning {
    * @memberof GuildUserWarning
    */
   @PrimaryGeneratedColumn()
-  id: number
-
-  /**
-   * The date the warning was issued.
-   *
-   * @type {Date}
-   * @memberof GuildUserWarning
-   */
-  @Column('timestamp without time zone')
-  @IsDate()
-  timestamp: Date
-
-  /**
-   * The reason the warning was issued.
-   *
-   * @type {string}
-   * @memberof GuildUserWarning
-   */
-  @Column('varchar')
-  @IsString()
-  reason: string
+  public id: number
 
   /**
    * The user that issued the warning.
@@ -48,7 +28,27 @@ export class GuildUserWarning {
    */
   @ManyToOne(_ => GuildUser)
   @JoinColumn()
-  issuer: GuildUser
+  public issuer: GuildUser
+
+  /**
+   * The reason the warning was issued.
+   *
+   * @type {string}
+   * @memberof GuildUserWarning
+   */
+  @Column('varchar')
+  @IsString()
+  public reason: string
+
+  /**
+   * The date the warning was issued.
+   *
+   * @type {Date}
+   * @memberof GuildUserWarning
+   */
+  @Column('timestamp without time zone')
+  @IsDate()
+  public timestamp: Date
 
   /**
    * The guild user that was warned.
@@ -59,9 +59,9 @@ export class GuildUserWarning {
   @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.warnings)
   @JoinColumn()
-  user: GuildUser
+  public user: GuildUser
 
-  constructor (guildUserWarning?: GuildUserWarning) {
+  public constructor(guildUserWarning?: GuildUserWarning) {
     if (guildUserWarning) {
       Object.assign(this, guildUserWarning)
     }

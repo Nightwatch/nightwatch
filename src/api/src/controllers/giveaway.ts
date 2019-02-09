@@ -34,7 +34,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpGet('/')
-  async find () {
+  async find() {
     return this.giveawayService.find()
   }
 
@@ -47,7 +47,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpGet('/:id')
-  async findById (@requestParam('id') id: number) {
+  async findById(@requestParam('id') id: number) {
     return this.giveawayService.findById(id)
   }
 
@@ -60,12 +60,9 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpPost('/')
-  async create (@requestBody() giveaway: Giveaway) {
+  async create(@requestBody() giveaway: Giveaway) {
     await this.giveawayService.create(giveaway)
-    this.socketService.send(
-      Events.giveaway.created,
-      this.redactKey(giveaway)
-    )
+    this.socketService.send(Events.giveaway.created, this.redactKey(giveaway))
   }
 
   /**
@@ -77,7 +74,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpDelete('/:id')
-  async deleteById (@requestParam('id') id: number) {
+  async deleteById(@requestParam('id') id: number) {
     await this.giveawayService.delete(id)
     this.socketService.send(Events.giveaway.deleted, id)
   }
@@ -92,18 +89,15 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpPut('/:id')
-  async updateById (
+  async updateById(
     @requestParam('id') id: number,
     @requestBody() giveaway: Giveaway
   ) {
     await this.giveawayService.update(id, giveaway)
-    this.socketService.send(
-      Events.giveaway.updated,
-      this.redactKey(giveaway)
-    )
+    this.socketService.send(Events.giveaway.updated, this.redactKey(giveaway))
   }
 
-  private redactKey (giveaway: Giveaway) {
+  private redactKey(giveaway: Giveaway) {
     if (giveaway.items) {
       giveaway.items.forEach(item => {
         if (item.key) {

@@ -27,10 +27,10 @@ const types = {
   } as SupportTicket
 } as SupportTicketList
 
-const ticketTypes = [ 'bug' ]
+const ticketTypes = ['bug']
 
 export default class SupportCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'support',
       group: 'ticket',
@@ -64,7 +64,7 @@ export default class SupportCommand extends Command {
     })
   }
 
-  public async run (
+  public async run(
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
@@ -83,13 +83,13 @@ export default class SupportCommand extends Command {
         return this.createTicket(
           msg,
           argsTyped.action.charAt(0).toUpperCase() +
-          argsTyped.action.substring(1) +
+            argsTyped.action.substring(1) +
             (argsTyped.description ? ' ' + argsTyped.description : '')
         )
     }
   }
 
-  private async createTicket (msg: CommandoMessage, description: string) {
+  private async createTicket(msg: CommandoMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'support' && x.type === 'text'
     )
@@ -112,7 +112,11 @@ export default class SupportCommand extends Command {
     const embed = new MessageEmbed()
 
     const ticketType = ticketTypes.find(
-      x => description.trim().split(' ')[0].toLowerCase() === x
+      x =>
+        description
+          .trim()
+          .split(' ')[0]
+          .toLowerCase() === x
     )
 
     const ticketDescription = ticketType
@@ -161,7 +165,10 @@ export default class SupportCommand extends Command {
         dbSupportTicket.dateClosed = null
         dbSupportTicket.guild = guild
 
-        const ticket = await guildService.createSupportTicket(msg.guild.id, dbSupportTicket)
+        const ticket = await guildService.createSupportTicket(
+          msg.guild.id,
+          dbSupportTicket
+        )
 
         const editedEmbed = new MessageEmbed()
 
@@ -193,7 +200,7 @@ export default class SupportCommand extends Command {
     )
   }
 
-  private async getTicket (msg: CommandoMessage, description: string) {
+  private async getTicket(msg: CommandoMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'support' && x.type === 'text'
     )
@@ -259,7 +266,7 @@ export default class SupportCommand extends Command {
     return (channel as TextChannel).send(embed)
   }
 
-  private async closeTicket (msg: CommandoMessage, description: string) {
+  private async closeTicket(msg: CommandoMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'support' && x.type === 'text'
     )
@@ -341,7 +348,9 @@ export default class SupportCommand extends Command {
 
     await guildService.updateSupportTicket(msg.guild.id, ticketId, ticket)
 
-    const messages = await (channel as TextChannel).messages.fetch({ limit: 100 })
+    const messages = await (channel as TextChannel).messages.fetch({
+      limit: 100
+    })
 
     const originalMessage = messages.find(x => x.id === ticket.messageId)
 
@@ -354,7 +363,7 @@ export default class SupportCommand extends Command {
     return msg.reply(`Support ticket ${ticket.id} has been closed.`)
   }
 
-  private async editTicket (msg: CommandoMessage, description: string) {
+  private async editTicket(msg: CommandoMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'support' && x.type === 'text'
     )
@@ -394,7 +403,9 @@ export default class SupportCommand extends Command {
       return msg.reply("You don't have permission to do that.")
     }
 
-    const messages = await (channel as TextChannel).messages.fetch({ limit: 100 })
+    const messages = await (channel as TextChannel).messages.fetch({
+      limit: 100
+    })
 
     const originalMessage = messages.get(ticket.messageId)
 

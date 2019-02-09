@@ -1,8 +1,20 @@
 {
-  "extends": "tslint-config-standard",
+  "extends": [
+    "tslint-sonarts",
+    "tslint-immutable",
+    "tslint-clean-code",
+    "tslint:all"
+  ],
   "rules": {
     "no-unused-variable": false,
     "space-before-function-paren": false,
-    "await-promise": [true, "Bluebird"]
+    "await-promise": [true, "Bluebird"],
+    "file-name-casing": [true, "kebab-case"],
+    "quotemark": {
+      "options": ["single"]
+    },
+    "semicolon": [true, "never"],
+    "linebreak-style": false,
+    "trailing-comma": false
   }
 }

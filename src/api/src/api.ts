@@ -35,7 +35,7 @@ export class Api {
    * Creates an instance of the Api.
    * @memberof Api
    */
-  constructor () {
+  constructor() {
     this.init().catch(err => {
       console.error(err)
     })
@@ -48,16 +48,16 @@ export class Api {
    * @returns {Api}
    * @memberof Api
    */
-  static start (): Api {
+  static start(): Api {
     return new Api()
   }
 
-  private async init () {
+  private async init() {
     await createConnection()
     this.startServer()
   }
 
-  private startServer () {
+  private startServer() {
     const server = new InversifyExpressServer(container)
 
     const limiter = new RateLimit({
@@ -65,10 +65,7 @@ export class Api {
       max: 150,
       delayMs: 0,
       skip: (request: express.Request, _) => {
-        if (
-          request.ip === '::1' ||
-          request.ip === '::ffff:127.0.0.1'
-        ) {
+        if (request.ip === '::1' || request.ip === '::ffff:127.0.0.1') {
           return true
         }
 

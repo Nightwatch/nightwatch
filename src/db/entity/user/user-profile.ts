@@ -1,36 +1,35 @@
+import { IsString } from 'class-validator'
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
-  Index
+  OneToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { User } from '.'
-import { IsString } from 'class-validator'
 @Entity()
 export class UserProfile {
+  @Column('varchar')
+  @IsString()
+  public background: string
+
+  @Column('varchar')
+  @IsString()
+  public bio: string
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   @Column('varchar')
   @IsString()
-  title: string
-
-  @Column('varchar')
-  @IsString()
-  bio: string
-
-  @Column('varchar')
-  @IsString()
-  background: string
+  public title: string
 
   @Index({ unique: true })
   @OneToOne(_ => User, user => user.profile, { onDelete: 'CASCADE' })
   @JoinColumn()
-  user: User
+  public user: User
 
-  constructor() {
+  public constructor() {
     this.title = ''
     this.bio = ''
     this.background = 'default'

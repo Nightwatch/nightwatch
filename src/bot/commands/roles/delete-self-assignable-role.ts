@@ -4,7 +4,7 @@ import { GuildService } from '../../services'
 import { Command } from '../../base'
 
 export default class DeleteSelfAssignableRoleCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'dsar',
       group: 'roles',
@@ -29,14 +29,25 @@ export default class DeleteSelfAssignableRoleCommand extends Command {
     return msg.member.permissions.has('MANAGE_ROLES')
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
-    const role: Role = args.role instanceof Role ? args.role : msg.guild.roles.find(x => x.name.toLowerCase() === args.role.toLowerCase().trim())
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
+    const role: Role =
+      args.role instanceof Role
+        ? args.role
+        : msg.guild.roles.find(
+            x => x.name.toLowerCase() === args.role.toLowerCase().trim()
+          )
 
     if (!role) {
       return msg.reply(`Could not find a role named ${args.role}`)
     }
 
-    if (role.position >= msg.member.roles.highest.position && msg.member.id !== msg.guild.owner.id) {
+    if (
+      role.position >= msg.member.roles.highest.position &&
+      msg.member.id !== msg.guild.owner.id
+    ) {
       return msg.reply('You cannot remove that role as a self assignable role.')
     }
 
@@ -48,6 +59,8 @@ export default class DeleteSelfAssignableRoleCommand extends Command {
       return msg.reply('Failed to delete self assignable role. Does it exist?')
     }
 
-    return msg.channel.send(`Successfully removed **${role.name}** as a self assignable role!`)
+    return msg.channel.send(
+      `Successfully removed **${role.name}** as a self assignable role!`
+    )
   }
 }

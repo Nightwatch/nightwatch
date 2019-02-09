@@ -3,7 +3,7 @@ import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class ReverseCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'reverse',
       group: 'misc',
@@ -24,7 +24,10 @@ export default class ReverseCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
     if (!args.phrase || !args.phrase.trim()) {
       return msg.reply(
         'I cannot reverse an empty string. Well I could, but that would be boring.'
@@ -33,6 +36,11 @@ export default class ReverseCommand extends Command {
 
     const phrase = args.phrase as string
 
-    return msg.reply(phrase.split('').reverse().join(''))
+    return msg.reply(
+      phrase
+        .split('')
+        .reverse()
+        .join('')
+    )
   }
 }

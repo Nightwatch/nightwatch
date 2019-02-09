@@ -8,7 +8,8 @@ import * as Promise from 'bluebird'
 import { ClientUser } from 'discord.js'
 import { PluginStatus, loadPlugins } from './utils/plugin-loader'
 
-const getDirectoryNames = (p: string) => readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
+const getDirectoryNames = (p: string) =>
+  readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
 const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
 
 let pluginInfo: PluginStatus[] = []
@@ -26,7 +27,7 @@ export class Bot implements IBot {
     messageSweepInterval: 60
   })
 
-  public start () {
+  public start() {
     console.info(`Starting ${config.bot.botName}.`)
 
     this.registerEvents()
@@ -54,8 +55,9 @@ export class Bot implements IBot {
   }
 
   public registerCommands() {
-    const commandGroups = getDirectoryNames(path.join(__dirname, 'commands'))
-      .map(name => [name, upperCaseFirstLetter(name)])
+    const commandGroups = getDirectoryNames(
+      path.join(__dirname, 'commands')
+    ).map(name => [name, upperCaseFirstLetter(name)])
 
     this.client.registry
       .registerDefaultTypes()
@@ -65,7 +67,7 @@ export class Bot implements IBot {
       .registerCommandsIn(path.join(__dirname, 'commands'))
   }
 
-  public stop (): void {
+  public stop(): void {
     this.client.destroy()
     process.exit(1)
   }
@@ -77,21 +79,30 @@ export class Bot implements IBot {
     if (this.client.user) {
       const clientUser = this.client.user
 
-      Promise.resolve(clientUser.setPresence({
-        status: 'online',
-        activity: {
-          type: 'STREAMING',
-          name: playingStatusOptions[0],
-          url
-        }
-      }))
-      .then(_ => setInterval(() => this.setRandomActivity(clientUser), config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60))
-      .catch(console.error)
+      Promise.resolve(
+        clientUser.setPresence({
+          status: 'online',
+          activity: {
+            type: 'STREAMING',
+            name: playingStatusOptions[0],
+            url
+          }
+        })
+      )
+        .then(_ =>
+          setInterval(
+            () => this.setRandomActivity(clientUser),
+            config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60
+          )
+        )
+        .catch(console.error)
     }
 
-    loadPlugins(this.client, config).then(pluginStatuses => {
-      pluginInfo = pluginStatuses
-    }).catch(console.error)
+    loadPlugins(this.client, config)
+      .then(pluginStatuses => {
+        pluginInfo = pluginStatuses
+      })
+      .catch(console.error)
 
     console.info(`${config.bot.botName} ready.`)
   }
@@ -99,12 +110,16 @@ export class Bot implements IBot {
   private setRandomActivity(clientUser: ClientUser) {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
-    return Promise.resolve(clientUser.setActivity({
-      type: 'STREAMING',
-      name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
-      url
-    }))
-      .catch(console.error)
+    return Promise.resolve(
+      clientUser.setActivity({
+        type: 'STREAMING',
+        name:
+          playingStatusOptions[
+            Math.floor(Math.random() * playingStatusOptions.length)
+          ],
+        url
+      })
+    ).catch(console.error)
   }
 
   public onDisconnect = () => {

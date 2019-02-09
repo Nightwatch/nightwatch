@@ -1,21 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm'
-import { IsString, MaxLength, IsDate } from 'class-validator'
+import { IsDate, IsString, MaxLength } from 'class-validator'
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class Category {
-  @PrimaryGeneratedColumn() id: number
+  @Column()
+  @IsString()
+  public description: string
+  @PrimaryGeneratedColumn() public id: number
 
   @Column({ length: 100 })
   @IsString()
   @MaxLength(100)
   @Index({ unique: true })
-  name: string
-
-  @Column()
-  @IsString()
-  description: string
+  public name: string
 
   @Column('timestamp without time zone')
   @IsDate()
-  timestamp: Date
+  public timestamp: Date
 }

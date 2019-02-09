@@ -1,18 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
-import { Referral, ReferralReward } from '..'
 import { IsDate } from 'class-validator'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Referral, ReferralReward } from '..'
 
 @Entity()
 export class ReferralUnlockedReward {
-  /**
-   * The ID of the unlocked reward. Auto-generated.
-   *
-   * @type {number}
-   * @memberof ReferralUnlockedReward
-   */
-  @PrimaryGeneratedColumn()
-  id: number
-
   /**
    * The date that the reward was unlocked.
    *
@@ -21,16 +12,15 @@ export class ReferralUnlockedReward {
    */
   @Column()
   @IsDate()
-  dateUnlocked: Date
-
+  public dateUnlocked: Date
   /**
-   * The reward that the user's referral unlocked.
+   * The ID of the unlocked reward. Auto-generated.
    *
-   * @type {ReferralReward}
+   * @type {number}
    * @memberof ReferralUnlockedReward
    */
-  @ManyToOne(_ => ReferralReward)
-  reward: ReferralReward
+  @PrimaryGeneratedColumn()
+  public id: number
 
   /**
    * The referral that unlocked the reward for the user.
@@ -39,5 +29,14 @@ export class ReferralUnlockedReward {
    * @memberof ReferralUnlockedReward
    */
   @ManyToOne(_ => Referral, referral => referral.unlockedRewards)
-  referral: Referral
+  public referral: Referral
+
+  /**
+   * The reward that the user's referral unlocked.
+   *
+   * @type {ReferralReward}
+   * @memberof ReferralUnlockedReward
+   */
+  @ManyToOne(_ => ReferralReward)
+  public reward: ReferralReward
 }

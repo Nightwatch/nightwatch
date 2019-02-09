@@ -3,7 +3,7 @@ import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class EchoCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'echo',
       group: 'misc',
@@ -24,7 +24,10 @@ export default class EchoCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
     if (!args.phrase || !args.phrase.trim()) {
       return msg.reply(
         'I cannot echo an empty string. Well I could, but that would be boring.'

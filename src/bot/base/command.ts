@@ -1,4 +1,8 @@
-import { Command as CommandoCommand, CommandoMessage, CommandoClient } from 'discord.js-commando'
+import {
+  Command as CommandoCommand,
+  CommandoMessage,
+  CommandoClient
+} from 'discord.js-commando'
 import { UserController } from '../controllers'
 import { CommandInfo } from '../../common'
 
@@ -21,6 +25,8 @@ export class Command extends CommandoCommand {
       return true
     }
 
-    return `Only guilds with premium access can use the \`${this.name}\` command.`
+    return `Only guilds with premium access can use the \`${
+      this.name
+    }\` command.`
   }
 }

@@ -1,13 +1,13 @@
+import { IsNumber } from 'class-validator'
 import {
-  Entity,
   Column,
-  OneToOne,
-  JoinColumn,
+  Entity,
   Index,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
 import { Referral } from '..'
-import { IsNumber } from 'class-validator'
 
 @Entity()
 export class ReferralRole {
@@ -18,7 +18,7 @@ export class ReferralRole {
    * @memberof ReferralRole
    */
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   /**
    * The number of members containing the role.
@@ -28,7 +28,7 @@ export class ReferralRole {
    */
   @Column()
   @IsNumber()
-  members: number
+  public members: number
 
   /**
    * The referral the role is linked to.
@@ -39,7 +39,7 @@ export class ReferralRole {
   @Index({ unique: true })
   @OneToOne(_ => Referral, referral => referral.role)
   @JoinColumn()
-  referral: Referral
+  public referral: Referral
 
   /**
    * The ID of the Discord role. Not auto-generated, should
@@ -50,5 +50,5 @@ export class ReferralRole {
    */
   @Index({ unique: true })
   @Column('varchar')
-  roleId: string
+  public roleId: string
 }

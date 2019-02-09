@@ -9,5 +9,8 @@ export interface UserService {
   updateBalance: (id: string, balance: UserBalance) => Promise<void>
   delete: (id: string) => Promise<void>
   updateProfile: (id: string, profile: UserProfile) => Promise<void>
-  updateLevelBalance: (id: string, levelBalance: UserLevelBalance) => Promise<void>
+  updateLevelBalance: (
+    id: string,
+    levelBalance: UserLevelBalance
+  ) => Promise<void>
 }

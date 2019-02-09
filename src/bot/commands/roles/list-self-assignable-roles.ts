@@ -5,7 +5,7 @@ import { GuildSelfAssignableRole } from '../../../db'
 import { Command } from '../../base'
 
 export default class ListSelfAssignableRolesCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'lsar',
       group: 'roles',
@@ -19,17 +19,27 @@ export default class ListSelfAssignableRolesCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
     const guildService = new GuildService()
 
-    const roles = await guildService.findSelfAssignableRoles(msg.guild.id) as GuildSelfAssignableRole[]
+    const roles = (await guildService.findSelfAssignableRoles(
+      msg.guild.id
+    )) as GuildSelfAssignableRole[]
 
     if (!roles || roles.length === 0) {
       return msg.reply('No self assignable roles found.')
     }
 
-    const rolesString = roles.map(x => `**${msg.guild.roles.find(role => x.roleId === role.id).name}**`).join(', ')
+    const rolesString = roles
+      .map(
+        x => `**${msg.guild.roles.find(role => x.roleId === role.id).name}**`
+      )
+      .join(', ')
 
-    return msg.channel.send(`These are the available self assignable roles for ${msg.guild.name}: ${rolesString}`)
+    return msg.channel.send(
+      `These are the available self assignable roles for ${
+        msg.guild.name
+      }: ${rolesString}`
+    )
   }
 }

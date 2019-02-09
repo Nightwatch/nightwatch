@@ -1,33 +1,32 @@
+import { IsBoolean } from 'class-validator'
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
-  Index
+  OneToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { User } from '.'
-import { IsBoolean } from 'class-validator'
 
 @Entity()
 export class UserSettings {
+  @Column()
+  @IsBoolean()
+  public directMessagesEnabled: boolean
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   @Column()
   @IsBoolean()
-  levelsEnabled: boolean
-
-  @Column()
-  @IsBoolean()
-  directMessagesEnabled: boolean
+  public levelsEnabled: boolean
 
   @Index({ unique: true })
   @OneToOne(_ => User, user => user.settings, { onDelete: 'CASCADE' })
   @JoinColumn()
-  user: User
+  public user: User
 
-  constructor() {
+  public constructor() {
     this.levelsEnabled = true
     this.directMessagesEnabled = true
   }

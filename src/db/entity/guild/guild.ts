@@ -1,17 +1,26 @@
-import { Entity, PrimaryColumn, Column, OneToOne, OneToMany } from 'typeorm'
+import { IsDate, IsNotEmpty, IsString, MaxLength } from 'class-validator'
+import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm'
 import {
+  GuildPerk,
+  GuildSelfAssignableRole,
   GuildSettings,
   GuildSuggestion,
   GuildSupportTicket,
-  GuildUser,
-  GuildPerk,
-  GuildSelfAssignableRole
+  GuildUser
 } from '.'
-import { IsString, MaxLength, IsDate, IsNotEmpty } from 'class-validator'
 import { Song } from '../music'
 
 @Entity()
 export class Guild {
+  /**
+   * The date the guild was created.
+   *
+   * @type {Date}
+   * @memberof Guild
+   */
+  @Column()
+  @IsDate()
+  public dateCreated: Date
   /**
    * The ID of the guild. Auto-generated.
    *
@@ -21,7 +30,7 @@ export class Guild {
   @PrimaryColumn()
   @IsString()
   @IsNotEmpty()
-  id: string
+  public id: string
 
   /**
    * The name of the guild. Maximum length of 100 characters.
@@ -33,17 +42,16 @@ export class Guild {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  name: string
+  public name: string
 
-  /**
-   * The date the guild was created.
-   *
-   * @type {Date}
-   * @memberof Guild
-   */
-  @Column()
-  @IsDate()
-  dateCreated: Date
+  @OneToMany(_ => GuildPerk, guildPerk => guildPerk.guild)
+  public perks: GuildPerk[]
+
+  @OneToMany(_ => Song, song => song.guild)
+  public playlist: Song[]
+
+  @OneToMany(_ => GuildSelfAssignableRole, sar => sar.guild)
+  public selfAssignableRoles: GuildSelfAssignableRole[]
 
   /**
    * The guild's settings.
@@ -54,7 +62,7 @@ export class Guild {
   @OneToOne(_ => GuildSettings, guildSettings => guildSettings.guild, {
     cascade: true
   })
-  settings: GuildSettings
+  public settings: GuildSettings
 
   /**
    * Every suggestion in the guild.
@@ -63,7 +71,7 @@ export class Guild {
    * @memberof Guild
    */
   @OneToMany(_ => GuildSuggestion, guildSuggestion => guildSuggestion.guild)
-  suggestions: GuildSuggestion[]
+  public suggestions: GuildSuggestion[]
 
   /**
    * Every support ticket in the guild.
@@ -72,7 +80,7 @@ export class Guild {
    * @memberof Guild
    */
   @OneToMany(_ => GuildSupportTicket, supportTicket => supportTicket.guild)
-  supportTickets: GuildSupportTicket[]
+  public supportTickets: GuildSupportTicket[]
 
   /**
    * Every user in the guild.
@@ -81,18 +89,9 @@ export class Guild {
    * @memberof Guild
    */
   @OneToMany(_ => GuildUser, guildUser => guildUser.guild)
-  users: GuildUser[]
+  public users: GuildUser[]
 
-  @OneToMany(_ => GuildPerk, guildPerk => guildPerk.guild)
-  perks: GuildPerk[]
-
-  @OneToMany(_ => Song, song => song.guild)
-  playlist: Song[]
-
-  @OneToMany(_ => GuildSelfAssignableRole, sar => sar.guild)
-  selfAssignableRoles: GuildSelfAssignableRole[]
-
-  constructor(guild?: Guild) {
+  public constructor(guild?: Guild) {
     if (guild) {
       Object.assign(this, guild)
     }

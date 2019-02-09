@@ -6,7 +6,8 @@ export class Plugin {
   public static client: CommandoClient
   public static config: Config
   public static id = 'Friends'
-  public static description = 'Friend system plugin. Provides a better and more interactive friend system than Discord.'
+  public static description =
+    'Friend system plugin. Provides a better and more interactive friend system than Discord.'
   public static commandGroups = [
     ['friends', 'Friends']
     // If you need to make command groups for the plugin's commands,
@@ -30,9 +31,7 @@ export class Plugin {
    * Register events
    * @param client
    */
-  private async registerListeners(
-    client: CommandoClient
-  ): Promise<void> {
+  private async registerListeners(client: CommandoClient): Promise<void> {
     client.on('message', () => onMessage())
   }
 }

@@ -6,12 +6,12 @@ import { UserService } from '../../services'
 import { Command } from '../../base'
 
 export default class DailiesCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'dailies',
       group: 'economy',
       memberName: 'dailies',
-      aliases: [ 'daily' ],
+      aliases: ['daily'],
       description: 'Claim your daily reward.',
       guildOnly: false,
       throttling: {
@@ -21,17 +21,20 @@ export default class DailiesCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
     const userService = new UserService()
 
-    const user = await userService.find(msg.author.id)
-    .catch(_ => userService.create(msg.author))
-    .catch(() => {
-      // swallow
-    })
+    const user = await userService
+      .find(msg.author.id)
+      .catch(_ => userService.create(msg.author))
+      .catch(() => {
+        // swallow
+      })
 
     if (!user) {
-      return msg.reply('Command failed. You did not have a profile set up in my database. Try again.')
+      return msg.reply(
+        'Command failed. You did not have a profile set up in my database. Try again.'
+      )
     }
 
     const lastClaimed = user.balance.dateLastClaimedDailies

@@ -4,7 +4,7 @@ import { UserService } from '../../services'
 import { Command } from '../../base'
 
 export default class CreateUserCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'createuser',
       group: 'debug',
@@ -26,7 +26,10 @@ export default class CreateUserCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
     const userService = new UserService()
 
     const member = args.member as GuildMember

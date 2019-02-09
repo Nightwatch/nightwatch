@@ -1,15 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import { IsString, IsNumber } from 'class-validator'
+import { IsNumber, IsString } from 'class-validator'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class ReferralReward {
+  /**
+   * The description of the reward.
+   *
+   * @type {string}
+   * @memberof ReferralReward
+   */
+  @Column('varchar')
+  @IsString()
+  public description: string
   /**
    * The ID of the reward. Auto-generated.
    *
    * @type {number}
    * @memberof ReferralReward
    */
-  @PrimaryGeneratedColumn() id: number
+  @PrimaryGeneratedColumn() public id: number
 
   /**
    * The name of the reward.
@@ -19,17 +28,7 @@ export class ReferralReward {
    */
   @Column('varchar')
   @IsString()
-  name: string
-
-  /**
-   * The description of the reward.
-   *
-   * @type {string}
-   * @memberof ReferralReward
-   */
-  @Column('varchar')
-  @IsString()
-  description: string
+  public name: string
 
   /**
    * The number of referrals needed to get the reward.
@@ -39,5 +38,5 @@ export class ReferralReward {
    */
   @Column()
   @IsNumber()
-  referralsNeeded: number
+  public referralsNeeded: number
 }

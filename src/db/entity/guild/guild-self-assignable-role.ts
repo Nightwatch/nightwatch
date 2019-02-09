@@ -1,15 +1,24 @@
+import { IsString } from 'class-validator'
 import {
-  Entity,
   Column,
+  Entity,
+  JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
-  JoinColumn
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { Guild } from '.'
-import { IsString } from 'class-validator'
 
 @Entity()
 export class GuildSelfAssignableRole {
+  /**
+   * The guild the self assignable roles belong to.
+   *
+   * @type {Guild}
+   * @memberof GuildSelfAssignableRole
+   */
+  @ManyToOne(_ => Guild, guild => guild.selfAssignableRoles)
+  @JoinColumn()
+  public guild: Guild
   /**
    * The ID of the self assignable role. Auto-generated.
    *
@@ -17,7 +26,7 @@ export class GuildSelfAssignableRole {
    * @memberof GuildSelfAssignableRole
    */
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   /**
    * The ID of the Discord role role.
@@ -27,15 +36,5 @@ export class GuildSelfAssignableRole {
    */
   @Column()
   @IsString()
-  roleId: string
-
-  /**
-   * The guild the self assignable roles belong to.
-   *
-   * @type {Guild}
-   * @memberof GuildSelfAssignableRole
-   */
-  @ManyToOne(_ => Guild, guild => guild.selfAssignableRoles)
-  @JoinColumn()
-  guild: Guild
+  public roleId: string
 }

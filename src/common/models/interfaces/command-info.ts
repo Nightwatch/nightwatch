@@ -1,52 +1,52 @@
 import { PermissionResolvable } from 'discord.js'
 
-export type CommandInfo = {
-  name: string
+export interface CommandInfo {
   aliases?: string[]
+  args?: ArgumentInfo[]
+  argsCount?: number
+  argsPromptLimit?: number
+  argsSingleQuotes?: boolean
+  argsType?: string
   autoAliases?: boolean
-  group: string
-  memberName: string
+  clientPermissions?: PermissionResolvable[]
+  defaultHandling?: boolean
   description: string
-  format?: string
   details?: string
   examples?: string[]
-  nsfw?: boolean
-  guildOnly?: boolean
-  ownerOnly?: boolean
-  clientPermissions?: PermissionResolvable[]
-  userPermissions?: PermissionResolvable[]
-  defaultHandling?: boolean
-  throttling?: ThrottlingOptions
-  args?: ArgumentInfo[]
-  argsPromptLimit?: number
-  argsType?: string
-  argsCount?: number
-  argsSingleQuotes?: boolean
-  patterns?: RegExp[]
+  format?: string
+  group: string
   guarded?: boolean
+  guildOnly?: boolean
   hidden?: boolean
-  unknown?: boolean
+  memberName: string
+  name: string
+  nsfw?: boolean
+  ownerOnly?: boolean
+  patterns?: RegExp[]
   premiumOnly?: boolean
+  throttling?: ThrottlingOptions
+  unknown?: boolean
+  userPermissions?: PermissionResolvable[]
 }
 
-type ArgumentInfo = {
+interface ArgumentInfo {
+  default?: any | Function
+  error?: string
+  infinite?: boolean
+  isEmpty?: Function
   key: string
   label?: string
-  prompt: string
-  error?: string
-  type?: string
   max?: number
   min?: number
   oneOf?: any[]
-  default?: any | Function
-  infinite?: boolean
-  validate?: Function
   parse?: Function
-  isEmpty?: Function
+  prompt: string
+  type?: string
+  validate?: Function
   wait?: number
 }
 
-type ThrottlingOptions = {
-  usages: number
+interface ThrottlingOptions {
   duration: number
+  usages: number
 }

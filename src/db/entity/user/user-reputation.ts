@@ -1,29 +1,29 @@
+import { IsNumber } from 'class-validator'
 import {
-  Entity,
   Column,
-  OneToOne,
-  JoinColumn,
+  Entity,
   Index,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
 import { User } from '.'
-import { IsNumber } from 'class-validator'
 
 @Entity()
 export class UserReputation {
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   @Column()
   @IsNumber()
-  reputation: number
+  public reputation: number
 
   @Index({ unique: true })
   @OneToOne(_ => User, user => user.reputation, { onDelete: 'CASCADE' })
   @JoinColumn()
-  user: User
+  public user: User
 
-  constructor() {
+  public constructor() {
     this.reputation = 0
   }
 }

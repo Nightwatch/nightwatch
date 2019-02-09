@@ -23,9 +23,14 @@ export default class ImgurCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
     if (!config.optional || !config.optional.imgur) {
-      return msg.reply('Command failed. Bot owner has not configured the bot with an Imgur API key.')
+      return msg.reply(
+        'Command failed. Bot owner has not configured the bot with an Imgur API key.'
+      )
     }
 
     const query = args.query as string
@@ -43,19 +48,27 @@ export default class ImgurCommand extends Command {
       is_album: boolean
     }
 
-    const { data: { data: albums } }: {data: {data: Album[]}} = await axios.get(`https://api.imgur.com/3/gallery/search?q=${encodeURI(query)}`, {
-      headers: {
-        'Authorization': `Client-ID ${config.optional.imgur.clientId}`
+    const {
+      data: { data: albums }
+    }: { data: { data: Album[] } } = await axios.get(
+      `https://api.imgur.com/3/gallery/search?q=${encodeURI(query)}`,
+      {
+        headers: {
+          Authorization: `Client-ID ${config.optional.imgur.clientId}`
+        }
       }
-    })
+    )
 
-    const filteredAlbums = albums.filter(album => album && ((msg.channel as TextChannel).nsfw ? true : !album.nsfw))
+    const filteredAlbums = albums.filter(
+      album => album && ((msg.channel as TextChannel).nsfw ? true : !album.nsfw)
+    )
 
     if (!filteredAlbums.length) {
       return msg.reply('No results found.')
     }
 
-    const randomAlbum = filteredAlbums[Math.floor(Math.random() * filteredAlbums.length)]
+    const randomAlbum =
+      filteredAlbums[Math.floor(Math.random() * filteredAlbums.length)]
 
     if (!randomAlbum.images) {
       if (randomAlbum.is_album) {
@@ -65,7 +78,9 @@ export default class ImgurCommand extends Command {
       return msg.channel.send(new MessageAttachment(randomAlbum.link))
     }
 
-    const filteredImages = randomAlbum.images.filter(image => image && ((msg.channel as TextChannel).nsfw ? true : !image.nsfw))
+    const filteredImages = randomAlbum.images.filter(
+      image => image && ((msg.channel as TextChannel).nsfw ? true : !image.nsfw)
+    )
 
     if (!filteredImages || !filteredImages.length) {
       return msg.reply('No results found.')

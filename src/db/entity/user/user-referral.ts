@@ -1,24 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
+import { IsDate } from 'class-validator'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from '.'
 import { Referral } from '..'
-import { IsDate } from 'class-validator'
 
 @Entity()
 export class UserReferral {
-  @PrimaryGeneratedColumn()
-  id: number
-
   @Column()
   @IsDate()
-  dateUsed: Date
-
-  @ManyToOne(_ => User)
-  user: User
+  public dateUsed: Date
+  @PrimaryGeneratedColumn()
+  public id: number
 
   @ManyToOne(_ => Referral)
-  referral: Referral
+  public referral: Referral
 
-  constructor () {
+  @ManyToOne(_ => User)
+  public user: User
+
+  public constructor() {
     this.dateUsed = new Date()
   }
 }

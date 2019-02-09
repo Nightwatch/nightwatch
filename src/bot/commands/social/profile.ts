@@ -9,7 +9,7 @@ import { UserLevel } from '../../../db'
 import { Command } from '../../base'
 
 export default class ProfileCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'profile',
       group: 'social',
@@ -31,7 +31,7 @@ export default class ProfileCommand extends Command {
     })
   }
 
-  public async run (
+  public async run(
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
@@ -40,7 +40,10 @@ export default class ProfileCommand extends Command {
     const user = args.user || msg.member
     const { Image } = Canvas
 
-    msg.channel.startTyping().then().catch()
+    msg.channel
+      .startTyping()
+      .then()
+      .catch()
 
     const foundUser = await userService.find(user.id)
 
@@ -208,11 +211,11 @@ export default class ProfileCommand extends Command {
     msg.channel.stopTyping()
 
     return msg.channel.send({
-      files: [ { attachment: canvas.toBuffer(), name: 'profile.png' } ]
+      files: [{ attachment: canvas.toBuffer(), name: 'profile.png' }]
     })
   }
 
-  public _wrapText (
+  public _wrapText(
     ctx: any,
     text: string,
     maxWidth: number
@@ -223,7 +226,7 @@ export default class ProfileCommand extends Command {
       let line = ''
 
       if (ctx.measureText(text).width < maxWidth) {
-        return resolve([ text ])
+        return resolve([text])
       }
 
       while (words.length > 0) {
@@ -256,7 +259,7 @@ export default class ProfileCommand extends Command {
     })
   }
 
-  public getXpForLevel (level: number) {
+  public getXpForLevel(level: number) {
     return 5 * level * level + 50 * level + 100
   }
 }

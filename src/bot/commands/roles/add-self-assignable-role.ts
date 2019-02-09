@@ -5,12 +5,13 @@ import { GuildSelfAssignableRole } from '../../../db'
 import { Command } from '../../base'
 
 export default class AddSelfAssignableRoleCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'asar',
       group: 'roles',
       memberName: 'asar',
-      description: 'Add a self assignable role that users can assign to themselves.',
+      description:
+        'Add a self assignable role that users can assign to themselves.',
       guildOnly: true,
       throttling: {
         usages: 2,
@@ -30,14 +31,25 @@ export default class AddSelfAssignableRoleCommand extends Command {
     return msg.member.permissions.has('MANAGE_ROLES')
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
-    const role: Role = args.role instanceof Role ? args.role : msg.guild.roles.find(x => x.name.toLowerCase() === args.role.toLowerCase().trim())
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
+    const role: Role =
+      args.role instanceof Role
+        ? args.role
+        : msg.guild.roles.find(
+            x => x.name.toLowerCase() === args.role.toLowerCase().trim()
+          )
 
     if (!role) {
       return msg.reply(`Could not find a role named ${args.role}`)
     }
 
-    if (role.position >= msg.member.roles.highest.position && msg.member.id !== msg.guild.owner.id) {
+    if (
+      role.position >= msg.member.roles.highest.position &&
+      msg.member.id !== msg.guild.owner.id
+    ) {
       return msg.reply('You cannot add that role as a self assignable role.')
     }
 
@@ -53,8 +65,13 @@ export default class AddSelfAssignableRoleCommand extends Command {
     selfAssignableRole.roleId = role.id
     selfAssignableRole.guild = guild
 
-    await guildService.createSelfAssignableRole(msg.guild.id, selfAssignableRole)
+    await guildService.createSelfAssignableRole(
+      msg.guild.id,
+      selfAssignableRole
+    )
 
-    return msg.channel.send(`Successfully added **${role.name}** as a self assignable role!`)
+    return msg.channel.send(
+      `Successfully added **${role.name}** as a self assignable role!`
+    )
   }
 }

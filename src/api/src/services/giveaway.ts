@@ -12,24 +12,24 @@ import { GiveawayService as IGiveawayService } from '../interfaces'
 export class GiveawayService implements IGiveawayService {
   private giveawayRepository = getRepository(Giveaway)
 
-  public find () {
+  public find() {
     return this.giveawayRepository.find({ relations: ['items'] })
   }
 
-  public async findById (id: number) {
+  public async findById(id: number) {
     return this.giveawayRepository.findOne(id, { relations: ['items'] })
   }
 
-  public async create (giveaway: Giveaway) {
+  public async create(giveaway: Giveaway) {
     giveaway.dateCreated = new Date()
     await this.giveawayRepository.save(giveaway)
   }
 
-  public async update (_: number, giveaway: Giveaway) {
+  public async update(_: number, giveaway: Giveaway) {
     await this.giveawayRepository.save(giveaway)
   }
 
-  public async delete (id: number) {
+  public async delete(id: number) {
     const giveaway = await this.giveawayRepository.findOne(id)
 
     if (!giveaway) {

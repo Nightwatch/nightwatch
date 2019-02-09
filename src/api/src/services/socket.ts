@@ -9,7 +9,7 @@ import { SocketService as ISocketService } from '../interfaces'
  */
 @injectable()
 export class SocketService implements ISocketService {
-  public send (event: string, content: any) {
+  public send(event: string, content: any) {
     try {
       getSocketServer().emit(event, content)
     } catch (err) {

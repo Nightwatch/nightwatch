@@ -1,79 +1,54 @@
-import { Entity, PrimaryColumn, Column, OneToOne, OneToMany } from 'typeorm'
-import { IsFQDN, IsString, MaxLength, IsDate } from 'class-validator'
+import { IsDate, IsFQDN, IsString, MaxLength } from 'class-validator'
+import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm'
 import {
-  UserSettings,
-  UserVerification,
-  UserLevel,
-  UserBalance,
-  UserProfile,
-  UserReputation,
-  UserFriend,
-  UserFriendRequest,
   UserBackground,
   UserBadge,
-  UserPerk
+  UserBalance,
+  UserFriend,
+  UserFriendRequest,
+  UserLevel,
+  UserPerk,
+  UserProfile,
+  UserReputation,
+  UserSettings,
+  UserVerification
 } from '.'
 
 @Entity()
 export class User {
-  @PrimaryColumn()
-  @IsString()
-  id: string
-
-  @Column('varchar', { length: 100 })
-  @IsString()
-  @MaxLength(100)
-  name: string
-
   @Column('varchar', { nullable: true })
   @IsFQDN()
-  avatarUrl: string
+  public avatarUrl: string
 
-  @Column()
-  @IsDate()
-  dateCreated: Date
-
-  @Column('timestamp without time zone', { nullable: true })
-  dateLastMessage: Date | null
-
-  @OneToOne(_ => UserSettings, userSettings => userSettings.user, {
-    cascade: true
+  @OneToMany(_ => UserBackground, userBackground => userBackground.user, {
+    cascade: ['remove']
   })
-  settings: UserSettings
+  public backgrounds: UserBackground[]
 
-  @OneToOne(_ => UserVerification, userVerification => userVerification.user, {
-    cascade: true
+  @OneToMany(_ => UserBadge, userBadge => userBadge.user, {
+    cascade: ['remove']
   })
-  verification: UserVerification
-
-  @OneToOne(_ => UserLevel, userLevel => userLevel.user, {
-    cascade: true
-  })
-  level: UserLevel
+  public badges: UserBadge[]
 
   @OneToOne(_ => UserBalance, userBalance => userBalance.user, {
     cascade: true
   })
-  balance: UserBalance
+  public balance: UserBalance
 
-  @OneToOne(_ => UserProfile, userProfile => userProfile.user, {
-    cascade: true
+  @Column()
+  @IsDate()
+  public dateCreated: Date
+
+  @Column('timestamp without time zone', { nullable: true })
+  public dateLastMessage: Date | null
+
+  @OneToMany(_ => UserFriend, userFriend => userFriend, {
+    cascade: ['remove']
   })
-  profile: UserProfile
-
-  @OneToOne(_ => UserReputation, userReputation => userReputation.user, {
-    cascade: true
-  })
-  reputation: UserReputation
-
-  @OneToMany(
-    _ => UserFriendRequest,
-    userFriendRequest => userFriendRequest.sender,
-    {
-      cascade: ['remove']
-    }
-  )
-  outgoingFriendRequests: UserFriendRequest[]
+  public friends: UserFriend[]
+  @PrimaryColumn()
+  @IsString()
+  public id: string
 
   @OneToMany(
     _ => UserFriendRequest,
@@ -82,29 +57,53 @@ export class User {
       cascade: ['remove']
     }
   )
-  incomingFriendRequests: UserFriendRequest[]
+  public incomingFriendRequests: UserFriendRequest[]
 
-  @OneToMany(_ => UserFriend, userFriend => userFriend, {
-    cascade: ['remove']
+  @OneToOne(_ => UserLevel, userLevel => userLevel.user, {
+    cascade: true
   })
-  friends: UserFriend[]
+  public level: UserLevel
 
-  @OneToMany(_ => UserBackground, userBackground => userBackground.user, {
-    cascade: ['remove']
-  })
-  backgrounds: UserBackground[]
+  @Column('varchar', { length: 100 })
+  @IsString()
+  @MaxLength(100)
+  public name: string
 
-  @OneToMany(_ => UserBadge, userBadge => userBadge.user, {
-    cascade: ['remove']
-  })
-  badges: UserBadge[]
+  @OneToMany(
+    _ => UserFriendRequest,
+    userFriendRequest => userFriendRequest.sender,
+    {
+      cascade: ['remove']
+    }
+  )
+  public outgoingFriendRequests: UserFriendRequest[]
 
   @OneToMany(_ => UserPerk, userPerk => userPerk.user, {
     cascade: ['remove']
   })
-  perks: UserPerk[]
+  public perks: UserPerk[]
 
-  constructor(user?: User) {
+  @OneToOne(_ => UserProfile, userProfile => userProfile.user, {
+    cascade: true
+  })
+  public profile: UserProfile
+
+  @OneToOne(_ => UserReputation, userReputation => userReputation.user, {
+    cascade: true
+  })
+  public reputation: UserReputation
+
+  @OneToOne(_ => UserSettings, userSettings => userSettings.user, {
+    cascade: true
+  })
+  public settings: UserSettings
+
+  @OneToOne(_ => UserVerification, userVerification => userVerification.user, {
+    cascade: true
+  })
+  public verification: UserVerification
+
+  public constructor(user?: User) {
     if (user) {
       Object.assign(this, user)
     }

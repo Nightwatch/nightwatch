@@ -4,7 +4,7 @@ import { UserService } from '../../services'
 import { Command } from '../../base'
 
 export default class BioCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'bio',
       group: 'social',
@@ -25,7 +25,7 @@ export default class BioCommand extends Command {
     })
   }
 
-  public async run (
+  public async run(
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
@@ -34,7 +34,9 @@ export default class BioCommand extends Command {
     const user = await userService.find(msg.author.id)
 
     if (!user) {
-      return msg.reply('Command failed. I was unable to find you in my database.')
+      return msg.reply(
+        'Command failed. I was unable to find you in my database.'
+      )
     }
 
     user.profile.bio = args.description

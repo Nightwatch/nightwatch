@@ -1,61 +1,60 @@
+import { IsDate, IsFQDN, IsNumber, IsString, MaxLength } from 'class-validator'
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
+  Entity,
   Index,
-  OneToMany
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn
 } from 'typeorm'
-import { IsNumber, IsFQDN, IsString, MaxLength, IsDate } from 'class-validator'
-import { BackgroundType, BackgroundCategory, BackgroundTag } from '.'
+import { BackgroundCategory, BackgroundTag, BackgroundType } from '.'
 
 @Entity()
 export class Background {
+  @OneToMany(_ => BackgroundCategory, category => category.background)
+  public categories: BackgroundCategory[]
+
+  @Column()
+  @IsString()
+  public description: string
+
+  @Column()
+  @IsString()
+  @Index({ unique: true })
+  public filePath: string
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
+
+  @Column()
+  @IsNumber()
+  public likes: number
 
   @Column({ length: 100 })
   @IsString()
   @MaxLength(100)
   @Index({ unique: true })
-  name: string
-
-  @Column()
-  @IsString()
-  description: string
+  public name: string
 
   @Column()
   @IsNumber()
-  price: number
+  public price: number
+
+  @Column()
+  @IsNumber()
+  public purchases: number
+
+  @OneToMany(_ => BackgroundTag, tag => tag.background)
+  public tags: BackgroundTag[]
+
+  @Column('timestamp without time zone')
+  @IsDate()
+  public timestamp: Date
+
+  @ManyToOne(_ => BackgroundType, backgroundType => backgroundType.backgrounds)
+  public type: BackgroundType
 
   @Column()
   @IsFQDN()
   @Index({ unique: true })
-  url: string
-
-  @Column()
-  @IsString()
-  @Index({ unique: true })
-  filePath: string
-
-  @Column()
-  @IsNumber()
-  likes: number
-
-  @Column()
-  @IsNumber()
-  purchases: number
-
-  @Column('timestamp without time zone')
-  @IsDate()
-  timestamp: Date
-
-  @ManyToOne(_ => BackgroundType, backgroundType => backgroundType.backgrounds)
-  type: BackgroundType
-
-  @OneToMany(_ => BackgroundCategory, category => category.background)
-  categories: BackgroundCategory[]
-
-  @OneToMany(_ => BackgroundTag, tag => tag.background)
-  tags: BackgroundTag[]
+  public url: string
 }

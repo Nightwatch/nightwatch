@@ -11,7 +11,11 @@ export class UserController implements IUserController {
   @inject(Types.UserService) public userService: UserService
 
   public getPremiumUsers = (client: CommandoClient) => {
-    if (!config.optional.premium || !config.optional.premium.premiumPatreonRoleId || !config.optional.premium.primaryGuildId) {
+    if (
+      !config.optional.premium ||
+      !config.optional.premium.premiumPatreonRoleId ||
+      !config.optional.premium.primaryGuildId
+    ) {
       return
     }
 
@@ -21,11 +25,17 @@ export class UserController implements IUserController {
       return
     }
 
-    return guild.members.filter(x => x.roles.has(config.optional.premium!.premiumPatreonRoleId!))
+    return guild.members.filter(x =>
+      x.roles.has(config.optional.premium!.premiumPatreonRoleId!)
+    )
   }
 
   public userHasPremium = (id: string, client: CommandoClient) => {
-    if (!config.optional.premium || !config.optional.premium.premiumPatreonRoleId || !config.optional.premium.primaryGuildId) {
+    if (
+      !config.optional.premium ||
+      !config.optional.premium.premiumPatreonRoleId ||
+      !config.optional.premium.primaryGuildId
+    ) {
       return false
     }
 

@@ -6,7 +6,7 @@ import { GuildService } from '../../services'
 import { Command } from '../../base'
 
 export default class SuggestionCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'suggest',
       group: 'ticket',
@@ -39,11 +39,11 @@ export default class SuggestionCommand extends Command {
     })
   }
 
-  public async run (
+  public async run(
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
-    const { action, suggestion }: { action: string, suggestion: string } = args
+    const { action, suggestion }: { action: string; suggestion: string } = args
 
     switch (action.trim().toLowerCase()) {
       case 'create':
@@ -60,7 +60,7 @@ export default class SuggestionCommand extends Command {
     }
   }
 
-  private async createSuggestion (msg: CommandoMessage, suggestion: string) {
+  private async createSuggestion(msg: CommandoMessage, suggestion: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'suggestions' && x.type === 'text'
     )
@@ -105,7 +105,10 @@ export default class SuggestionCommand extends Command {
         dbSuggestion.userId = msg.author.id
         dbSuggestion.messageId = suggestionMessage.id
 
-        const ticket = await guildService.createSuggestion(msg.guild.id, dbSuggestion)
+        const ticket = await guildService.createSuggestion(
+          msg.guild.id,
+          dbSuggestion
+        )
 
         const editedEmbed = new MessageEmbed()
 
@@ -132,7 +135,7 @@ export default class SuggestionCommand extends Command {
       `Your suggestion has been added. Check it out in ${channel}`
     )
   }
-  private async editSuggestion (msg: CommandoMessage, description: string) {
+  private async editSuggestion(msg: CommandoMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'suggestions' && x.type === 'text'
     )
@@ -176,11 +179,11 @@ export default class SuggestionCommand extends Command {
       return msg.reply("You don't have permission to do that.")
     }
 
-    const messages = await (channel as TextChannel).messages.fetch({ limit: 100 })
+    const messages = await (channel as TextChannel).messages.fetch({
+      limit: 100
+    })
 
-    const originalMessage = messages.find(
-      x => x.id === suggestion.messageId
-    )
+    const originalMessage = messages.find(x => x.id === suggestion.messageId)
 
     if (!originalMessage) {
       return msg.reply(

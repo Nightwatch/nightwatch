@@ -8,12 +8,12 @@ const awardAmount: number = 1
 const lossAmount: number = 10
 
 export default class RussianRouletteCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'russianroulette',
       group: 'games',
       memberName: 'russianroulette',
-      aliases: [ 'rr', 'gungame' ],
+      aliases: ['rr', 'gungame'],
       description: oneLine`Test your luck with Russian Roulette.
         6 chambers, 1 bullet.
         Each win awards ${awardAmount} credit${awardAmount === 1 ? '' : 's'}
@@ -36,7 +36,7 @@ export default class RussianRouletteCommand extends Command {
     })
   }
 
-  public async run (
+  public async run(
     msg: CommandoMessage,
     args: any
   ): Promise<Message | Message[]> {
@@ -49,7 +49,8 @@ export default class RussianRouletteCommand extends Command {
     const winAmount = awardAmount * args.bullets
 
     const userId = msg.author.id
-    const user = await userService.find(userId)
+    const user = await userService
+      .find(userId)
       .catch(_ => userService.create(msg.author))
       .catch(() => {
         // swallow
@@ -59,7 +60,9 @@ export default class RussianRouletteCommand extends Command {
     const owner = await userService.find(botOwnerId)
 
     if (!user || !owner) {
-      return msg.reply('Command failed. Either you or the banker does not exist in the database.')
+      return msg.reply(
+        'Command failed. Either you or the banker does not exist in the database.'
+      )
     }
 
     if (!owner) {
@@ -116,9 +119,9 @@ export default class RussianRouletteCommand extends Command {
 
     const loseMessage = oneLine`${gunEmoji} **Bang**.
       -${lossAmount} credit${lossAmount === 1 ? '' : 's'}`
-    let winMessage = `${gunEmoji} *click*. +${winAmount} credit${winAmount === 1
-      ? ''
-      : 's'}`
+    let winMessage = `${gunEmoji} *click*. +${winAmount} credit${
+      winAmount === 1 ? '' : 's'
+    }`
 
     if (dead && gunJammed) {
       winMessage = oneLine`${gunEmoji} *click* *click* ... Gun jammed ...
@@ -130,7 +133,7 @@ export default class RussianRouletteCommand extends Command {
     )
   }
 
-  public getRandomNumber (min: number, max: number) {
+  public getRandomNumber(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 }

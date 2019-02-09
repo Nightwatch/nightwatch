@@ -29,7 +29,7 @@ export const giveXp = async (user: User, message: Message) => {
     return
   }
 
-  const entry: { xp: number, level: number } = user.level
+  const entry: { xp: number; level: number } = user.level
 
   let experience: number = entry.xp
   let level: number = entry.level
@@ -78,16 +78,25 @@ export const giveXp = async (user: User, message: Message) => {
 
     const notifyLevelUp = level % 5 === 0 || level >= 10
 
-    await userService.updateLevelBalance(message.author.id, postData as UserLevelBalance)
+    await userService.updateLevelBalance(
+      message.author.id,
+      postData as UserLevelBalance
+    )
 
     if (!notifyLevelUp) {
       return
     }
 
-    await message.channel.send(new MessageAttachment(path.join(__dirname, '../../../../../assets/level-up.png')))
+    await message.channel.send(
+      new MessageAttachment(
+        path.join(__dirname, '../../../../../assets/level-up.png')
+      )
+    )
 
     await message.channel.send(
-      `**${popcornEmoji} | ${message.member.displayName} just advanced to level ${level}**${levelBonusString}`
+      `**${popcornEmoji} | ${
+        message.member.displayName
+      } just advanced to level ${level}**${levelBonusString}`
     )
 
     return
@@ -100,5 +109,8 @@ export const giveXp = async (user: User, message: Message) => {
     }
   }
 
-  userService.updateLevelBalance(message.author.id, postData as UserLevelBalance)
+  userService.updateLevelBalance(
+    message.author.id,
+    postData as UserLevelBalance
+  )
 }

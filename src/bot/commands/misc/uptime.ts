@@ -5,12 +5,12 @@ import * as prettyMs from 'pretty-ms'
 import { Command } from '../../base'
 
 export default class UptimeCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'uptime',
       group: 'misc',
       memberName: 'uptime',
-      description: 'See how long I\'ve been up since my last restart.',
+      description: "See how long I've been up since my last restart.",
       guildOnly: false,
       throttling: {
         usages: 2,
@@ -19,7 +19,7 @@ export default class UptimeCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
     describe('api', (err, apiDescriptions) => {
       if (err) {
         return msg.reply('Command failed. An error occurred.')
@@ -48,6 +48,8 @@ export default class UptimeCommand extends Command {
       })
     })
 
-    return msg.channel.send('I am updated frequently, so my uptime is probably low!')
+    return msg.channel.send(
+      'I am updated frequently, so my uptime is probably low!'
+    )
   }
 }

@@ -1,13 +1,13 @@
+import { IsDate, IsString } from 'class-validator'
 import {
+  Column,
   Entity,
-  JoinColumn,
   Index,
+  JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
-  Column
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { GuildUser } from '.'
-import { IsDate, IsString } from 'class-validator'
 
 @Entity()
 export class GuildUserKick {
@@ -18,27 +18,7 @@ export class GuildUserKick {
    * @memberof GuildUserKick
    */
   @PrimaryGeneratedColumn()
-  id: number
-
-  /**
-   * The date the kick was issued.
-   *
-   * @type {Date}
-   * @memberof GuildUserKick
-   */
-  @Column('timestamp without time zone')
-  @IsDate()
-  timestamp: Date
-
-  /**
-   * The reason the kick was issued.
-   *
-   * @type {string}
-   * @memberof GuildUserKick
-   */
-  @Column('varchar')
-  @IsString()
-  reason: string
+  public id: number
 
   /**
    * The user that issued the kick.
@@ -48,7 +28,27 @@ export class GuildUserKick {
    */
   @ManyToOne(_ => GuildUser)
   @JoinColumn()
-  issuer: GuildUser
+  public issuer: GuildUser
+
+  /**
+   * The reason the kick was issued.
+   *
+   * @type {string}
+   * @memberof GuildUserKick
+   */
+  @Column('varchar')
+  @IsString()
+  public reason: string
+
+  /**
+   * The date the kick was issued.
+   *
+   * @type {Date}
+   * @memberof GuildUserKick
+   */
+  @Column('timestamp without time zone')
+  @IsDate()
+  public timestamp: Date
 
   /**
    * The guild user that was kicked.
@@ -59,9 +59,9 @@ export class GuildUserKick {
   @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.kicks)
   @JoinColumn()
-  user: GuildUser
+  public user: GuildUser
 
-  constructor (guildUserKick?: GuildUserKick) {
+  public constructor(guildUserKick?: GuildUserKick) {
     if (guildUserKick) {
       Object.assign(this, guildUserKick)
     }

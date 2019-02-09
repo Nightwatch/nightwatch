@@ -8,7 +8,10 @@ let clientId = ''
 
 try {
   const config: Config = require('../../../../config/config.json')
-  const { clientSecret: localclientSecret, clientId: localclientId } = config.bot
+  const {
+    clientSecret: localclientSecret,
+    clientId: localclientId
+  } = config.bot
   clientSecret = localclientSecret
   clientId = localclientId
 } catch (err) {
@@ -22,7 +25,7 @@ try {
  */
 @injectable()
 export class AuthenticationService implements IAuthenticationService {
-  public async getDiscordAccessToken (code: string, redirect: string) {
+  public async getDiscordAccessToken(code: string, redirect: string) {
     const creds = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
     const response = await axios.post(
       `https://discordapp.com/api/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${redirect}`,

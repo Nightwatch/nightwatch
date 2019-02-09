@@ -7,7 +7,7 @@ import { Command } from '../../base'
 export default class GiveXpCommand extends Command {
   premiumOnly: true
 
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'givexp',
       group: 'debug',
@@ -34,7 +34,10 @@ export default class GiveXpCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
     const userService = new UserService()
 
     const member = args.member as GuildMember
@@ -48,7 +51,9 @@ export default class GiveXpCommand extends Command {
 
     user.level.xp += amount
 
-    await userService.updateLevelBalance(member.id, { level: user.level } as UserLevelBalance)
+    await userService.updateLevelBalance(member.id, {
+      level: user.level
+    } as UserLevelBalance)
 
     return msg.reply('Updated user xp.')
   }

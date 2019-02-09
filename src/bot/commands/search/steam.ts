@@ -4,7 +4,7 @@ import { SteamProvider, SteamSearchEntry } from 'steam-provider'
 import { Command } from '../../base'
 
 export default class SteamCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'steam',
       group: 'search',
@@ -25,7 +25,10 @@ export default class SteamCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
     const provider = new SteamProvider()
 
     const searchResults = await provider.search(args.game)
@@ -72,7 +75,7 @@ export default class SteamCommand extends Command {
     return msg.channel.send(result)
   }
 
-  public async getEmbedForGame (
+  public async getEmbedForGame(
     game: SteamSearchEntry,
     provider: SteamProvider,
     msg: CommandoMessage

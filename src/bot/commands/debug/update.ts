@@ -7,7 +7,7 @@ import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
 
 export default class UpdateCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'update',
       group: 'debug',
@@ -22,7 +22,7 @@ export default class UpdateCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
     const git = simplegit()
 
     await git.checkout('.')
@@ -32,7 +32,17 @@ export default class UpdateCommand extends Command {
 
     try {
       try {
-        const premiumPath = path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins', 'plugin-premium')
+        const premiumPath = path.resolve(
+          __dirname,
+          '..',
+          '..',
+          '..',
+          '..',
+          'src',
+          'bot',
+          'plugins',
+          'plugin-premium'
+        )
         await git.cwd(premiumPath)
         const premiumResult = await git.pull()
 
@@ -40,10 +50,25 @@ export default class UpdateCommand extends Command {
           premiumUpdated = true
         }
       } catch {
-        if (config.optional && config.optional.premium && config.optional.premium.premiumPluginRepo) {
+        if (
+          config.optional &&
+          config.optional.premium &&
+          config.optional.premium.premiumPluginRepo
+        ) {
           const repo = config.optional.premium.premiumPluginRepo
 
-          await git.cwd(path.resolve(__dirname, '..', '..', '..', '..', 'src', 'bot', 'plugins'))
+          await git.cwd(
+            path.resolve(
+              __dirname,
+              '..',
+              '..',
+              '..',
+              '..',
+              'src',
+              'bot',
+              'plugins'
+            )
+          )
           await git.clone(repo, 'plugin-premium')
           premiumUpdated = true
         }

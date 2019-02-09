@@ -1,5 +1,5 @@
-import { Events } from '../constants'
 import * as socketio from 'socket.io'
+import { Events } from '../constants'
 
 let io: socketio.Server
 

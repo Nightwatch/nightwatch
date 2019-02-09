@@ -8,7 +8,7 @@ const config: Config = require('../../../../config/config.json')
 import { Command } from '../../base'
 
 export default class EmbedCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'embed',
       aliases: [],
@@ -33,21 +33,24 @@ export default class EmbedCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
     const message = args.message
 
     const argv = yargs
       .option('title', {
         type: 'array',
-        default: [ '' ]
+        default: ['']
       })
       .option('description', {
         type: 'array',
-        default: [ '' ]
+        default: ['']
       })
       .option('footer', {
         type: 'array',
-        default: [ config.bot.botName ]
+        default: [config.bot.botName]
       })
       .option('color', {
         type: 'string',
@@ -87,10 +90,12 @@ export default class EmbedCommand extends Command {
       ? msg.guild.channels.find(
           x =>
             x.name.toLowerCase() ===
-              argv.channel.trim().toLowerCase().replace('#', '') &&
-            x.type === 'text'
+              argv.channel
+                .trim()
+                .toLowerCase()
+                .replace('#', '') && x.type === 'text'
         )
-      : msg.channel as TextChannel
+      : (msg.channel as TextChannel)
     if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
       channel = msg.channel as TextChannel
     }
@@ -107,7 +112,7 @@ export default class EmbedCommand extends Command {
     return (channel as TextChannel).send(embed)
   }
 
-  private getHelpMessageEmbed () {
+  private getHelpMessageEmbed() {
     const options = {
       title: {
         description: 'The title text, displays in bold at the top.'

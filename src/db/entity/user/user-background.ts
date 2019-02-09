@@ -1,27 +1,26 @@
+import { IsDate } from 'class-validator'
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm'
 import { User } from '.'
 import { Background } from '..'
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  Column,
-  Index
-} from 'typeorm'
-import { IsDate } from 'class-validator'
 
 @Index(['user', 'background'], { unique: true })
 @Entity()
 export class UserBackground {
-  @PrimaryGeneratedColumn()
-  id: number
+  @ManyToOne(_ => Background)
+  public background: Background
 
   @Column('timestamp without time zone')
   @IsDate()
-  datetime: Date
+  public datetime: Date
+  @PrimaryGeneratedColumn()
+  public id: number
 
   @ManyToOne(_ => User, user => user.backgrounds)
-  user: User
-
-  @ManyToOne(_ => Background)
-  background: Background
+  public user: User
 }

@@ -1,37 +1,37 @@
+import { IsDate, IsNumber } from 'class-validator'
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
-  Index
+  OneToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { User } from '.'
-import { IsNumber, IsDate } from 'class-validator'
 
 @Entity()
 export class UserLevel {
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   @Column()
   @IsNumber()
-  xp: number
-
-  @Column()
-  @IsNumber()
-  level: number
+  public level: number
 
   @Column()
   @IsDate()
-  timestamp: Date
+  public timestamp: Date
 
   @Index({ unique: true })
   @OneToOne(_ => User, user => user.level, { onDelete: 'CASCADE' })
   @JoinColumn()
-  user: User
+  public user: User
 
-  constructor() {
+  @Column()
+  @IsNumber()
+  public xp: number
+
+  public constructor() {
     this.xp = 0
     this.level = 0
     this.timestamp = new Date()

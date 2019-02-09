@@ -1,45 +1,16 @@
+import { IsBoolean, IsDate } from 'class-validator'
 import {
-  PrimaryGeneratedColumn,
-  Entity,
   Column,
+  Entity,
+  ManyToOne,
   OneToMany,
-  ManyToOne
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { GiveawayItem } from '.'
 import { Guild, User } from '..'
-import { IsDate, IsBoolean } from 'class-validator'
 
 @Entity()
 export class Giveaway {
-  /**
-   * The ID of the giveaway. Auto-generated.
-   *
-   * @type {number}
-   * @memberof Giveaway
-   */
-  @PrimaryGeneratedColumn()
-  id: number
-
-  /**
-   * The date of the end of the giveaway.
-   *
-   * @type {Date}
-   * @memberof Giveaway
-   */
-  @Column()
-  @IsDate()
-  dateEnd: Date
-
-  /**
-   * The date of the start of the giveaway.
-   *
-   * @type {Date}
-   * @memberof Giveaway
-   */
-  @Column()
-  @IsDate()
-  dateStart: Date
-
   /**
    * Whether or not the giveaway is active.
    *
@@ -48,7 +19,7 @@ export class Giveaway {
    */
   @Column()
   @IsBoolean()
-  active: boolean
+  public active: boolean
 
   /**
    * The date the giveaway was created.
@@ -58,16 +29,27 @@ export class Giveaway {
    */
   @Column()
   @IsDate()
-  dateCreated: Date
+  public dateCreated: Date
 
   /**
-   * The owner of the giveaway.
+   * The date of the end of the giveaway.
    *
-   * @type {User}
+   * @type {Date}
    * @memberof Giveaway
    */
-  @ManyToOne(_ => User)
-  owner: User
+  @Column()
+  @IsDate()
+  public dateEnd: Date
+
+  /**
+   * The date of the start of the giveaway.
+   *
+   * @type {Date}
+   * @memberof Giveaway
+   */
+  @Column()
+  @IsDate()
+  public dateStart: Date
 
   /**
    * The guild the giveaway is in. If null, it is in every guild.
@@ -76,7 +58,15 @@ export class Giveaway {
    * @memberof Giveaway
    */
   @ManyToOne(_ => Guild)
-  guild: Guild | null
+  public guild: Guild | null
+  /**
+   * The ID of the giveaway. Auto-generated.
+   *
+   * @type {number}
+   * @memberof Giveaway
+   */
+  @PrimaryGeneratedColumn()
+  public id: number
 
   /**
    * The items in the giveaway.
@@ -87,7 +77,16 @@ export class Giveaway {
   @OneToMany(_ => GiveawayItem, item => item.giveaway, {
     cascade: true
   })
-  items: GiveawayItem[]
+  public items: GiveawayItem[]
+
+  /**
+   * The owner of the giveaway.
+   *
+   * @type {User}
+   * @memberof Giveaway
+   */
+  @ManyToOne(_ => User)
+  public owner: User
 
   // /**
   //  * The entries into the giveaway.
@@ -100,7 +99,7 @@ export class Giveaway {
   // })
   // entries: GiveawayEntry[]
 
-  constructor() {
+  public constructor() {
     this.guild = null
     this.dateCreated = new Date()
   }
