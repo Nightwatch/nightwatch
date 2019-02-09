@@ -92,7 +92,7 @@ export default class SuggestionCommand extends Command {
       .addField('Suggested By', msg.member, true)
       .addField('Description', suggestion)
       .setTimestamp(new Date())
-    ;(channel as TextChannel)
+    ; (channel as TextChannel)
       .send(embed)
       .then(async (m: Message | Message[]) => {
         const suggestionMessage = m as Message
@@ -176,7 +176,7 @@ export default class SuggestionCommand extends Command {
       .trim()
 
     if (!isSuggestionOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
-      return msg.reply("You don't have permission to do that.")
+      return msg.reply('You don\'t have permission to do that.')
     }
 
     const messages = await (channel as TextChannel).messages.fetch({

@@ -54,7 +54,7 @@ export default class EmbedCommand extends Command {
       })
       .option('color', {
         type: 'string',
-        default: materialColors['blue']['500']
+        default: materialColors.blue['500']
       })
       .option('channel', {
         type: 'string',
@@ -73,7 +73,7 @@ export default class EmbedCommand extends Command {
 
     const getColor = () => {
       if (!argv.color) {
-        return materialColors['blue']['500'] as string
+        return materialColors.blue['500'] as string
       }
 
       const argColor = argv.color as string
@@ -130,7 +130,7 @@ export default class EmbedCommand extends Command {
     }
 
     const embed = new MessageEmbed()
-      .setColor(materialColors['blue']['500'])
+      .setColor(materialColors.blue['500'])
       .setFooter(config.bot.botName)
       .setTimestamp(new Date())
       .setAuthor('Embed Help' || '')

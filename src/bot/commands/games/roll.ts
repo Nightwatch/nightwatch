@@ -50,7 +50,7 @@ export default class RollCommand extends Command {
 
     const roll = () => Math.floor(Math.random() * numberOfSides) + 1
 
-    let result = "Here's what I rolled:\n\n"
+    let result = 'Here\'s what I rolled:\n\n'
 
     for (let i = 0; i < repeat; i++) {
       for (let j = 0; j < numberOfDie; j++) {

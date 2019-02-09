@@ -11,25 +11,25 @@ import { IsString, MaxLength, IsNumber } from 'class-validator'
 @Entity()
 export class Perk {
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   @Column({ length: 100 })
   @IsString()
   @MaxLength(100)
   @Index({ unique: true })
-  name: string
+  public name: string
 
   @Column()
   @IsString()
-  description: string
+  public description: string
 
   @Column()
   @IsNumber()
-  price: number
+  public price: number
 
   @Column('varchar', { nullable: true })
-  duration: string | null
+  public duration: string | null
 
   @ManyToOne(_ => PerkType, perkType => perkType.perks)
-  type: PerkType
+  public type: PerkType
 }

@@ -90,7 +90,7 @@ export default class PollCommand extends Command {
 
     const embed = new MessageEmbed()
 
-    let options = result.options
+    const options = result.options
       .map((value, index) => `${letters[index]} ${value}`)
       .join('\n')
 

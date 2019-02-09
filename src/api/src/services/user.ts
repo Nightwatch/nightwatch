@@ -256,7 +256,7 @@ export class UserService implements IUserService {
     // 2) Check if the other user already added them as a friend
     //    If this is true, then the developer is probably doing something wrong.
     // 3) Save the friend object.
-    let friendRequest = await this.userFriendRequestRepository.findOne({
+    const friendRequest = await this.userFriendRequestRepository.findOne({
       where: { receiver: { id }, user: { id: friend.user.id } },
       relations: ['sender', 'receiver']
     })

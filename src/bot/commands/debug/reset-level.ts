@@ -10,7 +10,7 @@ export default class ResetLevelCommand extends Command {
       name: 'resetlevel',
       group: 'debug',
       memberName: 'resetlevel',
-      description: "Force reset a user's level.",
+      description: 'Force reset a user\'s level.',
       guildOnly: false,
       throttling: {
         usages: 2,
@@ -19,7 +19,7 @@ export default class ResetLevelCommand extends Command {
       args: [
         {
           key: 'member',
-          prompt: "Who's level should I reset?\n",
+          prompt: 'Who\'s level should I reset?\n',
           type: 'member'
         }
       ],

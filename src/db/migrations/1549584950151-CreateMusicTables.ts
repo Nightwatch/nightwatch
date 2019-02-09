@@ -13,7 +13,7 @@ export class CreateMusicTables1549584950151 implements MigrationInterface {
     )
   }
 
-  public async down(_queryRunner: QueryRunner): Promise<any> {
+  public async down(_: QueryRunner): Promise<any> {
     // No down
   }
 }

@@ -14,7 +14,7 @@ export default class ProfileCommand extends Command {
       name: 'profile',
       group: 'social',
       memberName: 'profile',
-      description: "View a user's profile",
+      description: 'View a user\'s profile',
       guildOnly: false,
       throttling: {
         usages: 2,
@@ -54,7 +54,7 @@ export default class ProfileCommand extends Command {
       )
     }
 
-    let userProfile = foundUser.profile
+    const userProfile = foundUser.profile
     const userLevelEntry: UserLevel = foundUser.level
     const personalMessage = userProfile.bio
     const balance = foundUser.balance.balance
@@ -222,7 +222,7 @@ export default class ProfileCommand extends Command {
   ): Promise<string[]> {
     return new Promise(resolve => {
       const words = text.split(' ')
-      let lines: string[] = []
+      const lines: string[] = []
       let line = ''
 
       if (ctx.measureText(text).width < maxWidth) {

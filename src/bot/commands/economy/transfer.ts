@@ -55,7 +55,7 @@ export default class TransferCommand extends Command {
     }
 
     if (args.user.id === msg.author.id) {
-      return msg.reply("You can't transfer credits to yourself ;)")
+      return msg.reply('You can\'t transfer credits to yourself ;)')
     }
 
     if (args.amount <= 0) {

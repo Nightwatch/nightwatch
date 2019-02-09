@@ -1,0 +1,8 @@
+{
+  "extends": "../../tslint.json",
+  "rules": {
+    "file-name-casing": false,
+    "max-line-length": false,
+    "no-big-function": false
+  }
+}

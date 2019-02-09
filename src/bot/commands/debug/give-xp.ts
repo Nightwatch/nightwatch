@@ -5,7 +5,7 @@ import { UserLevelBalance } from '../../../api/src/models'
 import { Command } from '../../base'
 
 export default class GiveXpCommand extends Command {
-  premiumOnly: true
+  public premiumOnly: true
 
   constructor(client: CommandoClient) {
     super(client, {

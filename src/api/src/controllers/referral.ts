@@ -34,7 +34,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * @memberof ReferralController
    */
   @httpGet('/')
-  async find() {
+  public async find() {
     return this.referralService.find()
   }
 
@@ -47,7 +47,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * @memberof ReferralController
    */
   @httpGet('/:id')
-  async findById(@requestParam('id') id: number) {
+  public async findById(@requestParam('id') id: number) {
     return this.referralService.findById(id)
   }
 
@@ -60,7 +60,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * @memberof ReferralController
    */
   @httpPost('/')
-  async create(@requestBody() referral: Referral) {
+  public async create(@requestBody() referral: Referral) {
     await this.referralService.create(referral)
     this.socketService.send(Events.referral.created, referral)
   }
@@ -74,7 +74,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * @memberof ReferralController
    */
   @httpDelete('/:id')
-  async deleteById(@requestParam('id') id: number) {
+  public async deleteById(@requestParam('id') id: number) {
     await this.referralService.delete(id)
     this.socketService.send(Events.referral.deleted, id)
   }
@@ -89,7 +89,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * @memberof ReferralController
    */
   @httpPut('/:id')
-  async updateById(
+  public async updateById(
     @requestParam('id') id: number,
     @requestBody() referral: Referral
   ) {

@@ -41,14 +41,14 @@ export default class WarnCommand extends Command {
     args: any
   ): Promise<Message | Message[]> {
     if (msg.author.id === args.member.id) {
-      return msg.reply("You can't warn yourself.")
+      return msg.reply('You can\'t warn yourself.')
     }
 
     if (
       args.member.hasPermission('MANAGE_MESSAGES') ||
       msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0
     ) {
-      return msg.reply("You can't warn that member.")
+      return msg.reply('You can\'t warn that member.')
     }
 
     const dm = await args.member.createDM()

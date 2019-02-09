@@ -10,7 +10,7 @@ export default class UptimeCommand extends Command {
       name: 'uptime',
       group: 'misc',
       memberName: 'uptime',
-      description: "See how long I've been up since my last restart.",
+      description: 'See how long I\'ve been up since my last restart.',
       guildOnly: false,
       throttling: {
         usages: 2,

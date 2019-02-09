@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify'
 import { Types, Config } from '../../common'
 import { UserController as IUserController, UserService } from '../interfaces'
 import { CommandoClient } from 'discord.js-commando'
-// import * as Promise from 'bluebird'
 
 const config: Config = require('../../../config/config.json')
 

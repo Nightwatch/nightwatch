@@ -46,7 +46,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/')
-  async find() {
+  public async find() {
     return this.userService.find()
   }
 
@@ -59,7 +59,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id')
-  async findById(
+  public async findById(
     @requestParam('id') id: string,
     @response() response: Response
   ) {
@@ -82,7 +82,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPost('/')
-  async create(@requestBody() user: User, @response() res: Response) {
+  public async create(@requestBody() user: User, @response() res: Response) {
     const errors = await validate(user, { validationError: { target: false } })
     if (errors.length > 0) {
       res.status(400).send(errors)
@@ -107,7 +107,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpDelete('/:id')
-  async deleteById(@requestParam('id') id: string, @response() res: Response) {
+  public async deleteById(@requestParam('id') id: string, @response() res: Response) {
     const userExists = await this.userService.findById(id)
     if (!userExists) {
       res.sendStatus(404)
@@ -127,7 +127,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPut('/:id')
-  async updateById(
+  public async updateById(
     @requestParam('id') id: string,
     @requestBody() user: User,
     @response() res: Response
@@ -151,7 +151,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPut('/:id/level')
-  async updateLevel(
+  public async updateLevel(
     @requestParam('id') id: string,
     @requestBody() levelBalance: UserLevelBalance,
     @response() res: Response
@@ -175,7 +175,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPut('/:id/balance')
-  async updateBalance(
+  public async updateBalance(
     @requestParam('id') id: string,
     @requestBody() balance: UserBalance,
     @response() res: Response
@@ -201,7 +201,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPut('/:id/balance/transfer/:receiverId')
-  async transferBalance(
+  public async transferBalance(
     @requestParam('id') id: string,
     @requestParam('receiverId') receiverId: string,
     @requestBody() balance: { amount: number },
@@ -247,7 +247,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/profile')
-  async findProfileById(
+  public async findProfileById(
     @requestParam('id') id: string,
     @response() res: Response
   ) {
@@ -269,7 +269,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPut('/:id/profile')
-  async updateProfile(
+  public async updateProfile(
     @requestParam('id') id: string,
     @requestBody() profile: UserProfile,
     @response() res: Response
@@ -291,7 +291,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/settings')
-  async findSettingsById(
+  public async findSettingsById(
     @requestParam('id') id: string,
     @response() res: Response
   ) {
@@ -313,7 +313,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPut('/:id/settings')
-  async updateSettings(
+  public async updateSettings(
     @requestParam('id') id: string,
     @requestBody() settings: UserSettings,
     @response() res: Response
@@ -337,7 +337,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends/requests')
-  async findFriendRequests(
+  public async findFriendRequests(
     @requestParam('id') id: string,
     @response() res: Response,
     @queryParam('type') type?: 'incoming' | 'outgoing'
@@ -361,7 +361,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends/requests/search')
-  async searchFriendRequests(
+  public async searchFriendRequests(
     @requestParam('id') id: string,
     @response() res: Response,
     @queryParam('skip') skip: number,
@@ -395,7 +395,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends/requests/:userId')
-  async findFriendRequestByUserId(
+  public async findFriendRequestByUserId(
     @requestParam('id') id: string,
     @requestParam('userId') userId: string,
     @response() res: Response
@@ -423,7 +423,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPost('/:id/friends/requests/:userId')
-  async createFriendRequest(
+  public async createFriendRequest(
     @requestParam('id') id: string,
     @requestParam('userId') userId: string,
     @response() res: Response
@@ -473,7 +473,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpDelete('/:id/friends/requests/:userId')
-  async deleteFriendRequest(
+  public async deleteFriendRequest(
     @requestParam('id') id: string,
     @requestParam('userId') userId: string,
     @response() res: Response
@@ -508,7 +508,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends')
-  async findFriends(@requestParam('id') id: string, @response() res: Response) {
+  public async findFriends(@requestParam('id') id: string, @response() res: Response) {
     const userExists = await this.userService.findById(id)
     if (!userExists) {
       res.sendStatus(404)
@@ -528,7 +528,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends/search')
-  async searchFriends(
+  public async searchFriends(
     @requestParam('id') id: string,
     @queryParam('skip') skip: number,
     @queryParam('take') take: number,
@@ -554,7 +554,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpGet('/:id/friends/:userId')
-  async findFriendByUserId(
+  public async findFriendByUserId(
     @requestParam('id') id: string,
     @requestParam('userId') userId: string,
     @response() res: Response
@@ -582,7 +582,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpPost('/:id/friends/:userId')
-  async addFriend(
+  public async addFriend(
     @requestParam('id') id: string,
     @requestParam('userId') userId: string,
     @response() res: Response
@@ -627,7 +627,7 @@ export class UserController implements BaseController<User, string> {
    * @memberof UserController
    */
   @httpDelete('/:id/friends/:userId')
-  async removeFriend(
+  public async removeFriend(
     @requestParam('id') id: string,
     @requestParam('userId') userId: string,
     @response() res: Response

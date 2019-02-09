@@ -31,15 +31,6 @@ try {
  * @class Api
  */
 export class Api {
-  /**
-   * Creates an instance of the Api.
-   * @memberof Api
-   */
-  constructor() {
-    this.init().catch(err => {
-      console.error(err)
-    })
-  }
 
   /**
    * Starts the API server.
@@ -48,8 +39,17 @@ export class Api {
    * @returns {Api}
    * @memberof Api
    */
-  static start(): Api {
+  public static start(): Api {
     return new Api()
+  }
+  /**
+   * Creates an instance of the Api.
+   * @memberof Api
+   */
+  constructor() {
+    this.init().catch(err => {
+      console.error(err)
+    })
   }
 
   private async init() {

@@ -3,7 +3,7 @@
     "tslint-sonarts",
     "tslint-immutable",
     "tslint-clean-code",
-    "tslint:all"
+    "tslint:recommended"
   ],
   "rules": {
     "no-unused-variable": false,
@@ -15,6 +15,12 @@
     },
     "semicolon": [true, "never"],
     "linebreak-style": false,
-    "trailing-comma": false
+    "trailing-comma": false,
+    "arrow-parens": false,
+    "ordered-imports": false,
+    "interface-name": false,
+    "no-console": false,
+    "no-var-requires": false,
+    "object-literal-sort-keys": false
   }
 }

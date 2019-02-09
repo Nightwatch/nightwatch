@@ -122,8 +122,8 @@ export default class SupportCommand extends Command {
     const ticketDescription = ticketType
       ? description.substr(ticketType.length + 1)
       : description
-    const title = ticketType ? types[ticketType].title : types['default'].title
-    const color = ticketType ? types[ticketType].color : types['default'].color
+    const title = ticketType ? types[ticketType].title : types.default.title
+    const color = ticketType ? types[ticketType].color : types.default.color
 
     // const getRandomId = () => {
     //   return Math.floor(1000 + Math.random() * 9000)
@@ -146,7 +146,7 @@ export default class SupportCommand extends Command {
     }
 
     embed.addField('Description', ticketDescription).setTimestamp(new Date())
-    ;(channel as TextChannel)
+    ; (channel as TextChannel)
       .send(embed)
       .then(async (m: Message | Message[]) => {
         const supportTicketMessage = m as Message
@@ -301,7 +301,7 @@ export default class SupportCommand extends Command {
     const closedReason = description.substring(description.indexOf(' ')).trim()
 
     if (!isTicketOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
-      return msg.reply("You don't have permission to do that.")
+      return msg.reply('You don\'t have permission to do that.')
     }
 
     if (!ticket) {
@@ -400,7 +400,7 @@ export default class SupportCommand extends Command {
       .trim()
 
     if (!isTicketOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
-      return msg.reply("You don't have permission to do that.")
+      return msg.reply('You don\'t have permission to do that.')
     }
 
     const messages = await (channel as TextChannel).messages.fetch({

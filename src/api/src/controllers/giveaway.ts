@@ -34,7 +34,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpGet('/')
-  async find() {
+  public async find() {
     return this.giveawayService.find()
   }
 
@@ -47,7 +47,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpGet('/:id')
-  async findById(@requestParam('id') id: number) {
+  public async findById(@requestParam('id') id: number) {
     return this.giveawayService.findById(id)
   }
 
@@ -60,7 +60,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpPost('/')
-  async create(@requestBody() giveaway: Giveaway) {
+  public async create(@requestBody() giveaway: Giveaway) {
     await this.giveawayService.create(giveaway)
     this.socketService.send(Events.giveaway.created, this.redactKey(giveaway))
   }
@@ -74,7 +74,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpDelete('/:id')
-  async deleteById(@requestParam('id') id: number) {
+  public async deleteById(@requestParam('id') id: number) {
     await this.giveawayService.delete(id)
     this.socketService.send(Events.giveaway.deleted, id)
   }
@@ -89,7 +89,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * @memberof GiveawayController
    */
   @httpPut('/:id')
-  async updateById(
+  public async updateById(
     @requestParam('id') id: number,
     @requestBody() giveaway: Giveaway
   ) {

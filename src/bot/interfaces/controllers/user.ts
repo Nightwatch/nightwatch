@@ -1,5 +1,4 @@
 import { GuildMember, Collection } from 'discord.js'
-// import * as Promise from 'bluebird'
 import { CommandoClient } from 'discord.js-commando'
 
 export interface UserController {

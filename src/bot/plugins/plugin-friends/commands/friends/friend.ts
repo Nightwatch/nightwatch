@@ -53,7 +53,7 @@ export default class FriendCommand extends Command {
     })
   }
 
-  async run(msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any): Promise<Message | Message[]> {
     const {
       action,
       argument
@@ -96,7 +96,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  async displayFriendDashboard(msg: CommandoMessage, user?: User) {
+  public async displayFriendDashboard(msg: CommandoMessage, user?: User) {
     const displayUser = user ? user : msg.author
     const id = displayUser.id
     const prefix = getPrefix(msg)
@@ -140,7 +140,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  async sendFriendRequest(
+  public async sendFriendRequest(
     msg: CommandoMessage,
     user: User | string
   ): Promise<Message | Message[]> {
@@ -153,7 +153,7 @@ export default class FriendCommand extends Command {
     const receiverId = user instanceof User ? user.id : user
 
     if (msg.author.id === receiverId) {
-      return msg.reply("You can't send yourself a friend request.")
+      return msg.reply('You can\'t send yourself a friend request.')
     }
 
     const receiver = await getApiUser(user instanceof User ? user.id : user)
@@ -202,7 +202,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  async denyFriendRequest(
+  public async denyFriendRequest(
     msg: CommandoMessage,
     user: User | string
   ): Promise<Message | Message[]> {
@@ -235,13 +235,13 @@ export default class FriendCommand extends Command {
     }
   }
 
-  async acceptFriendRequest(
+  public async acceptFriendRequest(
     msg: CommandoMessage,
     user: User | string
   ): Promise<Message | Message[]> {
     if (!user) {
       return msg.reply(
-        "You need to specify a who's friend request to accept. It can be a mention or their ID."
+        'You need to specify a who\'s friend request to accept. It can be a mention or their ID.'
       )
     }
 
@@ -284,7 +284,7 @@ export default class FriendCommand extends Command {
     return msg.reply(`You are now friends with **${friendName}**!`)
   }
 
-  async deleteFriend(
+  public async deleteFriend(
     msg: CommandoMessage,
     user: User | string
   ): Promise<Message | Message[]> {
@@ -326,14 +326,14 @@ export default class FriendCommand extends Command {
     return msg.reply(`You are no longer friends with **${apiUser.name}**.`)
   }
 
-  async listFriends(
+  public async listFriends(
     msg: CommandoMessage,
     user: User | string
   ): Promise<Message | Message[]> {
     const userId = user instanceof User ? user.id : user
 
     if (userId === msg.author.id) {
-      await msg.reply("*You don't have to specify yourself.*")
+      await msg.reply('*You don\'t have to specify yourself.*')
     }
 
     let apiUser: BotUser | undefined
@@ -387,7 +387,7 @@ export default class FriendCommand extends Command {
     return msg.channel.send(embed)
   }
 
-  async listFriendRequests(
+  public async listFriendRequests(
     msg: CommandoMessage,
     argument: 'incoming' | 'outgoing'
   ): Promise<Message | Message[]> {
@@ -443,7 +443,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  async getFriendSummary(id: string) {
+  public async getFriendSummary(id: string) {
     const { data: friends }: { data: UserFriend[] } = await api.get(
       `/users/${id}/friends/`
     )
@@ -456,7 +456,7 @@ export default class FriendCommand extends Command {
         : ''
     }`
 
-    let friendSummaryObj = {
+    const friendSummaryObj = {
       sent: 0,
       received: 0
     }
@@ -478,7 +478,7 @@ export default class FriendCommand extends Command {
     return friendSummary
   }
 
-  async getFriendRequestSummary(id: string) {
+  public async getFriendRequestSummary(id: string) {
     const {
       data: friendRequests
     }: { data: UserFriendRequest[] } = await api.get(

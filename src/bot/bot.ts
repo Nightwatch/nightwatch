@@ -1,12 +1,12 @@
-import { CommandoClient } from 'discord.js-commando'
-import * as path from 'path'
-import { Config, Types } from '../common'
-import { readdirSync, statSync } from 'fs'
-import { Bot as IBot, EventController } from './interfaces'
-import { injectable, inject } from 'inversify'
 import * as Promise from 'bluebird'
 import { ClientUser } from 'discord.js'
-import { PluginStatus, loadPlugins } from './utils/plugin-loader'
+import { CommandoClient } from 'discord.js-commando'
+import { readdirSync, statSync } from 'fs'
+import { inject, injectable } from 'inversify'
+import * as path from 'path'
+import { Config, Types } from '../common'
+import { Bot as IBot, EventController } from './interfaces'
+import { loadPlugins, PluginStatus } from './utils/plugin-loader'
 
 const getDirectoryNames = (p: string) =>
   readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
@@ -35,12 +35,6 @@ export class Bot implements IBot {
     return Promise.resolve(this.client.login(config.bot.token))
       .return()
       .catch(this.handleLoginFailure)
-  }
-
-  private handleLoginFailure(error: any) {
-    console.error(error)
-    console.warn('Failed to login, retrying in 5 seconds.')
-    setTimeout(this.start, 5000)
   }
 
   public registerEvents() {
@@ -107,6 +101,23 @@ export class Bot implements IBot {
     console.info(`${config.bot.botName} ready.`)
   }
 
+  public onDisconnect = () => {
+    console.info(`${config.bot.botName} disconnected. Restarting...`)
+
+    process.exit(1)
+  }
+
+  public onError = (error: Error) => {
+    console.error(error)
+    process.exit(1)
+  }
+
+  private handleLoginFailure(error: any) {
+    console.error(error)
+    console.warn('Failed to login, retrying in 5 seconds.')
+    setTimeout(this.start, 5000)
+  }
+
   private setRandomActivity(clientUser: ClientUser) {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
@@ -120,17 +131,6 @@ export class Bot implements IBot {
         url
       })
     ).catch(console.error)
-  }
-
-  public onDisconnect = () => {
-    console.info(`${config.bot.botName} disconnected. Restarting...`)
-
-    process.exit(1)
-  }
-
-  public onError = (error: Error) => {
-    console.error(error)
-    process.exit(1)
   }
 }
 

@@ -9,7 +9,7 @@ import { CommandInfo } from '../../common'
 const userController = new UserController()
 
 export class Command extends CommandoCommand {
-  premiumOnly: boolean
+  public premiumOnly: boolean
 
   constructor(client: CommandoClient, info: CommandInfo) {
     super(client, info)

@@ -10,7 +10,7 @@ export default class DonateCommand extends Command {
       name: 'donate',
       group: 'misc',
       memberName: 'donate',
-      description: "See how you can support the bot's development.",
+      description: 'See how you can support the bot\'s development.',
       guildOnly: false,
       throttling: {
         usages: 2,
