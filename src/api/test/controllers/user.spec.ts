@@ -127,7 +127,7 @@ describe('UserController', () => {
 
       await getRepository(User).save(user)
 
-      const allUsers = await getRepository(User).find()
+      let allUsers = await getRepository(User).find()
 
       expect(allUsers)
         .to.be.instanceof(Array)

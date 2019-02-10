@@ -16,7 +16,7 @@ const getDirectories = (source: string) =>
   readdirSync(source)
     .map(name => path.join(source, name))
     .filter(isDirectory)
-const pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
+let pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
 
 try {
   pluginPaths = pluginPaths.concat(
@@ -27,14 +27,14 @@ try {
 }
 
 export const loadPlugins = async (client: CommandoClient, config: Config) => {
-  const pluginStatuses: ReadonlyArray<PluginStatus> = []
+  const pluginStatuses: PluginStatus[] = []
 
   console.log(`${prefix}: ${pluginPaths.length} external plugins found.`)
 
   pluginPaths.forEach(async file => {
     try {
       const BotPlugin = require(path.resolve(file)).Plugin
-      const commandsRegistered: boolean | null = null
+      let commandsRegistered: boolean | null = null
       try {
         console.log(`${prefix}[${BotPlugin.id}]: Loading plugin...`)
 

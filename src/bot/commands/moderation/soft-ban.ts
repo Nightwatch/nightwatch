@@ -1,4 +1,4 @@
-import { Message, GuildMember } from 'discord.js'
+import { GuildMember } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 

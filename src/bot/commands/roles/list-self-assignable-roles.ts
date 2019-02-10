@@ -1,4 +1,3 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { GuildSelfAssignableRole } from '../../../db'

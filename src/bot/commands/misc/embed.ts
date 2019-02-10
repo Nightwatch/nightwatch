@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, TextChannel } from 'discord.js'
+import { MessageEmbed, TextChannel } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as yargs from 'yargs'
 import * as materialColors from 'material-colors'
@@ -83,7 +83,7 @@ export default class EmbedCommand extends Command {
     }
 
     const footer = argv.footer || null
-    const channel = argv.channel
+    let channel = argv.channel
       ? msg.guild.channels.find(
           x =>
             x.name.toLowerCase() ===

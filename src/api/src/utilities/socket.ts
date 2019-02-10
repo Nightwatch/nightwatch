@@ -1,7 +1,7 @@
 import * as socketio from 'socket.io'
 import { ApiEvent } from '../constants'
 
-const io: socketio.Server
+let io: socketio.Server
 
 export function init(server: socketio.Server) {
   io = server

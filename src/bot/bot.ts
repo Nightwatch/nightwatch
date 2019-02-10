@@ -12,7 +12,7 @@ const getDirectoryNames = (p: string) =>
   readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
 const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
 
-const pluginInfo: ReadonlyArray<PluginStatus> = []
+let pluginInfo: ReadonlyArray<PluginStatus> = []
 
 const config: Config = require('../../config/config.json')
 

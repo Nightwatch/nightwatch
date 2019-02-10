@@ -27,7 +27,7 @@ export default class UpdateCommand extends Command {
     await git.checkout('.')
 
     const result = await git.pull()
-    const premiumUpdated = false
+    let premiumUpdated = false
 
     try {
       try {

@@ -1,4 +1,3 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as prettyMs from 'pretty-ms'
 import { oneLine } from 'common-tags'

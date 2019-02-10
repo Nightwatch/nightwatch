@@ -1,4 +1,3 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 

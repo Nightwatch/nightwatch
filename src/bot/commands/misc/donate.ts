@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
