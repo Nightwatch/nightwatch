@@ -1,35 +1,34 @@
+import { IsDate, IsNumber } from 'class-validator'
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm'
 import { User } from '.'
 import { Badge } from '..'
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  Index
-} from 'typeorm'
-import { IsDate, IsNumber } from 'class-validator'
 
 @Index(['x', 'y', 'user'], { unique: true })
 @Entity()
 export class UserBadge {
+  @ManyToOne(_ => Badge)
+  public readonly badge: Badge
   @PrimaryGeneratedColumn()
-  id: number
+  public readonly id: number
 
   @Column('timestamp without time zone')
   @IsDate()
-  timestamp: Date
-
-  @Column()
-  @IsNumber()
-  x: number
-
-  @Column()
-  @IsNumber()
-  y: number
+  public readonly timestamp: Date
 
   @ManyToOne(_ => User)
-  user: User
+  public readonly user: User
 
-  @ManyToOne(_ => Badge)
-  badge: Badge
+  @Column()
+  @IsNumber()
+  public readonly x: number
+
+  @Column()
+  @IsNumber()
+  public readonly y: number
 }

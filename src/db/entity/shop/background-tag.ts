@@ -5,11 +5,11 @@ import { Entity, ManyToOne, PrimaryGeneratedColumn, Index } from 'typeorm'
 @Entity()
 export class BackgroundTag {
   @PrimaryGeneratedColumn()
-  id: number
+  public readonly id: number
 
   @ManyToOne(_ => Background)
-  background: Background
+  public readonly background: Background
 
   @ManyToOne(_ => Tag)
-  tag: Tag
+  public readonly tag: Tag
 }

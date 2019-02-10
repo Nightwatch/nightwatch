@@ -23,8 +23,8 @@ describe('GuildController', () => {
       // swallow
     })
     server = new InversifyExpressServer(container)
-    server.setConfig(app => {
-      app.use(bodyParser.json())
+    server.setConfig(api => {
+      api.use(bodyParser.json())
     })
     app = supertest(server.build())
   })

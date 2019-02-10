@@ -2,16 +2,19 @@ import { inject, injectable } from 'inversify'
 import { Types, Config } from '../../common'
 import { UserController as IUserController, UserService } from '../interfaces'
 import { CommandoClient } from 'discord.js-commando'
-// import * as Promise from 'bluebird'
 
 const config: Config = require('../../../config/config.json')
 
 @injectable()
 export class UserController implements IUserController {
-  @inject(Types.UserService) public userService: UserService
+  @inject(Types.UserService) public readonly userService: UserService
 
-  public getPremiumUsers = (client: CommandoClient) => {
-    if (!config.optional.premium || !config.optional.premium.premiumPatreonRoleId || !config.optional.premium.primaryGuildId) {
+  public readonly getPremiumUsers = (client: CommandoClient) => {
+    if (
+      !config.optional.premium ||
+      !config.optional.premium.premiumPatreonRoleId ||
+      !config.optional.premium.primaryGuildId
+    ) {
       return
     }
 
@@ -21,11 +24,17 @@ export class UserController implements IUserController {
       return
     }
 
-    return guild.members.filter(x => x.roles.has(config.optional.premium!.premiumPatreonRoleId!))
+    return guild.members.filter(x =>
+      x.roles.has(config.optional.premium!.premiumPatreonRoleId!)
+    )
   }
 
-  public userHasPremium = (id: string, client: CommandoClient) => {
-    if (!config.optional.premium || !config.optional.premium.premiumPatreonRoleId || !config.optional.premium.primaryGuildId) {
+  public readonly userHasPremium = (id: string, client: CommandoClient) => {
+    if (
+      !config.optional.premium ||
+      !config.optional.premium.premiumPatreonRoleId ||
+      !config.optional.premium.primaryGuildId
+    ) {
       return false
     }
 

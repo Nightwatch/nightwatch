@@ -5,14 +5,12 @@ import { Config } from '../../../common'
 export class Plugin {
   public static config: Config
   public static client: CommandoClient
-  public static id = 'Levels'
-  public static description =
+  public static readonly id = 'Levels'
+  public static readonly description =
     'A leveling system that awards XP when users send messages. Also rewards credits when a user levels up.'
 
   /**
    * Initializes plugin
-   * @param client
-   * @param config
    */
   public async init(client: CommandoClient, config: Config) {
     Plugin.client = client
@@ -22,7 +20,6 @@ export class Plugin {
 
   /**
    * Register events
-   * @param client
    */
   private async registerListeners(client: CommandoClient): Promise<void> {
     client.on('message', message => onMessage(message))

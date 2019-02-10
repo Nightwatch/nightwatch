@@ -1,10 +1,10 @@
-import { Message, GuildMember } from 'discord.js'
+import { GuildMember } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
 
 export default class DeleteUserCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'deleteuser',
       group: 'debug',
@@ -26,7 +26,7 @@ export default class DeleteUserCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
 
     const member = args.member as GuildMember

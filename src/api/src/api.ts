@@ -27,37 +27,29 @@ try {
 
 /**
  * The API server
- *
- * @class Api
  */
 export class Api {
   /**
-   * Creates an instance of the Api.
-   * @memberof Api
+   * Starts the API server.
    */
-  constructor () {
+  public static start(): Api {
+    return new Api()
+  }
+  /**
+   * Creates an instance of the Api.
+   */
+  constructor() {
     this.init().catch(err => {
       console.error(err)
     })
   }
 
-  /**
-   * Starts the API server.
-   *
-   * @static
-   * @returns {Api}
-   * @memberof Api
-   */
-  static start (): Api {
-    return new Api()
-  }
-
-  private async init () {
+  private async init() {
     await createConnection()
     this.startServer()
   }
 
-  private startServer () {
+  private startServer() {
     const server = new InversifyExpressServer(container)
 
     const limiter = new RateLimit({
@@ -65,10 +57,7 @@ export class Api {
       max: 150,
       delayMs: 0,
       skip: (request: express.Request, _) => {
-        if (
-          request.ip === '::1' ||
-          request.ip === '::ffff:127.0.0.1'
-        ) {
+        if (request.ip === '::1' || request.ip === '::ffff:127.0.0.1') {
           return true
         }
 
@@ -101,7 +90,7 @@ export class Api {
           getToken: req => {
             // Special routes I don't want the average user to see :)
             // TODO: Create route-based authentication, decorators would be nice.
-            const blacklistedRoutes = ['keys']
+            const blacklistedRoutes: ReadonlyArray<any> = ['keys']
 
             if (
               req.method.toLowerCase() === 'get' &&
@@ -109,7 +98,8 @@ export class Api {
                 req.path.toLowerCase().includes(route)
               )
             ) {
-              // *Hacky* approach to bypass request validation for GET requests, since I want anyone to be able to see the data.
+              // *Hacky* approach to bypass request validation for GET requests
+              // Allows anyone to make a GET request
               return jsonwebtoken.sign('GET', secret)
             }
 
@@ -143,9 +133,9 @@ export class Api {
       app.use(errorHandler())
     })
 
-    const app = server.build()
+    const api = server.build()
     const port = process.env.PORT || 4000
-    const instance = app.listen(port)
+    const instance = api.listen(port)
 
     const io = socketIo.listen(instance)
     init(io)

@@ -11,18 +11,18 @@ import { IsString, MaxLength } from 'class-validator'
 @Entity()
 export class PerkType {
   @PrimaryGeneratedColumn()
-  id: number
+  public readonly id: number
 
   @Column({ length: 100 })
   @IsString()
   @MaxLength(100)
   @Index({ unique: true })
-  name: string
+  public readonly name: string
 
   @Column()
   @IsString()
-  description: string
+  public readonly description: string
 
   @OneToMany(_ => Perk, perk => perk.type)
-  perks: Perk[]
+  public readonly perks: ReadonlyArray<Perk>
 }

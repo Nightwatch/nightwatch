@@ -3,7 +3,7 @@ import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class VoteKickCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'votekick',
       group: 'moderation',
@@ -29,7 +29,7 @@ export default class VoteKickCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const member = args.member as GuildMember
 
     const yesVote = '✅'
@@ -47,24 +47,33 @@ export default class VoteKickCommand extends Command {
       .addField('Time', `${timeInSeconds} seconds`)
       .addField('Reason', args.reason)
 
-    const sentMessage = await msg.channel.send(embed) as Message
+    const sentMessage = (await msg.channel.send(embed)) as Message
 
     await sentMessage.react(yesVote)
     await sentMessage.react(noVote)
 
-    const reactions = await sentMessage.awaitReactions(r => r.emoji.name === yesVote || r.emoji.name === noVote, {
-      time: 1000 * timeInSeconds
-    })
+    const reactions = await sentMessage.awaitReactions(
+      r => r.emoji.name === yesVote || r.emoji.name === noVote,
+      {
+        time: 1000 * timeInSeconds
+      }
+    )
 
     const yesVotes = reactions.get(yesVote)
     const noVotes = reactions.get(noVote)
 
-    if (!yesVotes || yesVotes.count < votesRequired || (noVotes && noVotes.count > yesVotes.count)) {
+    if (
+      !yesVotes ||
+      yesVotes.count < votesRequired ||
+      (noVotes && noVotes.count > yesVotes.count)
+    ) {
       return msg.channel.send('The vote did not pass.')
     }
 
     await member.kick(args.reason)
 
-    return msg.channel.send(`The vote passed. ${member.displayName} has been kicked.`)
+    return msg.channel.send(
+      `The vote passed. ${member.displayName} has been kicked.`
+    )
   }
 }

@@ -1,9 +1,8 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class RollCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'roll',
       group: 'games',
@@ -40,14 +39,14 @@ export default class RollCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const numberOfDie = args.numberOfDie as number
     const numberOfSides = args.numberOfSides as number
     const repeat = args.repeat as number
 
     const roll = () => Math.floor(Math.random() * numberOfSides) + 1
 
-    let result = 'Here\'s what I rolled:\n\n'
+    let result = "Here's what I rolled:\n\n"
 
     for (let i = 0; i < repeat; i++) {
       for (let j = 0; j < numberOfDie; j++) {

@@ -4,10 +4,13 @@ import * as Promise from 'bluebird'
 import { UserLevelBalance } from '../../../api/src/models'
 
 export interface UserService {
-  create: (user: User) => Promise<void>
-  find: (id: string) => Promise<BotUser | undefined>
-  updateBalance: (id: string, balance: UserBalance) => Promise<void>
-  delete: (id: string) => Promise<void>
-  updateProfile: (id: string, profile: UserProfile) => Promise<void>
-  updateLevelBalance: (id: string, levelBalance: UserLevelBalance) => Promise<void>
+  readonly create: (user: User) => Promise<void>
+  readonly find: (id: string) => Promise<BotUser | undefined>
+  readonly updateBalance: (id: string, balance: UserBalance) => Promise<void>
+  readonly delete: (id: string) => Promise<void>
+  readonly updateProfile: (id: string, profile: UserProfile) => Promise<void>
+  readonly updateLevelBalance: (
+    id: string,
+    levelBalance: UserLevelBalance
+  ) => Promise<void>
 }

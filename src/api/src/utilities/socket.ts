@@ -1,5 +1,5 @@
-import { Events } from '../constants'
 import * as socketio from 'socket.io'
+import { ApiEvent } from '../constants'
 
 let io: socketio.Server
 
@@ -7,7 +7,7 @@ export function init(server: socketio.Server) {
   io = server
 
   io.on('connection', client => {
-    client.emit(Events.info, 'Successfully connected to the API')
+    client.emit(ApiEvent.INFO, 'Successfully connected to the API')
   })
 }
 

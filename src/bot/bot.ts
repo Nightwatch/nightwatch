@@ -1,32 +1,34 @@
-import { CommandoClient } from 'discord.js-commando'
-import * as path from 'path'
-import { Config, Types } from '../common'
-import { readdirSync, statSync } from 'fs'
-import { Bot as IBot, EventController } from './interfaces'
-import { injectable, inject } from 'inversify'
 import * as Promise from 'bluebird'
 import { ClientUser } from 'discord.js'
-import { PluginStatus, loadPlugins } from './utils/plugin-loader'
+import { CommandoClient } from 'discord.js-commando'
+import { readdirSync, statSync } from 'fs'
+import { inject, injectable } from 'inversify'
+import * as path from 'path'
+import { Config, Types } from '../common'
+import { Bot as IBot, EventController } from './interfaces'
+import { loadPlugins, PluginStatus } from './utils/plugin-loader'
 
-const getDirectoryNames = (p: string) => readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
+const getDirectoryNames = (p: string) =>
+  readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
 const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
 
-let pluginInfo: PluginStatus[] = []
+let pluginInfo: ReadonlyArray<PluginStatus> = []
 
 const config: Config = require('../../config/config.json')
 
 @injectable()
 export class Bot implements IBot {
-  @inject(Types.EventController) public eventController: EventController
+  @inject(Types.EventController)
+  public readonly eventController: EventController
 
-  public client: CommandoClient = new CommandoClient({
+  public readonly client: CommandoClient = new CommandoClient({
     owner: config.bot.ownerId,
     commandPrefix: config.bot.prefix,
     messageCacheLifetime: 30,
     messageSweepInterval: 60
   })
 
-  public start () {
+  public start() {
     console.info(`Starting ${config.bot.botName}.`)
 
     this.registerEvents()
@@ -34,12 +36,6 @@ export class Bot implements IBot {
     return Promise.resolve(this.client.login(config.bot.token))
       .return()
       .catch(this.handleLoginFailure)
-  }
-
-  private handleLoginFailure(error: any) {
-    console.error(error)
-    console.warn('Failed to login, retrying in 5 seconds.')
-    setTimeout(this.start, 5000)
   }
 
   public registerEvents() {
@@ -54,8 +50,9 @@ export class Bot implements IBot {
   }
 
   public registerCommands() {
-    const commandGroups = getDirectoryNames(path.join(__dirname, 'commands'))
-      .map(name => [name, upperCaseFirstLetter(name)])
+    const commandGroups = getDirectoryNames(
+      path.join(__dirname, 'commands')
+    ).map(name => [name, upperCaseFirstLetter(name)])
 
     this.client.registry
       .registerDefaultTypes()
@@ -65,57 +62,76 @@ export class Bot implements IBot {
       .registerCommandsIn(path.join(__dirname, 'commands'))
   }
 
-  public stop (): void {
+  public stop(): void {
     this.client.destroy()
     process.exit(1)
   }
 
-  public onReady = () => {
+  public readonly onReady = () => {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
 
     if (this.client.user) {
       const clientUser = this.client.user
 
-      Promise.resolve(clientUser.setPresence({
-        status: 'online',
-        activity: {
-          type: 'STREAMING',
-          name: playingStatusOptions[0],
-          url
-        }
-      }))
-      .then(_ => setInterval(() => this.setRandomActivity(clientUser), config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60))
-      .catch(console.error)
+      Promise.resolve(
+        clientUser.setPresence({
+          status: 'online',
+          activity: {
+            type: 'STREAMING',
+            name: playingStatusOptions[0],
+            url
+          }
+        })
+      )
+        .then(_ =>
+          setInterval(
+            () => this.setRandomActivity(clientUser),
+            config.bot.playingStatus.cycleIntervalMinutes * 1000 * 60
+          )
+        )
+        .catch(console.error)
     }
 
-    loadPlugins(this.client, config).then(pluginStatuses => {
-      pluginInfo = pluginStatuses
-    }).catch(console.error)
+    loadPlugins(this.client, config)
+      .then(pluginStatuses => {
+        pluginInfo = pluginStatuses
+      })
+      .catch(console.error)
 
     console.info(`${config.bot.botName} ready.`)
   }
 
-  private setRandomActivity(clientUser: ClientUser) {
-    const playingStatusOptions = config.bot.playingStatus.options
-    const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
-    return Promise.resolve(clientUser.setActivity({
-      type: 'STREAMING',
-      name: playingStatusOptions[Math.floor(Math.random() * playingStatusOptions.length)],
-      url
-    }))
-      .catch(console.error)
-  }
-
-  public onDisconnect = () => {
+  public readonly onDisconnect = () => {
     console.info(`${config.bot.botName} disconnected. Restarting...`)
 
     process.exit(1)
   }
 
-  public onError = (error: Error) => {
+  public readonly onError = (error: Error) => {
     console.error(error)
     process.exit(1)
+  }
+
+  private handleLoginFailure(error: any) {
+    console.error(error)
+    console.warn('Failed to login, retrying in 5 seconds.')
+    setTimeout(this.start, 5000)
+  }
+
+  private setRandomActivity(clientUser: ClientUser) {
+    const playingStatusOptions = config.bot.playingStatus.options
+    const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
+    return Promise.resolve(
+      clientUser.setActivity({
+        type: 'STREAMING',
+        name:
+          playingStatusOptions[
+            Math.floor(Math.random() * playingStatusOptions.length)
+          ],
+        url
+      })
+    ).catch(console.error)
   }
 }
 

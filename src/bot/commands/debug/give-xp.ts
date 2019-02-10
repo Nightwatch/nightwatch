@@ -1,13 +1,13 @@
-import { Message, GuildMember } from 'discord.js'
+import { GuildMember } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { UserLevelBalance } from '../../../api/src/models'
 import { Command } from '../../base'
 
 export default class GiveXpCommand extends Command {
-  premiumOnly: true
+  public readonly premiumOnly: true
 
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'givexp',
       group: 'debug',
@@ -34,7 +34,7 @@ export default class GiveXpCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
 
     const member = args.member as GuildMember
@@ -48,7 +48,9 @@ export default class GiveXpCommand extends Command {
 
     user.level.xp += amount
 
-    await userService.updateLevelBalance(member.id, { level: user.level } as UserLevelBalance)
+    await userService.updateLevelBalance(member.id, {
+      level: user.level
+    } as UserLevelBalance)
 
     return msg.reply('Updated user xp.')
   }

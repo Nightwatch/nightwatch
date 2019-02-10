@@ -1,10 +1,9 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
 
 export default class TransferCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'transfer',
       group: 'economy',
@@ -30,24 +29,25 @@ export default class TransferCommand extends Command {
     })
   }
 
-  public async run (
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
-    const donor = await userService.find(msg.author.id)
+    const donor = await userService
+      .find(msg.author.id)
       .catch(_ => userService.create(msg.author))
       .catch(() => {
         // swallow
       })
-    const receiver = await userService.find(args.user.id)
+    const receiver = await userService
+      .find(args.user.id)
       .catch(_ => userService.create(args.user))
       .catch(() => {
         // swallow
       })
 
     if (!donor || !receiver) {
-      return msg.reply('Command failed. Either you or the receiver does not exist in my database.')
+      return msg.reply(
+        'Command failed. Either you or the receiver does not exist in my database.'
+      )
     }
 
     if (args.user.id === msg.author.id) {
@@ -74,9 +74,9 @@ export default class TransferCommand extends Command {
     await userService.updateBalance(receiver.id, receiver.balance)
 
     return msg.reply(
-      `You transferred ${args.amount} credit${args.amount === 1
-        ? ''
-        : 's'} to ${args.user}!`
+      `You transferred ${args.amount} credit${
+        args.amount === 1 ? '' : 's'
+      } to ${args.user}!`
     )
   }
 }

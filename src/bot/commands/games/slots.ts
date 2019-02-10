@@ -1,23 +1,22 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { stripIndents } from 'common-tags'
 import { UserService } from '../../services'
 import { Command } from '../../base'
 
-const combinations = [
-  [ 0, 1, 2 ],
-  [ 3, 4, 5 ],
-  [ 6, 7, 8 ],
-  [ 0, 4, 8 ],
-  [ 2, 4, 6 ]
+const combinations: ReadonlyArray<any> = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 4, 8],
+  [2, 4, 6]
 ]
-const reels = [
-  [ '🍇', '🍉', '🍌', '🍒', '🍓', '🍋', '💎', '🎉' ],
-  [ '💎', '🍒', '🎉', '🍇', '🍌', '🍉', '🍋', '🍓' ],
-  [ '🍓', '🍋', '💎', '🍌', '🍒', '🍉', '🍇', '🎉' ]
+const reels: ReadonlyArray<any> = [
+  ['🍇', '🍉', '🍌', '🍒', '🍓', '🍋', '💎', '🎉'],
+  ['💎', '🍒', '🎉', '🍇', '🍌', '🍉', '🍋', '🍓'],
+  ['🍓', '🍋', '💎', '🍌', '🍒', '🍉', '🍇', '🎉']
 ]
 
-const values: { [key: string]: number } = {
+const values: { readonly [key: string]: number } = {
   '💎': 100,
   '🎉': 10,
   '🍉': 10,
@@ -29,7 +28,7 @@ const values: { [key: string]: number } = {
 }
 
 export default class SlotsCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'slots',
       group: 'games',
@@ -66,28 +65,35 @@ export default class SlotsCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
 
     const isUserOwner = this.client.owners[0].id === msg.author.id
 
     const userId = msg.author.id
-    const user = await userService.find(msg.author.id)
+    const user = await userService
+      .find(msg.author.id)
       .catch(_ => userService.create(msg.author))
       .catch(() => {
         // swallow
       })
 
     if (!user) {
-      return msg.reply('Command failed. You do not exist in my database. Try again.')
+      return msg.reply(
+        'Command failed. You do not exist in my database. Try again.'
+      )
     }
 
     if (user.balance.balance < Number(args.coins)) {
-      return msg.reply(`Insufficient funds. You have ${user.balance.balance} credits`)
+      return msg.reply(
+        `Insufficient funds. You have ${user.balance.balance} credits`
+      )
     }
 
     if (isUserOwner) {
+      // tslint:disable-next-line: no-shadowed-variable
       const roll = this.generateRoll()
+      // tslint:disable-next-line: no-shadowed-variable
       let winnings = 0
 
       combinations.forEach(combo => {
@@ -100,8 +106,9 @@ export default class SlotsCommand extends Command {
       })
 
       if (winnings === 0) {
-        return msg.channel.send(stripIndents`**${msg.author
-          .username}, you lost. Try again, you got this!
+        return msg.channel.send(stripIndents`**${
+          msg.author.username
+        }, you lost. Try again, you got this!
 
       ${this.showRoll(roll)}**`)
       }
@@ -129,6 +136,7 @@ export default class SlotsCommand extends Command {
     const roll = this.generateRoll()
     let winnings = 0
 
+    // tslint:disable-next-line: no-identical-functions
     combinations.forEach(combo => {
       if (
         roll[combo[0]] === roll[combo[1]] &&
@@ -142,8 +150,9 @@ export default class SlotsCommand extends Command {
       await userService.updateBalance(userId, user.balance)
       await userService.updateBalance(botOwnerId, owner.balance)
 
-      return msg.channel.send(stripIndents`**${msg.author
-        .username}, you lost. Try again, you got this!
+      return msg.channel.send(stripIndents`**${
+        msg.author.username
+      }, you lost. Try again, you got this!
 
       ${this.showRoll(roll)}**`)
     }
@@ -164,7 +173,7 @@ export default class SlotsCommand extends Command {
     You won ${winnings * args.coins} credits!**`)
   }
 
-  public showRoll (roll: string[]) {
+  public showRoll(roll: ReadonlyArray<string>) {
     return stripIndents`
 			${roll[0]}ー${roll[1]}ー${roll[2]}
 			${roll[3]}ー${roll[4]}ー${roll[5]}
@@ -172,7 +181,7 @@ export default class SlotsCommand extends Command {
     `
   }
 
-  public generateRoll () {
+  public generateRoll() {
     const roll: string[] = []
     reels.forEach((reel, index) => {
       const rand = Math.floor(Math.random() * reel.length)

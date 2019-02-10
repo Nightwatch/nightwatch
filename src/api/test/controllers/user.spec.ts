@@ -25,7 +25,9 @@ import {
 import * as bodyParser from 'body-parser'
 
 describe('UserController', () => {
+  // tslint:disable-next-line: no-let
   let server: InversifyExpressServer
+  // tslint:disable-next-line: no-let
   let app: supertest.SuperTest<supertest.Test>
 
   before(async () => {
@@ -33,8 +35,8 @@ describe('UserController', () => {
       // swallow
     })
     server = new InversifyExpressServer(container)
-    server.setConfig(app => {
-      app.use(bodyParser.json())
+    server.setConfig(api => {
+      api.use(bodyParser.json())
     })
     app = supertest(server.build())
   })

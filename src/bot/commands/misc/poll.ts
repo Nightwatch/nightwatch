@@ -4,13 +4,16 @@ import { oneLine } from 'common-tags'
 import { Command } from '../../base'
 
 export default class PollCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'poll',
       group: 'misc',
       memberName: 'poll',
       description: 'Create a poll.',
-      examples: ['n.poll Do you like anime? [yes][no]', 'Best platform for gaming? [PC Master Race][Xbox][PlayStation]'],
+      examples: [
+        'n.poll Do you like anime? [yes][no]',
+        'Best platform for gaming? [PC Master Race][Xbox][PlayStation]'
+      ],
       guildOnly: false,
       throttling: {
         usages: 2,
@@ -19,14 +22,16 @@ export default class PollCommand extends Command {
       args: [
         {
           key: 'poll',
-          prompt: 'What should the poll be? (Make sure to include the options in square brackets, like [Option 1][Option 2])\n',
+          prompt:
+            // tslint:disable-next-line: max-line-length
+            'What should the poll be? (Make sure to include the options in square brackets, like [Option 1][Option 2])\n',
           type: 'string'
         }
       ]
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const channel = msg.guild.channels.find(
       x => x.name === 'poll' && x.type === 'text'
     )
@@ -38,14 +43,43 @@ export default class PollCommand extends Command {
       )
     }
 
-    const letters = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿']
+    const letters: ReadonlyArray<any> = [
+      '🇦',
+      '🇧',
+      '🇨',
+      '🇩',
+      '🇪',
+      '🇫',
+      '🇬',
+      '🇭',
+      '🇮',
+      '🇯',
+      '🇰',
+      '🇱',
+      '🇲',
+      '🇳',
+      '🇴',
+      '🇵',
+      '🇶',
+      '🇷',
+      '🇸',
+      '🇹',
+      '🇺',
+      '🇻',
+      '🇼',
+      '🇽',
+      '🇾',
+      '🇿'
+    ]
 
     const poll = args.poll as string
 
     const result = this.parseOptions(poll)
 
     if (!result || result.options.length === 0) {
-      return msg.reply('You forgot to include the options (e.g. [Yes][No]) or formatted them incorrectly.')
+      return msg.reply(
+        'You forgot to include the options (e.g. [Yes][No]) or formatted them incorrectly.'
+      )
     }
 
     if (result.options.length > 26) {
@@ -54,7 +88,9 @@ export default class PollCommand extends Command {
 
     const embed = new MessageEmbed()
 
-    let options = result.options.map((value, index) => `${letters[index]} ${value}`).join('\n')
+    const options = result.options
+      .map((value, index) => `${letters[index]} ${value}`)
+      .join('\n')
 
     embed
       .setAuthor(result.poll)
@@ -64,13 +100,15 @@ export default class PollCommand extends Command {
 
     const textChannel = channel as TextChannel
 
-    const sentMessage = await textChannel.send(embed) as Message
+    const sentMessage = (await textChannel.send(embed)) as Message
 
     for (let i = 0; i < result.options.length; i++) {
       await sentMessage.react(letters[i])
     }
 
-    return msg.channel.send(`There's a new poll in ${textChannel}! Go check it out.`)
+    return msg.channel.send(
+      `There's a new poll in ${textChannel}! Go check it out.`
+    )
   }
 
   private parseOptions(poll: string) {
@@ -78,7 +116,10 @@ export default class PollCommand extends Command {
     const rightCharacter = '\\]'
     const optionValueRegex = '([^\\]]+)'
 
-    const regex = new RegExp(`${leftCharacter}${optionValueRegex}${rightCharacter}`, 'g')
+    const regex = new RegExp(
+      `${leftCharacter}${optionValueRegex}${rightCharacter}`,
+      'g'
+    )
 
     const matches = poll.match(regex)
 
@@ -93,7 +134,7 @@ export default class PollCommand extends Command {
     })
 
     return {
-      options: matches.map((x) => x.substring(1, x.length - 1)),
+      options: matches.map(x => x.substring(1, x.length - 1)),
       poll: returnString
     }
   }

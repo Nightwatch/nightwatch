@@ -1,32 +1,32 @@
+import { IsDate } from 'class-validator'
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  Entity,
   Index,
-  ManyToOne
+  ManyToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { User } from '.'
-import { IsDate } from 'class-validator'
 
 @Index(['user', 'friend'], { unique: true })
 @Entity()
 export class UserFriend {
   @Column('timestamp without time zone')
   @IsDate()
-  dateAdded: Date
+  public dateAdded: Date
+
+  @Index()
+  @ManyToOne(_ => User, user => user.friends)
+  public friend: User
 
   @PrimaryGeneratedColumn()
-  id: number
+  public readonly id: number
 
   @Index()
   @ManyToOne(_ => User, user => user.friends)
-  user: User
+  public user: User
 
-  @Index()
-  @ManyToOne(_ => User, user => user.friends)
-  friend: User
-
-  constructor(userFriend?: UserFriend) {
+  public constructor(userFriend?: UserFriend) {
     if (userFriend) {
       Object.assign(this, userFriend)
     }

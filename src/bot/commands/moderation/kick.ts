@@ -1,9 +1,8 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class KickCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'kick',
       group: 'moderation',
@@ -29,19 +28,22 @@ export default class KickCommand extends Command {
     })
   }
 
-  public hasPermission (msg: CommandoMessage): boolean {
+  public hasPermission(msg: CommandoMessage): boolean {
     return (
       this.client.isOwner(msg.author) ||
       msg.member.hasPermission('KICK_MEMBERS')
     )
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     if (msg.author.id === args.member.id) {
       return msg.reply("You can't kick yourself.")
     }
 
-    if (args.member.hasPermission('KICK_MEMBERS') || msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0) {
+    if (
+      args.member.hasPermission('KICK_MEMBERS') ||
+      msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0
+    ) {
       return msg.reply("You can't kick that member.")
     }
 

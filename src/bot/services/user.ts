@@ -1,21 +1,31 @@
 import { UserService as IUserService } from '../interfaces'
 import { User } from 'discord.js'
 import { api } from '../utils'
-import { User as BotUser, UserLevel, UserVerification, UserSettings, UserBalance, UserProfile } from '../../db'
+import {
+  User as BotUser,
+  UserLevel,
+  UserVerification,
+  UserSettings,
+  UserBalance,
+  UserProfile
+} from '../../db'
 import { injectable } from 'inversify'
 import * as Promise from 'bluebird'
 import { UserLevelBalance } from '../../api/src/models'
 
 @injectable()
 export class UserService implements IUserService {
-  public create = (user: User) => {
+  public readonly create = (user: User) => {
     return this.find(user.id)
       .catch(error => {
         if (error.response.status === 404) {
           const newUser = new BotUser()
           newUser.id = user.id
           newUser.name = user.username
-          newUser.avatarUrl = user.displayAvatarURL({ format: 'png', size: 512 })
+          newUser.avatarUrl = user.displayAvatarURL({
+            format: 'png',
+            size: 512
+          })
           newUser.dateLastMessage = null
           newUser.level = new UserLevel()
           newUser.verification = new UserVerification()
@@ -27,26 +37,36 @@ export class UserService implements IUserService {
         }
       })
       .thenReturn()
-
   }
 
-  public find = (id: string): Promise<BotUser | undefined> => {
-    return Promise.resolve(api.get(`/users/${id}`)).then(response => response.data)
+  public readonly find = (id: string): Promise<BotUser | undefined> => {
+    return Promise.resolve(api.get(`/users/${id}`)).then(
+      response => response.data
+    )
   }
 
-  public updateBalance = (id: string, balance: UserBalance) => {
-    return Promise.resolve(api.put(`/users/${id}/balance`, balance)).thenReturn()
+  public readonly updateBalance = (id: string, balance: UserBalance) => {
+    return Promise.resolve(
+      api.put(`/users/${id}/balance`, balance)
+    ).thenReturn()
   }
 
-  public delete = (id: string) => {
+  public readonly delete = (id: string) => {
     return Promise.resolve(api.delete(`/users/${id}`)).thenReturn()
   }
 
-  public updateProfile = (id: string, profile: UserProfile) => {
-    return Promise.resolve(api.put(`/users/${id}/profile`, profile)).thenReturn()
+  public readonly updateProfile = (id: string, profile: UserProfile) => {
+    return Promise.resolve(
+      api.put(`/users/${id}/profile`, profile)
+    ).thenReturn()
   }
 
-  public updateLevelBalance = (id: string, levelBalance: UserLevelBalance) => {
-    return Promise.resolve(api.put(`/users/${id}/level`, levelBalance)).thenReturn()
+  public readonly updateLevelBalance = (
+    id: string,
+    levelBalance: UserLevelBalance
+  ) => {
+    return Promise.resolve(
+      api.put(`/users/${id}/level`, levelBalance)
+    ).thenReturn()
   }
 }

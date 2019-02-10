@@ -1,24 +1,24 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
+  Entity,
   Index,
-  ManyToOne
+  ManyToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { Guild } from '..'
 
 @Entity()
 export class Song {
+  @ManyToOne(_ => Guild, guild => guild.playlist)
+  public guild: Guild
+
   @PrimaryGeneratedColumn()
-  id: number
+  public readonly id: number
 
   @Column()
-  url: string
+  public url: string
 
   @Index()
   @Column()
-  userId: string
-
-  @ManyToOne(_ => Guild, guild => guild.playlist)
-  guild: Guild
+  public userId: string
 }

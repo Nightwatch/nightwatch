@@ -1,36 +1,36 @@
+import { IsNumber } from 'class-validator'
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
-  Index
+  OneToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { User } from '.'
-import { IsNumber } from 'class-validator'
 
 @Entity()
 export class UserBalance {
-  @PrimaryGeneratedColumn()
-  id: number
-
   @Column()
   @IsNumber()
-  netWorth: number
-
-  @Column()
-  @IsNumber()
-  balance: number
+  public balance: number
 
   @Column('timestamp without time zone', { nullable: true })
-  dateLastClaimedDailies: Date | null
+  public dateLastClaimedDailies: Date | null
+
+  @PrimaryGeneratedColumn()
+  public readonly id: number
+
+  @Column()
+  @IsNumber()
+  public netWorth: number
 
   @Index({ unique: true })
   @OneToOne(_ => User, user => user.balance, { onDelete: 'CASCADE' })
   @JoinColumn()
-  user: User
+  public user: User
 
-  constructor() {
+  public constructor() {
     this.netWorth = 0
     this.balance = 0
     this.dateLastClaimedDailies = null

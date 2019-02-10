@@ -1,50 +1,50 @@
 export interface Config {
-  api: ApiConfig
-  bot: BotConfig
-  optional: OptionalSettings
+  readonly api: ApiConfig
+  readonly bot: BotConfig
+  readonly optional: OptionalSettings
 }
 
 export interface ApiConfig {
-  address: string
-  secret: string
+  readonly address: string
+  readonly secret: string
 }
 
 export interface BotConfig {
-  token: string
-  botName: string
-  prefix: string
-  ownerId: string
-  autoReconnect: boolean
-  autoDeleteMessages: {
-    enabled: boolean
-    delay: number
-  },
-  playingStatus: {
-    url: string
-    cycleIntervalMinutes: number
-    options: string[]
-  },
-  clientId: string
-  clientSecret: string
+  readonly autoDeleteMessages: {
+    readonly delay: number
+    readonly enabled: boolean
+  }
+  readonly autoReconnect: boolean
+  readonly botName: string
+  readonly clientId: string
+  readonly clientSecret: string
+  readonly ownerId: string
+  readonly playingStatus: {
+    readonly cycleIntervalMinutes: number
+    readonly options: ReadonlyArray<string>
+    readonly url: string
+  }
+  readonly prefix: string
+  readonly token: string
 }
 
 export interface OptionalSettings {
-  dataDogApiKey?: string
-  dataDogAppKey?: string
-  steamWebApiKey?: string
-  giphyApiKey?: string
-  imgur?: ImgurSettings
-  premium?: PremiumSettings
-  googleApiKey?: string
+  readonly dataDogApiKey?: string
+  readonly dataDogAppKey?: string
+  readonly giphyApiKey?: string
+  readonly googleApiKey?: string
+  readonly imgur?: ImgurSettings
+  readonly premium?: PremiumSettings
+  readonly steamWebApiKey?: string
 }
 
 export interface ImgurSettings {
-  clientId: string
-  clientSecret: string
+  readonly clientId: string
+  readonly clientSecret: string
 }
 
 export interface PremiumSettings {
-  primaryGuildId?: string
-  premiumPatreonRoleId?: string
-  premiumPluginRepo?: string
+  readonly premiumPatreonRoleId?: string
+  readonly premiumPluginRepo?: string
+  readonly primaryGuildId?: string
 }

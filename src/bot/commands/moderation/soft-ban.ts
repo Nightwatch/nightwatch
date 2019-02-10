@@ -1,14 +1,15 @@
-import { Message, GuildMember } from 'discord.js'
+import { GuildMember } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class SoftBanCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'softban',
       group: 'moderation',
       memberName: 'softban',
-      description: 'Soft bans user (bans and immediately unbans them to delete their messages).',
+      description:
+        'Soft bans user (bans and immediately unbans them to delete their messages).',
       guildOnly: true,
       throttling: {
         usages: 2,
@@ -29,20 +30,23 @@ export default class SoftBanCommand extends Command {
     })
   }
 
-  public hasPermission (msg: CommandoMessage): boolean {
+  public hasPermission(msg: CommandoMessage): boolean {
     return (
       this.client.isOwner(msg.author) || msg.member.hasPermission('BAN_MEMBERS')
     )
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const member = args.member as GuildMember
 
     if (msg.author.id === member.id) {
       return msg.reply("You can'tsoft ban yourself.")
     }
 
-    if (member.hasPermission('BAN_MEMBERS') || msg.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+    if (
+      member.hasPermission('BAN_MEMBERS') ||
+      msg.member.roles.highest.comparePositionTo(member.roles.highest) <= 0
+    ) {
       return msg.reply("You can't softban that member.")
     }
 
@@ -51,7 +55,11 @@ export default class SoftBanCommand extends Command {
     await (msg.guild as any).unban(member.id)
 
     const dm = await args.member.createDM()
-    await dm.send(`You have been softbanned from ${msg.guild.name} for \`${args.reason}\`\n\nYou can rejoin immediately.`)
+    await dm.send(
+      `You have been softbanned from ${msg.guild.name} for \`${
+        args.reason
+      }\`\n\nYou can rejoin immediately.`
+    )
 
     return msg.channel.send(`${args.member.nickname} has been softbanned!`)
   }

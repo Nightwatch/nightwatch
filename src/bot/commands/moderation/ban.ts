@@ -1,9 +1,8 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class BanCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'ban',
       group: 'moderation',
@@ -29,24 +28,29 @@ export default class BanCommand extends Command {
     })
   }
 
-  public hasPermission (msg: CommandoMessage): boolean {
+  public hasPermission(msg: CommandoMessage): boolean {
     return (
       this.client.isOwner(msg.author) || msg.member.hasPermission('BAN_MEMBERS')
     )
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     if (msg.author.id === args.member.id) {
       return msg.reply("You can't ban yourself.")
     }
 
-    if (args.member.hasPermission('BAN_MEMBERS') || msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0) {
+    if (
+      args.member.hasPermission('BAN_MEMBERS') ||
+      msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0
+    ) {
       return msg.reply("You can't ban that member.")
     }
 
     await args.member.ban({ reason: args.reason })
     const dm = await args.member.createDM()
-    await dm.send(`You have been banned from ${msg.guild.name} for: ${args.reason}`)
+    await dm.send(
+      `You have been banned from ${msg.guild.name} for: ${args.reason}`
+    )
     return msg.channel.send(`${args.member.nickname} has been banned!`)
   }
 }

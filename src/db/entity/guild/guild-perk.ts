@@ -1,16 +1,15 @@
+import { Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Guild } from '.'
 import { Perk } from '..'
-import { Entity, Index, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 
 @Index(['guild', 'perk'], { unique: true })
 @Entity()
 export class GuildPerk {
+  @ManyToOne(_ => Guild, guild => guild.perks)
+  public readonly guild: Guild
   @PrimaryGeneratedColumn()
-  id: number
+  public readonly id: number
 
   @ManyToOne(_ => Perk)
-  perk: Perk
-
-  @ManyToOne(_ => Guild, guild => guild.perks)
-  guild: Guild
+  public readonly perk: Perk
 }

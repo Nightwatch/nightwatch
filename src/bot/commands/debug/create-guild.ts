@@ -1,10 +1,9 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { Command } from '../../base'
 
 export default class CreateGuildCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'createguild',
       group: 'debug',
@@ -27,10 +26,12 @@ export default class CreateGuildCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const guildService = new GuildService()
 
-    const guild = args.guildId ? this.client.guilds.find(x => x.id === args.id) : msg.guild
+    const guild = args.guildId
+      ? this.client.guilds.find(x => x.id === args.id)
+      : msg.guild
 
     if (!guild) {
       return msg.reply('Guild not found')

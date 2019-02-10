@@ -1,15 +1,14 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
 
 export default class CreditsCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'credits',
       group: 'economy',
       memberName: 'credits',
-      aliases: [ 'balance', 'bal' ],
+      aliases: ['balance', 'bal'],
       description: 'Check how many credits you or someone else has.',
       guildOnly: false,
       throttling: {
@@ -27,12 +26,13 @@ export default class CreditsCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
     const userId = args.user ? args.user.id : msg.author.id
     const userName = args.user ? args.user.displayName : msg.author.username
 
-    const user = await userService.find(userId)
+    const user = await userService
+      .find(userId)
       .catch(_ => userService.create(args.user))
       .catch(() => {
         // swallow

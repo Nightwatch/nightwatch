@@ -4,7 +4,7 @@ import { SteamProvider, SteamSearchEntry } from 'steam-provider'
 import { Command } from '../../base'
 
 export default class SteamCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'steam',
       group: 'search',
@@ -25,7 +25,7 @@ export default class SteamCommand extends Command {
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const provider = new SteamProvider()
 
     const searchResults = await provider.search(args.game)
@@ -35,8 +35,8 @@ export default class SteamCommand extends Command {
     }
 
     if (searchResults.length === 1) {
-      const result = await this.getEmbedForGame(searchResults[0], provider, msg)
-      return msg.channel.send(result)
+      const embed = await this.getEmbedForGame(searchResults[0], provider, msg)
+      return msg.channel.send(embed)
     }
 
     const resultsEmbed = new MessageEmbed()
@@ -72,7 +72,7 @@ export default class SteamCommand extends Command {
     return msg.channel.send(result)
   }
 
-  public async getEmbedForGame (
+  public async getEmbedForGame(
     game: SteamSearchEntry,
     provider: SteamProvider,
     msg: CommandoMessage
@@ -89,11 +89,6 @@ export default class SteamCommand extends Command {
 
     const genres = details.$genres
     const platforms = details.$otherData.$platforms
-
-    let finalPrice = details.$priceData.$finalPrice
-    if (finalPrice.length < 3) {
-      finalPrice = '0' + finalPrice
-    }
 
     steamEmbed
       .setColor(msg.member ? msg.member.displayHexColor : '#ff0000')

@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import axios from 'axios'
 import { Config } from '../../../common'
@@ -7,7 +7,7 @@ import { Command } from '../../base'
 const config: Config = require('../../../../config/config.json')
 
 export default class GifCommand extends Command {
-  constructor (client: CommandoClient) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'gif',
       group: 'search',
@@ -26,26 +26,31 @@ export default class GifCommand extends Command {
           type: 'string'
         }
       ],
-      hidden: !config.optional.giphyApiKey || !config.optional.giphyApiKey.trim()
+      hidden:
+        !config.optional.giphyApiKey || !config.optional.giphyApiKey.trim()
     })
   }
 
-  public async run (msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     if (!args.search.trim()) {
       return msg.reply('You must enter a search term or phrase.')
     }
 
     try {
-      const response = await axios.get(`http://api.giphy.com/v1/gifs/random?api_key=${config.optional.giphyApiKey}&tag=${encodeURIComponent(args.search)}`)
+      const response = await axios.get(
+        `http://api.giphy.com/v1/gifs/random?api_key=${
+          config.optional.giphyApiKey
+        }&tag=${encodeURIComponent(args.search)}`
+      )
 
       if (!response.data.data.image_url) {
         return msg.channel.send('Nothing found!')
       }
 
       const embed = new MessageEmbed()
-          .setImage(`${response.data.data.image_url}`)
-          .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
-          .setColor('#0066CC')
+        .setImage(`${response.data.data.image_url}`)
+        .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
+        .setColor('#0066CC')
 
       return msg.channel.send({ embed })
     } catch {

@@ -5,9 +5,10 @@ import { Config } from '../../../common'
 export class Plugin {
   public static client: CommandoClient
   public static config: Config
-  public static id = 'Friends'
-  public static description = 'Friend system plugin. Provides a better and more interactive friend system than Discord.'
-  public static commandGroups = [
+  public static readonly id = 'Friends'
+  public static readonly description =
+    'Friend system plugin. Provides a better and more interactive friend system than Discord.'
+  public static readonly commandGroups: ReadonlyArray<any> = [
     ['friends', 'Friends']
     // If you need to make command groups for the plugin's commands,
     // Add them here rather than adding them to the core bot.
@@ -17,8 +18,6 @@ export class Plugin {
 
   /**
    * Initializes plugin
-   * @param client
-   * @param config
    */
   public async init(client: CommandoClient, config: Config) {
     Plugin.client = client
@@ -28,11 +27,8 @@ export class Plugin {
 
   /**
    * Register events
-   * @param client
    */
-  private async registerListeners(
-    client: CommandoClient
-  ): Promise<void> {
+  private async registerListeners(client: CommandoClient): Promise<void> {
     client.on('message', () => onMessage())
   }
 }

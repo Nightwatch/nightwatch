@@ -1,3 +1,6 @@
 export interface AuthenticationService {
-  getDiscordAccessToken: (code: string, redirect: string) => Promise<any>
+  readonly getDiscordAccessToken: (
+    code: string,
+    redirect: string
+  ) => Promise<any>
 }

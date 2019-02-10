@@ -1,53 +1,52 @@
+import { IsDate, IsFQDN, IsNumber, IsString, MaxLength } from 'class-validator'
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  Entity,
   Index,
-  OneToMany
+  OneToMany,
+  PrimaryGeneratedColumn
 } from 'typeorm'
-import { IsNumber, IsFQDN, IsString, MaxLength, IsDate } from 'class-validator'
 import { BadgeCategory, BadgeTag } from '.'
 
 @Entity()
 export class Badge {
+  @OneToMany(_ => BadgeCategory, category => category.badge)
+  public readonly categories: ReadonlyArray<BadgeCategory>
+
+  @Column()
+  @IsString()
+  @Index({ unique: true })
+  public readonly filePath: string
   @PrimaryGeneratedColumn()
-  id: number
+  public readonly id: number
+
+  @Column()
+  @IsNumber()
+  public readonly likes: number
 
   @Column({ length: 100 })
   @IsString()
   @MaxLength(100)
   @Index({ unique: true })
-  name: string
+  public readonly name: string
 
   @Column()
   @IsNumber()
-  price: number
+  public readonly price: number
+
+  @Column()
+  @IsNumber()
+  public readonly purchases: number
+
+  @OneToMany(_ => BadgeTag, tag => tag.badge)
+  public readonly tags: ReadonlyArray<BadgeTag>
+
+  @Column('timestamp without time zone')
+  @IsDate()
+  public readonly timestamp: Date
 
   @Column()
   @IsFQDN()
   @Index({ unique: true })
-  url: string
-
-  @Column()
-  @IsString()
-  @Index({ unique: true })
-  filePath: string
-
-  @Column()
-  @IsNumber()
-  likes: number
-
-  @Column()
-  @IsNumber()
-  purchases: number
-
-  @Column('timestamp without time zone')
-  @IsDate()
-  timestamp: Date
-
-  @OneToMany(_ => BadgeCategory, category => category.badge)
-  categories: BadgeCategory[]
-
-  @OneToMany(_ => BadgeTag, tag => tag.badge)
-  tags: BadgeTag[]
+  public readonly url: string
 }

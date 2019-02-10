@@ -5,32 +5,30 @@ import { ReferralService as IReferralService } from '../interfaces'
 
 /**
  * Referral service to handle referral logic
- *
- * @class ReferralService
  */
 @injectable()
 export class ReferralService implements IReferralService {
-  private referralRepository = getRepository(Referral)
+  private readonly referralRepository = getRepository(Referral)
 
-  public find () {
+  public find() {
     return this.referralRepository.find()
   }
 
-  public async findById (id: number) {
+  public async findById(id: number) {
     return this.referralRepository.findOne(id, {
       relations: ['user', 'guild']
     })
   }
 
-  public async create (referral: Referral) {
+  public async create(referral: Referral) {
     await this.referralRepository.save(referral)
   }
 
-  public async update (_: number, referral: Referral) {
+  public async update(_: number, referral: Referral) {
     await this.referralRepository.save(referral)
   }
 
-  public async delete (id: number) {
+  public async delete(id: number) {
     const referral = await this.referralRepository.findOne(id)
 
     if (!referral) {

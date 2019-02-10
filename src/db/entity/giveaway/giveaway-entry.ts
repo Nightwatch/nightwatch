@@ -1,48 +1,35 @@
-import { PrimaryGeneratedColumn, Entity, ManyToOne, Column } from 'typeorm'
+import { IsDate } from 'class-validator'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Giveaway } from '.'
 import { User } from '..'
-import { IsDate } from 'class-validator'
 
 @Entity()
 export class GiveawayEntry {
   /**
+   * The giveaway the user entered.
+   */
+  @ManyToOne(_ => Giveaway)
+  public giveaway: Giveaway
+  /**
    * The ID of the entry. Auto-generated.
-   *
-   * @type {number}
-   * @memberof GiveawayEntry
    */
   @PrimaryGeneratedColumn()
-  id: number
+  public readonly id: number
 
   /**
    * The date the entry was made.
-   *
-   * @type {Date}
-   * @memberof GiveawayEntry
    */
   @Column()
   @IsDate()
-  timestamp: Date
+  public timestamp: Date
 
   /**
    * The user that entered the giveaway.
-   *
-   * @type {User}
-   * @memberof GiveawayEntry
    */
   @ManyToOne(_ => User)
-  user: User
+  public user: User
 
-  /**
-   * The giveaway the user entered.
-   *
-   * @type {Giveaway}
-   * @memberof GiveawayEntry
-   */
-  @ManyToOne(_ => Giveaway)
-  giveaway: Giveaway
-
-  constructor() {
+  public constructor() {
     this.timestamp = new Date()
   }
 }

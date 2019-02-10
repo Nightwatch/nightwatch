@@ -1,32 +1,32 @@
+import { IsBoolean } from 'class-validator'
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
+  Entity,
+  Index,
   JoinColumn,
-  Index
+  OneToOne,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import { User } from '.'
-import { IsBoolean } from 'class-validator'
 
 @Entity()
 export class UserVerification {
   @PrimaryGeneratedColumn()
-  id: number
-
-  @Column()
-  @IsBoolean()
-  verified: boolean
-
-  @Column('varchar', { nullable: true })
-  verificationToken: string
+  public readonly id: number
 
   @Index({ unique: true })
   @OneToOne(_ => User, user => user.verification, { onDelete: 'CASCADE' })
   @JoinColumn()
-  user: User
+  public readonly user: User
 
-  constructor() {
+  @Column('varchar', { nullable: true })
+  public readonly verificationToken: string
+
+  @Column()
+  @IsBoolean()
+  public readonly verified: boolean
+
+  public constructor() {
     this.verified = false
   }
 }

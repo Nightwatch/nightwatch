@@ -1,83 +1,56 @@
+import { IsDate, IsFQDN, IsNumber } from 'class-validator'
 import {
-  Entity,
-  PrimaryColumn,
   Column,
-  OneToOne,
+  Entity,
   ManyToOne,
-  OneToMany
+  OneToMany,
+  OneToOne,
+  PrimaryColumn
 } from 'typeorm'
-import { IsFQDN, IsNumber, IsDate } from 'class-validator'
-import { User, Guild, ReferralRole, ReferralUnlockedReward } from '..'
+import { Guild, ReferralRole, ReferralUnlockedReward, User } from '..'
 
 @Entity()
 export class Referral {
   /**
-   * Referral ID. Not auto-generated. Should be generated in the implementation. Ideally, it should only be 4-6 digits long.
-   *
-   * @type {number}
-   * @memberof Referral
-   */
-  @PrimaryColumn()
-  id: number
-
-  /**
-   * Discord invite link.
-   *
-   * @type {string}
-   * @memberof Referral
-   */
-  @Column('varchar')
-  @IsFQDN()
-  inviteUrl: string
-
-  /**
-   * Number of times people joined using the referral link.
-   *
-   * @type {number}
-   * @memberof Referral
-   */
-  @Column()
-  @IsNumber()
-  joinCount: number
-
-  /**
    * The date the referral was created.
-   *
-   * @type {Date}
-   * @memberof Referral
    */
   @Column()
   @IsDate()
-  dateCreated: Date
+  public readonly dateCreated: Date
+
+  /**
+   * The Guild the referral belongs to.
+   */
+  @ManyToOne(_ => Guild)
+  public readonly guild: Guild
+  /**
+   * Referral ID. Not auto-generated.
+   * Should be generated in the implementation. Ideally, it should only be 4-6 digits long.
+   */
+  @PrimaryColumn()
+  public readonly id: number
+
+  /**
+   * Discord invite link.
+   */
+  @Column('varchar')
+  @IsFQDN()
+  public readonly inviteUrl: string
+
+  /**
+   * Number of times people joined using the referral link.
+   */
+  @Column()
+  @IsNumber()
+  public readonly joinCount: number
 
   /**
    * The role that is given to each user that joins via the referral link.
-   *
-   * @type {ReferralRole}
-   * @memberof Referral
    */
   @OneToOne(_ => ReferralRole, referralRole => referralRole.referral, {
     cascade: true
   })
-  role: ReferralRole
-
-  /**
-   * User that created the referral. They will be known as the referral owner.
-   *
-   * @type {User}
-   * @memberof Referral
-   */
-  @ManyToOne(_ => User)
-  user: User
-
-  /**
-   * The Guild the referral belongs to.
-   *
-   * @type {Guild}
-   * @memberof Referral
-   */
-  @ManyToOne(_ => Guild)
-  guild: Guild
+  public readonly role: ReferralRole
 
   @OneToMany(
     _ => ReferralUnlockedReward,
@@ -86,9 +59,15 @@ export class Referral {
       cascade: true
     }
   )
-  unlockedRewards: ReferralUnlockedReward[]
+  public readonly unlockedRewards: ReadonlyArray<ReferralUnlockedReward>
 
-  constructor (referral?: Referral) {
+  /**
+   * User that created the referral. They will be known as the referral owner.
+   */
+  @ManyToOne(_ => User)
+  public readonly user: User
+
+  public constructor(referral?: Referral) {
     if (referral) {
       Object.assign(this, referral)
     }

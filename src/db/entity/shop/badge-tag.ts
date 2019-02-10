@@ -1,15 +1,14 @@
+import { Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Badge, Tag } from '.'
-import { Entity, ManyToOne, PrimaryGeneratedColumn, Index } from 'typeorm'
 
 @Index(['badge', 'tag'], { unique: true })
 @Entity()
 export class BadgeTag {
-  @PrimaryGeneratedColumn()
-  id: number
-
   @ManyToOne(_ => Badge)
-  badge: Badge
+  public readonly badge: Badge
+  @PrimaryGeneratedColumn()
+  public readonly id: number
 
   @ManyToOne(_ => Tag)
-  tag: Tag
+  public readonly tag: Tag
 }
