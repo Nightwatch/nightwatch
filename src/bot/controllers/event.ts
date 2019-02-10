@@ -13,10 +13,10 @@ const config: Config = require('../../../config/config.json')
 
 @injectable()
 export class EventController implements IEventController {
-  @inject(Types.UserService) public userService: UserService
-  @inject(Types.GuildService) public guildService: GuildService
+  @inject(Types.UserService) public readonly userService: UserService
+  @inject(Types.GuildService) public readonly guildService: GuildService
 
-  public onMessage = (message: Message) => {
+  public readonly onMessage = (message: Message) => {
     if (message.author.bot || message.channel.type !== 'text') {
       return Promise.resolve()
     }
@@ -24,7 +24,7 @@ export class EventController implements IEventController {
     return Promise.resolve()
   }
 
-  public onCommandRun = (
+  public readonly onCommandRun = (
     _command: CommandoMessage,
     _promise: Promise<any>,
     message: CommandoMessage
@@ -38,7 +38,7 @@ export class EventController implements IEventController {
       .catch(console.error)
   }
 
-  public onGuildCreate = (guild: Guild) => {
+  public readonly onGuildCreate = (guild: Guild) => {
     return this.guildService
       .create(guild)
       .then(() => {
@@ -49,11 +49,11 @@ export class EventController implements IEventController {
       .catch(console.error)
   }
 
-  public onGuildMemberAdd = (member: GuildMember) => {
+  public readonly onGuildMemberAdd = (member: GuildMember) => {
     return this.userService.create(member.user).catch(console.error)
   }
 
-  public onCommandError = (
+  public readonly onCommandError = (
     _command: Command,
     _error: Error,
     message: CommandoMessage

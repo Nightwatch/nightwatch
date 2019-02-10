@@ -18,7 +18,7 @@ export default class RestartCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage) {
     await msg.channel.send('Restarting...')
 
     return process.exit(1)

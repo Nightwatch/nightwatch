@@ -21,7 +21,9 @@ export default class DailiesCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage
+  ): Promise<Message | ReadonlyArray<Message>> {
     const userService = new UserService()
 
     const user = await userService

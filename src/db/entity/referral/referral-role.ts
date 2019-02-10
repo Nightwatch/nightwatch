@@ -18,7 +18,7 @@ export class ReferralRole {
    * @memberof ReferralRole
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The number of members containing the role.
@@ -28,7 +28,7 @@ export class ReferralRole {
    */
   @Column()
   @IsNumber()
-  public members: number
+  public readonly members: number
 
   /**
    * The referral the role is linked to.
@@ -39,7 +39,7 @@ export class ReferralRole {
   @Index({ unique: true })
   @OneToOne(_ => Referral, referral => referral.role)
   @JoinColumn()
-  public referral: Referral
+  public readonly referral: Referral
 
   /**
    * The ID of the Discord role. Not auto-generated, should
@@ -50,5 +50,5 @@ export class ReferralRole {
    */
   @Index({ unique: true })
   @Column('varchar')
-  public roleId: string
+  public readonly roleId: string
 }

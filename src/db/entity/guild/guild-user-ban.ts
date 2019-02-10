@@ -18,7 +18,7 @@ export class GuildUserBan {
    * @memberof GuildUserBan
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The user that issued the ban.
@@ -28,7 +28,7 @@ export class GuildUserBan {
    */
   @ManyToOne(_ => GuildUser)
   @JoinColumn()
-  public issuer: GuildUser
+  public readonly issuer: GuildUser
 
   /**
    * The length of the ban, e.g. `1h`, `1w`, etc.
@@ -37,7 +37,7 @@ export class GuildUserBan {
    * @memberof GuildUserBan
    */
   @Column('varchar', { nullable: true, length: 10 })
-  public length: string | null
+  public readonly length: string | null
 
   /**
    * The reason the ban was issued.
@@ -47,7 +47,7 @@ export class GuildUserBan {
    */
   @Column('varchar')
   @IsString()
-  public reason: string
+  public readonly reason: string
 
   /**
    * The date the ban was issued.
@@ -57,7 +57,7 @@ export class GuildUserBan {
    */
   @Column('timestamp without time zone')
   @IsDate()
-  public timestamp: Date
+  public readonly timestamp: Date
 
   /**
    * The guild user that is/was banned.
@@ -68,7 +68,7 @@ export class GuildUserBan {
   @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.bans)
   @JoinColumn()
-  public user: GuildUser
+  public readonly user: GuildUser
 
   public constructor(guildUserBan?: any) {
     if (guildUserBan) {

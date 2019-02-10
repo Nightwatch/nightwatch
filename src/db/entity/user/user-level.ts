@@ -12,7 +12,7 @@ import { User } from '.'
 @Entity()
 export class UserLevel {
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column()
   @IsNumber()

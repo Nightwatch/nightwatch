@@ -12,7 +12,7 @@ import { User } from '.'
 @Index(['sender', 'receiver'], { unique: true })
 export class UserFriendRequest {
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Index()
   @ManyToOne(_ => User, user => user.incomingFriendRequests)

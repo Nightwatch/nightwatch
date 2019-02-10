@@ -45,13 +45,13 @@ export class Guild {
   public name: string
 
   @OneToMany(_ => GuildPerk, guildPerk => guildPerk.guild)
-  public perks: GuildPerk[]
+  public perks: ReadonlyArray<GuildPerk>
 
   @OneToMany(_ => Song, song => song.guild)
-  public playlist: Song[]
+  public playlist: ReadonlyArray<Song>
 
   @OneToMany(_ => GuildSelfAssignableRole, sar => sar.guild)
-  public selfAssignableRoles: GuildSelfAssignableRole[]
+  public selfAssignableRoles: ReadonlyArray<GuildSelfAssignableRole>
 
   /**
    * The guild's settings.
@@ -71,7 +71,7 @@ export class Guild {
    * @memberof Guild
    */
   @OneToMany(_ => GuildSuggestion, guildSuggestion => guildSuggestion.guild)
-  public suggestions: GuildSuggestion[]
+  public suggestions: ReadonlyArray<GuildSuggestion>
 
   /**
    * Every support ticket in the guild.
@@ -80,7 +80,7 @@ export class Guild {
    * @memberof Guild
    */
   @OneToMany(_ => GuildSupportTicket, supportTicket => supportTicket.guild)
-  public supportTickets: GuildSupportTicket[]
+  public supportTickets: ReadonlyArray<GuildSupportTicket>
 
   /**
    * Every user in the guild.
@@ -89,7 +89,7 @@ export class Guild {
    * @memberof Guild
    */
   @OneToMany(_ => GuildUser, guildUser => guildUser.guild)
-  public users: GuildUser[]
+  public users: ReadonlyArray<GuildUser>
 
   public constructor(guild?: Guild) {
     if (guild) {

@@ -16,7 +16,7 @@ import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
 import { Config } from '../../common'
 
-let secret = ''
+const secret = ''
 
 try {
   const config: Config = require('../../../config/config.json')
@@ -97,7 +97,7 @@ export class Api {
           getToken: req => {
             // Special routes I don't want the average user to see :)
             // TODO: Create route-based authentication, decorators would be nice.
-            const blacklistedRoutes = ['keys']
+            const blacklistedRoutes: ReadonlyArray<any> = ['keys']
 
             if (
               req.method.toLowerCase() === 'get' &&

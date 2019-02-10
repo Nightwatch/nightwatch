@@ -12,19 +12,19 @@ import { User } from '.'
 @Entity()
 export class UserVerification {
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Index({ unique: true })
   @OneToOne(_ => User, user => user.verification, { onDelete: 'CASCADE' })
   @JoinColumn()
-  public user: User
+  public readonly user: User
 
   @Column('varchar', { nullable: true })
-  public verificationToken: string
+  public readonly verificationToken: string
 
   @Column()
   @IsBoolean()
-  public verified: boolean
+  public readonly verified: boolean
 
   public constructor() {
     this.verified = false

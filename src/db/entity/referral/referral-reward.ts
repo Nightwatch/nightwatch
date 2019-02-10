@@ -11,14 +11,14 @@ export class ReferralReward {
    */
   @Column('varchar')
   @IsString()
-  public description: string
+  public readonly description: string
   /**
    * The ID of the reward. Auto-generated.
    *
    * @type {number}
    * @memberof ReferralReward
    */
-  @PrimaryGeneratedColumn() public id: number
+  @PrimaryGeneratedColumn() public readonly id: number
 
   /**
    * The name of the reward.
@@ -28,7 +28,7 @@ export class ReferralReward {
    */
   @Column('varchar')
   @IsString()
-  public name: string
+  public readonly name: string
 
   /**
    * The number of referrals needed to get the reward.
@@ -38,5 +38,5 @@ export class ReferralReward {
    */
   @Column()
   @IsNumber()
-  public referralsNeeded: number
+  public readonly referralsNeeded: number
 }

@@ -18,13 +18,15 @@ import { GuildService as IGuildService } from '../interfaces'
  */
 @injectable()
 export class GuildService implements IGuildService {
-  private guildRepository = getRepository(Guild)
-  private suggestionRepository = getRepository(GuildSuggestion)
-  private supportTicketRepository = getRepository(GuildSupportTicket)
-  private settingsRepository = getRepository(GuildSettings)
-  private userRepository = getRepository(GuildUser)
-  private selfAssignableRoleRepository = getRepository(GuildSelfAssignableRole)
-  private songRepository = getRepository(Song)
+  private readonly guildRepository = getRepository(Guild)
+  private readonly suggestionRepository = getRepository(GuildSuggestion)
+  private readonly supportTicketRepository = getRepository(GuildSupportTicket)
+  private readonly settingsRepository = getRepository(GuildSettings)
+  private readonly userRepository = getRepository(GuildUser)
+  private readonly selfAssignableRoleRepository = getRepository(
+    GuildSelfAssignableRole
+  )
+  private readonly songRepository = getRepository(Song)
 
   public find() {
     return this.guildRepository.find()

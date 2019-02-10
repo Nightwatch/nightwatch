@@ -43,14 +43,14 @@ export default class SoftBanCommand extends Command {
     const member = args.member as GuildMember
 
     if (msg.author.id === member.id) {
-      return msg.reply('You can\'tsoft ban yourself.')
+      return msg.reply("You can'tsoft ban yourself.")
     }
 
     if (
       member.hasPermission('BAN_MEMBERS') ||
       msg.member.roles.highest.comparePositionTo(member.roles.highest) <= 0
     ) {
-      return msg.reply('You can\'t softban that member.')
+      return msg.reply("You can't softban that member.")
     }
 
     await member.ban({ reason: args.reason, days: 7 })

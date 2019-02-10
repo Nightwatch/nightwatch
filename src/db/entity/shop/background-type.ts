@@ -11,17 +11,17 @@ import { Background } from '.'
 @Entity()
 export class BackgroundType {
   @OneToMany(_ => Background, background => background.type)
-  public backgrounds: Background[]
+  public readonly backgrounds: ReadonlyArray<Background>
 
   @Column()
   @IsString()
-  public description: string
+  public readonly description: string
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column({ length: 100 })
   @IsString()
   @MaxLength(100)
   @Index({ unique: true })
-  public name: string
+  public readonly name: string
 }

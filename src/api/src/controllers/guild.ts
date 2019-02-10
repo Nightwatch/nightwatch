@@ -39,8 +39,8 @@ import {
  */
 @controller('/api/guilds')
 export class GuildController implements BaseController<Guild, string> {
-  @inject(Types.GuildService) private guildService: GuildService
-  @inject(Types.SocketService) private socketService: SocketService
+  @inject(Types.GuildService) private readonly guildService: GuildService
+  @inject(Types.SocketService) private readonly socketService: SocketService
 
   /**
    * Gets all guilds from the database, excluding most guild information.

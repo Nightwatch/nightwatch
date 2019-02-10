@@ -11,8 +11,9 @@ import { Guild } from '..'
 export class Song {
   @ManyToOne(_ => Guild, guild => guild.playlist)
   public guild: Guild
+
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column()
   public url: string

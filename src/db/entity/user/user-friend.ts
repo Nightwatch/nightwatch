@@ -20,7 +20,7 @@ export class UserFriend {
   public friend: User
 
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Index()
   @ManyToOne(_ => User, user => user.friends)

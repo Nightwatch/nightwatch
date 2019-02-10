@@ -10,7 +10,7 @@ export default class DonateCommand extends Command {
       name: 'donate',
       group: 'misc',
       memberName: 'donate',
-      description: 'See how you can support the bot\'s development.',
+      description: "See how you can support the bot's development.",
       guildOnly: false,
       throttling: {
         usages: 2,
@@ -19,7 +19,9 @@ export default class DonateCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage
+  ): Promise<Message | ReadonlyArray<Message>> {
     const url = 'https://patreon.com/ihaxjoker'
 
     const embed = new MessageEmbed()

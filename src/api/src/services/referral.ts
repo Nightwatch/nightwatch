@@ -10,7 +10,7 @@ import { ReferralService as IReferralService } from '../interfaces'
  */
 @injectable()
 export class ReferralService implements IReferralService {
-  private referralRepository = getRepository(Referral)
+  private readonly referralRepository = getRepository(Referral)
 
   public find() {
     return this.referralRepository.find()

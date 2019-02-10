@@ -60,7 +60,7 @@ export class GuildSuggestion {
    * @memberof GuildSuggestion
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The amount of likes/thumbs up the suggestion has received.

@@ -58,7 +58,7 @@ export class Giveaway {
    * @memberof Giveaway
    */
   @ManyToOne(_ => Guild)
-  public guild: Guild | null
+  public readonly guild: Guild | null
   /**
    * The ID of the giveaway. Auto-generated.
    *
@@ -66,7 +66,7 @@ export class Giveaway {
    * @memberof Giveaway
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The items in the giveaway.
@@ -77,7 +77,7 @@ export class Giveaway {
   @OneToMany(_ => GiveawayItem, item => item.giveaway, {
     cascade: true
   })
-  public items: GiveawayItem[]
+  public readonly items: ReadonlyArray<GiveawayItem>
 
   /**
    * The owner of the giveaway.
@@ -86,7 +86,7 @@ export class Giveaway {
    * @memberof Giveaway
    */
   @ManyToOne(_ => User)
-  public owner: User
+  public readonly owner: User
 
   // /**
   //  * The entries into the giveaway.

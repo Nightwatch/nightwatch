@@ -5,10 +5,10 @@ import { Badge, Category } from '.'
 @Entity()
 export class BadgeCategory {
   @ManyToOne(_ => Badge)
-  public badge: Badge
+  public readonly badge: Badge
 
   @ManyToOne(_ => Category)
-  public category: Category
+  public readonly category: Category
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 }

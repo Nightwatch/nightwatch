@@ -17,8 +17,9 @@ export class UserBalance {
 
   @Column('timestamp without time zone', { nullable: true })
   public dateLastClaimedDailies: Date | null
+
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column()
   @IsNumber()

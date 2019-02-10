@@ -7,15 +7,15 @@ import { Referral } from '..'
 export class UserReferral {
   @Column()
   @IsDate()
-  public dateUsed: Date
+  public readonly dateUsed: Date
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @ManyToOne(_ => Referral)
-  public referral: Referral
+  public readonly referral: Referral
 
   @ManyToOne(_ => User)
-  public user: User
+  public readonly user: User
 
   public constructor() {
     this.dateUsed = new Date()

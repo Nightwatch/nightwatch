@@ -39,7 +39,7 @@ export default class RussianRouletteCommand extends Command {
   public async run(
     msg: CommandoMessage,
     args: any
-  ): Promise<Message | Message[]> {
+  ): Promise<Message | ReadonlyArray<Message>> {
     if (args.bullets < 1 || args.bullets > 6) {
       return msg.reply('Number of bullets must be between 1 and 6.')
     }
@@ -80,9 +80,9 @@ export default class RussianRouletteCommand extends Command {
       `${gunEmoji} \*slowly pulls trigger\*`
     )) as Message
 
-    const bulletLocations: number[] = []
-    for (let i = 0; i < args.bullets; i++) {
-      let randomNumber = this.getRandomNumber(1, 6)
+    const bulletLocations: ReadonlyArray<number> = []
+    for (const i = 0; i < args.bullets; i++) {
+      const randomNumber = this.getRandomNumber(1, 6)
       while (bulletLocations.indexOf(randomNumber) >= 0) {
         randomNumber = this.getRandomNumber(1, 6)
       }
@@ -119,7 +119,7 @@ export default class RussianRouletteCommand extends Command {
 
     const loseMessage = oneLine`${gunEmoji} **Bang**.
       -${lossAmount} credit${lossAmount === 1 ? '' : 's'}`
-    let winMessage = `${gunEmoji} *click*. +${winAmount} credit${
+    const winMessage = `${gunEmoji} *click*. +${winAmount} credit${
       winAmount === 1 ? '' : 's'
     }`
 

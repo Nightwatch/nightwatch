@@ -18,7 +18,7 @@ export class GuildUserWarning {
    * @memberof GuildUserWarning
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The user that issued the warning.
@@ -28,7 +28,7 @@ export class GuildUserWarning {
    */
   @ManyToOne(_ => GuildUser)
   @JoinColumn()
-  public issuer: GuildUser
+  public readonly issuer: GuildUser
 
   /**
    * The reason the warning was issued.
@@ -38,7 +38,7 @@ export class GuildUserWarning {
    */
   @Column('varchar')
   @IsString()
-  public reason: string
+  public readonly reason: string
 
   /**
    * The date the warning was issued.
@@ -48,7 +48,7 @@ export class GuildUserWarning {
    */
   @Column('timestamp without time zone')
   @IsDate()
-  public timestamp: Date
+  public readonly timestamp: Date
 
   /**
    * The guild user that was warned.
@@ -59,7 +59,7 @@ export class GuildUserWarning {
   @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.warnings)
   @JoinColumn()
-  public user: GuildUser
+  public readonly user: GuildUser
 
   public constructor(guildUserWarning?: GuildUserWarning) {
     if (guildUserWarning) {

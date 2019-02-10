@@ -31,7 +31,7 @@ export default class RockPaperScissorsCommand extends Command {
   public async run(
     msg: CommandoMessage,
     args: any
-  ): Promise<Message | Message[]> {
+  ): Promise<Message | ReadonlyArray<Message>> {
     const userChoiceString = args.choice as string
 
     enum RPS {
@@ -40,7 +40,7 @@ export default class RockPaperScissorsCommand extends Command {
       Scissors = 'scissors'
     }
 
-    const choices = [
+    const choices: ReadonlyArray<any> = [
       { name: RPS.Rock, beats: RPS.Scissors },
       { name: RPS.Paper, beats: RPS.Rock },
       { name: RPS.Scissors, beats: RPS.Paper }

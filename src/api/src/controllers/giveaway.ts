@@ -23,8 +23,9 @@ import { Types } from '../../../common'
  */
 @controller('/api/giveaways')
 export class GiveawayController implements BaseController<Giveaway, number> {
-  @inject(Types.GiveawayService) private giveawayService: GiveawayService
-  @inject(Types.SocketService) private socketService: SocketService
+  @inject(Types.GiveawayService)
+  private readonly giveawayService: GiveawayService
+  @inject(Types.SocketService) private readonly socketService: SocketService
 
   /**
    * Gets all giveaways from the database.

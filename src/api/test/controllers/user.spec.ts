@@ -25,8 +25,8 @@ import {
 import * as bodyParser from 'body-parser'
 
 describe('UserController', () => {
-  let server: InversifyExpressServer
-  let app: supertest.SuperTest<supertest.Test>
+  const server: InversifyExpressServer
+  const app: supertest.SuperTest<supertest.Test>
 
   before(async () => {
     await createTestDatabaseConnection().catch(() => {
@@ -125,7 +125,7 @@ describe('UserController', () => {
 
       await getRepository(User).save(user)
 
-      let allUsers = await getRepository(User).find()
+      const allUsers = await getRepository(User).find()
 
       expect(allUsers)
         .to.be.instanceof(Array)

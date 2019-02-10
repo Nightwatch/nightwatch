@@ -13,14 +13,14 @@ import { Background } from '..'
 @Entity()
 export class UserBackground {
   @ManyToOne(_ => Background)
-  public background: Background
+  public readonly background: Background
 
   @Column('timestamp without time zone')
   @IsDate()
-  public datetime: Date
+  public readonly datetime: Date
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @ManyToOne(_ => User, user => user.backgrounds)
-  public user: User
+  public readonly user: User
 }

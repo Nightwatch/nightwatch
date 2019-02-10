@@ -6,11 +6,11 @@ import { Perk } from '..'
 @Entity()
 export class UserPerk {
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @ManyToOne(_ => Perk)
-  public perk: Perk
+  public readonly perk: Perk
 
   @ManyToOne(_ => User, user => user.perks)
-  public user: User
+  public readonly user: User
 }

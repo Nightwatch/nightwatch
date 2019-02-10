@@ -19,7 +19,7 @@ export class Referral {
    */
   @Column()
   @IsDate()
-  public dateCreated: Date
+  public readonly dateCreated: Date
 
   /**
    * The Guild the referral belongs to.
@@ -28,7 +28,7 @@ export class Referral {
    * @memberof Referral
    */
   @ManyToOne(_ => Guild)
-  public guild: Guild
+  public readonly guild: Guild
   /**
    * Referral ID. Not auto-generated. Should be generated in the implementation. Ideally, it should only be 4-6 digits long.
    *
@@ -36,7 +36,7 @@ export class Referral {
    * @memberof Referral
    */
   @PrimaryColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * Discord invite link.
@@ -46,7 +46,7 @@ export class Referral {
    */
   @Column('varchar')
   @IsFQDN()
-  public inviteUrl: string
+  public readonly inviteUrl: string
 
   /**
    * Number of times people joined using the referral link.
@@ -56,7 +56,7 @@ export class Referral {
    */
   @Column()
   @IsNumber()
-  public joinCount: number
+  public readonly joinCount: number
 
   /**
    * The role that is given to each user that joins via the referral link.
@@ -67,7 +67,7 @@ export class Referral {
   @OneToOne(_ => ReferralRole, referralRole => referralRole.referral, {
     cascade: true
   })
-  public role: ReferralRole
+  public readonly role: ReferralRole
 
   @OneToMany(
     _ => ReferralUnlockedReward,
@@ -76,7 +76,7 @@ export class Referral {
       cascade: true
     }
   )
-  public unlockedRewards: ReferralUnlockedReward[]
+  public readonly unlockedRewards: ReadonlyArray<ReferralUnlockedReward>
 
   /**
    * User that created the referral. They will be known as the referral owner.
@@ -85,7 +85,7 @@ export class Referral {
    * @memberof Referral
    */
   @ManyToOne(_ => User)
-  public user: User
+  public readonly user: User
 
   public constructor(referral?: Referral) {
     if (referral) {

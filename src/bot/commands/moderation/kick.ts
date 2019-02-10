@@ -41,14 +41,14 @@ export default class KickCommand extends Command {
     args: any
   ): Promise<Message | Message[]> {
     if (msg.author.id === args.member.id) {
-      return msg.reply('You can\'t kick yourself.')
+      return msg.reply("You can't kick yourself.")
     }
 
     if (
       args.member.hasPermission('KICK_MEMBERS') ||
       msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0
     ) {
-      return msg.reply('You can\'t kick that member.')
+      return msg.reply("You can't kick that member.")
     }
 
     await args.member.kick(args.reason)

@@ -13,22 +13,22 @@ import { Badge } from '..'
 @Entity()
 export class UserBadge {
   @ManyToOne(_ => Badge)
-  public badge: Badge
+  public readonly badge: Badge
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column('timestamp without time zone')
   @IsDate()
-  public timestamp: Date
+  public readonly timestamp: Date
 
   @ManyToOne(_ => User)
-  public user: User
+  public readonly user: User
 
   @Column()
   @IsNumber()
-  public x: number
+  public readonly x: number
 
   @Column()
   @IsNumber()
-  public y: number
+  public readonly y: number
 }

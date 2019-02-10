@@ -14,7 +14,7 @@ import * as Promise from 'bluebird'
 
 @injectable()
 export class GuildService implements IGuildService {
-  public create = (guild: Guild) => {
+  public readonly create = (guild: Guild) => {
     return this.find(guild.id).then(existingGuild => {
       if (existingGuild) {
         return
@@ -31,19 +31,22 @@ export class GuildService implements IGuildService {
     })
   }
 
-  public find = (id: string): Promise<BotGuild | undefined> => {
+  public readonly find = (id: string): Promise<BotGuild | undefined> => {
     const route = `/guilds/${id}`
 
     return Promise.resolve(api.get(route)).then(response => response.data)
   }
 
-  public createSupportTicket = (id: string, ticket: GuildSupportTicket) => {
+  public readonly createSupportTicket = (
+    id: string,
+    ticket: GuildSupportTicket
+  ) => {
     const route = `/guilds/${id}/support-tickets`
 
     return Promise.resolve(api.post(route, ticket)).then(x => x.data)
   }
 
-  public updateSupportTicket = (
+  public readonly updateSupportTicket = (
     id: string,
     ticketId: number,
     ticket: GuildSupportTicket
@@ -53,13 +56,13 @@ export class GuildService implements IGuildService {
     return Promise.resolve(api.put(route, ticket)).thenReturn()
   }
 
-  public createSuggestion = (id: string, ticket: GuildSuggestion) => {
+  public readonly createSuggestion = (id: string, ticket: GuildSuggestion) => {
     const route = `/guilds/${id}/suggestions`
 
     return Promise.resolve(api.post(route, ticket)).then(x => x.data)
   }
 
-  public updateSuggestion = (
+  public readonly updateSuggestion = (
     id: string,
     ticketId: number,
     ticket: GuildSuggestion
@@ -69,19 +72,19 @@ export class GuildService implements IGuildService {
     return Promise.resolve(api.put(route, ticket)).thenReturn()
   }
 
-  public findSelfAssignableRoles = (id: string) => {
+  public readonly findSelfAssignableRoles = (id: string) => {
     const route = `/guilds/${id}/self-assignable-roles`
 
     return Promise.resolve(api.get(route)).then(response => response.data)
   }
 
-  public findSelfAssignableRole = (id: string, roleId: string) => {
+  public readonly findSelfAssignableRole = (id: string, roleId: string) => {
     const route = `/guilds/${id}/self-assignable-roles/${roleId}`
 
     return Promise.resolve(api.get(route)).then(response => response.data)
   }
 
-  public createSelfAssignableRole = (
+  public readonly createSelfAssignableRole = (
     id: string,
     selfAssignableRole: GuildSelfAssignableRole
   ) => {
@@ -90,43 +93,43 @@ export class GuildService implements IGuildService {
     return Promise.resolve(api.post(route, selfAssignableRole)).thenReturn()
   }
 
-  public deleteSelfAssignableRole = (id: string, roleId: string) => {
+  public readonly deleteSelfAssignableRole = (id: string, roleId: string) => {
     const route = `/guilds/${id}/self-assignable-roles/${roleId}`
 
     return Promise.resolve(api.delete(route)).thenReturn()
   }
 
-  public findPlaylist = (id: string) => {
+  public readonly findPlaylist = (id: string) => {
     const route = `/guilds/${id}/playlist`
 
     return Promise.resolve(api.get(route)).then(r => r.data)
   }
 
-  public findPlaylistSongsByUserId = (id: string, userId: string) => {
+  public readonly findPlaylistSongsByUserId = (id: string, userId: string) => {
     const route = `/guilds/${id}/playlist/user/${userId}`
 
     return Promise.resolve(api.get(route)).then(r => r.data)
   }
 
-  public createSong = (id: string, song: Song) => {
+  public readonly createSong = (id: string, song: Song) => {
     const route = `/guilds/${id}/playlist`
 
     return Promise.resolve(api.post(route, song)).then(r => r.data)
   }
 
-  public deleteSong = (id: string, songId: number) => {
+  public readonly deleteSong = (id: string, songId: number) => {
     const route = `/guilds/${id}/playlist/${songId}`
 
     return Promise.resolve(api.delete(route)).thenReturn()
   }
 
-  public clearPlaylist = (id: string) => {
+  public readonly clearPlaylist = (id: string) => {
     const route = `/guilds/${id}/playlist`
 
     return Promise.resolve(api.delete(route)).thenReturn()
   }
 
-  public deleteSongsByUserId = (id: string, userId: string) => {
+  public readonly deleteSongsByUserId = (id: string, userId: string) => {
     const route = `/guilds/${id}/playlist/user/${userId}`
 
     return Promise.resolve(api.delete(route)).thenReturn()

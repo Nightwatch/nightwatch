@@ -26,7 +26,7 @@ export class GuildSelfAssignableRole {
    * @memberof GuildSelfAssignableRole
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The ID of the Discord role role.

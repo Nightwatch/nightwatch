@@ -26,7 +26,7 @@ export class GiveawayItem {
    * @memberof GiveawayItem
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The key object of the item.

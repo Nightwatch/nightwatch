@@ -80,7 +80,7 @@ export class GuildSupportTicket {
    * @memberof GuildSupportTicket
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The ID of the message containing the ticket.

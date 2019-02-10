@@ -26,10 +26,7 @@ export default class CheckPremiumCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const userController = new UserController()
 
     const user = args.user as GuildMember

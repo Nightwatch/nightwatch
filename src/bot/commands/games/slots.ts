@@ -4,14 +4,20 @@ import { stripIndents } from 'common-tags'
 import { UserService } from '../../services'
 import { Command } from '../../base'
 
-const combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 4, 8], [2, 4, 6]]
-const reels = [
+const combinations: ReadonlyArray<any> = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+]
+const reels: ReadonlyArray<any> = [
   ['🍇', '🍉', '🍌', '🍒', '🍓', '🍋', '💎', '🎉'],
   ['💎', '🍒', '🎉', '🍇', '🍌', '🍉', '🍋', '🍓'],
   ['🍓', '🍋', '💎', '🍌', '🍒', '🍉', '🍇', '🎉']
 ]
 
-const values: { [key: string]: number } = {
+const values: { readonly [key: string]: number } = {
   '💎': 100,
   '🎉': 10,
   '🍉': 10,
@@ -63,7 +69,7 @@ export default class SlotsCommand extends Command {
   public async run(
     msg: CommandoMessage,
     args: any
-  ): Promise<Message | Message[]> {
+  ): Promise<Message | ReadonlyArray<Message>> {
     const userService = new UserService()
 
     const isUserOwner = this.client.owners[0].id === msg.author.id
@@ -90,7 +96,7 @@ export default class SlotsCommand extends Command {
 
     if (isUserOwner) {
       const roll = this.generateRoll()
-      let winnings = 0
+      const winnings = 0
 
       combinations.forEach(combo => {
         if (
@@ -130,7 +136,7 @@ export default class SlotsCommand extends Command {
     user.balance.netWorth -= args.coins
 
     const roll = this.generateRoll()
-    let winnings = 0
+    const winnings = 0
 
     combinations.forEach(combo => {
       if (
@@ -168,7 +174,7 @@ export default class SlotsCommand extends Command {
     You won ${winnings * args.coins} credits!**`)
   }
 
-  public showRoll(roll: string[]) {
+  public showRoll(roll: ReadonlyArray<string>) {
     return stripIndents`
 			${roll[0]}ー${roll[1]}ー${roll[2]}
 			${roll[3]}ー${roll[4]}ー${roll[5]}
@@ -177,7 +183,7 @@ export default class SlotsCommand extends Command {
   }
 
   public generateRoll() {
-    const roll: string[] = []
+    const roll: ReadonlyArray<string> = []
     reels.forEach((reel, index) => {
       const rand = Math.floor(Math.random() * reel.length)
       roll[index] = rand === 0 ? reel[reel.length - 1] : reel[rand - 1]

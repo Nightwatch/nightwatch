@@ -6,9 +6,9 @@ import { Config } from '../../common'
 const prefix = '[Plugin Loader]'
 
 export interface PluginStatus {
-  Plugin: any
-  loaded: boolean
-  commandsRegistered: boolean | null
+  readonly Plugin: any
+  readonly loaded: boolean
+  readonly commandsRegistered: boolean | null
 }
 
 const isDirectory = (source: string) => lstatSync(source).isDirectory()
@@ -16,7 +16,7 @@ const getDirectories = (source: string) =>
   readdirSync(source)
     .map(name => path.join(source, name))
     .filter(isDirectory)
-let pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
+const pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
 
 try {
   pluginPaths = pluginPaths.concat(
@@ -27,14 +27,14 @@ try {
 }
 
 export const loadPlugins = async (client: CommandoClient, config: Config) => {
-  const pluginStatuses: PluginStatus[] = []
+  const pluginStatuses: ReadonlyArray<PluginStatus> = []
 
   console.log(`${prefix}: ${pluginPaths.length} external plugins found.`)
 
   pluginPaths.forEach(async file => {
     try {
       const BotPlugin = require(path.resolve(file)).Plugin
-      let commandsRegistered: boolean | null = null
+      const commandsRegistered: boolean | null = null
       try {
         console.log(`${prefix}[${BotPlugin.id}]: Loading plugin...`)
 

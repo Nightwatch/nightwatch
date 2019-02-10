@@ -23,12 +23,12 @@ export class User {
   @OneToMany(_ => UserBackground, userBackground => userBackground.user, {
     cascade: ['remove']
   })
-  public backgrounds: UserBackground[]
+  public backgrounds: ReadonlyArray<UserBackground>
 
   @OneToMany(_ => UserBadge, userBadge => userBadge.user, {
     cascade: ['remove']
   })
-  public badges: UserBadge[]
+  public badges: ReadonlyArray<UserBadge>
 
   @OneToOne(_ => UserBalance, userBalance => userBalance.user, {
     cascade: true
@@ -45,7 +45,8 @@ export class User {
   @OneToMany(_ => UserFriend, userFriend => userFriend, {
     cascade: ['remove']
   })
-  public friends: UserFriend[]
+  public friends: ReadonlyArray<UserFriend>
+
   @PrimaryColumn()
   @IsString()
   public id: string
@@ -57,7 +58,7 @@ export class User {
       cascade: ['remove']
     }
   )
-  public incomingFriendRequests: UserFriendRequest[]
+  public incomingFriendRequests: ReadonlyArray<UserFriendRequest>
 
   @OneToOne(_ => UserLevel, userLevel => userLevel.user, {
     cascade: true
@@ -76,12 +77,12 @@ export class User {
       cascade: ['remove']
     }
   )
-  public outgoingFriendRequests: UserFriendRequest[]
+  public outgoingFriendRequests: ReadonlyArray<UserFriendRequest>
 
   @OneToMany(_ => UserPerk, userPerk => userPerk.user, {
     cascade: ['remove']
   })
-  public perks: UserPerk[]
+  public perks: ReadonlyArray<UserPerk>
 
   @OneToOne(_ => UserProfile, userProfile => userProfile.user, {
     cascade: true

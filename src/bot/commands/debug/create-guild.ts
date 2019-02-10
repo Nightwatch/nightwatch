@@ -27,10 +27,7 @@ export default class CreateGuildCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const guildService = new GuildService()
 
     const guild = args.guildId

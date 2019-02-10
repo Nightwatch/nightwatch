@@ -18,7 +18,7 @@ export class GuildUserKick {
    * @memberof GuildUserKick
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The user that issued the kick.
@@ -28,7 +28,7 @@ export class GuildUserKick {
    */
   @ManyToOne(_ => GuildUser)
   @JoinColumn()
-  public issuer: GuildUser
+  public readonly issuer: GuildUser
 
   /**
    * The reason the kick was issued.
@@ -38,7 +38,7 @@ export class GuildUserKick {
    */
   @Column('varchar')
   @IsString()
-  public reason: string
+  public readonly reason: string
 
   /**
    * The date the kick was issued.
@@ -48,7 +48,7 @@ export class GuildUserKick {
    */
   @Column('timestamp without time zone')
   @IsDate()
-  public timestamp: Date
+  public readonly timestamp: Date
 
   /**
    * The guild user that was kicked.
@@ -59,7 +59,7 @@ export class GuildUserKick {
   @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.kicks)
   @JoinColumn()
-  public user: GuildUser
+  public readonly user: GuildUser
 
   public constructor(guildUserKick?: GuildUserKick) {
     if (guildUserKick) {

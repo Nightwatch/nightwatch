@@ -37,7 +37,7 @@ export class GiveawayItemKey {
    * @memberof GiveawayItemKey
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The key of the item. Should be a redeemable key for the item.

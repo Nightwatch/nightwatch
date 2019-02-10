@@ -1,5 +1,5 @@
 import { Event } from '../../constants'
 
 export interface SocketService {
-  send: (event: Event, content: any) => void
+  readonly send: (event: Event, content: any) => void
 }

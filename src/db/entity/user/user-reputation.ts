@@ -12,16 +12,16 @@ import { User } from '.'
 @Entity()
 export class UserReputation {
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column()
   @IsNumber()
-  public reputation: number
+  public readonly reputation: number
 
   @Index({ unique: true })
   @OneToOne(_ => User, user => user.reputation, { onDelete: 'CASCADE' })
   @JoinColumn()
-  public user: User
+  public readonly user: User
 
   public constructor() {
     this.reputation = 0

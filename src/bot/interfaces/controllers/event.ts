@@ -3,15 +3,15 @@ import { CommandoMessage, Command } from 'discord.js-commando'
 import * as Promise from 'bluebird'
 
 export interface EventController {
-  onMessage: (message: Message) => Promise<void>
-  onCommandRun: (
+  readonly onMessage: (message: Message) => Promise<void>
+  readonly onCommandRun: (
     command: CommandoMessage,
     promise: Promise<any>,
     message: CommandoMessage
   ) => Promise<void>
-  onGuildCreate: (guild: Guild) => Promise<void>
-  onGuildMemberAdd: (member: GuildMember) => Promise<void>
-  onCommandError: (
+  readonly onGuildCreate: (guild: Guild) => Promise<void>
+  readonly onGuildMemberAdd: (member: GuildMember) => Promise<void>
+  readonly onCommandError: (
     command: Command,
     error: Error,
     message: CommandoMessage

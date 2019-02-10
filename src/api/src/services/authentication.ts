@@ -3,8 +3,8 @@ import { injectable } from 'inversify'
 import { Config } from '../../../common'
 import { AuthenticationService as IAuthenticationService } from '../interfaces'
 
-let clientSecret = ''
-let clientId = ''
+const clientSecret = ''
+const clientId = ''
 
 try {
   const config: Config = require('../../../../config/config.json')

@@ -17,7 +17,7 @@ export class GiveawayWinner {
   @Index({ unique: true })
   @OneToOne(_ => Giveaway)
   @JoinColumn()
-  public giveaway: Giveaway
+  public readonly giveaway: Giveaway
   /**
    * The ID of the GiveawayWinner object. Auto-generated.
    *
@@ -25,7 +25,7 @@ export class GiveawayWinner {
    * @memberof GiveawayWinner
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The user that won the giveaway.
@@ -34,5 +34,5 @@ export class GiveawayWinner {
    * @memberof GiveawayWinner
    */
   @ManyToOne(_ => User)
-  public user: User
+  public readonly user: User
 }

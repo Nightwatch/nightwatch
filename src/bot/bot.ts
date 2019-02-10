@@ -12,15 +12,16 @@ const getDirectoryNames = (p: string) =>
   readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
 const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
 
-let pluginInfo: PluginStatus[] = []
+const pluginInfo: ReadonlyArray<PluginStatus> = []
 
 const config: Config = require('../../config/config.json')
 
 @injectable()
 export class Bot implements IBot {
-  @inject(Types.EventController) public eventController: EventController
+  @inject(Types.EventController)
+  public readonly eventController: EventController
 
-  public client: CommandoClient = new CommandoClient({
+  public readonly client: CommandoClient = new CommandoClient({
     owner: config.bot.ownerId,
     commandPrefix: config.bot.prefix,
     messageCacheLifetime: 30,
@@ -66,7 +67,7 @@ export class Bot implements IBot {
     process.exit(1)
   }
 
-  public onReady = () => {
+  public readonly onReady = () => {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
 
@@ -101,13 +102,13 @@ export class Bot implements IBot {
     console.info(`${config.bot.botName} ready.`)
   }
 
-  public onDisconnect = () => {
+  public readonly onDisconnect = () => {
     console.info(`${config.bot.botName} disconnected. Restarting...`)
 
     process.exit(1)
   }
 
-  public onError = (error: Error) => {
+  public readonly onError = (error: Error) => {
     console.error(error)
     process.exit(1)
   }

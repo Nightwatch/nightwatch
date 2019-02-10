@@ -53,7 +53,10 @@ export default class FriendCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any): Promise<Message | Message[]> {
+  public async run(
+    msg: CommandoMessage,
+    args: any
+  ): Promise<Message | Message[]> {
     const {
       action,
       argument
@@ -153,7 +156,7 @@ export default class FriendCommand extends Command {
     const receiverId = user instanceof User ? user.id : user
 
     if (msg.author.id === receiverId) {
-      return msg.reply('You can\'t send yourself a friend request.')
+      return msg.reply("You can't send yourself a friend request.")
     }
 
     const receiver = await getApiUser(user instanceof User ? user.id : user)
@@ -241,7 +244,7 @@ export default class FriendCommand extends Command {
   ): Promise<Message | Message[]> {
     if (!user) {
       return msg.reply(
-        'You need to specify a who\'s friend request to accept. It can be a mention or their ID.'
+        "You need to specify a who's friend request to accept. It can be a mention or their ID."
       )
     }
 
@@ -333,7 +336,7 @@ export default class FriendCommand extends Command {
     const userId = user instanceof User ? user.id : user
 
     if (userId === msg.author.id) {
-      await msg.reply('*You don\'t have to specify yourself.*')
+      await msg.reply("*You don't have to specify yourself.*")
     }
 
     let apiUser: BotUser | undefined

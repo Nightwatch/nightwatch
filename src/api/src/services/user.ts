@@ -7,7 +7,7 @@ import {
   UserFriendRequest
 } from '../../../db'
 import { getRepository, Brackets } from 'typeorm'
-import { UserLevelBalance } from '../models/userLevelBalance.model'
+import { UserLevelBalance } from '../models'
 import { injectable } from 'inversify'
 import { UserService as IUserService } from '../interfaces'
 
@@ -18,12 +18,14 @@ import { UserService as IUserService } from '../interfaces'
  */
 @injectable()
 export class UserService implements IUserService {
-  private userRepository = getRepository(User)
-  private userBalanceRepository = getRepository(UserBalance)
-  private userProfileRepository = getRepository(UserProfile)
-  private userSettingsRepository = getRepository(UserSettings)
-  private userFriendRepository = getRepository(UserFriend)
-  private userFriendRequestRepository = getRepository(UserFriendRequest)
+  private readonly userRepository = getRepository(User)
+  private readonly userBalanceRepository = getRepository(UserBalance)
+  private readonly userProfileRepository = getRepository(UserProfile)
+  private readonly userSettingsRepository = getRepository(UserSettings)
+  private readonly userFriendRepository = getRepository(UserFriend)
+  private readonly userFriendRequestRepository = getRepository(
+    UserFriendRequest
+  )
 
   public find() {
     return this.userRepository.find()

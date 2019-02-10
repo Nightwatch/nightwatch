@@ -3,14 +3,14 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class Tag {
-  @PrimaryGeneratedColumn() public id: number
+  @PrimaryGeneratedColumn() public readonly id: number
 
   @Column()
   @IsString()
   @Index({ unique: true })
-  public name: string
+  public readonly name: string
 
   @Column('timestamp without time zone')
   @IsDate()
-  public timestamp: Date
+  public readonly timestamp: Date
 }

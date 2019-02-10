@@ -14,7 +14,7 @@ export default class ProfileCommand extends Command {
       name: 'profile',
       group: 'social',
       memberName: 'profile',
-      description: 'View a user\'s profile',
+      description: "View a user's profile",
       guildOnly: false,
       throttling: {
         usages: 2,

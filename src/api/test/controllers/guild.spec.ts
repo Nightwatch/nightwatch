@@ -15,8 +15,8 @@ import * as bodyParser from 'body-parser'
 import { Guild, GuildSettings } from '../../../db'
 
 describe('GuildController', () => {
-  let server: InversifyExpressServer
-  let app: supertest.SuperTest<supertest.Test>
+  const server: InversifyExpressServer
+  const app: supertest.SuperTest<supertest.Test>
 
   before(async () => {
     await createTestDatabaseConnection().catch(() => {

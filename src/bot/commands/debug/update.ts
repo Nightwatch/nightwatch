@@ -1,4 +1,3 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as simplegit from 'simple-git/promise'
 import { Command } from '../../base'
@@ -22,13 +21,13 @@ export default class UpdateCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage) {
     const git = simplegit()
 
     await git.checkout('.')
 
     const result = await git.pull()
-    let premiumUpdated = false
+    const premiumUpdated = false
 
     try {
       try {

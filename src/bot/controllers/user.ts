@@ -7,9 +7,9 @@ const config: Config = require('../../../config/config.json')
 
 @injectable()
 export class UserController implements IUserController {
-  @inject(Types.UserService) public userService: UserService
+  @inject(Types.UserService) public readonly userService: UserService
 
-  public getPremiumUsers = (client: CommandoClient) => {
+  public readonly getPremiumUsers = (client: CommandoClient) => {
     if (
       !config.optional.premium ||
       !config.optional.premium.premiumPatreonRoleId ||
@@ -29,7 +29,7 @@ export class UserController implements IUserController {
     )
   }
 
-  public userHasPremium = (id: string, client: CommandoClient) => {
+  public readonly userHasPremium = (id: string, client: CommandoClient) => {
     if (
       !config.optional.premium ||
       !config.optional.premium.premiumPatreonRoleId ||

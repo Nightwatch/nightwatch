@@ -33,7 +33,7 @@ export default class TransferCommand extends Command {
   public async run(
     msg: CommandoMessage,
     args: any
-  ): Promise<Message | Message[]> {
+  ): Promise<Message | ReadonlyArray<Message>> {
     const userService = new UserService()
     const donor = await userService
       .find(msg.author.id)
@@ -55,7 +55,7 @@ export default class TransferCommand extends Command {
     }
 
     if (args.user.id === msg.author.id) {
-      return msg.reply('You can\'t transfer credits to yourself ;)')
+      return msg.reply("You can't transfer credits to yourself ;)")
     }
 
     if (args.amount <= 0) {

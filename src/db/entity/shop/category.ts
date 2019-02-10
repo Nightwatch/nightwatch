@@ -5,16 +5,16 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm'
 export class Category {
   @Column()
   @IsString()
-  public description: string
-  @PrimaryGeneratedColumn() public id: number
+  public readonly description: string
+  @PrimaryGeneratedColumn() public readonly id: number
 
   @Column({ length: 100 })
   @IsString()
   @MaxLength(100)
   @Index({ unique: true })
-  public name: string
+  public readonly name: string
 
   @Column('timestamp without time zone')
   @IsDate()
-  public timestamp: Date
+  public readonly timestamp: Date
 }

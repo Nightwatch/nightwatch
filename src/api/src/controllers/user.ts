@@ -43,8 +43,8 @@ import { Types } from '../../../common'
  */
 @controller('/api/users')
 export class UserController implements BaseController<User, string> {
-  @inject(Types.UserService) private userService: UserService
-  @inject(Types.SocketService) private socketService: SocketService
+  @inject(Types.UserService) private readonly userService: UserService
+  @inject(Types.SocketService) private readonly socketService: SocketService
 
   /**
    * Gets all users from the database, excluding most user information.
@@ -215,7 +215,7 @@ export class UserController implements BaseController<User, string> {
   public async transferBalance(
     @requestParam('id') id: string,
     @requestParam('receiverId') receiverId: string,
-    @requestBody() balance: { amount: number },
+    @requestBody() balance: { readonly amount: number },
     @response() response: Response
   ) {
     const amount = balance.amount

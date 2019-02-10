@@ -18,7 +18,7 @@ export class UserProfile {
   @IsString()
   public bio: string
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column('varchar')
   @IsString()

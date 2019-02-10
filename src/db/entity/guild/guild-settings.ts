@@ -18,7 +18,7 @@ export class GuildSettings {
    * @memberof GuildSettings
    */
   @Column()
-  public autoAssignRole: boolean
+  public readonly autoAssignRole: boolean
 
   /**
    * The role to auto assign a user if auto assign roles is enabled.
@@ -27,7 +27,7 @@ export class GuildSettings {
    * @memberof GuildSettings
    */
   @Column('varchar', { nullable: true })
-  public autoAssignRoleId: string | null
+  public readonly autoAssignRoleId: string | null
 
   /**
    * Whether or not the bot will DM users in the guild.
@@ -37,7 +37,7 @@ export class GuildSettings {
    */
   @Column()
   @IsBoolean()
-  public directMessagesEnabled: boolean
+  public readonly directMessagesEnabled: boolean
 
   /**
    * The guild the settings apply to.
@@ -48,7 +48,7 @@ export class GuildSettings {
   @Index({ unique: true })
   @OneToOne(_ => Guild, guild => guild.settings)
   @JoinColumn()
-  public guild: Guild
+  public readonly guild: Guild
   /**
    * The ID of the settings. Auto-generated.
    *
@@ -56,7 +56,7 @@ export class GuildSettings {
    * @memberof GuildSettings
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * Channel to send the welcome/leave message to.
@@ -65,7 +65,7 @@ export class GuildSettings {
    * @memberof GuildSettings
    */
   @Column('varchar', { nullable: true })
-  public joinLeaveNotificationChannelId: string | null
+  public readonly joinLeaveNotificationChannelId: string | null
 
   /**
    * Custom leave message to display if leave messages are enabled.
@@ -74,7 +74,7 @@ export class GuildSettings {
    * @memberof GuildSettings
    */
   @Column('varchar', { nullable: true })
-  public leaveMessage: string | null
+  public readonly leaveMessage: string | null
 
   /**
    * Display leave messages when a user leaves the guild.
@@ -84,7 +84,7 @@ export class GuildSettings {
    */
   @Column()
   @IsBoolean()
-  public leaveMessagesEnabled: boolean
+  public readonly leaveMessagesEnabled: boolean
 
   /**
    * Whether or not leveling is enabled in the guild.
@@ -94,7 +94,7 @@ export class GuildSettings {
    */
   @Column()
   @IsBoolean()
-  public levelsEnabled: boolean
+  public readonly levelsEnabled: boolean
 
   /**
    * The custom prefix of the guild, or null if there isn't one.
@@ -104,7 +104,7 @@ export class GuildSettings {
    */
   @Column('varchar', { nullable: true, length: 32 })
   @MaxLength(32)
-  public prefix: string | null
+  public readonly prefix: string | null
 
   /**
    * Custom welcome message to display if welcome messages are enabled.
@@ -113,7 +113,7 @@ export class GuildSettings {
    * @memberof GuildSettings
    */
   @Column('varchar', { nullable: true })
-  public welcomeMessage: string | null
+  public readonly welcomeMessage: string | null
 
   /**
    * Display welcome message when user joins the guild.
@@ -123,7 +123,7 @@ export class GuildSettings {
    */
   @Column()
   @IsBoolean()
-  public welcomeMessagesEnabled: boolean
+  public readonly welcomeMessagesEnabled: boolean
 
   public constructor() {
     this.levelsEnabled = true

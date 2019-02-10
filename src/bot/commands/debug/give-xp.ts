@@ -5,7 +5,7 @@ import { UserLevelBalance } from '../../../api/src/models'
 import { Command } from '../../base'
 
 export default class GiveXpCommand extends Command {
-  public premiumOnly: true
+  public readonly premiumOnly: true
 
   constructor(client: CommandoClient) {
     super(client, {
@@ -34,10 +34,7 @@ export default class GiveXpCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
 
     const member = args.member as GuildMember

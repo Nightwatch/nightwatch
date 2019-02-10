@@ -18,7 +18,7 @@ export class GuildUser {
    * @memberof GuildUser
    */
   @OneToMany(_ => GuildUserBan, guildUserBan => guildUserBan.user)
-  public bans: GuildUserBan[]
+  public bans: ReadonlyArray<GuildUserBan>
 
   /**
    * The date the user joined the guild, or whenever the bot joined
@@ -55,7 +55,7 @@ export class GuildUser {
    * @memberof GuildUser
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * Every kick the user has been issued in the server.
@@ -64,7 +64,7 @@ export class GuildUser {
    * @memberof GuildUser
    */
   @OneToMany(_ => GuildUserKick, guildUserKick => guildUserKick.user)
-  public kicks: GuildUserKick[]
+  public kicks: ReadonlyArray<GuildUserKick>
 
   /**
    * The nickname of the user in the guild.
@@ -93,7 +93,7 @@ export class GuildUser {
    * @memberof GuildUser
    */
   @OneToMany(_ => GuildUserWarning, guildUserWarning => guildUserWarning.user)
-  public warnings: GuildUserWarning[]
+  public warnings: ReadonlyArray<GuildUserWarning>
 
   public constructor(guildUser?: GuildUser) {
     if (guildUser) {

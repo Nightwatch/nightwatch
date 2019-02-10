@@ -43,17 +43,17 @@ export default class RollCommand extends Command {
   public async run(
     msg: CommandoMessage,
     args: any
-  ): Promise<Message | Message[]> {
+  ): Promise<Message | ReadonlyArray<Message>> {
     const numberOfDie = args.numberOfDie as number
     const numberOfSides = args.numberOfSides as number
     const repeat = args.repeat as number
 
     const roll = () => Math.floor(Math.random() * numberOfSides) + 1
 
-    let result = 'Here\'s what I rolled:\n\n'
+    const result = "Here's what I rolled:\n\n"
 
-    for (let i = 0; i < repeat; i++) {
-      for (let j = 0; j < numberOfDie; j++) {
+    for (const i = 0; i < repeat; i++) {
+      for (const j = 0; j < numberOfDie; j++) {
         result += roll() + ' '
       }
       result += '\n'

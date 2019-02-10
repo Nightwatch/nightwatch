@@ -12,7 +12,7 @@ export class ReferralUnlockedReward {
    */
   @Column()
   @IsDate()
-  public dateUnlocked: Date
+  public readonly dateUnlocked: Date
   /**
    * The ID of the unlocked reward. Auto-generated.
    *
@@ -20,7 +20,7 @@ export class ReferralUnlockedReward {
    * @memberof ReferralUnlockedReward
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The referral that unlocked the reward for the user.
@@ -29,7 +29,7 @@ export class ReferralUnlockedReward {
    * @memberof ReferralUnlockedReward
    */
   @ManyToOne(_ => Referral, referral => referral.unlockedRewards)
-  public referral: Referral
+  public readonly referral: Referral
 
   /**
    * The reward that the user's referral unlocked.
@@ -38,5 +38,5 @@ export class ReferralUnlockedReward {
    * @memberof ReferralUnlockedReward
    */
   @ManyToOne(_ => ReferralReward)
-  public reward: ReferralReward
+  public readonly reward: ReferralReward
 }

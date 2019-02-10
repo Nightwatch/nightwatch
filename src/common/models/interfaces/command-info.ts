@@ -1,52 +1,54 @@
+// tslint:disable:readonly-array ban-types
+
 import { PermissionResolvable } from 'discord.js'
 
 export interface CommandInfo {
-  aliases?: string[]
-  args?: ArgumentInfo[]
-  argsCount?: number
-  argsPromptLimit?: number
-  argsSingleQuotes?: boolean
-  argsType?: string
-  autoAliases?: boolean
-  clientPermissions?: PermissionResolvable[]
-  defaultHandling?: boolean
-  description: string
-  details?: string
-  examples?: string[]
-  format?: string
-  group: string
-  guarded?: boolean
-  guildOnly?: boolean
-  hidden?: boolean
-  memberName: string
-  name: string
-  nsfw?: boolean
-  ownerOnly?: boolean
-  patterns?: RegExp[]
-  premiumOnly?: boolean
-  throttling?: ThrottlingOptions
-  unknown?: boolean
-  userPermissions?: PermissionResolvable[]
+  readonly aliases?: string[]
+  readonly args?: ArgumentInfo[]
+  readonly argsCount?: number
+  readonly argsPromptLimit?: number
+  readonly argsSingleQuotes?: boolean
+  readonly argsType?: string
+  readonly autoAliases?: boolean
+  readonly clientPermissions?: PermissionResolvable[]
+  readonly defaultHandling?: boolean
+  readonly description: string
+  readonly details?: string
+  readonly examples?: string[]
+  readonly format?: string
+  readonly group: string
+  readonly guarded?: boolean
+  readonly guildOnly?: boolean
+  readonly hidden?: boolean
+  readonly memberName: string
+  readonly name: string
+  readonly nsfw?: boolean
+  readonly ownerOnly?: boolean
+  readonly patterns?: RegExp[]
+  readonly premiumOnly?: boolean
+  readonly throttling?: ThrottlingOptions
+  readonly unknown?: boolean
+  readonly userPermissions?: PermissionResolvable[]
 }
 
 interface ArgumentInfo {
-  default?: any | Function
-  error?: string
-  infinite?: boolean
-  isEmpty?: Function
-  key: string
-  label?: string
-  max?: number
-  min?: number
-  oneOf?: any[]
-  parse?: Function
-  prompt: string
-  type?: string
-  validate?: Function
-  wait?: number
+  readonly default?: any | Function
+  readonly error?: string
+  readonly infinite?: boolean
+  readonly isEmpty?: Function
+  readonly key: string
+  readonly label?: string
+  readonly max?: number
+  readonly min?: number
+  readonly oneOf?: any[]
+  readonly parse?: Function
+  readonly prompt: string
+  readonly type?: string
+  readonly validate?: Function
+  readonly wait?: number
 }
 
 interface ThrottlingOptions {
-  duration: number
-  usages: number
+  readonly duration: number
+  readonly usages: number
 }

@@ -5,10 +5,10 @@ import { Background, Category } from '.'
 @Entity()
 export class BackgroundCategory {
   @ManyToOne(_ => Background)
-  public background: Background
+  public readonly background: Background
 
   @ManyToOne(_ => Category)
-  public category: Category
+  public readonly category: Category
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 }

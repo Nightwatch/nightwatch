@@ -15,7 +15,7 @@ import { UserLevelBalance } from '../../api/src/models'
 
 @injectable()
 export class UserService implements IUserService {
-  public create = (user: User) => {
+  public readonly create = (user: User) => {
     return this.find(user.id)
       .catch(error => {
         if (error.response.status === 404) {
@@ -39,29 +39,32 @@ export class UserService implements IUserService {
       .thenReturn()
   }
 
-  public find = (id: string): Promise<BotUser | undefined> => {
+  public readonly find = (id: string): Promise<BotUser | undefined> => {
     return Promise.resolve(api.get(`/users/${id}`)).then(
       response => response.data
     )
   }
 
-  public updateBalance = (id: string, balance: UserBalance) => {
+  public readonly updateBalance = (id: string, balance: UserBalance) => {
     return Promise.resolve(
       api.put(`/users/${id}/balance`, balance)
     ).thenReturn()
   }
 
-  public delete = (id: string) => {
+  public readonly delete = (id: string) => {
     return Promise.resolve(api.delete(`/users/${id}`)).thenReturn()
   }
 
-  public updateProfile = (id: string, profile: UserProfile) => {
+  public readonly updateProfile = (id: string, profile: UserProfile) => {
     return Promise.resolve(
       api.put(`/users/${id}/profile`, profile)
     ).thenReturn()
   }
 
-  public updateLevelBalance = (id: string, levelBalance: UserLevelBalance) => {
+  public readonly updateLevelBalance = (
+    id: string,
+    levelBalance: UserLevelBalance
+  ) => {
     return Promise.resolve(
       api.put(`/users/${id}/level`, levelBalance)
     ).thenReturn()

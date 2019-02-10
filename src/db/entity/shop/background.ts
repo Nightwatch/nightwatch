@@ -12,49 +12,49 @@ import { BackgroundCategory, BackgroundTag, BackgroundType } from '.'
 @Entity()
 export class Background {
   @OneToMany(_ => BackgroundCategory, category => category.background)
-  public categories: BackgroundCategory[]
+  public readonly categories: ReadonlyArray<BackgroundCategory>
 
   @Column()
   @IsString()
-  public description: string
+  public readonly description: string
 
   @Column()
   @IsString()
   @Index({ unique: true })
-  public filePath: string
+  public readonly filePath: string
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column()
   @IsNumber()
-  public likes: number
+  public readonly likes: number
 
   @Column({ length: 100 })
   @IsString()
   @MaxLength(100)
   @Index({ unique: true })
-  public name: string
+  public readonly name: string
 
   @Column()
   @IsNumber()
-  public price: number
+  public readonly price: number
 
   @Column()
   @IsNumber()
-  public purchases: number
+  public readonly purchases: number
 
   @OneToMany(_ => BackgroundTag, tag => tag.background)
-  public tags: BackgroundTag[]
+  public readonly tags: ReadonlyArray<BackgroundTag>
 
   @Column('timestamp without time zone')
   @IsDate()
-  public timestamp: Date
+  public readonly timestamp: Date
 
   @ManyToOne(_ => BackgroundType, backgroundType => backgroundType.backgrounds)
-  public type: BackgroundType
+  public readonly type: BackgroundType
 
   @Column()
   @IsFQDN()
   @Index({ unique: true })
-  public url: string
+  public readonly url: string
 }

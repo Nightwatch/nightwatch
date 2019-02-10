@@ -23,8 +23,9 @@ import { Types } from '../../../common'
  */
 @controller('/api/referrals')
 export class ReferralController implements BaseController<Referral, number> {
-  @inject(Types.ReferralService) private referralService: ReferralService
-  @inject(Types.SocketService) private socketService: SocketService
+  @inject(Types.ReferralService)
+  private readonly referralService: ReferralService
+  @inject(Types.SocketService) private readonly socketService: SocketService
 
   /**
    * Gets all referrals from the database, excluding most related information.

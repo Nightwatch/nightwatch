@@ -20,7 +20,7 @@ export class GiveawayEntry {
    * @memberof GiveawayEntry
    */
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   /**
    * The date the entry was made.

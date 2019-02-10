@@ -6,10 +6,10 @@ import { Perk } from '..'
 @Entity()
 export class GuildPerk {
   @ManyToOne(_ => Guild, guild => guild.perks)
-  public guild: Guild
+  public readonly guild: Guild
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @ManyToOne(_ => Perk)
-  public perk: Perk
+  public readonly perk: Perk
 }

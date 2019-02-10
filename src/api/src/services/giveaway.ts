@@ -10,7 +10,7 @@ import { GiveawayService as IGiveawayService } from '../interfaces'
  */
 @injectable()
 export class GiveawayService implements IGiveawayService {
-  private giveawayRepository = getRepository(Giveaway)
+  private readonly giveawayRepository = getRepository(Giveaway)
 
   public find() {
     return this.giveawayRepository.find({ relations: ['items'] })

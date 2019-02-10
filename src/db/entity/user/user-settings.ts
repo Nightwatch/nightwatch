@@ -15,7 +15,7 @@ export class UserSettings {
   @IsBoolean()
   public directMessagesEnabled: boolean
   @PrimaryGeneratedColumn()
-  public id: number
+  public readonly id: number
 
   @Column()
   @IsBoolean()
