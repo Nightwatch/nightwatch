@@ -40,7 +40,10 @@ export default class SuggestionCommand extends Command {
   }
 
   public async run(msg: CommandoMessage, args: any) {
-    const { action, suggestion }: { readonly action: string; readonly suggestion: string } = args
+    const {
+      action,
+      suggestion
+    }: { readonly action: string; readonly suggestion: string } = args
 
     switch (action.trim().toLowerCase()) {
       case 'create':
@@ -89,7 +92,10 @@ export default class SuggestionCommand extends Command {
       .addField('Suggested By', msg.member, true)
       .addField('Description', suggestion)
       .setTimestamp(new Date())
-    ; (channel as TextChannel)
+
+    const textChannel = channel as TextChannel
+
+    textChannel
       .send(embed)
       .then(async (m: Message | ReadonlyArray<Message>) => {
         const suggestionMessage = m as Message

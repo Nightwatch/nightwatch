@@ -1,7 +1,7 @@
 {
   "extends": [
     "tslint-sonarts",
-    "tslint-clean-code",
+    "tslint-config-standard",
     "tslint:recommended"
   ],
   "rules": {
@@ -20,6 +20,9 @@
     "object-literal-sort-keys": false,
     "typedef": false,
     "quotemark": false,
-    "no-redundant-jsdoc": true
+    "no-redundant-jsdoc": true,
+    "no-duplicate-string": false,
+    "variable-name": false,
+    "cognitive-complexity": false
   }
 }

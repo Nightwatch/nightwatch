@@ -77,9 +77,9 @@ export default class RussianRouletteCommand extends Command {
       `${gunEmoji} \*slowly pulls trigger\*`
     )) as Message
 
-    const bulletLocations: ReadonlyArray<number> = []
-    for (const i = 0; i < args.bullets; i++) {
-      const randomNumber = this.getRandomNumber(1, 6)
+    const bulletLocations: number[] = []
+    for (let i = 0; i < args.bullets; i++) {
+      let randomNumber = this.getRandomNumber(1, 6)
       while (bulletLocations.indexOf(randomNumber) >= 0) {
         randomNumber = this.getRandomNumber(1, 6)
       }
@@ -91,6 +91,7 @@ export default class RussianRouletteCommand extends Command {
     const dead = bulletLocations.indexOf(spin) >= 0
 
     const gunJammed =
+      // tslint:disable-next-line: no-identical-expressions
       this.getRandomNumber(1, 20) === this.getRandomNumber(1, 20)
 
     if (dead && !gunJammed) {
@@ -116,7 +117,7 @@ export default class RussianRouletteCommand extends Command {
 
     const loseMessage = oneLine`${gunEmoji} **Bang**.
       -${lossAmount} credit${lossAmount === 1 ? '' : 's'}`
-    const winMessage = `${gunEmoji} *click*. +${winAmount} credit${
+    let winMessage = `${gunEmoji} *click*. +${winAmount} credit${
       winAmount === 1 ? '' : 's'
     }`
 

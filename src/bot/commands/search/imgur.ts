@@ -47,7 +47,9 @@ export default class ImgurCommand extends Command {
 
     const {
       data: { data: albums }
-    }: { readonly data: { readonly data: ReadonlyArray<Album> } } = await axios.get(
+    }: {
+      readonly data: { readonly data: ReadonlyArray<Album> }
+    } = await axios.get(
       `https://api.imgur.com/3/gallery/search?q=${encodeURI(query)}`,
       {
         headers: {

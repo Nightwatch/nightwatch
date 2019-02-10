@@ -1,4 +1,3 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as Canvas from 'canvas'
 import * as request from 'request-promise'
@@ -144,15 +143,6 @@ export default class ProfileCommand extends Command {
       ctx.fillStyle = '#E5E5E5'
       ctx.fillText(userLevelEntry.level, 86, 235)
 
-      /* // Global Rank
-			ctx.font = '14px Roboto';
-			ctx.fillStyle = '#E5E5E5';
-			ctx.fillText('Rank', 12, 270);
-			// Global Rank Number
-			ctx.font = '14px Roboto';
-			ctx.fillStyle = '#E5E5E5';
-      ctx.fillText('#1', 86, 270); */
-
       // Currency
       ctx.font = '14px Roboto'
       ctx.fillStyle = '#E5E5E5'
@@ -219,15 +209,15 @@ export default class ProfileCommand extends Command {
   ): Promise<ReadonlyArray<string>> {
     return new Promise(resolve => {
       const words = text.split(' ')
-      const lines: ReadonlyArray<string> = []
-      const line = ''
+      const lines: string[] = []
+      let line = ''
 
       if (ctx.measureText(text).width < maxWidth) {
         return resolve([text])
       }
 
       while (words.length > 0) {
-        const split = false
+        let split = false
         while (ctx.measureText(words[0]).width >= maxWidth) {
           const tmp = words[0]
           words[0] = tmp.slice(0, -1)

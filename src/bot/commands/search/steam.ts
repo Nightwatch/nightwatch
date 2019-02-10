@@ -35,8 +35,8 @@ export default class SteamCommand extends Command {
     }
 
     if (searchResults.length === 1) {
-      const result = await this.getEmbedForGame(searchResults[0], provider, msg)
-      return msg.channel.send(result)
+      const embed = await this.getEmbedForGame(searchResults[0], provider, msg)
+      return msg.channel.send(embed)
     }
 
     const resultsEmbed = new MessageEmbed()
@@ -89,11 +89,6 @@ export default class SteamCommand extends Command {
 
     const genres = details.$genres
     const platforms = details.$otherData.$platforms
-
-    const finalPrice = details.$priceData.$finalPrice
-    if (finalPrice.length < 3) {
-      finalPrice = '0' + finalPrice
-    }
 
     steamEmbed
       .setColor(msg.member ? msg.member.displayHexColor : '#ff0000')

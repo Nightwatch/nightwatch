@@ -1,5 +1,5 @@
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
-import { Message, User, MessageEmbed, Emoji } from 'discord.js'
+import { User, MessageEmbed, Emoji } from 'discord.js'
 import { stripIndents } from 'common-tags'
 import { Plugin } from '../../index'
 import { api } from '../../../../utils'
@@ -57,7 +57,10 @@ export default class FriendCommand extends Command {
     const {
       action,
       argument
-    }: { readonly action: User | string; readonly argument: User | string } = args
+    }: {
+      readonly action: User | string
+      readonly argument: User | string
+    } = args
 
     if (!action || action instanceof User) {
       return this.displayFriendDashboard(msg, action as User)
@@ -294,7 +297,9 @@ export default class FriendCommand extends Command {
       return msg.reply('Failed to find user in API.')
     }
 
-    const { data: friends }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
+    const {
+      data: friends
+    }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
       `/users/${msg.author.id}/friends/search?skip=0&take=10&userId=${userId}`
     )
 
@@ -321,7 +326,7 @@ export default class FriendCommand extends Command {
       await msg.reply("*You don't have to specify yourself.*")
     }
 
-    const apiUser: BotUser | undefined
+    let apiUser: BotUser | undefined
     if (userId) {
       apiUser = await getApiUser(userId)
 
@@ -330,7 +335,9 @@ export default class FriendCommand extends Command {
       }
     }
 
-    const { data: friends }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
+    const {
+      data: friends
+    }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
       `/users/${userId || msg.author.id}/friends/search?skip=0&take=10`
     )
 
@@ -396,8 +403,10 @@ export default class FriendCommand extends Command {
         .map((request: UserFriendRequest, i: number) => {
           return `${i + 1}.) **${
             filter === 'incoming'
-              ? `${request.sender.name}** (${request.sender.id})`
-              : `${request.receiver.name}** (${request.receiver.id})`
+              ? // tslint:disable-next-line: no-nested-template-literals
+                `${request.sender.name}** (${request.sender.id})`
+              : // tslint:disable-next-line: no-nested-template-literals
+                `${request.receiver.name}** (${request.receiver.id})`
           }`
         })
         .join('\n')
@@ -406,8 +415,8 @@ export default class FriendCommand extends Command {
 
       ${
         filter === 'incoming'
-          ? `You can accept any friend request by typing \`n. friend accept @User\` or \`n. friend accept <user ID>\``
-          : `If they aren't responding to your request, try sending them a DM to accept it.`
+          ? 'You can accept any friend request by typing `n. friend accept @User` or `n. friend accept <user ID>`'
+          : "If they aren't responding to your request, try sending them a DM to accept it."
       }`
 
       const embed = new MessageEmbed()
@@ -429,7 +438,9 @@ export default class FriendCommand extends Command {
   }
 
   public async getFriendSummary(id: string) {
-    const { data: friends }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
+    const {
+      data: friends
+    }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
       `/users/${id}/friends/`
     )
 
@@ -452,15 +463,12 @@ export default class FriendCommand extends Command {
       friendSummaryObj.sent = friends.length - acceptedCount
     }
 
-    const friendSummary =
-      friends.length === 0
-        ? friendFirstSentence
-        : stripIndents`${friendFirstSentence}
+    return friends.length === 0
+      ? friendFirstSentence
+      : stripIndents`${friendFirstSentence}
 
       Requests received: ${friendSummaryObj.received}
       Requests sent: ${friendSummaryObj.sent}`
-
-    return friendSummary
   }
 
   public async getFriendRequestSummary(id: string) {
@@ -479,16 +487,14 @@ export default class FriendCommand extends Command {
       outgoing: friendRequests.length - incomingRequestCount
     }
 
-    const friendRequestSummary = stripIndents`
+    return stripIndents`
       Incoming: ${friendRequestObj.incoming}
       Outgoing: ${friendRequestObj.outgoing}`
-
-    return friendRequestSummary
   }
 }
 
 async function getApiUser(id: string): Promise<BotUser | undefined> {
-  const { data }: { readonly data: BotUser | undefined } = await api
+  const { data }: { readonly data?: BotUser } = await api
     .get(`/users/${id}`)
     .catch(err => {
       console.error(err)

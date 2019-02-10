@@ -1,4 +1,3 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { stripIndents } from 'common-tags'
 import { UserService } from '../../services'
@@ -92,8 +91,10 @@ export default class SlotsCommand extends Command {
     }
 
     if (isUserOwner) {
+      // tslint:disable-next-line: no-shadowed-variable
       const roll = this.generateRoll()
-      const winnings = 0
+      // tslint:disable-next-line: no-shadowed-variable
+      let winnings = 0
 
       combinations.forEach(combo => {
         if (
@@ -133,8 +134,9 @@ export default class SlotsCommand extends Command {
     user.balance.netWorth -= args.coins
 
     const roll = this.generateRoll()
-    const winnings = 0
+    let winnings = 0
 
+    // tslint:disable-next-line: no-identical-functions
     combinations.forEach(combo => {
       if (
         roll[combo[0]] === roll[combo[1]] &&
@@ -180,7 +182,7 @@ export default class SlotsCommand extends Command {
   }
 
   public generateRoll() {
-    const roll: ReadonlyArray<string> = []
+    const roll: string[] = []
     reels.forEach((reel, index) => {
       const rand = Math.floor(Math.random() * reel.length)
       roll[index] = rand === 0 ? reel[reel.length - 1] : reel[rand - 1]

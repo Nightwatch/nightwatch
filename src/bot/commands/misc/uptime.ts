@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from 'discord.js'
+import { MessageEmbed } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { describe } from 'pm2'
 import * as prettyMs from 'pretty-ms'
@@ -27,8 +27,8 @@ export default class UptimeCommand extends Command {
 
       const apiUptime = apiDescriptions[0].pm2_env!.pm_uptime || 0
 
-      return describe('bot', (err, botDescriptions) => {
-        if (err) {
+      return describe('bot', (botErr, botDescriptions) => {
+        if (botErr) {
           return msg.reply('Command failed. An error occurred.')
         }
 

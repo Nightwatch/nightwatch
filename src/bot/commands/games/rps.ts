@@ -1,4 +1,3 @@
-import { Message } from 'discord.js'
 import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
@@ -46,7 +45,7 @@ export default class RockPaperScissorsCommand extends Command {
     const randomChoice = choices[Math.floor(Math.random() * choices.length)]
     const userChoice = choices.find(choice =>
       choice.name.startsWith(userChoiceString.toLowerCase()[0])
-    )!
+    )
 
     if (randomChoice.beats === userChoice.name) {
       return msg.reply(`I win! I chose ${randomChoice.name}. Try again.`)

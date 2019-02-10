@@ -65,7 +65,10 @@ export default class SupportCommand extends Command {
   }
 
   public async run(msg: CommandoMessage, args: any) {
-    const argsTyped: { readonly action: string; readonly description: string } = args
+    const argsTyped: {
+      readonly action: string
+      readonly description: string
+    } = args
 
     switch (argsTyped.action.trim().toLowerCase()) {
       case 'create':
@@ -122,16 +125,6 @@ export default class SupportCommand extends Command {
     const title = ticketType ? types[ticketType].title : types.default.title
     const color = ticketType ? types[ticketType].color : types.default.color
 
-    // const getRandomId = () => {
-    //   return Math.floor(1000 + Math.random() * 9000)
-    // }
-
-    // let randomId = getRandomId()
-
-    // while (supportTickets.find(x => x.id === randomId.toString())) {
-    //   randomId = getRandomId()
-    // }
-
     embed
       .setAuthor(title)
       .setColor(color)
@@ -143,7 +136,10 @@ export default class SupportCommand extends Command {
     }
 
     embed.addField('Description', ticketDescription).setTimestamp(new Date())
-    ; (channel as TextChannel)
+
+    const textChannel = channel as TextChannel
+
+    textChannel
       .send(embed)
       .then(async (m: Message | ReadonlyArray<Message>) => {
         const supportTicketMessage = m as Message

@@ -23,6 +23,7 @@ export default class PollCommand extends Command {
         {
           key: 'poll',
           prompt:
+            // tslint:disable-next-line: max-line-length
             'What should the poll be? (Make sure to include the options in square brackets, like [Option 1][Option 2])\n',
           type: 'string'
         }
@@ -101,7 +102,7 @@ export default class PollCommand extends Command {
 
     const sentMessage = (await textChannel.send(embed)) as Message
 
-    for (const i = 0; i < result.options.length; i++) {
+    for (let i = 0; i < result.options.length; i++) {
       await sentMessage.react(letters[i])
     }
 
@@ -126,7 +127,7 @@ export default class PollCommand extends Command {
       return
     }
 
-    const returnString = poll
+    let returnString = poll
 
     matches.forEach(x => {
       returnString = returnString.replace(x, '')

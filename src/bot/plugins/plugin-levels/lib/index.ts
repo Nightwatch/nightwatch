@@ -31,10 +31,10 @@ export const giveXp = async (user: User, message: Message) => {
 
   const entry: { readonly xp: number; readonly level: number } = user.level
 
-  const experience: number = entry.xp
-  const level: number = entry.level
-  const experienceNext: number = getXpForLevel(level)
-  const leveledup: boolean = false
+  let experience: number = entry.xp
+  let level: number = entry.level
+  let experienceNext: number = getXpForLevel(level)
+  let leveledup: boolean = false
   const expGain: number = getRandomNumber(maxExpPerMessage, minExpPerMessage)
 
   experience += expGain
@@ -49,7 +49,7 @@ export const giveXp = async (user: User, message: Message) => {
   if (leveledup) {
     const popcornEmoji = '🍿'
 
-    const levelBonus = 0
+    let levelBonus = 0
     if (level % 100 === 0) {
       levelBonus = 1000
     } else if (level % 10 === 0) {
@@ -64,7 +64,9 @@ export const giveXp = async (user: User, message: Message) => {
     user.balance.balance += levelBonus
     user.balance.netWorth += levelBonus
 
-    const postData = {
+    const notifyLevelUp = level % 5 === 0 || level >= 10
+
+    await userService.updateLevelBalance(message.author.id, {
       level: {
         xp: experience,
         level
@@ -74,14 +76,7 @@ export const giveXp = async (user: User, message: Message) => {
         netWorth: user.balance.netWorth,
         dateLastClaimedDailies: user.balance.dateLastClaimedDailies
       }
-    }
-
-    const notifyLevelUp = level % 5 === 0 || level >= 10
-
-    await userService.updateLevelBalance(
-      message.author.id,
-      postData as UserLevelBalance
-    )
+    } as UserLevelBalance)
 
     if (!notifyLevelUp) {
       return
@@ -102,15 +97,10 @@ export const giveXp = async (user: User, message: Message) => {
     return
   }
 
-  const postData = {
+  userService.updateLevelBalance(message.author.id, {
     level: {
       xp: experience,
       level
     }
-  }
-
-  userService.updateLevelBalance(
-    message.author.id,
-    postData as UserLevelBalance
-  )
+  } as UserLevelBalance)
 }

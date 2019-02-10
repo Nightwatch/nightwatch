@@ -3,17 +3,17 @@ import { injectable } from 'inversify'
 import { Config } from '../../../common'
 import { AuthenticationService as IAuthenticationService } from '../interfaces'
 
-const clientSecret = ''
-const clientId = ''
+let clientSecret = ''
+let clientId = ''
 
 try {
   const config: Config = require('../../../../config/config.json')
   const {
     clientSecret: localclientSecret,
-    clientId: localclientId
+    clientId: localClientId
   } = config.bot
   clientSecret = localclientSecret
-  clientId = localclientId
+  clientId = localClientId
 } catch (err) {
   console.error(err)
 }
