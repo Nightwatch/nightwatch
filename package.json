@@ -112,7 +112,6 @@
     "tslint": "^5.11.0",
     "tslint-clean-code": "^0.2.9",
     "tslint-config-standard": "^8.0.1",
-    "tslint-immutable": "^5.1.2",
     "tslint-sonarts": "^1.9.0",
     "typescript": "^3.3.1",
     "vue-cli-plugin-vuetify": "^0.4.5",

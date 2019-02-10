@@ -7,13 +7,13 @@ import { GuildService } from '../../services'
 import { Command } from '../../base'
 
 interface SupportTicket {
-  color: string
-  title: string
-  [key: string]: string
+  readonly color: string
+  readonly title: string
+  readonly [key: string]: string
 }
 
 interface SupportTicketList {
-  [key: string]: SupportTicket
+  readonly [key: string]: SupportTicket
 }
 
 const types = {
@@ -27,7 +27,7 @@ const types = {
   } as SupportTicket
 } as SupportTicketList
 
-const ticketTypes = ['bug']
+const ticketTypes: ReadonlyArray<any> = ['bug']
 
 export default class SupportCommand extends Command {
   constructor(client: CommandoClient) {
@@ -64,11 +64,8 @@ export default class SupportCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
-    const argsTyped: { action: string; description: string } = args
+  public async run(msg: CommandoMessage, args: any) {
+    const argsTyped: { readonly action: string; readonly description: string } = args
 
     switch (argsTyped.action.trim().toLowerCase()) {
       case 'create':
@@ -146,9 +143,9 @@ export default class SupportCommand extends Command {
     }
 
     embed.addField('Description', ticketDescription).setTimestamp(new Date())
-    ;(channel as TextChannel)
+    ; (channel as TextChannel)
       .send(embed)
-      .then(async (m: Message | Message[]) => {
+      .then(async (m: Message | ReadonlyArray<Message>) => {
         const supportTicketMessage = m as Message
         const dbSupportTicket = new GuildSupportTicket()
         dbSupportTicket.description =

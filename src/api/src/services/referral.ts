@@ -5,8 +5,6 @@ import { ReferralService as IReferralService } from '../interfaces'
 
 /**
  * Referral service to handle referral logic
- *
- * @class ReferralService
  */
 @injectable()
 export class ReferralService implements IReferralService {

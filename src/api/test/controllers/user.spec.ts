@@ -25,16 +25,18 @@ import {
 import * as bodyParser from 'body-parser'
 
 describe('UserController', () => {
-  const server: InversifyExpressServer
-  const app: supertest.SuperTest<supertest.Test>
+  // tslint:disable-next-line: no-let
+  let server: InversifyExpressServer
+  // tslint:disable-next-line: no-let
+  let app: supertest.SuperTest<supertest.Test>
 
   before(async () => {
     await createTestDatabaseConnection().catch(() => {
       // swallow
     })
     server = new InversifyExpressServer(container)
-    server.setConfig(app => {
-      app.use(bodyParser.json())
+    server.setConfig(api => {
+      api.use(bodyParser.json())
     })
     app = supertest(server.build())
   })

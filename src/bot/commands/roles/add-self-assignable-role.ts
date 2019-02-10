@@ -31,10 +31,7 @@ export default class AddSelfAssignableRoleCommand extends Command {
     return msg.member.permissions.has('MANAGE_ROLES')
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const role: Role =
       args.role instanceof Role
         ? args.role

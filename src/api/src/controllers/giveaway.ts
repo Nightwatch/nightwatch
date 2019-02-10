@@ -19,7 +19,6 @@ import { Types } from '../../../common'
  * The Giveaway controller. Contains all endpoints for handling Giveaways.
  *
  * /api/giveaways
- * @class GiveawayController
  */
 @controller('/api/giveaways')
 export class GiveawayController implements BaseController<Giveaway, number> {
@@ -32,7 +31,6 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    *
    * GET /
    * @returns Promise<Giveaway[]>
-   * @memberof GiveawayController
    */
   @httpGet('/')
   public async find() {
@@ -43,9 +41,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * Gets a giveaway by their ID.
    *
    * GET /:id
-   * @param {number} id The ID of the giveaway.
    * @returns Promise<Giveaway>
-   * @memberof GiveawayController
    */
   @httpGet('/:id')
   public async findById(@requestParam('id') id: number) {
@@ -56,9 +52,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * Creates a giveaway.
    *
    * POST /
-   * @param {Request} request The request containing a `Giveaway` object.
    * @returns Promise<Giveaway>
-   * @memberof GiveawayController
    */
   @httpPost('/')
   public async create(@requestBody() giveaway: Giveaway) {
@@ -73,9 +67,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * Hard deletes a giveaway.
    *
    * DELETE /:id
-   * @param {number} id The ID of the giveaway.
    * @returns Promise<Giveaway | undefined>
-   * @memberof GiveawayController
    */
   @httpDelete('/:id')
   public async deleteById(@requestParam('id') id: number) {
@@ -87,10 +79,7 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    * Updates a giveaway by ID.
    *
    * PUT /:id
-   * @param {number} id The ID of the giveaway.
-   * @param {Request} request The request containing a `Giveaway` object.
    * @returns Promise<Giveaway>
-   * @memberof GiveawayController
    */
   @httpPut('/:id')
   public async updateById(

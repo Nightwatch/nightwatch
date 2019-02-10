@@ -33,10 +33,7 @@ export default class EmbedCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const message = args.message
 
     const argv = yargs
@@ -86,7 +83,7 @@ export default class EmbedCommand extends Command {
     }
 
     const footer = argv.footer || null
-    let channel = argv.channel
+    const channel = argv.channel
       ? msg.guild.channels.find(
           x =>
             x.name.toLowerCase() ===

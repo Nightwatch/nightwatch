@@ -29,12 +29,12 @@ export const giveXp = async (user: User, message: Message) => {
     return
   }
 
-  const entry: { xp: number; level: number } = user.level
+  const entry: { readonly xp: number; readonly level: number } = user.level
 
-  let experience: number = entry.xp
-  let level: number = entry.level
-  let experienceNext: number = getXpForLevel(level)
-  let leveledup: boolean = false
+  const experience: number = entry.xp
+  const level: number = entry.level
+  const experienceNext: number = getXpForLevel(level)
+  const leveledup: boolean = false
   const expGain: number = getRandomNumber(maxExpPerMessage, minExpPerMessage)
 
   experience += expGain
@@ -49,7 +49,7 @@ export const giveXp = async (user: User, message: Message) => {
   if (leveledup) {
     const popcornEmoji = '🍿'
 
-    let levelBonus = 0
+    const levelBonus = 0
     if (level % 100 === 0) {
       levelBonus = 1000
     } else if (level % 10 === 0) {

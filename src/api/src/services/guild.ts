@@ -13,8 +13,6 @@ import { GuildService as IGuildService } from '../interfaces'
 
 /**
  * Guild service that handles storing and modifying guild data
- *
- * @class GuildService
  */
 @injectable()
 export class GuildService implements IGuildService {

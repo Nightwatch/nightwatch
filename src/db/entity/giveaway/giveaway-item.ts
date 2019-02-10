@@ -13,26 +13,17 @@ import { GiveawayItemKey } from './giveaway-item-key'
 export class GiveawayItem {
   /**
    * The giveaway the item is in.
-   *
-   * @type {Giveaway}
-   * @memberof GiveawayItem
    */
   @ManyToOne(_ => Giveaway)
   public giveaway: Giveaway
   /**
    * The ID of the item. Auto-generated.
-   *
-   * @type {number}
-   * @memberof GiveawayItem
    */
   @PrimaryGeneratedColumn()
   public readonly id: number
 
   /**
    * The key object of the item.
-   *
-   * @type {GiveawayItemKey}
-   * @memberof GiveawayItem
    */
   @OneToOne(_ => GiveawayItemKey, key => key.giveawayItem, {
     cascade: true
@@ -41,9 +32,6 @@ export class GiveawayItem {
 
   /**
    * The name of the item. Should be user-friendly.
-   *
-   * @type {string}
-   * @memberof GiveawayItem
    */
   @Column('varchar')
   @IsString()
@@ -51,9 +39,6 @@ export class GiveawayItem {
 
   /**
    * The URL of the item. Should be something like Steam link or store page.
-   *
-   * @type {string}
-   * @memberof GiveawayItem
    */
   @Column('varchar')
   @IsFQDN()

@@ -36,10 +36,7 @@ export default class SoftBanCommand extends Command {
     )
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const member = args.member as GuildMember
 
     if (msg.author.id === member.id) {

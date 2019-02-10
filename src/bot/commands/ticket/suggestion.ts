@@ -39,11 +39,8 @@ export default class SuggestionCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
-    const { action, suggestion }: { action: string; suggestion: string } = args
+  public async run(msg: CommandoMessage, args: any) {
+    const { action, suggestion }: { readonly action: string; readonly suggestion: string } = args
 
     switch (action.trim().toLowerCase()) {
       case 'create':
@@ -92,9 +89,9 @@ export default class SuggestionCommand extends Command {
       .addField('Suggested By', msg.member, true)
       .addField('Description', suggestion)
       .setTimestamp(new Date())
-    ;(channel as TextChannel)
+    ; (channel as TextChannel)
       .send(embed)
-      .then(async (m: Message | Message[]) => {
+      .then(async (m: Message | ReadonlyArray<Message>) => {
         const suggestionMessage = m as Message
         const dbSuggestion = new GuildSuggestion()
         dbSuggestion.color = msg.member ? msg.member.displayHexColor : '#ff0000'

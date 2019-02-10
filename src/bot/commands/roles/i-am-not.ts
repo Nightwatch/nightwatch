@@ -24,10 +24,7 @@ export default class IAmNotRoleCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const role: Role =
       args.role instanceof Role
         ? args.role

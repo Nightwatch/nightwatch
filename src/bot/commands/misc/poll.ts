@@ -30,10 +30,7 @@ export default class PollCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const channel = msg.guild.channels.find(
       x => x.name === 'poll' && x.type === 'text'
     )
@@ -45,7 +42,7 @@ export default class PollCommand extends Command {
       )
     }
 
-    const letters = [
+    const letters: ReadonlyArray<any> = [
       '🇦',
       '🇧',
       '🇨',
@@ -104,7 +101,7 @@ export default class PollCommand extends Command {
 
     const sentMessage = (await textChannel.send(embed)) as Message
 
-    for (let i = 0; i < result.options.length; i++) {
+    for (const i = 0; i < result.options.length; i++) {
       await sentMessage.react(letters[i])
     }
 
@@ -129,7 +126,7 @@ export default class PollCommand extends Command {
       return
     }
 
-    let returnString = poll
+    const returnString = poll
 
     matches.forEach(x => {
       returnString = returnString.replace(x, '')

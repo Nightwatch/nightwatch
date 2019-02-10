@@ -23,10 +23,7 @@ export default class ImgurCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     if (!config.optional || !config.optional.imgur) {
       return msg.reply(
         'Command failed. Bot owner has not configured the bot with an Imgur API key.'
@@ -36,21 +33,21 @@ export default class ImgurCommand extends Command {
     const query = args.query as string
 
     interface Album {
-      link: string
-      nsfw: boolean
-      images: Image[]
-      is_album: boolean
+      readonly link: string
+      readonly nsfw: boolean
+      readonly images: ReadonlyArray<Image>
+      readonly is_album: boolean
     }
 
     interface Image {
-      link: string
-      nsfw: boolean
-      is_album: boolean
+      readonly link: string
+      readonly nsfw: boolean
+      readonly is_album: boolean
     }
 
     const {
       data: { data: albums }
-    }: { data: { data: Album[] } } = await axios.get(
+    }: { readonly data: { readonly data: ReadonlyArray<Album> } } = await axios.get(
       `https://api.imgur.com/3/gallery/search?q=${encodeURI(query)}`,
       {
         headers: {

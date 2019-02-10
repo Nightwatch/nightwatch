@@ -31,10 +31,7 @@ export default class ProfileCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
 
     const user = args.user || msg.member
@@ -219,18 +216,18 @@ export default class ProfileCommand extends Command {
     ctx: any,
     text: string,
     maxWidth: number
-  ): Promise<string[]> {
+  ): Promise<ReadonlyArray<string>> {
     return new Promise(resolve => {
       const words = text.split(' ')
-      const lines: string[] = []
-      let line = ''
+      const lines: ReadonlyArray<string> = []
+      const line = ''
 
       if (ctx.measureText(text).width < maxWidth) {
         return resolve([text])
       }
 
       while (words.length > 0) {
-        let split = false
+        const split = false
         while (ctx.measureText(words[0]).width >= maxWidth) {
           const tmp = words[0]
           words[0] = tmp.slice(0, -1)

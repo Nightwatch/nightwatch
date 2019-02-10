@@ -25,10 +25,7 @@ export default class SteamCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const provider = new SteamProvider()
 
     const searchResults = await provider.search(args.game)
@@ -93,7 +90,7 @@ export default class SteamCommand extends Command {
     const genres = details.$genres
     const platforms = details.$otherData.$platforms
 
-    let finalPrice = details.$priceData.$finalPrice
+    const finalPrice = details.$priceData.$finalPrice
     if (finalPrice.length < 3) {
       finalPrice = '0' + finalPrice
     }

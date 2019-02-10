@@ -19,9 +19,7 @@ export default class DonateCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage
-  ): Promise<Message | ReadonlyArray<Message>> {
+  public async run(msg: CommandoMessage) {
     const url = 'https://patreon.com/ihaxjoker'
 
     const embed = new MessageEmbed()
@@ -29,6 +27,7 @@ export default class DonateCommand extends Command {
       .setURL(url)
       .setColor('BLUE')
       .setDescription(
+        // tslint:disable-next-line: max-line-length
         `Donating helps support my development and pays for my hosting.\nIf you would like to donate, please visit ${url}`
       )
       .setFooter(config.bot.botName)

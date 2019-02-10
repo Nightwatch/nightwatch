@@ -35,7 +35,6 @@ import {
  * The Guild controller. Contains all endpoints for handling Guilds and Guild data.
  *
  * /api/guilds
- * @class GuildController
  */
 @controller('/api/guilds')
 export class GuildController implements BaseController<Guild, string> {
@@ -47,7 +46,6 @@ export class GuildController implements BaseController<Guild, string> {
    *
    * GET /
    * @returns Promise<Guild[]>
-   * @memberof GuildController
    */
   @httpGet('/')
   public async find() {
@@ -58,9 +56,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Gets a guild by their ID, including all guild information.
    *
    * GET /:id
-   * @param {string} id The ID of the guild.
    * @returns Promise<Guild>
-   * @memberof GuildController
    */
   @httpGet('/:id')
   public async findById(
@@ -80,9 +76,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Creates a guild.
    *
    * POST /
-   * @param {Request} request The request containing a `Guild` object.
    * @returns Promise<Guild>
-   * @memberof GuildController
    */
   @httpPost('/')
   public async create(@requestBody() guild: Guild) {
@@ -94,9 +88,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Hard deletes a guild.
    *
    * DELETE /:id
-   * @param {string} id The ID of the guild.
    * @returns Promise<Guild | undefined>
-   * @memberof GuildController
    */
   @httpDelete('/:id')
   public async deleteById(@requestParam('id') id: string) {
@@ -108,10 +100,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Updates a guild by ID.
    *
    * PUT /:id
-   * @param {string} id The ID of the guild.
-   * @param {Request} request The request containing a `Guild` object.
    * @returns Promise<Guild>
-   * @memberof GuildController
    */
   @httpPut('/:id')
   public async updateById(
@@ -126,9 +115,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Gets all suggestions in a Guild
    *
    * GET /:id/suggestions
-   * @param {string} id The ID of the guild.
    * @returns Promise<GuildSuggestion[]>
-   * @memberof GuildController
    */
   @httpGet('/:id/suggestions')
   public async findSuggestions(@requestParam('id') id: string) {
@@ -139,10 +126,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Gets a Guild suggestion by ID.
    *
    * GET /:id/suggestions/:suggestionId
-   * @param {string} id The ID of the guild.
-   * @param {number} suggestionId The ID of the suggestion.
    * @returns Promise<GuildSuggestion | undefined>
-   * @memberof GuildController
    */
   @httpGet('/:id/suggestions/:suggestionId')
   public async findSuggestionById(
@@ -156,10 +140,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Creates a suggestion in a Guild
    *
    * POST /:id/suggestions
-   * @param {string} id The ID of the guild.
-   * @param {Request} request The request containing a `GuildSuggestion` object.
    * @returns Promise<GuildSuggestion>
-   * @memberof GuildController
    */
   @httpPost('/:id/suggestions')
   public async createSuggestion(
@@ -178,11 +159,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Updates a Guild suggestion by ID.
    *
    * PUT /:id/suggestions/:suggestionId
-   * @param {string} id The ID of the guild.
-   * @param {number} suggestionId The ID of the suggestion.
-   * @param {Request} request The request containing a `GuildSuggestion` object.
    * @returns Promise<UpdateResult>
-   * @memberof GuildController
    */
   @httpPut('/:id/suggestions/:suggestionId')
   public async updateSuggestionById(
@@ -201,10 +178,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Deletes a Guild suggestion by ID.
    *
    * DELETE /:id/suggestions/:suggestionId
-   * @param {string} id The ID of the guild.
-   * @param {number} suggestionId The ID of the suggestion.
    * @returns Promise<GuildSuggestion | undefined>
-   * @memberof GuildController
    */
   @httpDelete('/:id/suggestions/:suggestionId')
   public async deleteSuggestionById(
@@ -222,9 +196,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Gets all support tickets in a Guild
    *
    * GET /:id/support-tickets
-   * @param {string} id The ID of the guild.
    * @returns Promise<GuildSupportTicket[]>
-   * @memberof GuildController
    */
   @httpGet('/:id/support-tickets')
   public async findSupportTickets(@requestParam('id') id: string) {
@@ -235,10 +207,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Gets a Guild support ticket by ID.
    *
    * GET /:id/support-tickets/:ticketId
-   * @param {string} id The ID of the guild.
-   * @param {number} ticketId The ID of the support ticket.
    * @returns Promise<GuildSupportTicket | undefined>
-   * @memberof GuildController
    */
   @httpGet('/:id/support-tickets/:ticketId')
   public async findSupportTicketById(
@@ -252,10 +221,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Creates a support ticket in a Guild
    *
    * POST /:id/support-tickets
-   * @param {string} id The ID of the guild.
-   * @param {Request} request The request containing a `GuildSupportTicket` object.
    * @returns Promise<GuildSupportTicket>
-   * @memberof GuildController
    */
   @httpPost('/:id/support-tickets')
   public async createSupportTicket(
@@ -277,11 +243,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Updates a Guild support ticket by ID.
    *
    * PUT /:id/support-tickets/:ticketId
-   * @param {string} id The ID of the guild.
-   * @param {number} ticketId The ID of the support ticket.
-   * @param {Request} request The request containing a `GuildSupportTicket` object.
    * @returns Promise<UpdateResult>
-   * @memberof GuildController
    */
   @httpPut('/:id/support-tickets/:ticketId')
   public async updateSupportTicketById(
@@ -300,10 +262,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Deletes a Guild support ticket by ID.
    *
    * DELETE /:id/support-tickets/:ticketId
-   * @param {string} id The ID of the guild.
-   * @param {number} ticketId The ID of the support ticket.
    * @returns Promise<GuildSupportTicket | undefined>
-   * @memberof GuildController
    */
   @httpDelete('/:id/support-tickets/:ticketId')
   public async deleteSupportTicketById(
@@ -324,9 +283,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Gets a Guild's settings by ID.
    *
    * GET /:id/settings
-   * @param {string} id The ID of the guild.
    * @returns Promise<GuildSettings[]>
-   * @memberof GuildController
    */
   @httpGet('/:id/settings')
   public async findSettingsById(@requestParam('id') id: string) {
@@ -337,10 +294,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Updates a Guild's settings by ID.
    *
    * PUT /:id/settings
-   * @param {string} id The ID of the guild.
-   * @param {Request} request The request containing a `GuildSettings` object.
    * @returns Promise<UpdateResult>
-   * @memberof GuildController
    */
   @httpPut('/:id/settings')
   public async updateSettingsById(
@@ -355,9 +309,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Gets all users in a Guild.
    *
    * GET /:id/users
-   * @param {string} id The ID of the guild.
    * @returns Promise<GuildUser[]>
-   * @memberof GuildController
    */
   @httpGet('/:id/users')
   public async findUsers(@requestParam('id') id: string) {
@@ -368,10 +320,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Gets a Guild user by ID.
    *
    * GET /:id/users/:userId
-   * @param {string} id The ID of the guild.
-   * @param {string} userId The ID of the user.
    * @returns Promise<GuildUser | undefined>
-   * @memberof GuildController
    */
   @httpGet('/:id/users/:userId')
   public async findUserById(
@@ -385,10 +334,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Creates a user in a Guild
    *
    * POST /:id/users
-   * @param {string} id The ID of the guild.
-   * @param {Request} request The request containing a `GuildUser` object.
    * @returns Promise<GuildUser>
-   * @memberof GuildController
    */
   @httpPost('/:id/users')
   public async createUser(
@@ -403,11 +349,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Updates a Guild user by ID.
    *
    * PUT /:id/users/:userId
-   * @param {string} id The ID of the guild.
-   * @param {string} userId The ID of the user.
-   * @param {Request} request The request containing a `GuildUser` object.
    * @returns Promise<UpdateResult>
-   * @memberof GuildController
    */
   @httpPut('/:id/users/:userId')
   public async updateUserById(
@@ -423,10 +365,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Deletes a Guild user by ID.
    *
    * DELETE /:id/users/:userId
-   * @param {string} id The ID of the guild.
-   * @param {string} userId The ID of the user.
    * @returns Promise<GuildUser | undefined>
-   * @memberof GuildController
    */
   @httpDelete('/:id/users/:userId')
   public async deleteUserById(
@@ -444,9 +383,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Finds a Guild's self assignable roles.
    *
    * GET /:id/self-assignable-roles
-   * @param {string} id The ID of the guild.
    * @returns Promise<GuildSelfAssignableRoles>
-   * @memberof GuildController
    */
   @httpGet('/:id/self-assignable-roles')
   public async findSelfAssignableRoles(@requestParam('id') id: string) {
@@ -457,10 +394,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Finds a Guild's self assignable role by Discord role ID.
    *
    * GET /:id/self-assignable-roles/:roleId
-   * @param {string} id The ID of the guild.
-   * @param {string} roleId The ID of the Discord role.
    * @returns Promise<GuildSelfAssignableRole | undefined>
-   * @memberof GuildController
    */
   @httpGet('/:id/self-assignable-roles/:roleId')
   public async findSelfAssignableRole(
@@ -474,10 +408,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Creates a self assignable role.
    *
    * POST /:id/self-assignable-roles
-   * @param {string} id The ID of the guild.
-   * @param {GuildSelfAssignableRole} selfAssignableRole The self assignable role object.
    * @returns Promise<void>
-   * @memberof GuildController
    */
   @httpPost('/:id/self-assignable-roles')
   public async createSelfAssignableRole(
@@ -502,10 +433,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Deletes a Guild self assignable role by Discord role ID.
    *
    * DELETE /:id/self-assignable-roles/:roleId
-   * @param {string} id The ID of the guild.
-   * @param {string} roleId The ID of the role.
    * @returns Promise<void>
-   * @memberof GuildController
    */
   @httpDelete('/:id/self-assignable-roles/:roleId')
   public async deleteSelfAssignableRole(
@@ -519,9 +447,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Finds a Guild's playlist.
    *
    * GET /:id/playlist
-   * @param {string} id The ID of the guild.
    * @returns Promise<Song[]>
-   * @memberof GuildController
    */
   @httpGet('/:id/playlist')
   public async findPlaylist(@requestParam('id') id: string) {
@@ -532,9 +458,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Creates a song in a Guild's playlist.
    *
    * POST /:id/playlist
-   * @param {string} id The ID of the guild.
    * @returns Promise<Song>
-   * @memberof GuildController
    */
   @httpPost('/:id/playlist')
   public async createSong(
@@ -548,9 +472,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Clears a Guild's playlist.
    *
    * DELETE /:id/playlist
-   * @param {string} id The ID of the guild.
    * @returns Promise<void>
-   * @memberof GuildController
    */
   @httpDelete('/:id/playlist')
   public async clearPlaylist(@requestParam('id') id: string) {
@@ -561,10 +483,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Finds songs in a Guild's playlist by user ID.
    *
    * GET /:id/playlist/user/:userId
-   * @param {string} id The ID of the guild.
-   * @param {string} userId The ID of the user.
    * @returns Promise<Song[]>
-   * @memberof GuildController
    */
   @httpGet('/:id/playlist/user/:userId')
   public async findSongsByUserId(
@@ -578,10 +497,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Deletes songs in a Guild's playlist by user ID.
    *
    * DELETE /:id/playlist/user/:userId
-   * @param {string} id The ID of the guild.
-   * @param {string} userId The ID of the user.
    * @returns Promise<void>
-   * @memberof GuildController
    */
   @httpDelete('/:id/playlist/user/:userId')
   public async deleteSongsByUserId(
@@ -595,10 +511,7 @@ export class GuildController implements BaseController<Guild, string> {
    * Deletes a song in a Guild's playlist by song ID.
    *
    * DELETE /:id/playlist/:songId
-   * @param {string} id The ID of the guild.
-   * @param {string} songId The ID of the song.
    * @returns Promise<void>
-   * @memberof GuildController
    */
   @httpDelete('/:id/playlist/:songId')
   public async deleteSongById(

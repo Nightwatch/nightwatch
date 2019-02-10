@@ -21,7 +21,6 @@ try {
 /**
  * Authentication service to handle authentication through Discord and web interface.
  *
- * @class AuthenticationService
  */
 @injectable()
 export class AuthenticationService implements IAuthenticationService {

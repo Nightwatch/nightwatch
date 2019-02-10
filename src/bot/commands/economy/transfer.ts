@@ -30,10 +30,7 @@ export default class TransferCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | ReadonlyArray<Message>> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
     const donor = await userService
       .find(msg.author.id)

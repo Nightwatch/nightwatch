@@ -28,10 +28,7 @@ export default class RockPaperScissorsCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | ReadonlyArray<Message>> {
+  public async run(msg: CommandoMessage, args: any) {
     const userChoiceString = args.choice as string
 
     enum RPS {

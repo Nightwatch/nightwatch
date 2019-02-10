@@ -53,14 +53,11 @@ export default class FriendCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const {
       action,
       argument
-    }: { action: User | string; argument: User | string } = args
+    }: { readonly action: User | string; readonly argument: User | string } = args
 
     if (!action || action instanceof User) {
       return this.displayFriendDashboard(msg, action as User)
@@ -143,10 +140,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async sendFriendRequest(
-    msg: CommandoMessage,
-    user: User | string
-  ): Promise<Message | Message[]> {
+  public async sendFriendRequest(msg: CommandoMessage, user: User | string) {
     if (!user) {
       return msg.reply(
         'You need to specify a user to send a friend request to. It can be a mention or their ID.'
@@ -169,7 +163,7 @@ export default class FriendCommand extends Command {
     try {
       const {
         data: friendRequest
-      }: { data: UserFriendRequest } = await api.post(
+      }: { readonly data: UserFriendRequest } = await api.post(
         `/users/${msg.author.id}/friends/requests/${receiver.id}`
       )
 
@@ -205,10 +199,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async denyFriendRequest(
-    msg: CommandoMessage,
-    user: User | string
-  ): Promise<Message | Message[]> {
+  public async denyFriendRequest(msg: CommandoMessage, user: User | string) {
     const senderId = user instanceof User ? user.id : user
 
     if (!senderId) {
@@ -238,10 +229,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async acceptFriendRequest(
-    msg: CommandoMessage,
-    user: User | string
-  ): Promise<Message | Message[]> {
+  public async acceptFriendRequest(msg: CommandoMessage, user: User | string) {
     if (!user) {
       return msg.reply(
         "You need to specify a who's friend request to accept. It can be a mention or their ID."
@@ -256,7 +244,7 @@ export default class FriendCommand extends Command {
 
     const {
       data: friendRequests
-    }: { data: UserFriendRequest[] } = await api.get(
+    }: { readonly data: ReadonlyArray<UserFriendRequest> } = await api.get(
       `/users/${
         msg.author.id
       }/friends/requests/search?skip=0&take=10&userId=${senderId}`
@@ -287,10 +275,7 @@ export default class FriendCommand extends Command {
     return msg.reply(`You are now friends with **${friendName}**!`)
   }
 
-  public async deleteFriend(
-    msg: CommandoMessage,
-    user: User | string
-  ): Promise<Message | Message[]> {
+  public async deleteFriend(msg: CommandoMessage, user: User | string) {
     const userId = user instanceof User ? user.id : user
 
     if (!userId) {
@@ -309,7 +294,7 @@ export default class FriendCommand extends Command {
       return msg.reply('Failed to find user in API.')
     }
 
-    const { data: friends }: { data: UserFriend[] } = await api.get(
+    const { data: friends }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
       `/users/${msg.author.id}/friends/search?skip=0&take=10&userId=${userId}`
     )
 
@@ -329,17 +314,14 @@ export default class FriendCommand extends Command {
     return msg.reply(`You are no longer friends with **${apiUser.name}**.`)
   }
 
-  public async listFriends(
-    msg: CommandoMessage,
-    user: User | string
-  ): Promise<Message | Message[]> {
+  public async listFriends(msg: CommandoMessage, user: User | string) {
     const userId = user instanceof User ? user.id : user
 
     if (userId === msg.author.id) {
       await msg.reply("*You don't have to specify yourself.*")
     }
 
-    let apiUser: BotUser | undefined
+    const apiUser: BotUser | undefined
     if (userId) {
       apiUser = await getApiUser(userId)
 
@@ -348,7 +330,7 @@ export default class FriendCommand extends Command {
       }
     }
 
-    const { data: friends }: { data: UserFriend[] } = await api.get(
+    const { data: friends }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
       `/users/${userId || msg.author.id}/friends/search?skip=0&take=10`
     )
 
@@ -393,14 +375,14 @@ export default class FriendCommand extends Command {
   public async listFriendRequests(
     msg: CommandoMessage,
     argument: 'incoming' | 'outgoing'
-  ): Promise<Message | Message[]> {
+  ) {
     const filter =
       !argument || argument === 'incoming' ? 'incoming' : 'outgoing'
 
     try {
       const {
         data: friendRequests
-      }: { data: UserFriendRequest[] } = await api.get(
+      }: { readonly data: ReadonlyArray<UserFriendRequest> } = await api.get(
         `/users/${
           msg.author.id
         }/friends/requests/search?type=${filter}&skip=0&take=10`
@@ -447,7 +429,7 @@ export default class FriendCommand extends Command {
   }
 
   public async getFriendSummary(id: string) {
-    const { data: friends }: { data: UserFriend[] } = await api.get(
+    const { data: friends }: { readonly data: ReadonlyArray<UserFriend> } = await api.get(
       `/users/${id}/friends/`
     )
 
@@ -484,7 +466,7 @@ export default class FriendCommand extends Command {
   public async getFriendRequestSummary(id: string) {
     const {
       data: friendRequests
-    }: { data: UserFriendRequest[] } = await api.get(
+    }: { readonly data: ReadonlyArray<UserFriendRequest> } = await api.get(
       `/users/${id}/friends/requests/search?skip=0&take=10`
     )
 
@@ -506,7 +488,7 @@ export default class FriendCommand extends Command {
 }
 
 async function getApiUser(id: string): Promise<BotUser | undefined> {
-  const { data }: { data: BotUser | undefined } = await api
+  const { data }: { readonly data: BotUser | undefined } = await api
     .get(`/users/${id}`)
     .catch(err => {
       console.error(err)

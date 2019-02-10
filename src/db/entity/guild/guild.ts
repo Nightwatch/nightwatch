@@ -14,18 +14,12 @@ import { Song } from '../music'
 export class Guild {
   /**
    * The date the guild was created.
-   *
-   * @type {Date}
-   * @memberof Guild
    */
   @Column()
   @IsDate()
   public dateCreated: Date
   /**
    * The ID of the guild. Auto-generated.
-   *
-   * @type {string}
-   * @memberof Guild
    */
   @PrimaryColumn()
   @IsString()
@@ -34,9 +28,6 @@ export class Guild {
 
   /**
    * The name of the guild. Maximum length of 100 characters.
-   *
-   * @type {string}
-   * @memberof Guild
    */
   @Column('varchar', { length: 100 })
   @IsString()
@@ -55,9 +46,6 @@ export class Guild {
 
   /**
    * The guild's settings.
-   *
-   * @type {GuildSettings}
-   * @memberof Guild
    */
   @OneToOne(_ => GuildSettings, guildSettings => guildSettings.guild, {
     cascade: true
@@ -66,27 +54,18 @@ export class Guild {
 
   /**
    * Every suggestion in the guild.
-   *
-   * @type {GuildSuggestion[]}
-   * @memberof Guild
    */
   @OneToMany(_ => GuildSuggestion, guildSuggestion => guildSuggestion.guild)
   public suggestions: ReadonlyArray<GuildSuggestion>
 
   /**
    * Every support ticket in the guild.
-   *
-   * @type {GuildSupportTicket[]}
-   * @memberof Guild
    */
   @OneToMany(_ => GuildSupportTicket, supportTicket => supportTicket.guild)
   public supportTickets: ReadonlyArray<GuildSupportTicket>
 
   /**
    * Every user in the guild.
-   *
-   * @type {GuildUser[]}
-   * @memberof Guild
    */
   @OneToMany(_ => GuildUser, guildUser => guildUser.guild)
   public users: ReadonlyArray<GuildUser>

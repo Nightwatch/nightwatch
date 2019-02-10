@@ -39,7 +39,6 @@ import { Types } from '../../../common'
  * The user controller. Contains all endpoints for handling users and user data.
  *
  * /api/users
- * @class UserController
  */
 @controller('/api/users')
 export class UserController implements BaseController<User, string> {
@@ -51,7 +50,6 @@ export class UserController implements BaseController<User, string> {
    *
    * GET /
    * @returns Promise<User[]>
-   * @memberof UserController
    */
   @httpGet('/')
   public async find() {
@@ -62,19 +60,17 @@ export class UserController implements BaseController<User, string> {
    * Gets a user by their ID, including all user information.
    *
    * GET /:id
-   * @param {string} id The ID of the user.
    * @returns Promise<User | undefined>
-   * @memberof UserController
    */
   @httpGet('/:id')
   public async findById(
     @requestParam('id') id: string,
-    @response() response: Response
+    @response() res: Response
   ) {
     const user = await this.userService.findById(id)
 
     if (!user) {
-      response.sendStatus(404)
+      res.sendStatus(404)
       return
     }
 
@@ -85,9 +81,7 @@ export class UserController implements BaseController<User, string> {
    * Creates a user.
    *
    * POST /
-   * @param {Request} request The request contained a `User` object.
    * @returns Promise<User>
-   * @memberof UserController
    */
   @httpPost('/')
   public async create(@requestBody() user: User, @response() res: Response) {
@@ -110,9 +104,7 @@ export class UserController implements BaseController<User, string> {
    * Hard deletes a user.
    *
    * DELETE /:id
-   * @param {string} id The ID of the user.
    * @returns Promise<User | undefined>
-   * @memberof UserController
    */
   @httpDelete('/:id')
   public async deleteById(
@@ -132,10 +124,7 @@ export class UserController implements BaseController<User, string> {
    * Updates a user by ID.
    *
    * PUT /:id
-   * @param {string} id The ID of the user.
-   * @param {Request} request The request containing a `User` object.
    * @returns Promise<User>
-   * @memberof UserController
    */
   @httpPut('/:id')
   public async updateById(
@@ -156,10 +145,7 @@ export class UserController implements BaseController<User, string> {
    * Updates a user's level by ID.
    *
    * PUT /:id/level
-   * @param {string} id The ID of the user.
-   * @param {Request} request The request containing a `UserLevelBalance` object.
    * @returns Promise<User | undefined>
-   * @memberof UserController
    */
   @httpPut('/:id/level')
   public async updateLevel(
@@ -180,10 +166,7 @@ export class UserController implements BaseController<User, string> {
    * Updates a user's balance by ID.
    *
    * PUT /:id/balance
-   * @param {string} id The ID of the user.
-   * @param {Request} request The request containing a `UserBalance` object.
    * @returns Promise<UpdateResult>
-   * @memberof UserController
    */
   @httpPut('/:id/balance')
   public async updateBalance(
@@ -204,24 +187,19 @@ export class UserController implements BaseController<User, string> {
    * Transfers a certain amount of a user's credits to another user.
    *
    * PUT /:id/balance/transfer/:receiverId
-   * @param {string} id The ID of the user losing credits.
-   * @param {string} receiverId The ID of the user gaining credits.
-   * @param {Request} request The request to the server.
-   * @param {Response} response The response to the client.
    * @returns Promise<{transferFromResponse: UpdateResult, transferToResponse: UpdateResult} | undefined>
-   * @memberof UserController
    */
   @httpPut('/:id/balance/transfer/:receiverId')
   public async transferBalance(
     @requestParam('id') id: string,
     @requestParam('receiverId') receiverId: string,
     @requestBody() balance: { readonly amount: number },
-    @response() response: Response
+    @response() res: Response
   ) {
     const amount = balance.amount
 
     if (receiverId === id) {
-      response.sendStatus(400)
+      res.sendStatus(400)
       return
     }
 
@@ -229,16 +207,16 @@ export class UserController implements BaseController<User, string> {
     const toUser = await this.userService.findById(receiverId)
 
     if (!fromUser || !toUser) {
-      response.sendStatus(404)
+      res.sendStatus(404)
       return
     }
 
     if (amount < 1) {
-      response.status(400).send('Amount must be greater than 0')
+      res.status(400).send('Amount must be greater than 0')
     }
 
     if (fromUser.balance.balance < amount) {
-      response.status(400).send('Insufficient credits')
+      res.status(400).send('Insufficient credits')
       return
     }
 
@@ -253,9 +231,7 @@ export class UserController implements BaseController<User, string> {
 
   /**
    * Gets the profile for a user by ID.
-   * @param {string} id The ID of the user.
    * @returns Promise<UserProfile[]>
-   * @memberof UserController
    */
   @httpGet('/:id/profile')
   public async findProfileById(
@@ -274,10 +250,7 @@ export class UserController implements BaseController<User, string> {
    * Updates a user's profile by ID.
    *
    * PUT /:id/profile
-   * @param {string} id The ID of the user.
-   * @param {Request} request The request containing a `UserProfile` object.
    * @returns Promise<UpdateResult>
-   * @memberof UserController
    */
   @httpPut('/:id/profile')
   public async updateProfile(
@@ -297,9 +270,7 @@ export class UserController implements BaseController<User, string> {
 
   /**
    * Gets the settings for a user.
-   * @param {string} id The ID of the user.
    * @returns Promise<UserSettings[]>
-   * @memberof UserController
    */
   @httpGet('/:id/settings')
   public async findSettingsById(
@@ -318,10 +289,7 @@ export class UserController implements BaseController<User, string> {
    * Updates a user's settings by ID.
    *
    * PUT /:id/settings
-   * @param {string} id The ID of the user.
-   * @param {Request} request The request containing a `UserSettings` object.
    * @returns Promise<UpdateResult>
-   * @memberof UserController
    */
   @httpPut('/:id/settings')
   public async updateSettings(
@@ -342,10 +310,7 @@ export class UserController implements BaseController<User, string> {
    * Gets all friend requests for a user.
    *
    * GET /:id/friends/requests
-   * @param {string} id
-   * @param {('incoming' | 'outgoing')} [type] Optional filter to only get incoming or outgoing friend requests.
    * @returns Map of incoming and outgoing friend requests.
-   * @memberof UserController
    */
   @httpGet('/:id/friends/requests')
   public async findFriendRequests(
@@ -365,11 +330,7 @@ export class UserController implements BaseController<User, string> {
    * Gets a paginated list of friend requests.
    *
    * GET /:id/friends/requests/search
-   * @param {string} id
-   * @param {number} [skip]
-   * @param {number} [take]
    * @returns Promise<UserFriendRequest[]>
-   * @memberof UserController
    */
   @httpGet('/:id/friends/requests/search')
   public async searchFriendRequests(
@@ -400,10 +361,7 @@ export class UserController implements BaseController<User, string> {
    * Finds a friend request sent to or by other user ID.
    *
    * GET /:id/friends/requests/:userId
-   * @param {string} id
-   * @param {string} userId
    * @returns Friend request
-   * @memberof UserController
    */
   @httpGet('/:id/friends/requests/:userId')
   public async findFriendRequestByUserId(
@@ -428,10 +386,7 @@ export class UserController implements BaseController<User, string> {
    * Creates a friend request.
    *
    * POST /:id/friends/requests
-   * @param {string} id
-   * @param {Request} request
    * @returns Promise<UserFriendRequest | undefined>
-   * @memberof UserController
    */
   @httpPost('/:id/friends/requests/:userId')
   public async createFriendRequest(
@@ -481,10 +436,7 @@ export class UserController implements BaseController<User, string> {
    * Deletes a friend request.
    *
    * DELETE /:id/friends/requests/:userId
-   * @param {string} id
-   * @param {number} userId
    * @returns Promise<UserFriendRequest | undefined>
-   * @memberof UserController
    */
   @httpDelete('/:id/friends/requests/:userId')
   public async deleteFriendRequest(
@@ -517,9 +469,7 @@ export class UserController implements BaseController<User, string> {
    * Gets all friends for a user.
    *
    * GET /:id/friends
-   * @param {string} id
    * @returns Promise<UserFriend[]>
-   * @memberof UserController
    */
   @httpGet('/:id/friends')
   public async findFriends(
@@ -538,11 +488,7 @@ export class UserController implements BaseController<User, string> {
    * Gets a paginated list of friends for a user.
    *
    * GET /:id/friends/search
-   * @param {string} id
-   * @param {number} [skip]
-   * @param {number} [take]
    * @returns Promise<UserFriend[]>
-   * @memberof UserController
    */
   @httpGet('/:id/friends/search')
   public async searchFriends(
@@ -565,10 +511,7 @@ export class UserController implements BaseController<User, string> {
    * Gets a user's friend by user ID.
    *
    * GET /:id/friends/:userId
-   * @param {string} id
-   * @param {string} userId
    * @returns Promise<UserFriend | undefined>
-   * @memberof UserController
    */
   @httpGet('/:id/friends/:userId')
   public async findFriendByUserId(
@@ -593,10 +536,7 @@ export class UserController implements BaseController<User, string> {
    * Creates a friend and deletes the related friend request.
    *
    * POST /:id/friends/:userId
-   * @param {string} id
-   * @param {Request} request
    * @returns Promise<UserFriend | undefined>
-   * @memberof UserController
    */
   @httpPost('/:id/friends/:userId')
   public async addFriend(
@@ -638,10 +578,7 @@ export class UserController implements BaseController<User, string> {
    * Deletes a friend.
    *
    * DELETE /:id/friends/:userId
-   * @param {string} id
-   * @param {string} userId
    * @returns Promise<UserFriend | undefined>
-   * @memberof UserController
    */
   @httpDelete('/:id/friends/:userId')
   public async removeFriend(

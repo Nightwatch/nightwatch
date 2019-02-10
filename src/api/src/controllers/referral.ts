@@ -19,7 +19,6 @@ import { Types } from '../../../common'
  * The referral controller. Contains all endpoints for the referral system.
  *
  * /api/referrals
- * @class ReferralController
  */
 @controller('/api/referrals')
 export class ReferralController implements BaseController<Referral, number> {
@@ -32,7 +31,6 @@ export class ReferralController implements BaseController<Referral, number> {
    *
    * GET /
    * @returns Promise<Referral[]>
-   * @memberof ReferralController
    */
   @httpGet('/')
   public async find() {
@@ -43,9 +41,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * Gets a referral by its ID, including all related information.
    *
    * GET /:id
-   * @param {number} id The ID of the referral.
    * @returns Promise<Referral>
-   * @memberof ReferralController
    */
   @httpGet('/:id')
   public async findById(@requestParam('id') id: number) {
@@ -56,9 +52,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * Creates a referral.
    *
    * POST /
-   * @param {Request} request The request containing a `Referral` object.
    * @returns Promise<Referral>
-   * @memberof ReferralController
    */
   @httpPost('/')
   public async create(@requestBody() referral: Referral) {
@@ -70,9 +64,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * Hard deletes a referral.
    *
    * DELETE /:id
-   * @param {number} id The ID of the referral.
    * @returns Promise<Referral | undefined>
-   * @memberof ReferralController
    */
   @httpDelete('/:id')
   public async deleteById(@requestParam('id') id: number) {
@@ -84,10 +76,7 @@ export class ReferralController implements BaseController<Referral, number> {
    * Updates a referral by ID.
    *
    * PUT /:id
-   * @param {number} id The ID of the referral.
-   * @param {Request} request The request containing a `Referral` object.
    * @returns Promise<Referral>
-   * @memberof ReferralController
    */
   @httpPut('/:id')
   public async updateById(

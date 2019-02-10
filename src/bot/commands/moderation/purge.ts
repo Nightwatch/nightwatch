@@ -34,10 +34,7 @@ export default class PurgeCommand extends Command {
     )
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     const amount = args.amount as number
 
     const textChannel = msg.channel as TextChannel

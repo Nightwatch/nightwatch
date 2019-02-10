@@ -7,18 +7,12 @@ export class GuildSupportTicket {
   /**
    * The reason the support ticket was closed, or null
    * if there isn't one.
-   *
-   * @type {string | null}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar', { nullable: true })
   public closedReason: string | null
 
   /**
    * The ID of the user that closed the support ticket.
-   *
-   * @type {string}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar')
   @IsString()
@@ -27,9 +21,6 @@ export class GuildSupportTicket {
   /**
    * The color of the support ticket, e.g., red for open,
    *  green for closed.
-   *
-   * @type {string}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar')
   @IsString()
@@ -38,18 +29,12 @@ export class GuildSupportTicket {
   /**
    * The date the support ticket was closed, or null if it hasn't
    * been closed yet.
-   *
-   * @type {Date | null}
-   * @memberof GuildSupportTicket
    */
   @Column('timestamp without time zone', { nullable: true })
   public dateClosed: Date | null
 
   /**
    * The date the support ticket was created.
-   *
-   * @type {Date}
-   * @memberof GuildSupportTicket
    */
   @Column()
   @IsDate()
@@ -57,9 +42,6 @@ export class GuildSupportTicket {
 
   /**
    * The description of the support ticket, aka the problem.
-   *
-   * @type {string}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar')
   @IsString()
@@ -67,26 +49,18 @@ export class GuildSupportTicket {
 
   /**
    * The guild that the support ticket was created in.
-   *
-   * @type {Guild}
-   * @memberof GuildSupportTicket
    */
   @ManyToOne(_ => Guild, guild => guild.suggestions)
   public guild: Guild
+
   /**
    * The ID of the support ticket. Auto-generated.
-   *
-   * @type {number}
-   * @memberof GuildSupportTicket
    */
   @PrimaryGeneratedColumn()
   public readonly id: number
 
   /**
    * The ID of the message containing the ticket.
-   *
-   * @type {string}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar')
   @IsString()
@@ -95,9 +69,6 @@ export class GuildSupportTicket {
   /**
    * The status of the support ticket. Something like:
    *  closed, open, pending, etc.
-   *
-   * @type {string}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar')
   @IsString()
@@ -105,9 +76,6 @@ export class GuildSupportTicket {
 
   /**
    * The title of the support ticket.
-   *
-   * @type {string}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar')
   @IsString()
@@ -116,9 +84,6 @@ export class GuildSupportTicket {
   /**
    * The type of the support ticket. Practical use case: it may be
    * a bug, or just someone needing help.
-   *
-   * @type {string}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar')
   @IsString()
@@ -126,9 +91,6 @@ export class GuildSupportTicket {
 
   /**
    * The ID of the user that opened the support ticket.
-   *
-   * @type {string}
-   * @memberof GuildSupportTicket
    */
   @Column('varchar')
   @IsString()

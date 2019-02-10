@@ -1,7 +1,6 @@
 {
   "extends": [
     "tslint-sonarts",
-    "tslint-immutable",
     "tslint-clean-code",
     "tslint:recommended"
   ],
@@ -10,9 +9,6 @@
     "space-before-function-paren": false,
     "await-promise": [true, "Bluebird"],
     "file-name-casing": [true, "kebab-case"],
-    "quotemark": {
-      "options": ["single"]
-    },
     "semicolon": [true, "never"],
     "linebreak-style": false,
     "trailing-comma": false,
@@ -23,13 +19,7 @@
     "no-var-requires": false,
     "object-literal-sort-keys": false,
     "typedef": false,
-    // Immutability rules
-    "readonly-keyword": true,
-    "readonly-array": true,
-    "no-let": true,
-    "no-object-mutation": true,
-    "no-delete": true,
-    "no-method-signature": true,
-    "no-array-mutation": true
+    "quotemark": false,
+    "no-redundant-jsdoc": true
   }
 }

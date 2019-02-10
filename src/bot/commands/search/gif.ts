@@ -31,10 +31,7 @@ export default class GifCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     if (!args.search.trim()) {
       return msg.reply('You must enter a search term or phrase.')
     }

@@ -5,8 +5,6 @@ import { GiveawayService as IGiveawayService } from '../interfaces'
 
 /**
  * Giveaway service that handles storing and modifying giveaway data.
- *
- * @class GiveawayService
  */
 @injectable()
 export class GiveawayService implements IGiveawayService {

@@ -36,10 +36,7 @@ export default class RussianRouletteCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | ReadonlyArray<Message>> {
+  public async run(msg: CommandoMessage, args: any) {
     if (args.bullets < 1 || args.bullets > 6) {
       return msg.reply('Number of bullets must be between 1 and 6.')
     }

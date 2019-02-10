@@ -40,10 +40,7 @@ export default class RollCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | ReadonlyArray<Message>> {
+  public async run(msg: CommandoMessage, args: any) {
     const numberOfDie = args.numberOfDie as number
     const numberOfSides = args.numberOfSides as number
     const repeat = args.repeat as number

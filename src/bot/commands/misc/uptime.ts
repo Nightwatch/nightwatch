@@ -19,7 +19,7 @@ export default class UptimeCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage) {
     describe('api', (err, apiDescriptions) => {
       if (err) {
         return msg.reply('Command failed. An error occurred.')

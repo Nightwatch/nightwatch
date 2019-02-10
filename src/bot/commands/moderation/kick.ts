@@ -36,10 +36,7 @@ export default class KickCommand extends Command {
     )
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     if (msg.author.id === args.member.id) {
       return msg.reply("You can't kick yourself.")
     }

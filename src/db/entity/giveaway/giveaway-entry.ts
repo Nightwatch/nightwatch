@@ -7,26 +7,17 @@ import { User } from '..'
 export class GiveawayEntry {
   /**
    * The giveaway the user entered.
-   *
-   * @type {Giveaway}
-   * @memberof GiveawayEntry
    */
   @ManyToOne(_ => Giveaway)
   public giveaway: Giveaway
   /**
    * The ID of the entry. Auto-generated.
-   *
-   * @type {number}
-   * @memberof GiveawayEntry
    */
   @PrimaryGeneratedColumn()
   public readonly id: number
 
   /**
    * The date the entry was made.
-   *
-   * @type {Date}
-   * @memberof GiveawayEntry
    */
   @Column()
   @IsDate()
@@ -34,9 +25,6 @@ export class GiveawayEntry {
 
   /**
    * The user that entered the giveaway.
-   *
-   * @type {User}
-   * @memberof GiveawayEntry
    */
   @ManyToOne(_ => User)
   public user: User

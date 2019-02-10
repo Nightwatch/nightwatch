@@ -16,7 +16,7 @@ import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
 import { Config } from '../../common'
 
-const secret = ''
+let secret = ''
 
 try {
   const config: Config = require('../../../config/config.json')
@@ -27,23 +27,16 @@ try {
 
 /**
  * The API server
- *
- * @class Api
  */
 export class Api {
   /**
    * Starts the API server.
-   *
-   * @static
-   * @returns {Api}
-   * @memberof Api
    */
   public static start(): Api {
     return new Api()
   }
   /**
    * Creates an instance of the Api.
-   * @memberof Api
    */
   constructor() {
     this.init().catch(err => {

@@ -13,18 +13,12 @@ import { GuildUser } from '.'
 export class GuildUserWarning {
   /**
    * The ID of the guild user warning. Auto-generated.
-   *
-   * @type {number}
-   * @memberof GuildUserWarning
    */
   @PrimaryGeneratedColumn()
   public readonly id: number
 
   /**
    * The user that issued the warning.
-   *
-   * @type {string}
-   * @memberof GuildUserWarning
    */
   @ManyToOne(_ => GuildUser)
   @JoinColumn()
@@ -32,9 +26,6 @@ export class GuildUserWarning {
 
   /**
    * The reason the warning was issued.
-   *
-   * @type {string}
-   * @memberof GuildUserWarning
    */
   @Column('varchar')
   @IsString()
@@ -42,9 +33,6 @@ export class GuildUserWarning {
 
   /**
    * The date the warning was issued.
-   *
-   * @type {Date}
-   * @memberof GuildUserWarning
    */
   @Column('timestamp without time zone')
   @IsDate()
@@ -52,9 +40,6 @@ export class GuildUserWarning {
 
   /**
    * The guild user that was warned.
-   *
-   * @type {GuildUser}
-   * @memberof GuildUserWarning
    */
   @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.warnings)

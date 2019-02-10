@@ -24,10 +24,7 @@ export default class LMGTFYCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage, args: any) {
     return msg.reply(`https://lmgtfy.com/?q=${encodeURIComponent(args.search)}`)
   }
 }

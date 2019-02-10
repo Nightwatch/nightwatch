@@ -13,8 +13,6 @@ import { UserService as IUserService } from '../interfaces'
 
 /**
  * User service that handles storing and modifying user data.
- *
- * @class UserService
  */
 @injectable()
 export class UserService implements IUserService {

@@ -13,18 +13,12 @@ import { GuildUser } from '.'
 export class GuildUserBan {
   /**
    * The ID of the guild user ban. Auto-generated.
-   *
-   * @type {number}
-   * @memberof GuildUserBan
    */
   @PrimaryGeneratedColumn()
   public readonly id: number
 
   /**
    * The user that issued the ban.
-   *
-   * @type {string}
-   * @memberof GuildUserBan
    */
   @ManyToOne(_ => GuildUser)
   @JoinColumn()
@@ -32,18 +26,12 @@ export class GuildUserBan {
 
   /**
    * The length of the ban, e.g. `1h`, `1w`, etc.
-   *
-   * @type {string | null}
-   * @memberof GuildUserBan
    */
   @Column('varchar', { nullable: true, length: 10 })
   public readonly length: string | null
 
   /**
    * The reason the ban was issued.
-   *
-   * @type {string}
-   * @memberof GuildUserBan
    */
   @Column('varchar')
   @IsString()
@@ -51,9 +39,6 @@ export class GuildUserBan {
 
   /**
    * The date the ban was issued.
-   *
-   * @type {Date}
-   * @memberof GuildUserBan
    */
   @Column('timestamp without time zone')
   @IsDate()
@@ -61,9 +46,6 @@ export class GuildUserBan {
 
   /**
    * The guild user that is/was banned.
-   *
-   * @type {GuildUser}
-   * @memberof GuildUserBan
    */
   @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.bans)

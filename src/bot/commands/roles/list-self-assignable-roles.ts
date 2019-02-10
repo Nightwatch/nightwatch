@@ -19,12 +19,12 @@ export default class ListSelfAssignableRolesCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage): Promise<Message | Message[]> {
+  public async run(msg: CommandoMessage) {
     const guildService = new GuildService()
 
     const roles = (await guildService.findSelfAssignableRoles(
       msg.guild.id
-    )) as GuildSelfAssignableRole[]
+    )) as ReadonlyArray<GuildSelfAssignableRole>
 
     if (!roles || roles.length === 0) {
       return msg.reply('No self assignable roles found.')

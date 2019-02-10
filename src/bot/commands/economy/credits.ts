@@ -27,10 +27,7 @@ export default class CreditsCommand extends Command {
     })
   }
 
-  public async run(
-    msg: CommandoMessage,
-    args: any
-  ): Promise<Message | ReadonlyArray<Message>> {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
     const userId = args.user ? args.user.id : msg.author.id
     const userName = args.user ? args.user.displayName : msg.author.username

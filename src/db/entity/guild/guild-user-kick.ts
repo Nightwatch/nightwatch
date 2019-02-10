@@ -13,18 +13,12 @@ import { GuildUser } from '.'
 export class GuildUserKick {
   /**
    * The ID of the guild user kick. Auto-generated.
-   *
-   * @type {number}
-   * @memberof GuildUserKick
    */
   @PrimaryGeneratedColumn()
   public readonly id: number
 
   /**
    * The user that issued the kick.
-   *
-   * @type {string}
-   * @memberof GuildUserKick
    */
   @ManyToOne(_ => GuildUser)
   @JoinColumn()
@@ -32,9 +26,6 @@ export class GuildUserKick {
 
   /**
    * The reason the kick was issued.
-   *
-   * @type {string}
-   * @memberof GuildUserKick
    */
   @Column('varchar')
   @IsString()
@@ -42,9 +33,6 @@ export class GuildUserKick {
 
   /**
    * The date the kick was issued.
-   *
-   * @type {Date}
-   * @memberof GuildUserKick
    */
   @Column('timestamp without time zone')
   @IsDate()
@@ -52,9 +40,6 @@ export class GuildUserKick {
 
   /**
    * The guild user that was kicked.
-   *
-   * @type {GuildUser}
-   * @memberof GuildUserKick
    */
   @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.kicks)
