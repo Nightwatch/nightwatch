@@ -6,7 +6,8 @@
 
 - [x] Install Node.js
   - [x] Install v8 LTS
-  - [x] Update to latest v10 LTS
+  - [x] Update to v10 LTS
+  - [ ] Update to v12 LTS
 - [x] Install PostgreSQL
   - [x] Create database for unit tests
 - [x] Install Redis
