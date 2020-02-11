@@ -1,9 +1,9 @@
 import { TextChannel } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class PurgeCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'purge',
       group: 'moderation',
@@ -11,14 +11,10 @@ export default class PurgeCommand extends Command {
       description:
         'Deletes messages from a channel. (Messages must be less than 14 days old)',
       guildOnly: true,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'amount',
-          prompt: 'How many messages should I delete?\n',
+          phrase: 'How many messages should I delete?\n',
           type: 'integer',
           max: 100,
           min: 2
@@ -27,14 +23,14 @@ export default class PurgeCommand extends Command {
     })
   }
 
-  public hasPermission(msg: CommandoMessage): boolean {
+  public async hasPermission(msg: Message) {
     return (
       this.client.isOwner(msg.author) ||
       msg.member.hasPermission('MANAGE_MESSAGES')
     )
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const amount = args.amount as number
 
     const textChannel = msg.channel as TextChannel

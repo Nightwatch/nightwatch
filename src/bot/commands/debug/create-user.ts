@@ -1,10 +1,10 @@
 import { GuildMember } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class CreateUserCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'createuser',
       group: 'debug',
@@ -18,7 +18,7 @@ export default class CreateUserCommand extends Command {
       args: [
         {
           key: 'member',
-          prompt: 'Who should I add to my database?\n',
+          phrase: 'Who should I add to my database?\n',
           type: 'member'
         }
       ],
@@ -26,7 +26,7 @@ export default class CreateUserCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const userService = new UserService()
 
     const member = args.member as GuildMember

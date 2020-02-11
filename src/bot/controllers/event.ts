@@ -5,9 +5,8 @@ import {
   GuildService,
   UserService
 } from '../interfaces'
-import { Message, GuildMember, Guild } from 'discord.js'
-import { CommandoMessage, Command } from 'discord.js-commando'
-import * as Promise from 'bluebird'
+import { GuildMember, Guild } from 'discord.js'
+import { Message, Command } from 'bot-ts'
 
 const config: Config = require('../../../config/config.json')
 
@@ -25,7 +24,7 @@ export class EventController implements IEventController {
   }
 
   public readonly onCommandRun = (
-    _command: CommandoMessage,
+    _command: Message,
     _promise: Promise<any>,
     message: CommandoMessage
   ) => {
@@ -56,7 +55,7 @@ export class EventController implements IEventController {
   public readonly onCommandError = (
     _command: Command,
     _error: Error,
-    message: CommandoMessage
+    message: Message
   ) => {
     if (message.author.bot || message.channel.type !== 'text') {
       return Promise.resolve()

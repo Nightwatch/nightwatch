@@ -1,32 +1,27 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class CreditsCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'credits',
       group: 'economy',
-      memberName: 'credits',
       aliases: ['balance', 'bal'],
       description: 'Check how many credits you or someone else has.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'user',
-          prompt: 'Whose credits would you like to view?\n',
-          type: 'member',
-          default: ''
+          phrase: 'Whose credits would you like to view?\n',
+          type: 'user',
+          optional: true
         }
       ]
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const userService = new UserService()
     const userId = args.user ? args.user.id : msg.author.id
     const userName = args.user ? args.user.displayName : msg.author.username

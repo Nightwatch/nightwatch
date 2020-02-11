@@ -1,33 +1,28 @@
 import { GuildMember } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { UserLevelBalance } from '../../../api/src/models'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class ResetLevelCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'resetlevel',
       group: 'debug',
-      memberName: 'resetlevel',
       description: "Force reset a user's level.",
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'member',
-          prompt: "Who's level should I reset?\n",
-          type: 'member'
+          phrase: "Who's level should I reset?\n",
+          type: 'user'
         }
       ],
       ownerOnly: true
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const userService = new UserService()
 
     const member = args.member as GuildMember

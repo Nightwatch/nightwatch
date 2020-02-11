@@ -1,32 +1,27 @@
 import { GuildMember } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 import { UserController } from '../../controllers'
+import { Client, Message } from 'bot-ts'
 
 export default class CheckPremiumCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'checkpremium',
       group: 'debug',
-      memberName: 'checkpremium',
       description: 'See if a user has premium.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'user',
-          prompt: 'Who should I check?\n',
-          type: 'member'
+          phrase: 'Who should I check?\n',
+          type: 'user'
         }
       ],
       ownerOnly: true
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const userController = new UserController()
 
     const user = args.user as GuildMember

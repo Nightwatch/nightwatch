@@ -1,16 +1,10 @@
-import * as Promise from 'bluebird'
 import { ClientUser } from 'discord.js'
-import { CommandoClient } from 'discord.js-commando'
-import { readdirSync, statSync } from 'fs'
 import { inject, injectable } from 'inversify'
 import * as path from 'path'
 import { Config, Types } from '../common'
 import { Bot as IBot, EventController } from './interfaces'
 import { loadPlugins, PluginStatus } from './utils/plugin-loader'
-
-const getDirectoryNames = (p: string) =>
-  readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
-const upperCaseFirstLetter = (s: string) => s[0].toUpperCase() + s.substring(1)
+import { Client } from 'bot-ts'
 
 let pluginInfo: ReadonlyArray<PluginStatus> = []
 
@@ -21,21 +15,19 @@ export class Bot implements IBot {
   @inject(Types.EventController)
   public readonly eventController: EventController
 
-  public readonly client: CommandoClient = new CommandoClient({
-    owner: config.bot.ownerId,
+  public readonly client = new Client({
+    ownerId: config.bot.ownerId,
     commandPrefix: config.bot.prefix,
     messageCacheLifetime: 30,
     messageSweepInterval: 60
   })
 
-  public start() {
+  public async start() {
     console.info(`Starting ${config.bot.botName}.`)
 
     this.registerEvents()
-    this.registerCommands()
-    return Promise.resolve(this.client.login(config.bot.token))
-      .return()
-      .catch(this.handleLoginFailure)
+    await this.registerCommands()
+    await this.client.login(config.bot.token).catch(this.handleLoginFailure)
   }
 
   public registerEvents() {
@@ -49,21 +41,12 @@ export class Bot implements IBot {
     this.client.on('commandError', this.eventController.onCommandError)
   }
 
-  public registerCommands() {
-    const commandGroups = getDirectoryNames(
-      path.join(__dirname, 'commands')
-    ).map(name => [name, upperCaseFirstLetter(name)])
-
-    this.client.registry
-      .registerDefaultTypes()
-      .registerGroups(commandGroups)
-      .registerDefaultGroups()
-      .registerDefaultCommands()
-      .registerCommandsIn(path.join(__dirname, 'commands'))
+  public async registerCommands() {
+    return this.client.registerCommandsIn(path.join(__dirname, 'commands'))
   }
 
-  public stop(): void {
-    this.client.destroy()
+  public async stop() {
+    await this.client.destroy()
     process.exit(1)
   }
 
@@ -77,7 +60,7 @@ export class Bot implements IBot {
       Promise.resolve(
         clientUser.setPresence({
           status: 'online',
-          activity: {
+          game: {
             type: 'STREAMING',
             name: playingStatusOptions[0],
             url
@@ -123,14 +106,15 @@ export class Bot implements IBot {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
     return Promise.resolve(
-      clientUser.setActivity({
-        type: 'STREAMING',
-        name:
-          playingStatusOptions[
-            Math.floor(Math.random() * playingStatusOptions.length)
-          ],
-        url
-      })
+      clientUser.setActivity(
+        playingStatusOptions[
+          Math.floor(Math.random() * playingStatusOptions.length)
+        ],
+        {
+          type: 'STREAMING',
+          url
+        }
+      )
     ).catch(console.error)
   }
 }

@@ -1,32 +1,27 @@
 import { GuildMember } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class DeleteUserCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'deleteuser',
       group: 'debug',
-      memberName: 'deleteuser',
       description: 'Force delete a user.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'member',
-          prompt: 'Who should I delete?\n',
-          type: 'member'
+          phrase: 'Who should I delete?\n',
+          type: 'user'
         }
       ],
       ownerOnly: true
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const userService = new UserService()
 
     const member = args.member as GuildMember

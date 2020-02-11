@@ -1,9 +1,9 @@
-import { CommandoClient } from 'discord.js-commando'
 import { onMessage } from './lib/events'
 import { Config } from '../../../common'
+import { Client } from 'bot-ts'
 
 export class Plugin {
-  public static client: CommandoClient
+  public static client: Client
   public static config: Config
   public static readonly id = 'Friends'
   public static readonly description =
@@ -19,7 +19,7 @@ export class Plugin {
   /**
    * Initializes plugin
    */
-  public async init(client: CommandoClient, config: Config) {
+  public async init(client: Client, config: Config) {
     Plugin.client = client
     Plugin.config = config
     await this.registerListeners(client)

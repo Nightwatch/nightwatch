@@ -3,8 +3,13 @@ driver:
   name: vagrant
 
 provisioner:
+  client_rb:
+    chef_license: accept
   name: chef_zero
   always_update_cookbooks: true
+  product_name: chef
+  product_version: latest
+  channel: stable
 
 verifier:
   name: inspec

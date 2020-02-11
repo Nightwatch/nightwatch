@@ -6,7 +6,6 @@ import {
   GuildSelfAssignableRole,
   Song
 } from '../../../db'
-import * as Promise from 'bluebird'
 
 export interface GuildService {
   readonly create: (guild: Guild) => Promise<void>

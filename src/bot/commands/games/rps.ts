@@ -1,35 +1,24 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class RockPaperScissorsCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'rps',
       group: 'games',
-      memberName: 'rps',
       description: 'Rock paper scissors.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'choice',
-          prompt: 'Which option do you want to pick?\n',
-          type: 'string',
-          validate: (option: string) =>
-            ['rock', 'paper', 'scissors', 'r', 'p', 's'].includes(
-              option.toLowerCase()
-            )
+          phrase: 'Which option do you want to pick?\n',
+          type: 'string'
         }
       ]
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
-    const userChoiceString = args.choice as string
-
+  public async run(msg: Message, args: { choice: string }) {
     enum RPS {
       Rock = 'rock',
       Paper = 'paper',
@@ -44,8 +33,12 @@ export default class RockPaperScissorsCommand extends Command {
 
     const randomChoice = choices[Math.floor(Math.random() * choices.length)]
     const userChoice = choices.find(choice =>
-      choice.name.startsWith(userChoiceString.toLowerCase()[0])
+      choice.name.startsWith(args.choice.toLowerCase()[0])
     )
+
+    if (!userChoice) {
+      return msg.reply(`Unknown option ${args.choice}.`)
+    }
 
     if (randomChoice.beats === userChoice.name) {
       return msg.reply(`I win! I chose ${randomChoice.name}. Try again.`)
@@ -60,9 +53,7 @@ export default class RockPaperScissorsCommand extends Command {
     }
 
     return msg.reply(
-      `It's a draw! You chose ${userChoice.name} and I chose ${
-        randomChoice.name
-      }.`
+      `It's a draw! You chose ${userChoice.name} and I chose ${randomChoice.name}.`
     )
   }
 }

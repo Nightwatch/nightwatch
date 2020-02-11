@@ -1,0 +1,15 @@
+version: "3"
+services:
+  api:
+    build: .
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:10.4
+    ports:
+      - "35432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nightwatch

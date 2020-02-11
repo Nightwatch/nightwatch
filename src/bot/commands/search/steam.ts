@@ -1,31 +1,25 @@
-import { Message, MessageEmbed } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { SteamProvider, SteamSearchEntry } from 'steam-provider'
 import { Command } from '../../base'
+import { Client, MessageEmbed, Message } from 'bot-ts'
 
 export default class SteamCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'steam',
       group: 'search',
-      memberName: 'steam',
       description: 'Search a game on Steam.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'game',
-          prompt: 'What game would you like to search?\n',
+          phrase: 'What game would you like to search?\n',
           type: 'string'
         }
       ]
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const provider = new SteamProvider()
 
     const searchResults = await provider.search(args.game)
@@ -39,7 +33,7 @@ export default class SteamCommand extends Command {
       return msg.channel.send(embed)
     }
 
-    const resultsEmbed = new MessageEmbed()
+    const resultsEmbed = new MessageEmbed(this.client)
     resultsEmbed.setTitle('Which game would you like to see?')
     resultsEmbed.setDescription(
       searchResults.map((sr, i) => `${i + 1}.) ${sr.$name}`).join('\n')
@@ -75,9 +69,9 @@ export default class SteamCommand extends Command {
   public async getEmbedForGame(
     game: SteamSearchEntry,
     provider: SteamProvider,
-    msg: CommandoMessage
+    msg: Message
   ): Promise<MessageEmbed | string> {
-    const steamEmbed = new MessageEmbed()
+    const steamEmbed = new MessageEmbed(this.client)
 
     const gameId = game.$id
 

@@ -1,22 +1,18 @@
-import {
-  Command as CommandoCommand,
-  CommandoMessage,
-  CommandoClient
-} from 'discord.js-commando'
 import { UserController } from '../controllers'
 import { CommandInfo } from '../../common'
+import { Command as BotCommand, Client, Message } from 'bot-ts'
 
 const userController = new UserController()
 
-export class Command extends CommandoCommand {
+export abstract class Command extends BotCommand {
   public readonly premiumOnly: boolean
 
-  constructor(client: CommandoClient, info: CommandInfo) {
+  constructor(client: Client, info: CommandInfo) {
     super(client, info)
     this.premiumOnly = info.premiumOnly || false
   }
 
-  public hasPermission(msg: CommandoMessage) {
+  public async hasPermission(msg: Message) {
     if (!this.premiumOnly || this.client.isOwner(msg.author)) {
       return super.hasPermission(msg)
     }
@@ -25,8 +21,6 @@ export class Command extends CommandoCommand {
       return true
     }
 
-    return `Only guilds with premium access can use the \`${
-      this.name
-    }\` command.`
+    return `Only guilds with premium access can use the \`${this.options.name}\` command.`
   }
 }

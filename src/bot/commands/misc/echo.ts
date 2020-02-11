@@ -1,29 +1,24 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Message, Client } from 'bot-ts'
 
 export default class EchoCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'echo',
       group: 'misc',
-      memberName: 'echo',
       description: 'Make me repeat what you said.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'phrase',
-          prompt: 'What would you like me to echo?\n',
+          phrase: 'What would you like me to echo?\n',
           type: 'string'
         }
       ]
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     if (!args.phrase || !args.phrase.trim()) {
       return msg.reply(
         'I cannot echo an empty string. Well I could, but that would be boring.'

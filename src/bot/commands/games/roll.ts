@@ -1,45 +1,37 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class RollCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'roll',
       group: 'games',
-      memberName: 'roll',
       description: 'Roll some die.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'numberOfSides',
-          prompt: 'How many sides does each dice have?\n',
-          type: 'integer',
-          default: 6,
-          max: 100
+          phrase: 'How many sides does each dice have?\n',
+          type: 'number',
+          default: 6
         },
         {
           key: 'numberOfDie',
-          prompt: 'How many die should I roll?\n',
-          type: 'integer',
-          default: 1,
-          max: 10
+          phrase: 'How many die should I roll?\n',
+          type: 'number',
+          default: 1
         },
         {
           key: 'repeat',
-          prompt: 'How many times should I roll them?\n',
-          type: 'integer',
-          default: 1,
-          max: 10
+          phrase: 'How many times should I roll them?\n',
+          type: 'number',
+          default: 1
         }
       ]
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const numberOfDie = args.numberOfDie as number
     const numberOfSides = args.numberOfSides as number
     const repeat = args.repeat as number

@@ -1,8 +1,7 @@
-import { CommandoClient } from 'discord.js-commando'
-import * as Promise from 'bluebird'
+import { Client } from 'bot-ts'
 
 export interface Bot {
-  readonly client: CommandoClient
+  readonly client: Client
   readonly start: () => Promise<void>
   readonly registerEvents: () => void
   readonly registerCommands: () => void

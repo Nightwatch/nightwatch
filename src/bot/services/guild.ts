@@ -10,12 +10,11 @@ import {
   Song
 } from '../../db'
 import { injectable } from 'inversify'
-import * as Promise from 'bluebird'
 
 @injectable()
 export class GuildService implements IGuildService {
-  public readonly create = (guild: Guild) => {
-    return this.find(guild.id).then(existingGuild => {
+  public readonly create = async (guild: Guild) => {
+    await this.find(guild.id).then(existingGuild => {
       if (existingGuild) {
         return
       }
@@ -31,7 +30,7 @@ export class GuildService implements IGuildService {
     })
   }
 
-  public readonly find = (id: string): Promise<BotGuild | undefined> => {
+  public readonly find = async (id: string): Promise<BotGuild | undefined> => {
     const route = `/guilds/${id}`
 
     return Promise.resolve(api.get(route)).then(response => response.data)
@@ -46,14 +45,14 @@ export class GuildService implements IGuildService {
     return Promise.resolve(api.post(route, ticket)).then(x => x.data)
   }
 
-  public readonly updateSupportTicket = (
+  public readonly updateSupportTicket = async (
     id: string,
     ticketId: number,
     ticket: GuildSupportTicket
   ) => {
     const route = `/guilds/${id}/support-tickets/${ticketId}`
 
-    return Promise.resolve(api.put(route, ticket)).thenReturn()
+    await Promise.resolve(api.put(route, ticket))
   }
 
   public readonly createSuggestion = (id: string, ticket: GuildSuggestion) => {
@@ -62,14 +61,14 @@ export class GuildService implements IGuildService {
     return Promise.resolve(api.post(route, ticket)).then(x => x.data)
   }
 
-  public readonly updateSuggestion = (
+  public readonly updateSuggestion = async (
     id: string,
     ticketId: number,
     ticket: GuildSuggestion
   ) => {
     const route = `/guilds/${id}/suggestions/${ticketId}`
 
-    return Promise.resolve(api.put(route, ticket)).thenReturn()
+    await Promise.resolve(api.put(route, ticket))
   }
 
   public readonly findSelfAssignableRoles = (id: string) => {
@@ -84,19 +83,22 @@ export class GuildService implements IGuildService {
     return Promise.resolve(api.get(route)).then(response => response.data)
   }
 
-  public readonly createSelfAssignableRole = (
+  public readonly createSelfAssignableRole = async (
     id: string,
     selfAssignableRole: GuildSelfAssignableRole
   ) => {
     const route = `/guilds/${id}/self-assignable-roles`
 
-    return Promise.resolve(api.post(route, selfAssignableRole)).thenReturn()
+    await Promise.resolve(api.post(route, selfAssignableRole))
   }
 
-  public readonly deleteSelfAssignableRole = (id: string, roleId: string) => {
+  public readonly deleteSelfAssignableRole = async (
+    id: string,
+    roleId: string
+  ) => {
     const route = `/guilds/${id}/self-assignable-roles/${roleId}`
 
-    return Promise.resolve(api.delete(route)).thenReturn()
+    await Promise.resolve(api.delete(route))
   }
 
   public readonly findPlaylist = (id: string) => {
@@ -117,21 +119,21 @@ export class GuildService implements IGuildService {
     return Promise.resolve(api.post(route, song)).then(r => r.data)
   }
 
-  public readonly deleteSong = (id: string, songId: number) => {
+  public readonly deleteSong = async (id: string, songId: number) => {
     const route = `/guilds/${id}/playlist/${songId}`
 
-    return Promise.resolve(api.delete(route)).thenReturn()
+    await Promise.resolve(api.delete(route))
   }
 
-  public readonly clearPlaylist = (id: string) => {
+  public readonly clearPlaylist = async (id: string) => {
     const route = `/guilds/${id}/playlist`
 
-    return Promise.resolve(api.delete(route)).thenReturn()
+    await Promise.resolve(api.delete(route))
   }
 
-  public readonly deleteSongsByUserId = (id: string, userId: string) => {
+  public readonly deleteSongsByUserId = async (id: string, userId: string) => {
     const route = `/guilds/${id}/playlist/user/${userId}`
 
-    return Promise.resolve(api.delete(route)).thenReturn()
+    await Promise.resolve(api.delete(route))
   }
 }

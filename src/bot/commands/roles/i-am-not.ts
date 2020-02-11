@@ -1,9 +1,9 @@
 import { Role } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Message, Client } from 'bot-ts'
 
 export default class IAmNotRoleCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'iamnot',
       group: 'roles',
@@ -24,7 +24,7 @@ export default class IAmNotRoleCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const role: Role =
       args.role instanceof Role
         ? args.role
@@ -39,7 +39,7 @@ export default class IAmNotRoleCommand extends Command {
     }
 
     try {
-      await msg.member.roles.remove(role)
+      await msg.member.removeRole(role)
     } catch {
       // swallow
     }

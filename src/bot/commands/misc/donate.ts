@@ -1,28 +1,22 @@
-import { MessageEmbed } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
 import { Command } from '../../base'
+import { Client, Message, MessageEmbed } from 'bot-ts'
 
 export default class DonateCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'donate',
       group: 'misc',
-      memberName: 'donate',
       description: "See how you can support the bot's development.",
-      guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      }
+      guildOnly: false
     })
   }
 
-  public async run(msg: CommandoMessage) {
+  public async run(msg: Message) {
     const url = 'https://patreon.com/ihaxjoker'
 
-    const embed = new MessageEmbed()
+    const embed = new MessageEmbed(this.client)
       .setTitle('Support Nightwatch')
       .setURL(url)
       .setColor('BLUE')

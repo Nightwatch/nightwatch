@@ -1,27 +1,22 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as simplegit from 'simple-git/promise'
 import { Command } from '../../base'
 import * as path from 'path'
 import { Config } from '../../../common'
+import { Client, Message } from 'bot-ts'
 const config: Config = require('../../../../config/config.json')
 
 export default class UpdateCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'update',
       group: 'debug',
-      memberName: 'update',
       description: 'Updates the bot if a new update exists.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       ownerOnly: true
     })
   }
 
-  public async run(msg: CommandoMessage) {
+  public async run(msg: Message) {
     const git = simplegit()
 
     await git.checkout('.')

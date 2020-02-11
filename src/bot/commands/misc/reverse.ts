@@ -1,29 +1,24 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class ReverseCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'reverse',
       group: 'misc',
-      memberName: 'reverse',
       description: 'Make me repeat what you said, reversed.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'phrase',
-          prompt: 'What would you like me to reverse?\n',
+          phrase: 'What would you like me to reverse?\n',
           type: 'string'
         }
       ]
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     if (!args.phrase || !args.phrase.trim()) {
       return msg.reply(
         'I cannot reverse an empty string. Well I could, but that would be boring.'

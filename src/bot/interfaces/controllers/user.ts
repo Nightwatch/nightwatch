@@ -1,9 +1,9 @@
 import { GuildMember, Collection } from 'discord.js'
-import { CommandoClient } from 'discord.js-commando'
+import { Client } from 'bot-ts'
 
 export interface UserController {
   readonly getPremiumUsers: (
-    client: CommandoClient
+    client: Client
   ) => Collection<string, GuildMember> | undefined
-  readonly userHasPremium: (id: string, client: CommandoClient) => boolean
+  readonly userHasPremium: (id: string, client: Client) => boolean
 }

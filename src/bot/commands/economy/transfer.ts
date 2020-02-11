@@ -1,35 +1,30 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class TransferCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'transfer',
       group: 'economy',
-      memberName: 'transfer',
       description: 'Transfer some of your credits to someone else.',
       guildOnly: true,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'user',
-          prompt: 'Who would you like to transfer credits to?\n',
-          type: 'member'
+          phrase: 'Who would you like to transfer credits to?\n',
+          type: 'user'
         },
         {
           key: 'amount',
-          prompt: 'How many credits would you like to trasfer?\n',
-          type: 'integer'
+          phrase: 'How many credits would you like to trasfer?\n',
+          type: 'number'
         }
       ]
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const userService = new UserService()
     const donor = await userService
       .find(msg.author.id)

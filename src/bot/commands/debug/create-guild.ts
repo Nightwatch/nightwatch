@@ -1,32 +1,26 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class CreateGuildCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'createguild',
       group: 'debug',
-      memberName: 'createguild',
       description: 'Force create a guild.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'guildId',
-          prompt: 'What is the ID of the guild?\n',
-          type: 'string',
-          default: ''
+          phrase: 'What is the ID of the guild?\n',
+          type: 'string'
         }
       ],
       ownerOnly: true
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const guildService = new GuildService()
 
     const guild = args.guildId

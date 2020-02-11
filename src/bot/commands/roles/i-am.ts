@@ -1,9 +1,9 @@
 import { Role } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Message, Client } from 'bot-ts'
 
 export default class IAmRoleCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'iam',
       group: 'roles',
@@ -17,14 +17,14 @@ export default class IAmRoleCommand extends Command {
       args: [
         {
           key: 'role',
-          prompt: 'What role do you want?\n',
+          phrase: 'What role do you want?\n',
           type: 'role|string'
         }
       ]
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const role: Role =
       args.role instanceof Role
         ? args.role
@@ -39,7 +39,7 @@ export default class IAmRoleCommand extends Command {
     }
 
     try {
-      await msg.member.roles.add(role)
+      await msg.member.addRole(role)
     } catch {
       // swallow
     }

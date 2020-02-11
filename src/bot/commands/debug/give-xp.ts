@@ -1,40 +1,35 @@
 import { GuildMember } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { UserLevelBalance } from '../../../api/src/models'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class GiveXpCommand extends Command {
   public readonly premiumOnly: true
 
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'givexp',
       group: 'debug',
-      memberName: 'givexp',
       description: 'Give a user xp.',
       guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      },
       args: [
         {
           key: 'member',
-          prompt: 'Who should I give xp to?\n',
-          type: 'member'
+          phrase: 'Who should I give xp to?\n',
+          type: 'user'
         },
         {
           key: 'amount',
-          prompt: 'How much xp should I give?\n',
-          type: 'integer'
+          phrase: 'How much xp should I give?\n',
+          type: 'number'
         }
       ],
       ownerOnly: true
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     const userService = new UserService()
 
     const member = args.member as GuildMember

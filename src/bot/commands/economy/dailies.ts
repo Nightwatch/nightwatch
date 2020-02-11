@@ -1,26 +1,21 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import * as prettyMs from 'pretty-ms'
 import { oneLine } from 'common-tags'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client, Message } from 'bot-ts'
 
 export default class DailiesCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'dailies',
       group: 'economy',
-      memberName: 'dailies',
       aliases: ['daily'],
       description: 'Claim your daily reward.',
-      guildOnly: false,
-      throttling: {
-        usages: 2,
-        duration: 3
-      }
+      guildOnly: false
     })
   }
 
-  public async run(msg: CommandoMessage) {
+  public async run(msg: Message) {
     const userService = new UserService()
 
     const user = await userService

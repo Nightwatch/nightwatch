@@ -1,14 +1,14 @@
 import { Message } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client } from 'bot-ts'
 
 const awardAmount: number = 1
 const lossAmount: number = 10
 
 export default class RussianRouletteCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'russianroulette',
       group: 'games',
@@ -27,7 +27,7 @@ export default class RussianRouletteCommand extends Command {
       args: [
         {
           key: 'bullets',
-          prompt: oneLine`How many bullets would you like to use?
+          phrase: oneLine`How many bullets would you like to use?
             Your winnings are equal to the number of bullets used.\n`,
           type: 'integer',
           default: 1
@@ -36,7 +36,7 @@ export default class RussianRouletteCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: Message, args: any) {
     if (args.bullets < 1 || args.bullets > 6) {
       return msg.reply('Number of bullets must be between 1 and 6.')
     }
@@ -53,7 +53,7 @@ export default class RussianRouletteCommand extends Command {
         // swallow
       })
 
-    const botOwnerId = this.client.owners[0].id
+    const botOwnerId = this.client.options.ownerId
     const owner = await userService.find(botOwnerId)
 
     if (!user || !owner) {
@@ -108,7 +108,7 @@ export default class RussianRouletteCommand extends Command {
       user.balance.netWorth += winAmount
     }
 
-    const isUserOwner = this.client.owners[0].id === msg.author.id
+    const isUserOwner = this.client.options.ownerId === msg.author.id
 
     if (!isUserOwner) {
       await userService.updateBalance(userId, user.balance)

@@ -1,6 +1,5 @@
 import { User } from 'discord.js'
 import { User as BotUser, UserBalance, UserProfile } from '../../../db'
-import * as Promise from 'bluebird'
 import { UserLevelBalance } from '../../../api/src/models'
 
 export interface UserService {
