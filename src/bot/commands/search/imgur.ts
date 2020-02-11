@@ -1,7 +1,7 @@
-import { CommandoClient, CommandoMessage } from 'discord.js-commando'
+import { CommandoClient, CommandMessage } from 'discord.js-commando'
 import axios from 'axios'
 import { Config } from '../../../common'
-import { MessageAttachment, TextChannel } from 'discord.js'
+import { TextChannel } from 'discord.js'
 const config: Config = require('../../../../config/config.json')
 import { Command } from '../../base'
 
@@ -23,7 +23,7 @@ export default class ImgurCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     if (!config.optional || !config.optional.imgur) {
       return msg.reply(
         'Command failed. Bot owner has not configured the bot with an Imgur API key.'
@@ -74,7 +74,7 @@ export default class ImgurCommand extends Command {
         return msg.reply('Command failed. Try again.')
       }
 
-      return msg.channel.send(new MessageAttachment(randomAlbum.link))
+      return msg.channel.send(randomAlbum.link)
     }
 
     const filteredImages = randomAlbum.images.filter(
@@ -85,6 +85,6 @@ export default class ImgurCommand extends Command {
       return msg.reply('No results found.')
     }
 
-    return msg.channel.send(new MessageAttachment(filteredImages[0].link))
+    return msg.channel.send(filteredImages[0].link)
   }
 }

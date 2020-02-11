@@ -1,5 +1,5 @@
-import { MessageEmbed, TextChannel } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { RichEmbed, TextChannel } from 'discord.js'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import * as yargs from 'yargs'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
@@ -33,7 +33,7 @@ export default class EmbedCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const message = args.message
 
     const argv = yargs
@@ -65,7 +65,7 @@ export default class EmbedCommand extends Command {
       : ''
 
     if (!title || !description) {
-      return msg.replyEmbed(this.getHelpMessageEmbed())
+      return msg.replyEmbed(this.getHelpRichEmbed())
     }
 
     const getColor = () => {
@@ -97,7 +97,7 @@ export default class EmbedCommand extends Command {
       channel = msg.channel as TextChannel
     }
 
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
 
     embed
       .setColor(getColor())
@@ -109,7 +109,7 @@ export default class EmbedCommand extends Command {
     return (channel as TextChannel).send(embed)
   }
 
-  private getHelpMessageEmbed() {
+  private getHelpRichEmbed() {
     const options = {
       title: {
         description: 'The title text, displays in bold at the top.'
@@ -126,7 +126,7 @@ export default class EmbedCommand extends Command {
       }
     }
 
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
       .setColor(materialColors.blue['500'])
       .setFooter(config.bot.botName)
       .setTimestamp(new Date())

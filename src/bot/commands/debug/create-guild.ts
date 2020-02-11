@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { Command } from '../../base'
 
@@ -26,7 +26,7 @@ export default class CreateGuildCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const guildService = new GuildService()
 
     const guild = args.guildId

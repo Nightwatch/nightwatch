@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class LMGTFYCommand extends Command {
@@ -23,7 +23,7 @@ export default class LMGTFYCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     return msg.reply(`https://lmgtfy.com/?q=${encodeURIComponent(args.search)}`)
   }
 }

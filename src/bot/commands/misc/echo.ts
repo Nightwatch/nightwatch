@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class EchoCommand extends Command {
@@ -23,7 +23,7 @@ export default class EchoCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     if (!args.phrase || !args.phrase.trim()) {
       return msg.reply(
         'I cannot echo an empty string. Well I could, but that would be boring.'

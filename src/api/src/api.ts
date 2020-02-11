@@ -52,11 +52,10 @@ export class Api {
   private startServer() {
     const server = new InversifyExpressServer(container)
 
-    const limiter = new RateLimit({
+    const limiter = RateLimit({
       windowMs: 15 * 60 * 1000, // 15 minutes
       max: 150,
-      delayMs: 0,
-      skip: (request: express.Request, _) => {
+      skip: (request: express.Request, _: any) => {
         if (request.ip === '::1' || request.ip === '::ffff:127.0.0.1') {
           return true
         }

@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { RichEmbed } from 'discord.js'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
 import { Command } from '../../base'
@@ -19,10 +19,10 @@ export default class DonateCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage) {
+  public async run(msg: CommandMessage) {
     const url = 'https://patreon.com/ihaxjoker'
 
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
       .setTitle('Support Nightwatch')
       .setURL(url)
       .setColor('BLUE')

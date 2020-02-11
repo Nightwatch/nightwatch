@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import * as Canvas from 'canvas'
 import * as request from 'request-promise'
 import * as path from 'path'
@@ -30,16 +30,13 @@ export default class ProfileCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const userService = new UserService()
 
     const user = args.user || msg.member
     const { Image } = Canvas
 
-    msg.channel
-      .startTyping()
-      .then()
-      .catch()
+    msg.channel.startTyping()
 
     const foundUser = await userService.find(user.id)
 

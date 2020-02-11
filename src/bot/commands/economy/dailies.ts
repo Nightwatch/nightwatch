@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import * as prettyMs from 'pretty-ms'
 import { oneLine } from 'common-tags'
 import { UserService } from '../../services'
@@ -20,7 +20,7 @@ export default class DailiesCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage) {
+  public async run(msg: CommandMessage) {
     const userService = new UserService()
 
     const user = await userService

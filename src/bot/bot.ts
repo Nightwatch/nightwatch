@@ -77,7 +77,7 @@ export class Bot implements IBot {
       Promise.resolve(
         clientUser.setPresence({
           status: 'online',
-          activity: {
+          game: {
             type: 'STREAMING',
             name: playingStatusOptions[0],
             url
@@ -123,14 +123,15 @@ export class Bot implements IBot {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
     return Promise.resolve(
-      clientUser.setActivity({
-        type: 'STREAMING',
-        name:
-          playingStatusOptions[
-            Math.floor(Math.random() * playingStatusOptions.length)
-          ],
-        url
-      })
+      clientUser.setActivity(
+        playingStatusOptions[
+          Math.floor(Math.random() * playingStatusOptions.length)
+        ],
+        {
+          type: 'STREAMING',
+          url
+        }
+      )
     ).catch(console.error)
   }
 }

@@ -1,5 +1,5 @@
 import { Role } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { GuildSelfAssignableRole } from '../../../db'
 import { Command } from '../../base'
@@ -27,11 +27,11 @@ export default class AddSelfAssignableRoleCommand extends Command {
     })
   }
 
-  public hasPermission(msg: CommandoMessage) {
+  public hasPermission(msg: CommandMessage) {
     return msg.member.permissions.has('MANAGE_ROLES')
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const role: Role =
       args.role instanceof Role
         ? args.role
@@ -44,7 +44,7 @@ export default class AddSelfAssignableRoleCommand extends Command {
     }
 
     if (
-      role.position >= msg.member.roles.highest.position &&
+      role.position >= msg.member.highestRole.position &&
       msg.member.id !== msg.guild.owner.id
     ) {
       return msg.reply('You cannot add that role as a self assignable role.')

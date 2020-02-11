@@ -1,5 +1,5 @@
-import { Message, MessageEmbed, GuildMember } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { Message, GuildMember, RichEmbed } from 'discord.js'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class VoteKickCommand extends Command {
@@ -29,7 +29,7 @@ export default class VoteKickCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const member = args.member as GuildMember
 
     const yesVote = '✅'
@@ -38,7 +38,7 @@ export default class VoteKickCommand extends Command {
     const votesRequired = msg.guild.memberCount / 5 + 1
     const timeInSeconds = 10
 
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
       .setAuthor(`Kick ${member.displayName}?`)
       .setColor('ORANGE')
       .addField('Vote by', msg.member.displayName, true)

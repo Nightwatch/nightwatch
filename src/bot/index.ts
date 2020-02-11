@@ -9,7 +9,6 @@ const bot = container.get<Bot>(Types.Bot)
 Promise.resolve(bot.start()).catch(onError)
 
 process.on('uncaughtException', onError)
-process.on('unhandledRejection', onError)
 process.on('disconnect', onError)
 
 function onError(error?: Error) {

@@ -1,6 +1,6 @@
 import {
   Command as CommandoCommand,
-  CommandoMessage,
+  CommandMessage,
   CommandoClient
 } from 'discord.js-commando'
 import { UserController } from '../controllers'
@@ -16,7 +16,7 @@ export class Command extends CommandoCommand {
     this.premiumOnly = info.premiumOnly || false
   }
 
-  public hasPermission(msg: CommandoMessage) {
+  public hasPermission(msg: CommandMessage) {
     if (!this.premiumOnly || this.client.isOwner(msg.author)) {
       return super.hasPermission(msg)
     }
@@ -25,8 +25,6 @@ export class Command extends CommandoCommand {
       return true
     }
 
-    return `Only guilds with premium access can use the \`${
-      this.name
-    }\` command.`
+    return `Only guilds with premium access can use the \`${this.name}\` command.`
   }
 }

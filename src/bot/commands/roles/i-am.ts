@@ -1,5 +1,5 @@
 import { Role } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class IAmRoleCommand extends Command {
@@ -24,7 +24,7 @@ export default class IAmRoleCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const role: Role =
       args.role instanceof Role
         ? args.role
@@ -39,7 +39,7 @@ export default class IAmRoleCommand extends Command {
     }
 
     try {
-      await msg.member.roles.add(role)
+      await msg.member.addRole(role)
     } catch {
       // swallow
     }

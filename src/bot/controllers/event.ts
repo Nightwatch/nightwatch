@@ -6,7 +6,7 @@ import {
   UserService
 } from '../interfaces'
 import { Message, GuildMember, Guild } from 'discord.js'
-import { CommandoMessage, Command } from 'discord.js-commando'
+import { CommandMessage, Command } from 'discord.js-commando'
 import * as Promise from 'bluebird'
 
 const config: Config = require('../../../config/config.json')
@@ -25,9 +25,9 @@ export class EventController implements IEventController {
   }
 
   public readonly onCommandRun = (
-    _command: CommandoMessage,
+    _command: CommandMessage,
     _promise: Promise<any>,
-    message: CommandoMessage
+    message: CommandMessage
   ) => {
     if (!config.bot.autoDeleteMessages.enabled || !message.deletable) {
       return Promise.resolve()
@@ -56,7 +56,7 @@ export class EventController implements IEventController {
   public readonly onCommandError = (
     _command: Command,
     _error: Error,
-    message: CommandoMessage
+    message: CommandMessage
   ) => {
     if (message.author.bot || message.channel.type !== 'text') {
       return Promise.resolve()

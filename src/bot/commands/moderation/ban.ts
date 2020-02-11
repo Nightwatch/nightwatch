@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class BanCommand extends Command {
@@ -28,20 +28,20 @@ export default class BanCommand extends Command {
     })
   }
 
-  public hasPermission(msg: CommandoMessage): boolean {
+  public hasPermission(msg: CommandMessage): boolean {
     return (
       this.client.isOwner(msg.author) || msg.member.hasPermission('BAN_MEMBERS')
     )
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     if (msg.author.id === args.member.id) {
       return msg.reply("You can't ban yourself.")
     }
 
     if (
       args.member.hasPermission('BAN_MEMBERS') ||
-      msg.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0
+      msg.member.highestRole.comparePositionTo(args.member.roles.highest) <= 0
     ) {
       return msg.reply("You can't ban that member.")
     }
