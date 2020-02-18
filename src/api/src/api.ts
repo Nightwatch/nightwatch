@@ -14,16 +14,8 @@ import * as jwt from 'express-jwt'
 import * as jsonwebtoken from 'jsonwebtoken'
 import * as RateLimit from 'express-rate-limit'
 import * as socketIo from 'socket.io'
-import { Config } from '../../common'
 
-let secret = ''
-
-try {
-  const config: Config = require('../../../config/config.json')
-  secret = config.api.secret
-} catch (err) {
-  console.error(err)
-}
+const secret = process.env.SECRET!
 
 /**
  * The API server
@@ -83,37 +75,41 @@ export class Api {
           }
         })
       )
-      app.use(
-        jwt({
-          secret,
-          getToken: req => {
-            // Special routes I don't want the average user to see :)
-            // TODO: Create route-based authentication, decorators would be nice.
-            const blacklistedRoutes: ReadonlyArray<any> = ['keys']
 
-            if (
-              req.method.toLowerCase() === 'get' &&
-              !blacklistedRoutes.some(route =>
-                req.path.toLowerCase().includes(route)
-              )
-            ) {
-              // *Hacky* approach to bypass request validation for GET requests
-              // Allows anyone to make a GET request
-              return jsonwebtoken.sign('GET', secret)
-            }
+      if (process.env.NODE_ENV === 'PRODUCTION') {
+        app.use(
+          jwt({
+            secret,
+            getToken: req => {
+              // Special routes I don't want the average user to see :)
+              // TODO: Create route-based authentication, decorators would be nice.
+              const blacklistedRoutes: ReadonlyArray<any> = ['keys']
 
-            if (
-              req.headers.authorization &&
-              req.headers.authorization.split(' ')[0].toLowerCase() === 'bearer'
-            ) {
-              return req.headers.authorization.split(' ')[1]
-            } else if (req.query && req.query.token) {
-              return req.query.token
+              if (
+                req.method.toLowerCase() === 'get' &&
+                !blacklistedRoutes.some(route =>
+                  req.path.toLowerCase().includes(route)
+                )
+              ) {
+                // *Hacky* approach to bypass request validation for GET requests
+                // Allows anyone to make a GET request
+                return jsonwebtoken.sign('GET', secret)
+              }
+
+              if (
+                req.headers.authorization &&
+                req.headers.authorization.split(' ')[0].toLowerCase() ===
+                  'bearer'
+              ) {
+                return req.headers.authorization.split(' ')[1]
+              } else if (req.query && req.query.token) {
+                return req.query.token
+              }
+              return null
             }
-            return null
-          }
-        })
-      )
+          })
+        )
+      }
 
       app.use('/api', express.static(path.join(__dirname, '../../../public')))
 
