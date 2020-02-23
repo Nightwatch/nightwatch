@@ -17,6 +17,7 @@
     "web:dev": "vue-cli-service serve src/web/main.js",
     "web:lint": "vue-cli-service lint",
     "web:prod": "vue-cli-service build src/web/main.js",
+    "web:clean": "rimraf dist/bot",
     "web:start": "yarn web:dev",
     "db:migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "db:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync"
