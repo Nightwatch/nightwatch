@@ -10,7 +10,7 @@
     "api:start": "pm2 delete api || true && pm2 start --name api npm -- run api:dev",
     "api:stop": "pm2 stop api || true",
     "api:test": "nyc mocha --opts \"./mocha.opts\"",
-    "bot:dev": "yarn && tsc && node dist/bot/index.js",
+    "bot:dev": "yarn && yarn bot:clean && tsc && node dist/bot/index.js",
     "bot:prod": "tsc && cross-env NODE_ENV=production node dist/bot/index.js",
     "bot:start": "pm2 delete bot || true && pm2 start --name bot npm -- run bot:dev",
     "bot:stop": "pm2 stop bot || true",
