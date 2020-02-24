@@ -14,10 +14,10 @@
     "bot:prod": "tsc && cross-env NODE_ENV=production node dist/bot/index.js",
     "bot:start": "pm2 delete bot || true && pm2 start --name bot npm -- run bot:dev",
     "bot:stop": "pm2 stop bot || true",
+    "bot:clean": "rimraf dist/bot",
     "web:dev": "vue-cli-service serve src/web/main.js",
     "web:lint": "vue-cli-service lint",
     "web:prod": "vue-cli-service build src/web/main.js",
-    "web:clean": "rimraf dist/bot",
     "web:start": "yarn web:dev",
     "db:migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "db:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync"
