@@ -1,5 +1,5 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
-import { User, MessageEmbed, Emoji } from 'discord.js'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { User, RichEmbed, Emoji } from 'discord.js'
 import { stripIndents } from 'common-tags'
 import { Plugin } from '../../index'
 import { api } from '../../../../utils'
@@ -53,7 +53,7 @@ export default class FriendCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const {
       action,
       argument
@@ -86,9 +86,10 @@ export default class FriendCommand extends Command {
           return this.listFriends(msg, argument)
 
         case 'requests':
-          return this.listFriendRequests(msg, argument as
-            | 'incoming'
-            | 'outgoing')
+          return this.listFriendRequests(
+            msg,
+            argument as 'incoming' | 'outgoing'
+          )
 
         default:
           return msg.reply(`\`${action}\` is not a valid action.`)
@@ -99,7 +100,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async displayFriendDashboard(msg: CommandoMessage, user?: User) {
+  public async displayFriendDashboard(msg: CommandMessage, user?: User) {
     const displayUser = user ? user : msg.author
     const id = displayUser.id
     const prefix = getPrefix(msg)
@@ -120,14 +121,14 @@ export default class FriendCommand extends Command {
       Anyone can add me with \`${prefix}friend add ${msg.author.id}\`
     `
 
-      const embed = new MessageEmbed()
+      const embed = new RichEmbed()
         .setAuthor(
           `👪 ${displayUser.username}'s Friend Dashboard`,
-          this.client.user ? this.client.user.avatarURL() : undefined
+          this.client.user ? this.client.user.avatarURL : undefined
         )
         .setFooter(Plugin.config.bot.botName)
         .setTimestamp(new Date())
-        .setThumbnail(displayUser.avatarURL() || displayUser.defaultAvatarURL)
+        .setThumbnail(displayUser.avatarURL || displayUser.defaultAvatarURL)
         .setColor('BLUE')
         .addField('Friend Summary', friendSummary, true)
         .addField('Friend Requests', friendRequestSummary, true)
@@ -143,7 +144,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async sendFriendRequest(msg: CommandoMessage, user: User | string) {
+  public async sendFriendRequest(msg: CommandMessage, user: User | string) {
     if (!user) {
       return msg.reply(
         'You need to specify a user to send a friend request to. It can be a mention or their ID.'
@@ -179,13 +180,9 @@ export default class FriendCommand extends Command {
       try {
         const discordUser = this.client.users.find(u => u.id === receiver.id)
         const dm = await discordUser.createDM()
-        await dm.send(stripIndents`**${
-          msg.author.username
-        }** has sent you a friend request!
+        await dm.send(stripIndents`**${msg.author.username}** has sent you a friend request!
 
-      You can accept it with \`friend accept ${
-        msg.author.id
-      }\` or decline it with \`friend deny ${msg.author.id}\`
+      You can accept it with \`friend accept ${msg.author.id}\` or decline it with \`friend deny ${msg.author.id}\`
       `)
       } catch (err) {
         // swallow, not a big deal
@@ -195,14 +192,12 @@ export default class FriendCommand extends Command {
     } catch (err) {
       console.error(err)
       return msg.reply(
-        `Failed to send friend request to **${
-          receiver.name
-        }**. Have you already sent one to them?`
+        `Failed to send friend request to **${receiver.name}**. Have you already sent one to them?`
       )
     }
   }
 
-  public async denyFriendRequest(msg: CommandoMessage, user: User | string) {
+  public async denyFriendRequest(msg: CommandMessage, user: User | string) {
     const senderId = user instanceof User ? user.id : user
 
     if (!senderId) {
@@ -232,7 +227,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async acceptFriendRequest(msg: CommandoMessage, user: User | string) {
+  public async acceptFriendRequest(msg: CommandMessage, user: User | string) {
     if (!user) {
       return msg.reply(
         "You need to specify a who's friend request to accept. It can be a mention or their ID."
@@ -248,9 +243,7 @@ export default class FriendCommand extends Command {
     const {
       data: friendRequests
     }: { readonly data: ReadonlyArray<UserFriendRequest> } = await api.get(
-      `/users/${
-        msg.author.id
-      }/friends/requests/search?skip=0&take=10&userId=${senderId}`
+      `/users/${msg.author.id}/friends/requests/search?skip=0&take=10&userId=${senderId}`
     )
 
     if (!friendRequests || !friendRequests[0]) {
@@ -278,7 +271,7 @@ export default class FriendCommand extends Command {
     return msg.reply(`You are now friends with **${friendName}**!`)
   }
 
-  public async deleteFriend(msg: CommandoMessage, user: User | string) {
+  public async deleteFriend(msg: CommandMessage, user: User | string) {
     const userId = user instanceof User ? user.id : user
 
     if (!userId) {
@@ -319,7 +312,7 @@ export default class FriendCommand extends Command {
     return msg.reply(`You are no longer friends with **${apiUser.name}**.`)
   }
 
-  public async listFriends(msg: CommandoMessage, user: User | string) {
+  public async listFriends(msg: CommandMessage, user: User | string) {
     const userId = user instanceof User ? user.id : user
 
     if (userId === msg.author.id) {
@@ -368,11 +361,11 @@ export default class FriendCommand extends Command {
 
       ${friends.length > 10 ? 'Only displaying the first 10 friends' : ''}`
 
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
       .setAuthor(`${userId ? apiUser!.name : msg.author.username}'s Friends:`)
       .setFooter(Plugin.config.bot.botName)
       .setTimestamp(new Date())
-      .setThumbnail(msg.author.avatarURL() || msg.author.defaultAvatarURL)
+      .setThumbnail(msg.author.avatarURL || msg.author.defaultAvatarURL)
       .setDescription(description)
       .setColor('BLUE')
 
@@ -380,7 +373,7 @@ export default class FriendCommand extends Command {
   }
 
   public async listFriendRequests(
-    msg: CommandoMessage,
+    msg: CommandMessage,
     argument: 'incoming' | 'outgoing'
   ) {
     const filter =
@@ -390,9 +383,7 @@ export default class FriendCommand extends Command {
       const {
         data: friendRequests
       }: { readonly data: ReadonlyArray<UserFriendRequest> } = await api.get(
-        `/users/${
-          msg.author.id
-        }/friends/requests/search?type=${filter}&skip=0&take=10`
+        `/users/${msg.author.id}/friends/requests/search?type=${filter}&skip=0&take=10`
       )
 
       if (!friendRequests || friendRequests.length === 0) {
@@ -419,7 +410,7 @@ export default class FriendCommand extends Command {
           : "If they aren't responding to your request, try sending them a DM to accept it."
       }`
 
-      const embed = new MessageEmbed()
+      const embed = new RichEmbed()
         .setAuthor(
           `Your ${
             filter === 'incoming' ? 'Incoming' : 'Outgoing'
@@ -427,7 +418,7 @@ export default class FriendCommand extends Command {
         )
         .setFooter(Plugin.config.bot.botName)
         .setTimestamp(new Date())
-        .setThumbnail(msg.author.avatarURL() || msg.author.defaultAvatarURL)
+        .setThumbnail(msg.author.avatarURL || msg.author.defaultAvatarURL)
         .setDescription(description)
         .setColor('BLUE')
 
@@ -504,14 +495,14 @@ async function getApiUser(id: string): Promise<BotUser | undefined> {
   return data
 }
 
-function getPrefix(msg: CommandoMessage): string {
+function getPrefix(msg: CommandMessage): string {
   if (msg.channel.type !== 'text') {
     return ''
   }
 
-  if (msg.guild.commandPrefix) {
-    return `${msg.guild.commandPrefix} `
-  }
+  // if (msg.guild.commandPrefix) {
+  //   return `${msg.guild.commandPrefix} `
+  // }
 
   return `${Plugin.config.bot.prefix} `
 }

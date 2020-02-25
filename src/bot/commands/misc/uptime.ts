@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { RichEmbed } from 'discord.js'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { describe } from 'pm2'
 import * as prettyMs from 'pretty-ms'
 import { Command } from '../../base'
@@ -19,7 +19,7 @@ export default class UptimeCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage) {
+  public async run(msg: CommandMessage) {
     describe('api', (err, apiDescriptions) => {
       if (err) {
         return msg.reply('Command failed. An error occurred.')
@@ -35,7 +35,7 @@ export default class UptimeCommand extends Command {
         const botUptime = botDescriptions[0].pm2_env!.pm_uptime || 0
         const currentTime = Date.now()
 
-        const embed = new MessageEmbed()
+        const embed = new RichEmbed()
 
         embed
           .setAuthor('Uptime')

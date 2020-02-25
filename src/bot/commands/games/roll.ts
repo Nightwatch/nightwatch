@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class RollCommand extends Command {
@@ -39,7 +39,7 @@ export default class RollCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const numberOfDie = args.numberOfDie as number
     const numberOfSides = args.numberOfSides as number
     const repeat = args.repeat as number

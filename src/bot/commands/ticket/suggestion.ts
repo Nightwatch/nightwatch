@@ -1,5 +1,5 @@
-import { Message, MessageEmbed, TextChannel } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { Message, RichEmbed, TextChannel } from 'discord.js'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
 import { GuildSuggestion } from '../../../db'
 import { GuildService } from '../../services'
@@ -39,7 +39,7 @@ export default class SuggestionCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const {
       action,
       suggestion
@@ -60,7 +60,7 @@ export default class SuggestionCommand extends Command {
     }
   }
 
-  private async createSuggestion(msg: CommandoMessage, suggestion: string) {
+  private async createSuggestion(msg: CommandMessage, suggestion: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'suggestions' && x.type === 'text'
     )
@@ -83,7 +83,7 @@ export default class SuggestionCommand extends Command {
       )
     }
 
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
 
     embed
       .setAuthor('New Suggestion')
@@ -113,7 +113,7 @@ export default class SuggestionCommand extends Command {
           dbSuggestion
         )
 
-        const editedEmbed = new MessageEmbed()
+        const editedEmbed = new RichEmbed()
 
         editedEmbed
           .setAuthor('New Suggestion')
@@ -138,7 +138,7 @@ export default class SuggestionCommand extends Command {
       `Your suggestion has been added. Check it out in ${channel}`
     )
   }
-  private async editSuggestion(msg: CommandoMessage, description: string) {
+  private async editSuggestion(msg: CommandMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'suggestions' && x.type === 'text'
     )
@@ -182,9 +182,7 @@ export default class SuggestionCommand extends Command {
       return msg.reply("You don't have permission to do that.")
     }
 
-    const messages = await (channel as TextChannel).messages.fetch({
-      limit: 100
-    })
+    const messages = (channel as TextChannel).messages
 
     const originalMessage = messages.find(x => x.id === suggestion.messageId)
 
@@ -194,7 +192,7 @@ export default class SuggestionCommand extends Command {
       )
     }
 
-    const newEmbed = new MessageEmbed()
+    const newEmbed = new RichEmbed()
 
     newEmbed
       .setAuthor('New Suggestion')

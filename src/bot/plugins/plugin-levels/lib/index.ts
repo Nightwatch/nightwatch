@@ -1,4 +1,4 @@
-import { Message, MessageAttachment } from 'discord.js'
+import { Message } from 'discord.js'
 import { User } from '../../../../db'
 import { UserService } from '../../../services/user'
 import { UserLevelBalance } from '../../../../api/src/models'
@@ -83,15 +83,11 @@ export const giveXp = async (user: User, message: Message) => {
     }
 
     await message.channel.send(
-      new MessageAttachment(
-        path.join(__dirname, '../../../../../assets/level-up.png')
-      )
+      path.join(__dirname, '../../../../../assets/level-up.png')
     )
 
     await message.channel.send(
-      `**${popcornEmoji} | ${
-        message.member.displayName
-      } just advanced to level ${level}**${levelBonusString}`
+      `**${popcornEmoji} | ${message.member.displayName} just advanced to level ${level}**${levelBonusString}`
     )
 
     return

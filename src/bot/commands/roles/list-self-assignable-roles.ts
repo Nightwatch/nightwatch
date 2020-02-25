@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { GuildSelfAssignableRole } from '../../../db'
 import { Command } from '../../base'
@@ -18,7 +18,7 @@ export default class ListSelfAssignableRolesCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage) {
+  public async run(msg: CommandMessage) {
     const guildService = new GuildService()
 
     const roles = (await guildService.findSelfAssignableRoles(

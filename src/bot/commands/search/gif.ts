@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { RichEmbed } from 'discord.js'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import axios from 'axios'
 import { Config } from '../../../common'
 import { Command } from '../../base'
@@ -31,7 +31,7 @@ export default class GifCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     if (!args.search.trim()) {
       return msg.reply('You must enter a search term or phrase.')
     }
@@ -47,9 +47,9 @@ export default class GifCommand extends Command {
         return msg.channel.send('Nothing found!')
       }
 
-      const embed = new MessageEmbed()
+      const embed = new RichEmbed()
         .setImage(`${response.data.data.image_url}`)
-        .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL())
+        .setAuthor(`${msg.author.tag}`, msg.author.displayAvatarURL)
         .setColor('#0066CC')
 
       return msg.channel.send({ embed })

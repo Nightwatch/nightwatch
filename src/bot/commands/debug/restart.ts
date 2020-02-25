@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { Command } from '../../base'
 
 export default class RestartCommand extends Command {
@@ -17,7 +17,7 @@ export default class RestartCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage) {
+  public async run(msg: CommandMessage) {
     await msg.channel.send('Restarting...')
 
     return process.exit(1)

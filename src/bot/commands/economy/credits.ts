@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
 
@@ -26,7 +26,7 @@ export default class CreditsCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const userService = new UserService()
     const userId = args.user ? args.user.id : msg.author.id
     const userName = args.user ? args.user.displayName : msg.author.username

@@ -7,7 +7,7 @@ const config: Config = require('../../../config/config.json')
 const apiToken = jwt.sign({}, config.api.secret)
 
 export const api = axios.create({
-  baseURL: config.api.address,
+  baseURL: process.env.API_URL,
   headers: {
     Authorization: `Bearer ${apiToken}`
   }

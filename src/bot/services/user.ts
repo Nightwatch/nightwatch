@@ -22,10 +22,7 @@ export class UserService implements IUserService {
           const newUser = new BotUser()
           newUser.id = user.id
           newUser.name = user.username
-          newUser.avatarUrl = user.displayAvatarURL({
-            format: 'png',
-            size: 512
-          })
+          newUser.avatarUrl = user.displayAvatarURL
           newUser.dateLastMessage = null
           newUser.level = new UserLevel()
           newUser.verification = new UserVerification()

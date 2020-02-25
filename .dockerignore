@@ -1,0 +1,8 @@
+.git
+Dockerfile
+.dockerignore
+node_modules
+*.log
+
+!config/*.json
+!ormconfig.json

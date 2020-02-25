@@ -1,4 +1,4 @@
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import { stripIndents } from 'common-tags'
 import { UserService } from '../../services'
 import { Command } from '../../base'
@@ -65,7 +65,7 @@ export default class SlotsCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const userService = new UserService()
 
     const isUserOwner = this.client.owners[0].id === msg.author.id

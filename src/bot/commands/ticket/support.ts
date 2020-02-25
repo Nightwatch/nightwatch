@@ -1,5 +1,5 @@
-import { Message, MessageEmbed, TextChannel } from 'discord.js'
-import { CommandoMessage, CommandoClient } from 'discord.js-commando'
+import { Message, RichEmbed, TextChannel } from 'discord.js'
+import { CommandMessage, CommandoClient } from 'discord.js-commando'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
 import { GuildSupportTicket } from '../../../db'
@@ -64,7 +64,7 @@ export default class SupportCommand extends Command {
     })
   }
 
-  public async run(msg: CommandoMessage, args: any) {
+  public async run(msg: CommandMessage, args: any) {
     const argsTyped: {
       readonly action: string
       readonly description: string
@@ -89,7 +89,7 @@ export default class SupportCommand extends Command {
     }
   }
 
-  private async createTicket(msg: CommandoMessage, description: string) {
+  private async createTicket(msg: CommandMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'support' && x.type === 'text'
     )
@@ -109,7 +109,7 @@ export default class SupportCommand extends Command {
       return msg.reply('Command failed. Guild does not exist in my database.')
     }
 
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
 
     const ticketType = ticketTypes.find(
       x =>
@@ -163,7 +163,7 @@ export default class SupportCommand extends Command {
           dbSupportTicket
         )
 
-        const editedEmbed = new MessageEmbed()
+        const editedEmbed = new RichEmbed()
 
         editedEmbed
           .setAuthor(title)
@@ -193,7 +193,7 @@ export default class SupportCommand extends Command {
     )
   }
 
-  private async getTicket(msg: CommandoMessage, description: string) {
+  private async getTicket(msg: CommandMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'support' && x.type === 'text'
     )
@@ -222,7 +222,7 @@ export default class SupportCommand extends Command {
       return msg.reply('Invalid ticketId')
     }
 
-    const embed = new MessageEmbed()
+    const embed = new RichEmbed()
 
     embed
       .setAuthor(ticket.title)
@@ -259,7 +259,7 @@ export default class SupportCommand extends Command {
     return (channel as TextChannel).send(embed)
   }
 
-  private async closeTicket(msg: CommandoMessage, description: string) {
+  private async closeTicket(msg: CommandMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'support' && x.type === 'text'
     )
@@ -308,7 +308,7 @@ export default class SupportCommand extends Command {
     ticket.closedReason = closedReason || null
     ticket.closedUserId = msg.member.id
 
-    const newEmbed = new MessageEmbed()
+    const newEmbed = new RichEmbed()
 
     newEmbed
       .setAuthor(ticket.title)
@@ -341,9 +341,7 @@ export default class SupportCommand extends Command {
 
     await guildService.updateSupportTicket(msg.guild.id, ticketId, ticket)
 
-    const messages = await (channel as TextChannel).messages.fetch({
-      limit: 100
-    })
+    const messages = (channel as TextChannel).messages
 
     const originalMessage = messages.find(x => x.id === ticket.messageId)
 
@@ -356,7 +354,7 @@ export default class SupportCommand extends Command {
     return msg.reply(`Support ticket ${ticket.id} has been closed.`)
   }
 
-  private async editTicket(msg: CommandoMessage, description: string) {
+  private async editTicket(msg: CommandMessage, description: string) {
     const channel = msg.guild.channels.find(
       x => x.name === 'support' && x.type === 'text'
     )
@@ -396,9 +394,7 @@ export default class SupportCommand extends Command {
       return msg.reply("You don't have permission to do that.")
     }
 
-    const messages = await (channel as TextChannel).messages.fetch({
-      limit: 100
-    })
+    const messages = (channel as TextChannel).messages
 
     const originalMessage = messages.get(ticket.messageId)
 
@@ -408,7 +404,7 @@ export default class SupportCommand extends Command {
       )
     }
 
-    const newEmbed = new MessageEmbed()
+    const newEmbed = new RichEmbed()
 
     newEmbed
       .setAuthor(ticket.title)
