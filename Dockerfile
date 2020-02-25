@@ -1,6 +1,6 @@
 # API
 FROM node:12
-WORKDIR /usr/src/app/api
+WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . .
@@ -9,7 +9,7 @@ CMD ["yarn", "api:dev"]
 
 # Bot
 FROM node:12
-WORKDIR /usr/src/app/bot
+WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . .

@@ -187,7 +187,7 @@ export default class ProfileCommand extends Command {
     )
     // tslint:disable-next-line
     cond.src = await request({
-      uri: user.user.displayAvatarURL({ format: 'png' }),
+      uri: user.user.displayAvatarURL,
       encoding: null
     })
     generate()
