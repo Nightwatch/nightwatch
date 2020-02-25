@@ -8,7 +8,7 @@ services:
     ports:
       - 4000:4000
       - 8081:80
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; yarn api:start'
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; yarn api:dev'
     depends_on:
       - db
   db:
@@ -25,6 +25,6 @@ services:
       - ./:/usr/src/app
     depends_on:
       - api
-    command: bash -c 'while !</dev/tcp/api/4000; do sleep 1; done; yarn bot:start'
+    command: bash -c 'while !</dev/tcp/api/4000; do sleep 1; done; yarn bot:dev'
     environment:
       - API_URL=http://api:4000/api
