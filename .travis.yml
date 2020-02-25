@@ -12,5 +12,4 @@ script:
   - yarn
   - yarn global add typescript
   - tsc
-  - yarn lint
   - yarn api:test
