@@ -7,7 +7,10 @@ import { Bot } from './interfaces'
 process.on('uncaughtException', onError)
 process.on('disconnect', onError)
 
+let lastStartAttempt: number | undefined
+
 function start() {
+  lastStartAttempt = Date.now()
   const bot = container.get<Bot>(Types.Bot)
   bot
     .start()
@@ -26,7 +29,9 @@ function onError(error?: Error) {
   // Will restart automatically
   // process.exit(1)
 
-  start()
+  if (lastStartAttempt && Date.now() - lastStartAttempt > 5 * 1000) {
+    start()
+  }
 }
 
 start()
