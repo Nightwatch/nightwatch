@@ -105,19 +105,13 @@ export class Bot implements IBot {
   public readonly onDisconnect = () => {
     console.info(`${config.bot.botName} disconnected. Restarting...`)
 
-    // TODO: Handle auto restarts better...
-    // process.exit(1)
-
-    throw new Error('Disconnected')
+    process.exit(1)
   }
 
   public readonly onError = (error: Error) => {
     console.error(error)
 
-    // TODO: Handle auto restarts better...
-    // process.exit(1)
-
-    throw new Error('Unhandled Discord.js error')
+    process.exit(1)
   }
 
   private handleLoginFailure(error: any) {
