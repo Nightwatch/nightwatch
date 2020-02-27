@@ -25,6 +25,7 @@ services:
       - ./:/usr/src/app
     depends_on:
       - api
+    restart: always
     command: bash -c 'while !</dev/tcp/api/4000; do sleep 1; done; yarn bot:dev'
     environment:
       - API_URL=http://api:4000/api
