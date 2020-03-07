@@ -1,0 +1,26 @@
+ol {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+li {
+	float: right;
+}
+.navigation-header {
+	list-style-type:none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+li a {
+	display: inline-block;
+	padding: 10px;
+	color: black;
+	font-size: 12px;
+}
+li a:hover {
+	text-color: white;
+	background-color: white;
+}
+
