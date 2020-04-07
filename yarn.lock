@@ -1187,6 +1187,18 @@
     eslint "^4.19.1"
     eslint-plugin-vue "^4.7.1"
 
+"@vue/cli-plugin-router@^4.2.3":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-router/-/cli-plugin-router-4.2.3.tgz#c64594e7e7e20ba76c71262f283b6199f5afd463"
+  integrity sha512-RGtgFQCTMS1X1wtFt752RMgr/LlF9cfpH37MkwjhF2wpnyTp+hkKl/09QORAKW91I8iFpZFH7xZKMBS3r1WbCw==
+  dependencies:
+    "@vue/cli-shared-utils" "^4.2.3"
+
+"@vue/cli-plugin-vuex@^4.2.3":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.2.3.tgz#aa1d8e824dd82b8718c0c40e3906c34ccd752516"
+  integrity sha512-7M4CaoAD4W/GdiDI4+Gh2tATPFBnb/u7bCiLLDsuL9ztypv7l3p4cu43zkDpTCCuufkZFYtZwysOAY8SbGqOjg==
+
 "@vue/cli-service@^3.1.1":
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-3.12.1.tgz#13220b1c189254e7c003390df329086f9b6e77e6"
@@ -1266,6 +1278,25 @@
     request-promise-native "^1.0.7"
     semver "^6.0.0"
     string.prototype.padstart "^3.0.0"
+
+"@vue/cli-shared-utils@^4.2.3":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.2.3.tgz#13646452cc25b0ab68a57cb52cac27983cee39a4"
+  integrity sha512-GCoTB6vMZsi9z/Bmn8/C9IlnUw8eeHONOGE+48TJkZyulftVFhlwVWjTFp5GuDAlwpTWarHchW9IoVu3pIIGfA==
+  dependencies:
+    "@hapi/joi" "^15.0.1"
+    chalk "^2.4.2"
+    execa "^1.0.0"
+    launch-editor "^2.2.1"
+    lru-cache "^5.1.1"
+    node-ipc "^9.1.1"
+    open "^6.3.0"
+    ora "^3.4.0"
+    read-pkg "^5.1.1"
+    request "^2.87.0"
+    request-promise-native "^1.0.8"
+    semver "^6.1.0"
+    strip-ansi "^6.0.0"
 
 "@vue/component-compiler-utils@^3.0.0", "@vue/component-compiler-utils@^3.1.0":
   version "3.1.1"
@@ -9065,7 +9096,7 @@ read-pkg@^3.0.0:
     normalize-package-data "^2.3.2"
     path-type "^3.0.0"
 
-read-pkg@^5.0.0:
+read-pkg@^5.0.0, read-pkg@^5.1.1:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/read-pkg/-/read-pkg-5.2.0.tgz#7bf295438ca5a33e56cd30e053b34ee7250c93cc"
   integrity sha512-Ug69mNOpfvKDAc2Q8DRpMjjzdtrnv9HcSMX+4VsZxD1aZ6ZzrIE7rlzXBtWTyhULSMKg076AW6WR5iZpD0JiOg==
@@ -9346,7 +9377,7 @@ request-promise-core@1.1.3:
   dependencies:
     lodash "^4.17.15"
 
-request-promise-native@^1.0.7:
+request-promise-native@^1.0.7, request-promise-native@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/request-promise-native/-/request-promise-native-1.0.8.tgz#a455b960b826e44e2bf8999af64dff2bfe58cb36"
   integrity sha512-dapwLGqkHtwL5AEbfenuzjTYg35Jd6KPytsC2/TLkVMz8rm+tNt72MGUWT1RP/aYawMpN6HqbNGBQaRcBtjQMQ==
@@ -9648,7 +9679,7 @@ semver@5.5.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
   integrity sha512-4SJ3dm0WAwWy/NVeioZh5AntkdJoWKxHxcmyP622fOkgHa4z3R0TdBJICINyaSDE6uNwVc8gZr+ZinwZAH4xIA==
 
-semver@^6.0.0, semver@^6.3.0:
+semver@^6.0.0, semver@^6.1.0, semver@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
@@ -11335,10 +11366,10 @@ vuetify-loader@^1.0.5:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^1.3.0:
-  version "1.5.22"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.22.tgz#18417ac675c9085946b37cdbbfe9fc010c5cec27"
-  integrity sha512-WtfB6fe1+Fsf56nR6LGSh7YgUXp/iF0k9Igtf1XnODjV8OOD8A63ACVD5aG34FhUZS0CgqkcXjyG6EYuz/LFYA==
+vuetify@^2.2.15:
+  version "2.2.15"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.15.tgz#03466acb6b9afcba056abef3a6278d396cae18ff"
+  integrity sha512-okz+Q7YfCkLLJsxdldlYWUHcbRX/G+fo/0zSS3rXU+Ir76sxZzIOkSsqox1exFWQJn1PqA0itiHR0QTWygv8VA==
 
 vuex@^3.0.1:
   version "3.1.2"

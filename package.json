@@ -4,7 +4,7 @@
   "author": "Tanner Goins <tannergz28@gmail.com>",
   "scripts": {
     "lint": "tslint --project . --format stylish --fix && yarn web:lint",
-    "api:dev": "tsc && yarn db:migrate && nodemon --watch 'src/api/src/**/*.ts' --exec 'ts-node' src/api/src/index.ts",
+    "api:dev": "yarn && tsc && yarn db:migrate && nodemon --watch 'src/api/src/**/*.ts' --exec 'ts-node' src/api/src/index.ts",
     "api:docs": "cross-env typedoc --out public/docs src --name \"Nightwatch API\" --excludeExternals --mode file",
     "api:prod": "tsc && cross-env NODE_ENV=production nodemon --exec ts-node src/api/src/index.ts",
     "api:start": "pm2 delete api || true && pm2 start --name api npm -- run api:dev",
@@ -69,7 +69,7 @@
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.3.0",
+    "vuetify": "^2.2.15",
     "vuex": "^3.0.1",
     "yargs": "^12.0.2",
     "ytdl-core": "^0.29.1"
@@ -96,6 +96,8 @@
     "@types/yargs": "^12.0.1",
     "@vue/cli-plugin-babel": "^3.1.1",
     "@vue/cli-plugin-eslint": "^3.1.1",
+    "@vue/cli-plugin-router": "^4.2.3",
+    "@vue/cli-plugin-vuex": "^4.2.3",
     "@vue/cli-service": "^3.1.1",
     "@vue/eslint-config-standard": "^4.0.0",
     "chai": "^4.2.0",
