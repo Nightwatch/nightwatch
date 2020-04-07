@@ -1,17 +1,24 @@
-;<template>
-  <v-toolbar app>
-    <v-toolbar-title class="headline text-uppercase">
-      <span>Vuetify</span>
-      <span class="font-weight-light">MATERIAL DESIGN</span>
-    </v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-btn
-      flat
-      href="https://github.com/vuetifyjs/vuetify/releases/latest"
-      target="_blank"
-    >
-      <span class="mr-2">Latest Release</span>
-      <v-icon>fas fa-external-link-alt</v-icon>
-    </v-btn>
-  </v-toolbar>
+<template>
+  <div class="reuseheader">
+    <ol>
+      <li><nuxt-link to="/">Home</nuxt-link></li>
+      <li><nuxt-link to="/about">About</nuxt-link></li>
+      <li><nuxt-link to="/features">Features</nuxt-link></li>
+      <li><nuxt-link to="/status">Status</nuxt-link></li>
+      <li>
+        <a
+          target="_blank"
+          href="https://discordapp.com/api/oauth2/authorize?client_id=465260354126086144&permissions=8&scope=bot"
+          >Add to Server</a
+        >
+      </li>
+      <li><nuxt-link to="/contact">Contact</nuxt-link></li>
+    </ol>
+  </div>
 </template>
+
+<script>
+export default {
+  name: 'Header'
+}
+</script>

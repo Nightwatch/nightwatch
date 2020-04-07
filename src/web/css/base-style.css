@@ -1,102 +1,99 @@
 ol {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 li {
-	float: right;
+  float: right;
 }
 .navigation-header {
-	list-style-type:none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 .header-text {
-	text-align: center;
-	padding-top: 150px;
+  text-align: center;
+  padding-top: 150px;
 }
 li a {
-	display: inline-block;
-	padding: 10px;
-	color: black;
-	font-size: 12px;
+  display: inline-block;
+  padding: 10px;
+  color: black;
+  font-size: 12px;
 }
 li a:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 h3 {
-	text-align: center;
-	text-shadow: 1px 1px gray;
+  text-align: center;
+  text-shadow: 1px 1px gray;
 }
 h1 {
-	text-align: center;
-	font-size: 60px;
-	padding-top: 150px;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
-	/*font-family: "Uni Sans";*/
-	line-height: 0.7;
-	text-shadow: 1px 1px gray;
+  text-align: center;
+  font-size: 60px;
+  padding-top: 150px;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  /*font-family: "Uni Sans";*/
+  line-height: 0.7;
+  text-shadow: 1px 1px gray;
 }
 h4 {
-	text-align: center;
-	font-size: 20px;
-	text-shadow: 1px 1px gray;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
-	padding-right: 200px;
-	padding-left: 200px;
+  text-align: center;
+  font-size: 20px;
+  text-shadow: 1px 1px gray;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  padding-right: 200px;
+  padding-left: 200px;
 }
 h5 {
-	/* default body text size */
-	text-align: center;
-	padding-right: 30%;
-	padding-left: 30%;
-	font-size: 16px;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
-}	
+  /* default body text size */
+  text-align: center;
+  padding-right: 30%;
+  padding-left: 30%;
+  font-size: 16px;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
 .homepage-container {
-	text-align: center;
-	padding-top: 200px;
+  text-align: center;
+  padding-top: 200px;
 }
-.homepage-center-text {
-}
+
 .youtube-container {
-	text-align: center;
-	padding-top: 50px;
+  text-align: center;
+  padding-top: 50px;
 }
-.youtube {
-}
+
 body {
-	background-image: url("../../assets/background6.jpg");
-	background-size: auto;
+  background-size: auto;
 }
 .image-container {
-	text-align: center;
-	padding-top: 25px;
-	padding-bottom: 25px;
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 .image {
-	padding-top: 25px;
-	padding-bottom: 25px;
-	text-align: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  text-align: center;
 }
 img {
-	text-align: center;
+  text-align: center;
 }
 h6 {
-	text-align: center;
+  text-align: center;
 }
-input[type=text] {
-	width: 20%;
-	padding: 10px 15px;
-	box-sizing: border-box;
+input[type='text'] {
+  width: 20%;
+  padding: 10px 15px;
+  box-sizing: border-box;
 }
 form {
-	text-align: center;
+  text-align: center;
 }
 .message-box {
-	text-align: center;
+  text-align: center;
 }
 
 .button {
@@ -104,7 +101,7 @@ form {
   border-radius: 4px;
   background-color: #1fe043;
   border: none;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   font-size: 16px;
   padding: 12px;
@@ -136,12 +133,12 @@ form {
 }
 
 .features-list {
-	padding: 10px 10px;
-	text-align: center;
+  padding: 10px 10px;
+  text-align: center;
 }
 hr {
-	color: gray;
-	width: 50%;
+  color: gray;
+  width: 50%;
 }
 .center {
   display: block;

@@ -13,4 +13,5 @@ WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . .
-CMD ["yarn", "bot:dev"]
+CMD ["yarn", "bot:prod"]
+
