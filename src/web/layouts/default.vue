@@ -1,5 +1,6 @@
 <template>
   <v-app
+    dark
     :style="{
       backgroundImage: 'url(' + require('@/assets/background6.jpg') + ')'
     }"

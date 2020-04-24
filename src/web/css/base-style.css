@@ -3,7 +3,6 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #a582a3;
 }
 
 li {
@@ -26,10 +25,6 @@ li a {
   text-align: center;
   padding: 15px 131px;
   text-decoration: none;
-}
-
-.active {
-  background-color: #328bb3;
 }
 
 h3 {
@@ -132,10 +127,6 @@ form {
 }
 .button:hover span {
   padding-right: 25px;
-}
-.button:hover span:after {
-  opacity: 1;
-  right: 0;
 }
 
 .features-list {

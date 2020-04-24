@@ -1,25 +1,31 @@
 <template>
-  <div class="reuseheader">
-    <ol>
-      <li><nuxt-link to="/">Home</nuxt-link></li>
-      <li><nuxt-link to="/about">About</nuxt-link></li>
-      <li><nuxt-link to="/features">Features</nuxt-link></li>
-      <li>
-        <a
-          target="_blank"
-          href="https://discordapp.com/api/oauth2/authorize?client_id=465260354126086144&permissions=8&scope=bot"
-          >Add to Server</a
-        >
-      </li>
-      <li><nuxt-link to="/contact">Contact</nuxt-link></li>
-    </ol>
-  </div>
+  <v-app-bar dense app>
+    <v-toolbar-title>Nightwatch</v-toolbar-title>
+    <v-spacer />
+    <v-btn text color="indigo" to="/">Home</v-btn>
+    <v-btn text color="indigo" to="/about">About</v-btn>
+    <v-btn text color="indigo" to="/features">Features</v-btn>
+    <v-btn text color="indigo" to="/contact">Contact</v-btn>
+
+    <v-btn
+      class="ma-2"
+      color="indigo"
+      outlined
+      target="_blank"
+      href="https://discordapp.com/api/oauth2/authorize?client_id=465260354126086144&permissions=8&scope=bot"
+      >Add to Server</v-btn
+    >
+  </v-app-bar>
 </template>
 
 <script>
-import '@/css/header-style.css'
-
 export default {
   name: 'Header'
 }
 </script>
+
+<style>
+a.nuxt-link-exact-active {
+  color: #0ec0ae;
+}
+</style>
