@@ -1,6 +1,6 @@
 <template>
   <v-app-bar dense app>
-    <v-toolbar-title>Nightwatch</v-toolbar-title>
+    <v-toolbar-title class="indigo--text">Nightwatch</v-toolbar-title>
     <v-spacer />
     <v-btn text color="indigo" to="/">Home</v-btn>
     <v-btn text color="indigo" to="/about">About</v-btn>
