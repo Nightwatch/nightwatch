@@ -8564,6 +8564,11 @@ pnp-webpack-plugin@^1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
+popyt@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/popyt/-/popyt-3.1.0.tgz#eb215fc4cede0cabaeff24af3624f38d2cd756ae"
+  integrity sha512-oOk0m2MHzbntU0Odoo80RRFBwAJm5jHFwUBJAUAjvUdsroJK3U5fTuZiNLj9QB7yvGzkrsCeTOKqFfYlVeKMkw==
+
 portfinder@^1.0.25:
   version "1.0.25"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.25.tgz#254fd337ffba869f4b9d37edc298059cb4d35eca"
