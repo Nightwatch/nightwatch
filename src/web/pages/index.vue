@@ -10,17 +10,6 @@
           <img src="@/assets/slogan2.png" alt="slogan" />
         </div>
       </div>
-      <div class="youtube-container">
-        <div class="youtube">
-          <!--<iframe width="640" height="360" src="https://www.youtube.com/embed/tgbNymZ7vqY">-->
-          <iframe
-            width="640"
-            height="360"
-            src="https://www.youtube.com/embed/X3tYUKkhJgw"
-          >
-          </iframe>
-        </div>
-      </div>
     </v-flex>
   </v-layout>
 </template>

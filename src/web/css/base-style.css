@@ -28,10 +28,6 @@ li a {
   text-decoration: none;
 }
 
-li a:hover:not(.active) {
-  background-color: #328bb3;
-}
-
 .active {
   background-color: #328bb3;
 }
@@ -71,18 +67,12 @@ h5 {
   text-align: center;
   padding-top: 200px;
 }
-.homepage-center-text {
-}
+
 .youtube-container {
   text-align: center;
   padding-top: 50px;
 }
-.youtube {
-}
-body {
-  background-image: url('../assets/background6.jpg');
-  background-size: auto;
-}
+
 .image-container {
   text-align: center;
   padding-top: 25px;
@@ -185,7 +175,7 @@ hr {
   width: 30%;
 }
 
-p1 {
+p {
   text-align: left;
   font-family: 'Trebuchet MS', Helvetica, sans-serif;
   font-size: 25px;

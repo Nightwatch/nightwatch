@@ -4,7 +4,6 @@
       <li><nuxt-link to="/">Home</nuxt-link></li>
       <li><nuxt-link to="/about">About</nuxt-link></li>
       <li><nuxt-link to="/features">Features</nuxt-link></li>
-      <li><nuxt-link to="/status">Status</nuxt-link></li>
       <li>
         <a
           target="_blank"
@@ -18,6 +17,8 @@
 </template>
 
 <script>
+import '@/css/header-style.css'
+
 export default {
   name: 'Header'
 }
