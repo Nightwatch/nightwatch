@@ -106,7 +106,6 @@ export class MusicPlayer {
         } else if (!this.isPlaying() && this.isQueueEmpty()) {
           this.voiceChannel!.leave()
         }
-        this.stopped = false
       }, 2000)
     })
 

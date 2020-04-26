@@ -45,6 +45,7 @@ export default class PlayCommand extends Command {
       return msg.reply('You must be in a voice channel to play music.')
     }
 
+    this.client.musicPlayer.stopped = false
     this.client.musicPlayer.voiceChannel = voiceChannel
     this.client.musicPlayer.textChannel = msg.channel as TextChannel
 
