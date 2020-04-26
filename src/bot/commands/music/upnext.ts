@@ -52,7 +52,7 @@ export default class UpNextCommand extends Command {
           }
         ],
         footer: {
-          text: 'Vibe.js | The joy of music.'
+          text: 'Nightwatch'
         }
       }
 

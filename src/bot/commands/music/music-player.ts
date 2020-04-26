@@ -114,6 +114,7 @@ export class MusicPlayer {
         } else if (!this.isPlaying() && this.isQueueEmpty()) {
           this.voiceChannel!.leave()
         }
+        this.stopped = false
       }, 3000)
     })
 
@@ -190,8 +191,6 @@ export class MusicPlayer {
   public stop() {
     this.stopped = true
     this.voiceHandler?.end()
-    this.voiceHandler = undefined
-    this.voiceChannel?.leave()
   }
 
   public getNowPlaying() {
