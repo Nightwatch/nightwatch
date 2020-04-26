@@ -2,8 +2,6 @@ import { Command } from '../../base'
 import { CommandMessage } from 'discord.js-commando'
 import { Client } from '../../models'
 
-const volumeLevels = [...[...Array(11).keys()]]
-
 export default class VolumeCommand extends Command {
   constructor(client: Client) {
     super(client, {
@@ -19,7 +17,7 @@ export default class VolumeCommand extends Command {
       args: [
         {
           key: 'modifier',
-          oneOf: ['up', 'down', '', ...volumeLevels],
+          oneOf: ['up', 'down', '', ...range(11).map(x => x.toString())],
           default: '',
           type: 'string',
           prompt: 'What should the volume be? (0-10)\n'
@@ -53,4 +51,8 @@ export default class VolumeCommand extends Command {
         10}%`
     )
   }
+}
+
+function range(size: number, startAt = 0) {
+  return [...Array(size).keys()].map(i => i + startAt)
 }
