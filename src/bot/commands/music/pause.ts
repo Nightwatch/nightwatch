@@ -2,13 +2,13 @@ import { Command } from '../../base'
 import { CommandMessage } from 'discord.js-commando'
 import { Client } from '../../models'
 
-export default class ResumeCommand extends Command {
+export default class PauseCommand extends Command {
   constructor(client: Client) {
     super(client, {
-      name: 'resume',
+      name: 'pause',
       group: 'music',
-      memberName: 'resume',
-      description: 'Resumes the playlist.',
+      memberName: 'pause',
+      description: 'Pauses the current song.',
       guildOnly: true,
       throttling: {
         usages: 2,
@@ -19,14 +19,11 @@ export default class ResumeCommand extends Command {
 
   public async run(msg: CommandMessage) {
     if (this.client.musicPlayer.voiceHandler?.paused) {
-      this.client.musicPlayer.resume()
-      return msg.reply('Resuming...')
+      return msg.reply('Playback is already paused.')
     }
 
-    if (!this.client.musicPlayer.stopped) {
-      return msg.reply('Playback is already running.')
-    }
+    this.client.musicPlayer.pause()
 
-    return this.client.musicPlayer.playNextSong()
+    return msg.reply('Pausing...')
   }
 }

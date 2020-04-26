@@ -216,4 +216,12 @@ export class MusicPlayer {
     this.volume = volume
     this.voiceHandler?.setVolumeLogarithmic(volume / 5)
   }
+
+  public pause() {
+    this.voiceHandler?.pause()
+  }
+
+  public resume() {
+    this.voiceHandler?.resume()
+  }
 }
