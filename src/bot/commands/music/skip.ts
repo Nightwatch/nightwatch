@@ -18,11 +18,11 @@ export default class SkipCommand extends Command {
   }
 
   public async run(msg: CommandMessage) {
-    if (!this.client.musicPlayer.voiceHandler) {
+    if (!this.client.musicPlayer.playing) {
       return msg.reply('There is nothing being played.')
     }
 
-    this.client.musicPlayer.voiceHandler.end()
+    this.client.musicPlayer.voiceHandler?.end()
     this.client.musicPlayer.voiceHandler = undefined
 
     return msg.reply('Skipping...')

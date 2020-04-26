@@ -18,13 +18,13 @@ export default class ResumeCommand extends Command {
   }
 
   public async run(msg: CommandMessage) {
-    if (this.client.musicPlayer.voiceHandler?.paused) {
-      this.client.musicPlayer.resume()
-      return msg.reply('Resuming...')
+    if (this.client.musicPlayer.playing) {
+      return msg.reply('Playback is already running.')
     }
 
-    if (!this.client.musicPlayer.stopped) {
-      return msg.reply('Playback is already running.')
+    if (this.client.musicPlayer.paused) {
+      this.client.musicPlayer.resume()
+      return msg.reply('Resuming...')
     }
 
     return this.client.musicPlayer.playNextSong()

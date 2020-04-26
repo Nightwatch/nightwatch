@@ -18,7 +18,7 @@ export default class PauseCommand extends Command {
   }
 
   public async run(msg: CommandMessage) {
-    if (this.client.musicPlayer.voiceHandler?.paused) {
+    if (this.client.musicPlayer.paused) {
       return msg.reply('Playback is already paused.')
     }
 

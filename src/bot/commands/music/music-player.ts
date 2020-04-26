@@ -184,7 +184,7 @@ export class MusicPlayer {
     this.voiceHandler?.end()
   }
 
-  public getNowPlaying() {
+  public get nowPlaying() {
     return this.queue[0]
   }
 
@@ -221,7 +221,15 @@ export class MusicPlayer {
     this.voiceHandler?.pause()
   }
 
+  public get paused() {
+    return this.voiceHandler?.paused
+  }
+
   public resume() {
     this.voiceHandler?.resume()
+  }
+
+  public get playing() {
+    return this.voiceHandler && this.nowPlaying && !this.paused
   }
 }

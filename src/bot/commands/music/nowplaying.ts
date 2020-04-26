@@ -18,7 +18,7 @@ export default class NowPlayingCommand extends Command {
   }
 
   public async run(msg: CommandMessage) {
-    const nowPlaying = this.client.musicPlayer.getNowPlaying()
+    const nowPlaying = this.client.musicPlayer.nowPlaying
 
     if (!nowPlaying) {
       return msg.reply('Nothing is currently playing.')
