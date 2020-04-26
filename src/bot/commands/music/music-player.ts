@@ -8,12 +8,6 @@ import {
   Message
 } from 'discord.js'
 import ytdl = require('ytdl-core')
-import { Config } from '../../../common'
-const config: Config = require('../../../../config/config.json')
-
-const ffmeg_static = require('ffmpeg-static')
-
-process.env.ffmpeg = ffmeg_static
 
 export class MusicPlayer {
   public stopped = false
@@ -25,10 +19,7 @@ export class MusicPlayer {
   public textChannel?: TextChannel
   public voiceChannel?: VoiceChannel
   public requiredRole?: Role
-  public searchOptions = {
-    googleApiKey: config.optional.googleApiKey,
-    maxResults: 1
-  }
+  private volume = 5
 
   constructor(private readonly client: Client) {}
 
@@ -103,6 +94,7 @@ export class MusicPlayer {
 
     const audioStream = ytdl('https://www.youtube.com/watch?v=' + videoId)
     this.voiceHandler = this.voiceConnection.playStream(audioStream)
+    this.setVolume()
     this.queue.shift()
 
     this.voiceHandler.once('end', async () => {
@@ -115,7 +107,7 @@ export class MusicPlayer {
           this.voiceChannel!.leave()
         }
         this.stopped = false
-      }, 3000)
+      }, 2000)
     })
 
     return this.textChannel!.send({ embed })
@@ -195,5 +187,33 @@ export class MusicPlayer {
 
   public getNowPlaying() {
     return this.queue[0]
+  }
+
+  public getVolume() {
+    return this.volume
+  }
+
+  public incrementVolume() {
+    this.volume++
+
+    if (this.volume > 10) {
+      this.volume = 10
+    }
+
+    this.setVolume()
+  }
+
+  public decrementVolume() {
+    this.volume--
+
+    if (this.volume < 0) {
+      this.volume = 0
+    }
+
+    this.setVolume()
+  }
+
+  private setVolume() {
+    this.voiceHandler?.setVolumeLogarithmic(this.volume / 5)
   }
 }
