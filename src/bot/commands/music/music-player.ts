@@ -18,7 +18,6 @@ process.env.ffmpeg = ffmeg_static
 export class MusicPlayer {
   public stopped = false
   public informNowplaying = true
-  public nowPlaying?: { id: string; title: string; user: string }
   public queue: Array<{ id: string; title: string; user: string }> = []
   public aliases = {}
   public voiceConnection?: VoiceConnection
@@ -60,8 +59,6 @@ export class MusicPlayer {
     const videoId = this.queue[0].id
     const title = this.queue[0].title
     const user = this.queue[0].user
-
-    this.nowPlaying = this.queue[0]
 
     const embed = {
       title: ' ',
@@ -173,7 +170,7 @@ export class MusicPlayer {
             }
           ],
           footer: {
-            text: 'Vibe.js | The joy of music.'
+            text: 'Nightwatch'
           }
         }
 
@@ -188,5 +185,16 @@ export class MusicPlayer {
           ') does not exist or cannot be played.'
       )
     }
+  }
+
+  public stop() {
+    this.stopped = true
+    this.voiceHandler?.end()
+    this.voiceHandler = undefined
+    this.voiceChannel?.leave()
+  }
+
+  public getNowPlaying() {
+    return this.queue[0]
   }
 }

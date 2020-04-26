@@ -26,7 +26,7 @@ export default class PlayCommand extends Command {
           key: 'search',
           prompt: 'What song would you like to play?\n',
           type: 'string',
-          default: '-1'
+          default: ''
         }
       ],
       hidden:
@@ -35,6 +35,10 @@ export default class PlayCommand extends Command {
   }
 
   public async run(msg: CommandMessage, args: { search: string }) {
+    if (!args.search.trim()) {
+      return msg.reply('Song url or name must be provided.')
+    }
+
     const voiceChannel = msg.member.voiceChannel
 
     if (!voiceChannel) {

@@ -18,7 +18,9 @@ export default class NowPlayingCommand extends Command {
   }
 
   public async run(msg: CommandMessage) {
-    if (!this.client.musicPlayer.nowPlaying) {
+    const nowPlaying = this.client.musicPlayer.getNowPlaying()
+
+    if (!nowPlaying) {
       return msg.reply('Nothing is currently playing.')
     }
 
@@ -27,17 +29,12 @@ export default class NowPlayingCommand extends Command {
         title: ' ',
         color: 0x2196f3,
         author: {
-          name: 'Now Playing: ' + this.client.musicPlayer.nowPlaying.title,
+          name: 'Now Playing: ' + nowPlaying.title,
           icon_url:
-            'https://img.youtube.com/vi/' +
-            this.client.musicPlayer.nowPlaying.id +
-            '/hqdefault.jpg'
+            'https://img.youtube.com/vi/' + nowPlaying.id + '/hqdefault.jpg'
         },
         thumbnail: {
-          url:
-            'https://img.youtube.com/vi/' +
-            this.client.musicPlayer.nowPlaying.id +
-            '/hqdefault.jpg'
+          url: 'https://img.youtube.com/vi/' + nowPlaying.id + '/hqdefault.jpg'
         },
         fields: [
           {
@@ -45,13 +42,13 @@ export default class NowPlayingCommand extends Command {
             value:
               '[Click Here](' +
               'https://www.youtube.com/watch?v=' +
-              this.client.musicPlayer.nowPlaying.id +
+              nowPlaying.id +
               ')',
             inline: true
           },
           {
             name: 'Requested By',
-            value: this.client.musicPlayer.nowPlaying.user,
+            value: nowPlaying.user,
             inline: true
           }
         ],
