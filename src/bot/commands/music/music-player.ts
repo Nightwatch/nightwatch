@@ -94,7 +94,7 @@ export class MusicPlayer {
 
     const audioStream = ytdl('https://www.youtube.com/watch?v=' + videoId)
     this.voiceHandler = this.voiceConnection.playStream(audioStream)
-    this.setVolume()
+    this.setVolume(this.volume)
     this.queue.shift()
 
     this.voiceHandler.once('end', async () => {
@@ -200,7 +200,7 @@ export class MusicPlayer {
       this.volume = 10
     }
 
-    this.setVolume()
+    this.setVolume(this.volume)
   }
 
   public decrementVolume() {
@@ -210,10 +210,11 @@ export class MusicPlayer {
       this.volume = 0
     }
 
-    this.setVolume()
+    this.setVolume(this.volume)
   }
 
-  private setVolume() {
-    this.voiceHandler?.setVolumeLogarithmic(this.volume / 5)
+  public setVolume(volume: number) {
+    this.volume = volume
+    this.voiceHandler?.setVolumeLogarithmic(volume / 5)
   }
 }

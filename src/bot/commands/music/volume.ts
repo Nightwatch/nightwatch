@@ -2,6 +2,8 @@ import { Command } from '../../base'
 import { CommandMessage } from 'discord.js-commando'
 import { Client } from '../../models'
 
+const volumeLevels = [...[...Array(11).keys()]]
+
 export default class VolumeCommand extends Command {
   constructor(client: Client) {
     super(client, {
@@ -17,10 +19,10 @@ export default class VolumeCommand extends Command {
       args: [
         {
           key: 'modifier',
-          oneOf: ['up', 'down', ''],
+          oneOf: ['up', 'down', '', ...volumeLevels],
           default: '',
           type: 'string',
-          prompt: 'Should the volume go up or down?\n'
+          prompt: 'What should the volume be? (0-10)\n'
         }
       ]
     })
@@ -28,7 +30,8 @@ export default class VolumeCommand extends Command {
 
   public async run(
     msg: CommandMessage,
-    args: { modifier: 'up' | 'down' | '' }
+    // tslint:disable-next-line: max-union-size
+    args: { modifier: 'up' | 'down' | '' | number }
   ) {
     if (!args.modifier) {
       return msg.reply(
@@ -39,8 +42,10 @@ export default class VolumeCommand extends Command {
 
     if (args.modifier === 'up') {
       this.client.musicPlayer.incrementVolume()
-    } else {
+    } else if (args.modifier === 'down') {
       this.client.musicPlayer.decrementVolume()
+    } else {
+      this.client.musicPlayer.setVolume(args.modifier)
     }
 
     return msg.reply(
