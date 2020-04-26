@@ -1,12 +1,13 @@
-import { CommandoClient, CommandMessage } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import axios from 'axios'
 import { Config } from '../../../common'
 import { TextChannel } from 'discord.js'
 const config: Config = require('../../../../config/config.json')
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class ImgurCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'imgur',
       group: 'search',

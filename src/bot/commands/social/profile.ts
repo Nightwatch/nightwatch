@@ -1,4 +1,4 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import * as Canvas from 'canvas'
 import * as request from 'request-promise'
 import * as path from 'path'
@@ -6,9 +6,10 @@ import * as fs from 'fs'
 import { UserService } from '../../services'
 import { UserLevel } from '../../../db'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class ProfileCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'profile',
       group: 'social',

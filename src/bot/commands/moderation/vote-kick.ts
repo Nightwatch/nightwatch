@@ -1,9 +1,10 @@
 import { Message, GuildMember, RichEmbed } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class VoteKickCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'votekick',
       group: 'moderation',

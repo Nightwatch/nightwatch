@@ -1,8 +1,9 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class RockPaperScissorsCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'rps',
       group: 'games',
@@ -60,9 +61,7 @@ export default class RockPaperScissorsCommand extends Command {
     }
 
     return msg.reply(
-      `It's a draw! You chose ${userChoice.name} and I chose ${
-        randomChoice.name
-      }.`
+      `It's a draw! You chose ${userChoice.name} and I chose ${randomChoice.name}.`
     )
   }
 }

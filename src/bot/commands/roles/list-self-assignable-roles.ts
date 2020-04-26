@@ -1,10 +1,11 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { GuildSelfAssignableRole } from '../../../db'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class ListSelfAssignableRolesCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'lsar',
       group: 'roles',
@@ -36,9 +37,7 @@ export default class ListSelfAssignableRolesCommand extends Command {
       .join(', ')
 
     return msg.channel.send(
-      `These are the available self assignable roles for ${
-        msg.guild.name
-      }: ${rolesString}`
+      `These are the available self assignable roles for ${msg.guild.name}: ${rolesString}`
     )
   }
 }

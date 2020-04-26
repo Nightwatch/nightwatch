@@ -1,12 +1,12 @@
 import * as Promise from 'bluebird'
 import { ClientUser } from 'discord.js'
-import { CommandoClient } from 'discord.js-commando'
 import { readdirSync, statSync } from 'fs'
 import { inject, injectable } from 'inversify'
 import * as path from 'path'
 import { Config, Types } from '../common'
 import { Bot as IBot, EventController } from './interfaces'
 import { loadPlugins, PluginStatus } from './utils/plugin-loader'
+import { Client } from './models/client'
 
 const getDirectoryNames = (p: string) =>
   readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
@@ -21,7 +21,7 @@ export class Bot implements IBot {
   @inject(Types.EventController)
   public readonly eventController: EventController
 
-  public readonly client: CommandoClient = new CommandoClient({
+  public readonly client: Client = new Client({
     owner: config.bot.ownerId,
     commandPrefix: config.bot.prefix,
     messageCacheLifetime: 30,
@@ -63,7 +63,9 @@ export class Bot implements IBot {
   }
 
   public stop(): void {
-    this.client.destroy()
+    this.client.destroy().catch(() => {
+      // swallow
+    })
     process.exit(1)
   }
 

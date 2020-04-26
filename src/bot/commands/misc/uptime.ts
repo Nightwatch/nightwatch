@@ -1,11 +1,12 @@
 import { RichEmbed } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { describe } from 'pm2'
 import * as prettyMs from 'pretty-ms'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class UptimeCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'uptime',
       group: 'misc',

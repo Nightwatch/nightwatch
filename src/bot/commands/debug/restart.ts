@@ -1,8 +1,9 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class RestartCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'restart',
       group: 'debug',
