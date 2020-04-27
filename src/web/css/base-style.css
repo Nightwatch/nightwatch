@@ -3,153 +3,28 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-li {
-  float: left;
-}
-.navigation-header {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-.header-text {
-  list-style-type: none;
-  text-align: center;
-  padding-top: 150px;
-}
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 15px 131px;
-  text-decoration: none;
-}
-
-h3 {
-  text-align: center;
-  text-shadow: 1px 1px gray;
-}
-
-h1 {
-  text-align: center;
-  font-size: 60px;
-  padding-top: 150px;
-  font-family: 'Trebuchet MS', Helvetica, sans-serif;
-  /*font-family: "Uni Sans";*/
-  line-height: 0.7;
-  text-shadow: 1px 1px gray;
-}
-
-h4 {
-  text-align: center;
+p {
   font-size: 20px;
-  text-shadow: 1px 1px gray;
   font-family: 'Trebuchet MS', Helvetica, sans-serif;
-  padding-right: 200px;
-  padding-left: 200px;
-}
-h5 {
-  /* default body text size */
-  text-align: center;
-  padding-right: 30%;
-  padding-left: 30%;
-  font-size: 16px;
-  font-family: 'Trebuchet MS', Helvetica, sans-serif;
-}
-.homepage-container {
-  text-align: center;
-  padding-top: 200px;
-}
-
-.youtube-container {
-  text-align: center;
-  padding-top: 50px;
-}
-
-.image-container {
-  text-align: center;
-  padding-top: 25px;
-  padding-bottom: 25px;
-}
-.image {
-  padding-top: 25px;
-  padding-bottom: 25px;
-  text-align: center;
-}
-img {
-  text-align: center;
-}
-h6 {
-  font-size: 14px;
-  text-align: center;
-}
-input[type='text'] {
-  width: 20%;
-  padding: 10px 15px;
-  box-sizing: border-box;
-}
-form {
-  text-align: center;
-}
-.message-box {
-  text-align: center;
-}
-
-.button {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: #328bb3;
-  border: none;
-  color: #ffffff;
-  text-align: center;
-  font-size: 16px;
-  padding: 12px;
-  width: 120px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
-}
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-.button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-.button:hover span {
-  padding-right: 25px;
-}
-
-.features-list {
-  padding: 10px 10px;
 }
 
 .features-list p {
-  font-size: 20px;
-  font-family: 'Trebuchet MS', Helvetica, sans-serif;
   text-align: center;
+}
+
+dt {
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  font-size: 35px;
+}
+
+dd {
+  font-size: 18px;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
 }
 
 .features-list dt {
   text-align: center;
   display: block;
-  font-family: 'Trebuchet MS', Helvetica, sans-serif;
-  padding-top: 20px;
-  font-size: 35px;
 }
 
 .features-list dd {
@@ -175,4 +50,17 @@ p {
   text-align: left;
   font-family: 'Trebuchet MS', Helvetica, sans-serif;
   font-size: 25px;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 100;
+  font-size: 60px;
+  color: indigo;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.page {
+  margin-top: 200px;
 }

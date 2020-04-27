@@ -5,6 +5,10 @@
       backgroundImage: 'url(' + require('@/assets/background6.jpg') + ')'
     }"
   >
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300&display=swap"
+      rel="stylesheet"
+    />
     <HeaderBar />
     <v-content app>
       <v-container>
@@ -51,3 +55,15 @@ export default {
   }
 }
 </script>
+
+<style>
+.content {
+  border-radius: 25px;
+  padding: 2em;
+  margin: 1em auto;
+  background-color: rgba(75, 0, 130, 0.2);
+}
+h1 {
+  font-family: 'Montserrat', sans-serif;
+}
+</style>

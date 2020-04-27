@@ -1,13 +1,29 @@
 <template>
-  <div class="homepage-container">
-    <div class="homepage-center-text">
-      <!--<h1>Nightwatch</h1>-->
-      <img src="@/assets/nightwatch.png" alt="main logo" />
-      <hr width="500px;" color="gray" />
-      <!--<h3>The only Discord bot you'll ever need</h3>-->
-      <img src="@/assets/slogan.png" alt="slogan" />
-    </div>
-  </div>
+  <v-container fluid class="pa-0 home">
+    <v-row align="center">
+      <v-col cols="12" sm="12">
+        <div class="text-center">
+          <img class="" src="@/assets/nightwatch.png" alt="main logo" />
+        </div>
+      </v-col>
+      <v-col cols="12" sm="12">
+        <div class="text-center">
+          <img class="" src="@/assets/slogan.png" alt="slogan" />
+        </div>
+      </v-col>
+      <v-col cols="12" sm="12">
+        <div class="text-center">
+          <v-btn
+            color="indigo"
+            outlined
+            target="_blank"
+            href="https://discordapp.com/api/oauth2/authorize?client_id=465260354126086144&permissions=8&scope=bot"
+            >Add to server</v-btn
+          >
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -21,3 +37,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.home {
+  margin-top: 220px;
+}
+</style>

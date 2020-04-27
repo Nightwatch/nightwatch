@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <div class="header-text">
-      <img src="@/assets/features.png" alt="features" />
-    </div>
-    <div class="features-list">
+  <div class="page">
+    <h1>Features</h1>
+    <div class="features-list content">
       <dl>
         <dt>Roles</dt>
         <hr />
@@ -49,6 +47,11 @@
         </dd>
         <dt>Music and Playlist Management</dt>
         <hr />
+        <img
+          src="../assets/MusicFeatures1.png"
+          alt="ping example"
+          class="center"
+        />
         <p>
           Nightwatch allows users to create and manage music playlists to play
           through the Discord application. Users can create queues of songs from
