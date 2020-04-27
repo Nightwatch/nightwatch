@@ -30,6 +30,10 @@ export class UserController implements IUserController {
   }
 
   public readonly userHasPremium = (id: string, client: Client) => {
+    if (client.isOwner(id)) {
+      return true
+    }
+
     if (
       !config.optional.premium ||
       !config.optional.premium.premiumPatreonRoleId ||
@@ -48,10 +52,6 @@ export class UserController implements IUserController {
 
     if (!member) {
       return false
-    }
-
-    if (client.isOwner(id)) {
-      return true
     }
 
     return member.roles.has(config.optional.premium.premiumPatreonRoleId)
