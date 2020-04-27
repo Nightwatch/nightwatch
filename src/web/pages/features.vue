@@ -34,7 +34,7 @@
         <dt>Friends List Management</dt>
         <hr />
         <p>
-          NightWatch keeps a custom friend list for each user in the server.
+          Nightwatch keeps a custom friend list for each user in the server.
           Users are able to view and modify their friend list with a number of
           commands.
         </p>
@@ -50,7 +50,7 @@
         <dt>Music and Playlist Management</dt>
         <hr />
         <p>
-          NightWatch allows users to create and manage music playlists to play
+          Nightwatch allows users to create and manage music playlists to play
           through the Discord application. Users can create queues of songs from
           a number of sources: Youtube, Spotify, or Soundcloud. The bot plays
           music by simply following the hyperlink provided to it by the user.
@@ -71,7 +71,7 @@
         <hr />
         <p>
           There are a number of other commands that will be implemented in
-          NightWatch, with more being optionally added as development continues.
+          Nightwatch, with more being optionally added as development continues.
         </p>
         <p1>Alphabetically, these commands are listed below:</p1>
         <dd>echo - echoes back the statement to the user</dd>

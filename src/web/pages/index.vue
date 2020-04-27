@@ -1,7 +1,7 @@
 <template>
   <div class="homepage-container">
     <div class="homepage-center-text">
-      <!--<h1>NightWatch</h1>-->
+      <!--<h1>Nightwatch</h1>-->
       <img src="@/assets/nightwatch.png" alt="main logo" />
       <hr width="500px;" color="gray" />
       <!--<h3>The only Discord bot you'll ever need</h3>-->

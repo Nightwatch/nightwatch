@@ -17,31 +17,28 @@
       </h5>
       <br />
       <h5>
-        For detailed documentation of the features of NightWatch, visit the
+        For detailed documentation of the features of Nightwatch, visit the
         installation and usage guide on :
         <a href="github.com/nightwatch">www.github.com/nightwatch</a>
       </h5>
       <br />
-      <hr />
-      <h5>Screenshots of common NightWatch functions:</h5>
     </div>
     <div>
       <h6>ping - returns the time to communicate with the bot.</h6>
       <img src="../assets/ping.png" alt="ping example" class="center" />
       <br />
       <hr />
-      <h6>ping - returns the time to communicate with the bot.</h6>
-      <img src="../assets/ping.png" alt="ping example" class="center" />
+      <h2>Music</h2>
+      <img
+        src="../assets/MusicFeatures1.png"
+        alt="ping example"
+        class="center"
+      />
       <br />
       <hr />
-      <h6>ping - returns the time to communicate with the bot.</h6>
-      <img src="../assets/ping.png" alt="ping example" class="center" />
-      <br />
-      <hr />
-      <h6>ping - returns the time to communicate with the bot.</h6>
-      <img src="../assets/ping.png" alt="ping example" class="center" />
-      <br />
-      <hr />
+      <h2>Friend system</h2>
+      <img src="../assets/dashboard.png" alt="ping example" class="center" />
+      <img src="../assets/profile.png" alt="ping example" class="center" />
     </div>
   </div>
 </template>
