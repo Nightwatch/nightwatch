@@ -110,6 +110,7 @@ export class Bot implements IBot {
 
   public readonly onError = (error: Error) => {
     console.error(error)
+
     process.exit(1)
   }
 

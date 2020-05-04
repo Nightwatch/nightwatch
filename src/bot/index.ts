@@ -1,15 +1,21 @@
 import { container } from './config/inversify'
 import { Types } from '../common'
 import { Bot } from './interfaces'
-import * as Promise from 'bluebird'
 
 /* prettier-ignore */
-const bot = container.get<Bot>(Types.Bot)
-
-Promise.resolve(bot.start()).catch(onError)
 
 process.on('uncaughtException', onError)
 process.on('disconnect', onError)
+
+function start() {
+  const bot = container.get<Bot>(Types.Bot)
+  bot
+    .start()
+    .then(() => {
+      //
+    })
+    .catch(onError)
+}
 
 function onError(error?: Error) {
   if (error) {
@@ -19,3 +25,5 @@ function onError(error?: Error) {
   // Will restart automatically
   process.exit(1)
 }
+
+start()

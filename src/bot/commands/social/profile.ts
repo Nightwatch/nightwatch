@@ -98,7 +98,7 @@ export default class ProfileCommand extends Command {
       // Environment Variables
       ctx.drawImage(base, 0, 0)
       ctx.scale(1, 1)
-      ctx.patternQuality = 'billinear'
+      ctx.patternQuality = 'bilinear'
       ctx.filter = 'bilinear'
       ctx.antialias = 'subpixel'
       ctx.shadowColor = 'rgba(0, 0, 0, 0.4)'
