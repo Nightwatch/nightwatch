@@ -62,7 +62,7 @@
     "rimraf": "^2.6.3",
     "roboto-fontface": "*",
     "simple-git": "^1.107.0",
-    "socket.io": "^2.1.1",
+    "socket.io": "^2.4.0",
     "steam-provider": "^0.3.2",
     "typeorm": "^0.2.12",
     "vue": "^2.5.17",
