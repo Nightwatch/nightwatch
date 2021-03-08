@@ -31,3 +31,5 @@ ormconfig.json
 **/**/plugin-premium/
 
 docker-compose.yml
+
+ffmpeg.exe

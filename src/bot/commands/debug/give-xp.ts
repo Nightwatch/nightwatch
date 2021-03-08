@@ -1,13 +1,14 @@
 import { GuildMember } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { UserLevelBalance } from '../../../api/src/models'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class GiveXpCommand extends Command {
   public readonly premiumOnly: true
 
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'givexp',
       group: 'debug',

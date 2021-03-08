@@ -1,4 +1,4 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { User, RichEmbed, Emoji } from 'discord.js'
 import { stripIndents } from 'common-tags'
 import { Plugin } from '../../index'
@@ -9,9 +9,10 @@ import {
   UserFriendRequest
 } from '../../../../../db'
 import { Command } from '../../../../base'
+import { Client } from '../../../../models'
 
 export default class FriendCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'friend',
       group: 'friends',

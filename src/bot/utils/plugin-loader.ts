@@ -1,7 +1,7 @@
-import { CommandoClient } from 'discord.js-commando'
 import { readdirSync, lstatSync, existsSync } from 'fs'
 import * as path from 'path'
 import { Config } from '../../common'
+import { Client } from '../models'
 
 const prefix = '[Plugin Loader]'
 
@@ -26,7 +26,7 @@ try {
   // swallow
 }
 
-export const loadPlugins = async (client: CommandoClient, config: Config) => {
+export const loadPlugins = async (client: Client, config: Config) => {
   const pluginStatuses: PluginStatus[] = []
 
   console.log(`${prefix}: ${pluginPaths.length} external plugins found.`)
@@ -57,9 +57,7 @@ export const loadPlugins = async (client: CommandoClient, config: Config) => {
             )
             commandsRegistered = true
           } catch (err) {
-            console.warn(`${prefix}[${
-              BotPlugin.id
-            }]: An error occurred while registering commands.
+            console.warn(`${prefix}[${BotPlugin.id}]: An error occurred while registering commands.
             Plugin may still load, but none of its commands will work.`)
             console.error(err)
             commandsRegistered = false
@@ -76,9 +74,7 @@ export const loadPlugins = async (client: CommandoClient, config: Config) => {
 
         console.log(`${prefix}[${BotPlugin.id}]: Successfully loaded!`)
       } catch (err) {
-        console.warn(`${prefix}[${
-          BotPlugin.id
-        }]: An error occurred while loading plugin.
+        console.warn(`${prefix}[${BotPlugin.id}]: An error occurred while loading plugin.
         Some of its features may not work.`)
         console.error(err)
         pluginStatuses.push({

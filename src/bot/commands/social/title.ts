@@ -1,9 +1,10 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { UserService } from '../../services/user'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class TitleCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'title',
       group: 'social',

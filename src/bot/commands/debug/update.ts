@@ -1,12 +1,13 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import * as simplegit from 'simple-git/promise'
 import { Command } from '../../base'
 import * as path from 'path'
 import { Config } from '../../../common'
+import { Client } from '../../models'
 const config: Config = require('../../../../config/config.json')
 
 export default class UpdateCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'update',
       group: 'debug',

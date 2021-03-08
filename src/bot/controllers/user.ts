@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
 import { Types, Config } from '../../common'
 import { UserController as IUserController, UserService } from '../interfaces'
-import { CommandoClient } from 'discord.js-commando'
+import { Client } from '../models'
 
 const config: Config = require('../../../config/config.json')
 
@@ -9,7 +9,7 @@ const config: Config = require('../../../config/config.json')
 export class UserController implements IUserController {
   @inject(Types.UserService) public readonly userService: UserService
 
-  public readonly getPremiumUsers = (client: CommandoClient) => {
+  public readonly getPremiumUsers = (client: Client) => {
     if (
       !config.optional.premium ||
       !config.optional.premium.premiumPatreonRoleId ||
@@ -29,7 +29,11 @@ export class UserController implements IUserController {
     )
   }
 
-  public readonly userHasPremium = (id: string, client: CommandoClient) => {
+  public readonly userHasPremium = (id: string, client: Client) => {
+    if (client.isOwner(id)) {
+      return true
+    }
+
     if (
       !config.optional.premium ||
       !config.optional.premium.premiumPatreonRoleId ||
@@ -48,10 +52,6 @@ export class UserController implements IUserController {
 
     if (!member) {
       return false
-    }
-
-    if (client.isOwner(id)) {
-      return true
     }
 
     return member.roles.has(config.optional.premium.premiumPatreonRoleId)

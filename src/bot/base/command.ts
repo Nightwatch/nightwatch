@@ -1,17 +1,15 @@
-import {
-  Command as CommandoCommand,
-  CommandMessage,
-  CommandoClient
-} from 'discord.js-commando'
+import { Command as CommandoCommand, CommandMessage } from 'discord.js-commando'
 import { UserController } from '../controllers'
 import { CommandInfo } from '../../common'
+import { Client } from '../models'
 
 const userController = new UserController()
 
 export class Command extends CommandoCommand {
   public readonly premiumOnly: boolean
+  public client: Client
 
-  constructor(client: CommandoClient, info: CommandInfo) {
+  constructor(client: Client, info: CommandInfo) {
     super(client, info)
     this.premiumOnly = info.premiumOnly || false
   }

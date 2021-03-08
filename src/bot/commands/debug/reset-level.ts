@@ -1,11 +1,12 @@
 import { GuildMember } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { UserLevelBalance } from '../../../api/src/models'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class ResetLevelCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'resetlevel',
       group: 'debug',

@@ -1,7 +1,8 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { stripIndents } from 'common-tags'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 const combinations: ReadonlyArray<any> = [
   [0, 1, 2],
@@ -28,7 +29,7 @@ const values: { readonly [key: string]: number } = {
 }
 
 export default class SlotsCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'slots',
       group: 'games',

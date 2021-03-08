@@ -1,9 +1,10 @@
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class TransferCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'transfer',
       group: 'economy',

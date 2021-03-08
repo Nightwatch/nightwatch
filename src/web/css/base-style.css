@@ -1,0 +1,66 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  font-size: 20px;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.features-list p {
+  text-align: center;
+}
+
+dt {
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  font-size: 35px;
+}
+
+dd {
+  font-size: 18px;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.features-list dt {
+  text-align: center;
+  display: block;
+}
+
+.features-list dd {
+  font-size: 18px;
+  display: list-item;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  list-style-type: circle;
+  padding-left: 25px;
+}
+
+hr {
+  color: gray;
+  width: 50%;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+
+p {
+  text-align: left;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  font-size: 25px;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 100;
+  font-size: 60px;
+  color: indigo;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.page {
+  margin-top: 200px;
+}
