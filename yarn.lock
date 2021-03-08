@@ -10322,7 +10322,7 @@ fsevents@^1.2.7:
     tslint-config-standard: ^8.0.1
     tslint-sonarts: ^1.9.0
     typeorm: ^0.2.12
-    typescript: ^3.3.1
+    typescript: ^4.2.3
     valid-url: ^1.0.9
     vue: ^2.5.17
     vue-class-component: ^6.0.0
@@ -15364,23 +15364,23 @@ resolve@^1.10.1:
   languageName: node
   linkType: hard
 
-typescript@^3.3.1:
-  version: 3.7.5
-  resolution: "typescript@npm:3.7.5"
+typescript@^4.2.3:
+  version: 4.2.3
+  resolution: "typescript@npm:4.2.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 48a96fb7dc48746e6b76cf0946545181b0d5013368e510768402f1374e6c6a9f29b00e8ca4f40bc7523a655473f7bc7c55d1c8458970e96b7187bcee1b47e96b
+  checksum: 06e8470f317db6f5e2fce809b20eb84a67a7d8179057abff36e5427bd1b891bd08e54581ff81f0fa36aef9b6d1eb0f54eaf6e2643c6dbd4e37a0adcc41eed256
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3.3.1#builtin<compat/typescript>":
-  version: 3.7.5
-  resolution: "typescript@patch:typescript@npm%3A3.7.5#builtin<compat/typescript>::version=3.7.5&hash=a45b0e"
+"typescript@patch:typescript@^4.2.3#builtin<compat/typescript>":
+  version: 4.2.3
+  resolution: "typescript@patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: cc7bbd5b746a427c19b2f91eeef23fa1367bf7a327a5c78423fe2b8610b0c2346bd427594b222373f71609622ac51c562c31b014fdede75da9439bbb6ec0f11c
+  checksum: a8956044aabf730699bcc3c2475efdd3f35e509329325cf60b4989761d4c2188e2c474183e2cf92b8c201fcf976814a5a16f144508b2a832643c4f972d0ab803
   languageName: node
   linkType: hard
 
