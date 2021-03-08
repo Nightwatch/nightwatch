@@ -32,7 +32,7 @@
     "better-youtube-api": "^0.3.6",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
-    "canvas": "^2.6.1",
+    "canvas": "^2.7.0",
     "class-validator": "^0.9.1",
     "common-tags": "^1.8.0",
     "compression": "^1.7.3",
