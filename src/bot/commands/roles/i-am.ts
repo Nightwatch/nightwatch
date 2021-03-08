@@ -1,9 +1,10 @@
 import { Role } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class IAmRoleCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'iam',
       group: 'roles',

@@ -31,3 +31,13 @@ ormconfig.json
 **/**/plugin-premium/
 
 docker-compose.yml
+
+ffmpeg.exe
+
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

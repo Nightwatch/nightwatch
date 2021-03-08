@@ -1,14 +1,15 @@
 import { RichEmbed, TextChannel } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import * as yargs from 'yargs'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
 import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class EmbedCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'embed',
       aliases: [],

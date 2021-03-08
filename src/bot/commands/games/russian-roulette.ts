@@ -1,14 +1,15 @@
 import { Message } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
 import { UserService } from '../../services'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 const awardAmount: number = 1
 const lossAmount: number = 10
 
 export default class RussianRouletteCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'russianroulette',
       group: 'games',

@@ -1,11 +1,12 @@
 import { RichEmbed } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { Config } from '../../../common'
 const config: Config = require('../../../../config/config.json')
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class DonateCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'donate',
       group: 'misc',

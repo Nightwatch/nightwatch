@@ -1,12 +1,13 @@
 import { Message, RichEmbed, TextChannel } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
 import { GuildSuggestion } from '../../../db'
 import { GuildService } from '../../services'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class SuggestionCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'suggest',
       group: 'ticket',

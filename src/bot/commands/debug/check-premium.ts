@@ -1,10 +1,11 @@
 import { GuildMember } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { UserController } from '../../controllers'
+import { Client } from '../../models'
 
 export default class CheckPremiumCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'checkpremium',
       group: 'debug',

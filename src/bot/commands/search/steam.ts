@@ -1,10 +1,11 @@
 import { Message, RichEmbed } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import { SteamProvider, SteamSearchEntry } from 'steam-provider'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 export default class SteamCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'steam',
       group: 'search',

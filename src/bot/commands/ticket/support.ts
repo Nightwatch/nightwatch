@@ -1,10 +1,11 @@
 import { Message, RichEmbed, TextChannel } from 'discord.js'
-import { CommandMessage, CommandoClient } from 'discord.js-commando'
+import { CommandMessage } from 'discord.js-commando'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
 import { GuildSupportTicket } from '../../../db'
 import { GuildService } from '../../services'
 import { Command } from '../../base'
+import { Client } from '../../models'
 
 interface SupportTicket {
   readonly color: string
@@ -30,7 +31,7 @@ const types = {
 const ticketTypes: ReadonlyArray<any> = ['bug']
 
 export default class SupportCommand extends Command {
-  constructor(client: CommandoClient) {
+  constructor(client: Client) {
     super(client, {
       name: 'support',
       group: 'ticket',
