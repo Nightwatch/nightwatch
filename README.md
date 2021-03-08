@@ -6,13 +6,6 @@
 
 <br/>
 
-![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
-[![GitHub Issues](https://img.shields.io/github/issues/Nightwatch/nightwatch.svg)](https://github.com/Nightwatch/Nightwatch/issues)
-![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
-[![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](https://opensource.org/licenses/GPL-3.0)
-
-<br/>
-
 ## Features
 
 Nightwatch aims to combine the features of all popular bots into one bot.
