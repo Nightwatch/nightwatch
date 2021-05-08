@@ -68,7 +68,7 @@
     "simple-git": "^1.107.0",
     "socket.io": "^2.1.1",
     "steam-provider": "^0.3.2",
-    "typeorm": "^0.2.12",
+    "typeorm": "^0.2.25",
     "valid-url": "^1.0.9",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
