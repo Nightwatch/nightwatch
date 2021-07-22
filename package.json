@@ -60,7 +60,7 @@
     "pm2": "3.0.3",
     "popyt": "^3.1.0",
     "pretty-ms": "^4.0.0",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "reflect-metadata": "^0.1.12",
     "request-promise": "^4.2.2",
     "rimraf": "^2.6.3",
