@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
 
@@ -29,21 +29,21 @@ export default class WarnCommand extends Command {
     })
   }
 
-  public hasPermission(msg: CommandMessage): boolean {
+  public hasPermission(msg: CommandoMessage): boolean {
     return (
       this.client.isOwner(msg.author) ||
-      msg.member.hasPermission('MANAGE_MESSAGES')
+      !!msg.member?.hasPermission('MANAGE_MESSAGES')
     )
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     if (msg.author.id === args.member.id) {
       return msg.reply("You can't warn yourself.")
     }
 
     if (
       args.member.hasPermission('MANAGE_MESSAGES') ||
-      msg.member.highestRole.comparePositionTo(args.member.roles.highest) <= 0
+      (msg.member?.roles.highest && msg.member?.roles.highest.comparePositionTo(args.member.roles.highest) <= 0)
     ) {
       return msg.reply("You can't warn that member.")
     }

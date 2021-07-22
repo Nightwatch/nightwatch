@@ -87,7 +87,7 @@ export const giveXp = async (user: User, message: Message) => {
     )
 
     await message.channel.send(
-      `**${popcornEmoji} | ${message.member.displayName} just advanced to level ${level}**${levelBonusString}`
+      `**${popcornEmoji} | ${message.member?.displayName} just advanced to level ${level}**${levelBonusString}`
     )
 
     return

@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
 
@@ -24,7 +24,7 @@ export default class ReverseCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     if (!args.phrase || !args.phrase.trim()) {
       return msg.reply(
         'I cannot reverse an empty string. Well I could, but that would be boring.'

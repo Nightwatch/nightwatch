@@ -1,5 +1,5 @@
 import { GuildMember } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { UserController } from '../../controllers'
 import { Client } from '../../models'
@@ -27,7 +27,7 @@ export default class CheckPremiumCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const userController = new UserController()
 
     const user = args.user as GuildMember

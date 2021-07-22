@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import * as Canvas from 'canvas'
 import * as request from 'request-promise'
 import * as path from 'path'
@@ -31,7 +31,7 @@ export default class ProfileCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
 
     const user = args.user || msg.member

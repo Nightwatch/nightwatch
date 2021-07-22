@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { GuildSelfAssignableRole } from '../../../db'
 import { Command } from '../../base'
@@ -19,7 +19,7 @@ export default class ListSelfAssignableRolesCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage) {
+  public async run(msg: CommandoMessage) {
     const guildService = new GuildService()
 
     const roles = (await guildService.findSelfAssignableRoles(
@@ -32,7 +32,7 @@ export default class ListSelfAssignableRolesCommand extends Command {
 
     const rolesString = roles
       .map(
-        x => `**${msg.guild.roles.find(role => x.roleId === role.id).name}**`
+        x => `**${msg.guild.roles.resolve(x.roleId)?.name}**`
       )
       .join(', ')
 

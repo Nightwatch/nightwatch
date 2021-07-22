@@ -9,7 +9,7 @@ const config: Config = require('../../../config/config.json')
 export class UserController implements IUserController {
   @inject(Types.UserService) public readonly userService: UserService
 
-  public readonly getPremiumUsers = (client: Client) => {
+  public readonly getPremiumUsers = async (client: Client) => {
     if (
       !config.optional.premium ||
       !config.optional.premium.premiumPatreonRoleId ||
@@ -18,14 +18,16 @@ export class UserController implements IUserController {
       return
     }
 
-    const guild = client.guilds.get(config.optional.premium.primaryGuildId)
+    const guild = client.guilds.resolve(config.optional.premium.primaryGuildId)
 
     if (!guild) {
       return
     }
 
-    return guild.members.filter(x =>
-      x.roles.has(config.optional.premium!.premiumPatreonRoleId!)
+    var members = await guild.members.fetch()
+    
+    return members.filter(x =>
+      !!x.roles.resolve(config.optional.premium!.premiumPatreonRoleId!)
     )
   }
 
@@ -42,18 +44,18 @@ export class UserController implements IUserController {
       return false
     }
 
-    const guild = client.guilds.get(config.optional.premium.primaryGuildId)
+    const guild = client.guilds.resolve(config.optional.premium.primaryGuildId)
 
     if (!guild) {
       return false
     }
 
-    const member = guild.members.get(id)
+    const member = guild.members.resolve(id)
 
     if (!member) {
       return false
     }
 
-    return member.roles.has(config.optional.premium.premiumPatreonRoleId)
+    return !!member.roles.resolve(config.optional.premium.premiumPatreonRoleId)
   }
 }

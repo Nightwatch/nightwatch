@@ -1,5 +1,5 @@
 import { Role } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { Command } from '../../base'
 import { Client } from '../../models'
@@ -26,25 +26,23 @@ export default class DeleteSelfAssignableRoleCommand extends Command {
     })
   }
 
-  public hasPermission(msg: CommandMessage) {
-    return msg.member.permissions.has('MANAGE_ROLES')
+  public hasPermission(msg: CommandoMessage) {
+    return !!msg.member?.permissions.has('MANAGE_ROLES')
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const role: Role =
       args.role instanceof Role
         ? args.role
-        : msg.guild.roles.find(
-            x => x.name.toLowerCase() === args.role.toLowerCase().trim()
-          )
+        : msg.guild.roles.resolve(args.role.toLowerCase().trim())
 
     if (!role) {
       return msg.reply(`Could not find a role named ${args.role}`)
     }
 
     if (
-      role.position >= msg.member.highestRole.position &&
-      msg.member.id !== msg.guild.owner.id
+      role.position >= (msg.member?.roles.highest.position || 0) &&
+      msg.member?.id !== msg.guild.owner?.id
     ) {
       return msg.reply('You cannot remove that role as a self assignable role.')
     }

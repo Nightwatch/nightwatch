@@ -1,5 +1,5 @@
-import { CommandMessage } from 'discord.js-commando'
-import { User, RichEmbed, Emoji } from 'discord.js'
+import { CommandoMessage } from 'discord.js-commando'
+import { User, MessageEmbed } from 'discord.js'
 import { stripIndents } from 'common-tags'
 import { Plugin } from '../../index'
 import { api } from '../../../../utils'
@@ -54,7 +54,7 @@ export default class FriendCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const {
       action,
       argument
@@ -101,7 +101,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async displayFriendDashboard(msg: CommandMessage, user?: User) {
+  public async displayFriendDashboard(msg: CommandoMessage, user?: User) {
     const displayUser = user ? user : msg.author
     const id = displayUser.id
     const prefix = getPrefix(msg)
@@ -122,18 +122,18 @@ export default class FriendCommand extends Command {
       Anyone can add me with \`${prefix}friend add ${msg.author.id}\`
     `
 
-      const embed = new RichEmbed()
+      const embed = new MessageEmbed()
         .setAuthor(
           `👪 ${displayUser.username}'s Friend Dashboard`,
-          this.client.user ? this.client.user.avatarURL : undefined
+          this.client.user?.avatarURL() || undefined
         )
         .setFooter(Plugin.config.bot.botName)
         .setTimestamp(new Date())
-        .setThumbnail(displayUser.avatarURL || displayUser.defaultAvatarURL)
+        .setThumbnail(displayUser.avatarURL() || displayUser.defaultAvatarURL)
         .setColor('BLUE')
         .addField('Friend Summary', friendSummary, true)
         .addField('Friend Requests', friendRequestSummary, true)
-        .addBlankField()
+        .addField('', '')
 
       if (!user) {
         embed.addField('Available Actions', availableActions, false)
@@ -145,7 +145,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async sendFriendRequest(msg: CommandMessage, user: User | string) {
+  public async sendFriendRequest(msg: CommandoMessage, user: User | string) {
     if (!user) {
       return msg.reply(
         'You need to specify a user to send a friend request to. It can be a mention or their ID.'
@@ -179,7 +179,7 @@ export default class FriendCommand extends Command {
       }
 
       try {
-        const discordUser = this.client.users.find(u => u.id === receiver.id)
+        const discordUser = this.client.users.resolve(receiver.id)!
         const dm = await discordUser.createDM()
         await dm.send(stripIndents`**${msg.author.username}** has sent you a friend request!
 
@@ -198,7 +198,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async denyFriendRequest(msg: CommandMessage, user: User | string) {
+  public async denyFriendRequest(msg: CommandoMessage, user: User | string) {
     const senderId = user instanceof User ? user.id : user
 
     if (!senderId) {
@@ -228,7 +228,7 @@ export default class FriendCommand extends Command {
     }
   }
 
-  public async acceptFriendRequest(msg: CommandMessage, user: User | string) {
+  public async acceptFriendRequest(msg: CommandoMessage, user: User | string) {
     if (!user) {
       return msg.reply(
         "You need to specify a who's friend request to accept. It can be a mention or their ID."
@@ -272,7 +272,7 @@ export default class FriendCommand extends Command {
     return msg.reply(`You are now friends with **${friendName}**!`)
   }
 
-  public async deleteFriend(msg: CommandMessage, user: User | string) {
+  public async deleteFriend(msg: CommandoMessage, user: User | string) {
     const userId = user instanceof User ? user.id : user
 
     if (!userId) {
@@ -313,7 +313,7 @@ export default class FriendCommand extends Command {
     return msg.reply(`You are no longer friends with **${apiUser.name}**.`)
   }
 
-  public async listFriends(msg: CommandMessage, user: User | string) {
+  public async listFriends(msg: CommandoMessage, user: User | string) {
     const userId = user instanceof User ? user.id : user
 
     if (userId === msg.author.id) {
@@ -340,8 +340,8 @@ export default class FriendCommand extends Command {
         return msg.reply(`${apiUser!.name} has no friends`)
       }
 
-      return msg.reply(stripIndents`It appears you don't have any friends yet. ${this.client.emojis.find(
-        e => e.id === '467808089731760149'
+      return msg.reply(stripIndents`It appears you don't have any friends yet. ${this.client.emojis.resolve(
+        '467808089731760149'
       )}
 
      Try adding my owner as a friend with \`@Nightwatch friend add 235197207014408203\``)
@@ -362,11 +362,11 @@ export default class FriendCommand extends Command {
 
       ${friends.length > 10 ? 'Only displaying the first 10 friends' : ''}`
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
       .setAuthor(`${userId ? apiUser!.name : msg.author.username}'s Friends:`)
       .setFooter(Plugin.config.bot.botName)
       .setTimestamp(new Date())
-      .setThumbnail(msg.author.avatarURL || msg.author.defaultAvatarURL)
+      .setThumbnail(msg.author.avatarURL() || msg.author.defaultAvatarURL)
       .setDescription(description)
       .setColor('BLUE')
 
@@ -374,7 +374,7 @@ export default class FriendCommand extends Command {
   }
 
   public async listFriendRequests(
-    msg: CommandMessage,
+    msg: CommandoMessage,
     argument: 'incoming' | 'outgoing'
   ) {
     const filter =
@@ -411,7 +411,7 @@ export default class FriendCommand extends Command {
           : "If they aren't responding to your request, try sending them a DM to accept it."
       }`
 
-      const embed = new RichEmbed()
+      const embed = new MessageEmbed()
         .setAuthor(
           `Your ${
             filter === 'incoming' ? 'Incoming' : 'Outgoing'
@@ -419,7 +419,7 @@ export default class FriendCommand extends Command {
         )
         .setFooter(Plugin.config.bot.botName)
         .setTimestamp(new Date())
-        .setThumbnail(msg.author.avatarURL || msg.author.defaultAvatarURL)
+        .setThumbnail(msg.author.avatarURL() || msg.author.defaultAvatarURL)
         .setDescription(description)
         .setColor('BLUE')
 
@@ -440,7 +440,7 @@ export default class FriendCommand extends Command {
       friends.length === 1 ? '' : 's'
     }. ${
       friends.length === 0
-        ? this.client.emojis.find((e: Emoji) => e.id === '467808089731760149')
+        ? this.client.emojis.resolve('467808089731760149')
         : ''
     }`
 
@@ -496,7 +496,7 @@ async function getApiUser(id: string): Promise<BotUser | undefined> {
   return data
 }
 
-function getPrefix(msg: CommandMessage): string {
+function getPrefix(msg: CommandoMessage): string {
   if (msg.channel.type !== 'text') {
     return ''
   }

@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { Command } from '../../base'
 import { Client } from '../../models'
@@ -30,7 +30,7 @@ export default class TransferCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
     const donor = await userService
       .find(msg.author.id)

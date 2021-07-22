@@ -1,5 +1,5 @@
-import { RichEmbed, TextChannel } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { MessageEmbed, TextChannel } from 'discord.js'
+import { CommandoMessage } from 'discord.js-commando'
 import * as yargs from 'yargs'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
@@ -15,8 +15,8 @@ export default class EmbedCommand extends Command {
       aliases: [],
       group: 'misc',
       memberName: 'embed',
-      description: 'Creates a RichEmbed.',
-      details: `Creates a RichEmbed. Here is a list of options:
+      description: 'Creates a MessageEmbed.',
+      details: `Creates a MessageEmbed. Here is a list of options:
       __--title:__ Sets the title of the embed.
       __--description:__ Sets the description of the embed.
       __--color:__ Sets the color of the embed.
@@ -34,7 +34,7 @@ export default class EmbedCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const message = args.message
 
     const argv = yargs
@@ -66,7 +66,7 @@ export default class EmbedCommand extends Command {
       : ''
 
     if (!title || !description) {
-      return msg.replyEmbed(this.getHelpRichEmbed())
+      return msg.replyEmbed(this.getHelpMessageEmbed())
     }
 
     const getColor = () => {
@@ -85,20 +85,16 @@ export default class EmbedCommand extends Command {
 
     const footer = argv.footer || null
     let channel = argv.channel
-      ? msg.guild.channels.find(
-          x =>
-            x.name.toLowerCase() ===
-              argv.channel
+      ? msg.guild.channels.resolve(argv.channel
                 .trim()
                 .toLowerCase()
-                .replace('#', '') && x.type === 'text'
         )
       : (msg.channel as TextChannel)
-    if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!msg.member?.hasPermission('MANAGE_MESSAGES')) {
       channel = msg.channel as TextChannel
     }
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
 
     embed
       .setColor(getColor())
@@ -110,7 +106,7 @@ export default class EmbedCommand extends Command {
     return (channel as TextChannel).send(embed)
   }
 
-  private getHelpRichEmbed() {
+  private getHelpMessageEmbed() {
     const options = {
       title: {
         description: 'The title text, displays in bold at the top.'
@@ -127,7 +123,7 @@ export default class EmbedCommand extends Command {
       }
     }
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
       .setColor(materialColors.blue['500'])
       .setFooter(config.bot.botName)
       .setTimestamp(new Date())

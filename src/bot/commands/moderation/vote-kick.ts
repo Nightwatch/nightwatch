@@ -1,5 +1,5 @@
-import { Message, GuildMember, RichEmbed } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { Message, GuildMember, MessageEmbed } from 'discord.js'
+import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
 
@@ -30,7 +30,7 @@ export default class VoteKickCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const member = args.member as GuildMember
 
     const yesVote = '✅'
@@ -39,10 +39,10 @@ export default class VoteKickCommand extends Command {
     const votesRequired = msg.guild.memberCount / 5 + 1
     const timeInSeconds = 10
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
       .setAuthor(`Kick ${member.displayName}?`)
       .setColor('ORANGE')
-      .addField('Vote by', msg.member.displayName, true)
+      .addField('Vote by', msg.member?.displayName, true)
       .addField('To kick', member.displayName, true)
       .addField('Votes needed', votesRequired, true)
       .addField('Time', `${timeInSeconds} seconds`)
@@ -64,9 +64,9 @@ export default class VoteKickCommand extends Command {
     const noVotes = reactions.get(noVote)
 
     if (
-      !yesVotes ||
+      !yesVotes || !yesVotes.count ||
       yesVotes.count < votesRequired ||
-      (noVotes && noVotes.count > yesVotes.count)
+      (noVotes && noVotes.count && noVotes.count > yesVotes.count)
     ) {
       return msg.channel.send('The vote did not pass.')
     }

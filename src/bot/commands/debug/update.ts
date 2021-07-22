@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import * as simplegit from 'simple-git/promise'
 import { Command } from '../../base'
 import * as path from 'path'
@@ -22,7 +22,7 @@ export default class UpdateCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage) {
+  public async run(msg: CommandoMessage) {
     const git = simplegit()
 
     await git.checkout('.')

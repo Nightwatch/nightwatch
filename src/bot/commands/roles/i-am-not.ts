@@ -1,5 +1,5 @@
 import { Role } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
 
@@ -25,13 +25,11 @@ export default class IAmNotRoleCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const role: Role =
       args.role instanceof Role
         ? args.role
-        : msg.guild.roles.find(
-            x => x.name.toLowerCase() === args.role.toLowerCase().trim()
-          )
+        : msg.guild.roles.resolve(args.role.toLowerCase().trim())
 
     if (!role) {
       return msg.reply(
@@ -40,7 +38,7 @@ export default class IAmNotRoleCommand extends Command {
     }
 
     try {
-      await msg.member.removeRole(role)
+      await msg.member?.roles.remove(role)
     } catch {
       // swallow
     }

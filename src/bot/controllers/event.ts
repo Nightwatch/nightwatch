@@ -6,7 +6,7 @@ import {
   UserService
 } from '../interfaces'
 import { Message, GuildMember, Guild } from 'discord.js'
-import { CommandMessage, Command } from 'discord.js-commando'
+import { CommandoMessage, Command } from 'discord.js-commando'
 import * as Promise from 'bluebird'
 
 const config: Config = require('../../../config/config.json')
@@ -25,15 +25,17 @@ export class EventController implements IEventController {
   }
 
   public readonly onCommandRun = (
-    _command: CommandMessage,
-    _promise: Promise<any>,
-    message: CommandMessage
+    _command: Command,
+    _promise: any,
+    message: CommandoMessage
   ) => {
     if (!config.bot.autoDeleteMessages.enabled || !message.deletable) {
       return Promise.resolve()
     }
 
-    return Promise.resolve(message.delete(config.bot.autoDeleteMessages.delay))
+    return Promise.resolve(message.delete({
+      timeout: config.bot.autoDeleteMessages.delay
+    }))
       .thenReturn()
       .catch(console.error)
   }
@@ -41,8 +43,10 @@ export class EventController implements IEventController {
   public readonly onGuildCreate = (guild: Guild) => {
     return this.guildService
       .create(guild)
-      .then(() => {
-        guild.members.forEach(async member => {
+      .then(async () => {
+        return guild.members.fetch()
+      }).then(members => {
+        members.forEach(async member => {
           await this.userService.create(member.user).catch(console.error)
         })
       })
@@ -56,7 +60,7 @@ export class EventController implements IEventController {
   public readonly onCommandError = (
     _command: Command,
     _error: Error,
-    message: CommandMessage
+    message: CommandoMessage
   ) => {
     if (message.author.bot || message.channel.type !== 'text') {
       return Promise.resolve()

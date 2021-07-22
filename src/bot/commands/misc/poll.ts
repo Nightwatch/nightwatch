@@ -1,5 +1,5 @@
-import { Message, RichEmbed, TextChannel } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { Message, MessageEmbed, TextChannel } from 'discord.js'
+import { CommandoMessage } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
 import { Command } from '../../base'
 import { Client } from '../../models'
@@ -32,10 +32,8 @@ export default class PollCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
-    const channel = msg.guild.channels.find(
-      x => x.name === 'poll' && x.type === 'text'
-    )
+  public async run(msg: CommandoMessage, args: any) {
+    const channel = msg.guild.channels.resolve('poll')
 
     if (!channel) {
       return msg.reply(
@@ -87,7 +85,7 @@ export default class PollCommand extends Command {
       return msg.reply('Too many options!')
     }
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
 
     const options = result.options
       .map((value, index) => `${letters[index]} ${value}`)

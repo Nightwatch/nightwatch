@@ -1,11 +1,11 @@
-import { Command as CommandoCommand, CommandMessage } from 'discord.js-commando'
+import { Command as CommandoCommand, CommandoMessage } from 'discord.js-commando'
 import { UserController } from '../controllers'
 import { CommandInfo } from '../../common'
 import { Client } from '../models'
 
 const userController = new UserController()
 
-export class Command extends CommandoCommand {
+export abstract class Command extends CommandoCommand {
   public readonly premiumOnly: boolean
   public client: Client
 
@@ -14,7 +14,7 @@ export class Command extends CommandoCommand {
     this.premiumOnly = info.premiumOnly || false
   }
 
-  public hasPermission(msg: CommandMessage) {
+  public hasPermission(msg: CommandoMessage) {
     if (!this.premiumOnly || this.client.isOwner(msg.author)) {
       return super.hasPermission(msg)
     }

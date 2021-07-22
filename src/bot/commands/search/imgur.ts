@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import axios from 'axios'
 import { Config } from '../../../common'
 import { TextChannel } from 'discord.js'
@@ -24,7 +24,7 @@ export default class ImgurCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     if (!config.optional || !config.optional.imgur) {
       return msg.reply(
         'Command failed. Bot owner has not configured the bot with an Imgur API key.'

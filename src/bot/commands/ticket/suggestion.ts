@@ -1,5 +1,5 @@
-import { Message, RichEmbed, TextChannel } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { Message, MessageEmbed, TextChannel } from 'discord.js'
+import { CommandoMessage } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
 import { GuildSuggestion } from '../../../db'
 import { GuildService } from '../../services'
@@ -40,7 +40,7 @@ export default class SuggestionCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const {
       action,
       suggestion
@@ -61,10 +61,8 @@ export default class SuggestionCommand extends Command {
     }
   }
 
-  private async createSuggestion(msg: CommandMessage, suggestion: string) {
-    const channel = msg.guild.channels.find(
-      x => x.name === 'suggestions' && x.type === 'text'
-    )
+  private async createSuggestion(msg: CommandoMessage, suggestion: string) {
+    const channel = msg.guild.channels.resolve('suggestions')
 
     if (!channel) {
       return msg.reply(
@@ -84,7 +82,7 @@ export default class SuggestionCommand extends Command {
       )
     }
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
 
     embed
       .setAuthor('New Suggestion')
@@ -114,7 +112,7 @@ export default class SuggestionCommand extends Command {
           dbSuggestion
         )
 
-        const editedEmbed = new RichEmbed()
+        const editedEmbed = new MessageEmbed()
 
         editedEmbed
           .setAuthor('New Suggestion')
@@ -139,10 +137,8 @@ export default class SuggestionCommand extends Command {
       `Your suggestion has been added. Check it out in ${channel}`
     )
   }
-  private async editSuggestion(msg: CommandMessage, description: string) {
-    const channel = msg.guild.channels.find(
-      x => x.name === 'suggestions' && x.type === 'text'
-    )
+  private async editSuggestion(msg: CommandoMessage, description: string) {
+    const channel = msg.guild.channels.resolve('suggestions')
 
     if (!channel) {
       return msg.reply(
@@ -173,19 +169,19 @@ export default class SuggestionCommand extends Command {
       return msg.reply(`Suggestion ${suggestionId} not found.`)
     }
 
-    const isSuggestionOwner = msg.member.id === suggestion.userId
+    const isSuggestionOwner = msg.member?.id === suggestion.userId
 
     const newDescription = description
       .substring(description.indexOf(' '))
       .trim()
 
-    if (!isSuggestionOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!isSuggestionOwner && !msg.member?.hasPermission('MANAGE_MESSAGES')) {
       return msg.reply("You don't have permission to do that.")
     }
 
     const messages = (channel as TextChannel).messages
 
-    const originalMessage = messages.find(x => x.id === suggestion.messageId)
+    const originalMessage = messages.resolve(suggestion.messageId)
 
     if (!originalMessage) {
       return msg.reply(
@@ -193,14 +189,14 @@ export default class SuggestionCommand extends Command {
       )
     }
 
-    const newEmbed = new RichEmbed()
+    const newEmbed = new MessageEmbed()
 
     newEmbed
       .setAuthor('New Suggestion')
       .setColor(suggestion.color)
       .setFooter('Like it? 👍 or 👎')
       .addField('ID', suggestion.id, true)
-      .addField('Suggested By', msg.guild.members.get(suggestion.userId), true)
+      .addField('Suggested By', msg.guild.members.resolve(suggestion.userId), true)
       .addField('Description', newDescription)
       .setTimestamp(new Date(suggestion.dateCreated))
 

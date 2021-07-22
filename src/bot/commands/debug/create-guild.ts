@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { GuildService } from '../../services'
 import { Command } from '../../base'
 import { Client } from '../../models'
@@ -27,11 +27,11 @@ export default class CreateGuildCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const guildService = new GuildService()
 
     const guild = args.guildId
-      ? this.client.guilds.find(x => x.id === args.id)
+      ? this.client.guilds.resolve(args.id)
       : msg.guild
 
     if (!guild) {

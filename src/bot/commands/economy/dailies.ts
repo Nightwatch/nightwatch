@@ -1,4 +1,4 @@
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import * as prettyMs from 'pretty-ms'
 import { oneLine } from 'common-tags'
 import { UserService } from '../../services'
@@ -21,7 +21,7 @@ export default class DailiesCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage) {
+  public async run(msg: CommandoMessage) {
     const userService = new UserService()
 
     const user = await userService
@@ -53,7 +53,7 @@ export default class DailiesCommand extends Command {
       const atmEmoji = '🏧'
       const dollarEmoji = '💵'
 
-      return msg.channel.send(oneLine`**${atmEmoji} | ${msg.member.displayName},
+      return msg.channel.send(oneLine`**${atmEmoji} | ${msg.member?.displayName},
         you received ${dollarEmoji} ${rewardAmount} daily credits!**`)
     }
 
@@ -67,7 +67,7 @@ export default class DailiesCommand extends Command {
       }
     )
 
-    return msg.channel.send(oneLine`**${bankEmoji} | ${msg.member.displayName},
+    return msg.channel.send(oneLine`**${bankEmoji} | ${msg.member?.displayName},
       you have already redeemed your daily credits. Please wait ${timeWait}**`)
   }
 }

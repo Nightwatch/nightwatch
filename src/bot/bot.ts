@@ -63,9 +63,7 @@ export class Bot implements IBot {
   }
 
   public stop(): void {
-    this.client.destroy().catch(() => {
-      // swallow
-    })
+    this.client.destroy();
     process.exit(1)
   }
 
@@ -79,7 +77,7 @@ export class Bot implements IBot {
       Promise.resolve(
         clientUser.setPresence({
           status: 'online',
-          game: {
+          activity: {
             type: 'STREAMING',
             name: playingStatusOptions[0],
             url

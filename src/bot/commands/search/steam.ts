@@ -1,5 +1,5 @@
-import { Message, RichEmbed } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { Message, MessageEmbed } from 'discord.js'
+import { CommandoMessage } from 'discord.js-commando'
 import { SteamProvider, SteamSearchEntry } from 'steam-provider'
 import { Command } from '../../base'
 import { Client } from '../../models'
@@ -26,7 +26,7 @@ export default class SteamCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const provider = new SteamProvider()
 
     const searchResults = await provider.search(args.game)
@@ -40,7 +40,7 @@ export default class SteamCommand extends Command {
       return msg.channel.send(embed)
     }
 
-    const resultsEmbed = new RichEmbed()
+    const resultsEmbed = new MessageEmbed()
     resultsEmbed.setTitle('Which game would you like to see?')
     resultsEmbed.setDescription(
       searchResults.map((sr, i) => `${i + 1}.) ${sr.$name}`).join('\n')
@@ -76,9 +76,9 @@ export default class SteamCommand extends Command {
   public async getEmbedForGame(
     game: SteamSearchEntry,
     provider: SteamProvider,
-    msg: CommandMessage
-  ): Promise<RichEmbed | string> {
-    const steamEmbed = new RichEmbed()
+    msg: CommandoMessage
+  ): Promise<MessageEmbed | string> {
+    const steamEmbed = new MessageEmbed()
 
     const gameId = game.$id
 

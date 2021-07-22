@@ -1,5 +1,5 @@
-import { Message, RichEmbed, TextChannel } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { Message, MessageEmbed, TextChannel } from 'discord.js'
+import { CommandoMessage } from 'discord.js-commando'
 import * as materialColors from 'material-colors'
 import { oneLine } from 'common-tags'
 import { GuildSupportTicket } from '../../../db'
@@ -65,7 +65,7 @@ export default class SupportCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const argsTyped: {
       readonly action: string
       readonly description: string
@@ -90,10 +90,8 @@ export default class SupportCommand extends Command {
     }
   }
 
-  private async createTicket(msg: CommandMessage, description: string) {
-    const channel = msg.guild.channels.find(
-      x => x.name === 'support' && x.type === 'text'
-    )
+  private async createTicket(msg: CommandoMessage, description: string) {
+    const channel = msg.guild.channels.resolve('support')
 
     if (!channel) {
       return msg.reply(
@@ -110,7 +108,7 @@ export default class SupportCommand extends Command {
       return msg.reply('Command failed. Guild does not exist in my database.')
     }
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
 
     const ticketType = ticketTypes.find(
       x =>
@@ -150,7 +148,7 @@ export default class SupportCommand extends Command {
           ticketDescription.substring(1)
         dbSupportTicket.status = 'Open'
         dbSupportTicket.type = ticketType || 'default'
-        dbSupportTicket.userId = msg.member.id
+        dbSupportTicket.userId = msg.member!.id
         dbSupportTicket.messageId = supportTicketMessage.id
         dbSupportTicket.color = color
         dbSupportTicket.title = title
@@ -164,7 +162,7 @@ export default class SupportCommand extends Command {
           dbSupportTicket
         )
 
-        const editedEmbed = new RichEmbed()
+        const editedEmbed = new MessageEmbed()
 
         editedEmbed
           .setAuthor(title)
@@ -194,10 +192,8 @@ export default class SupportCommand extends Command {
     )
   }
 
-  private async getTicket(msg: CommandMessage, description: string) {
-    const channel = msg.guild.channels.find(
-      x => x.name === 'support' && x.type === 'text'
-    )
+  private async getTicket(msg: CommandoMessage, description: string) {
+    const channel = msg.guild.channels.resolve('support')
 
     if (!channel) {
       return msg.reply(
@@ -223,7 +219,7 @@ export default class SupportCommand extends Command {
       return msg.reply('Invalid ticketId')
     }
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
 
     embed
       .setAuthor(ticket.title)
@@ -237,14 +233,14 @@ export default class SupportCommand extends Command {
       )
       .addField(
         'Submitted By',
-        msg.guild.members.find(x => x.id === ticket.userId),
+        msg.guild.members.resolve(ticket.userId),
         true
       )
 
     if (ticket.dateClosed) {
       embed.addField(
         'Closed By',
-        msg.guild.members.find(x => x.id === ticket.closedUserId),
+        msg.guild.members.resolve(ticket.closedUserId),
         true
       )
     }
@@ -260,10 +256,8 @@ export default class SupportCommand extends Command {
     return (channel as TextChannel).send(embed)
   }
 
-  private async closeTicket(msg: CommandMessage, description: string) {
-    const channel = msg.guild.channels.find(
-      x => x.name === 'support' && x.type === 'text'
-    )
+  private async closeTicket(msg: CommandoMessage, description: string) {
+    const channel = msg.guild.channels.resolve('support')
 
     if (!channel) {
       return msg.reply(
@@ -290,11 +284,11 @@ export default class SupportCommand extends Command {
       return msg.reply('Invalid ticketId')
     }
 
-    const isTicketOwner = msg.member.id === ticket.userId
+    const isTicketOwner = msg.member!.id === ticket.userId
 
     const closedReason = description.substring(description.indexOf(' ')).trim()
 
-    if (!isTicketOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!isTicketOwner && !msg.member!.hasPermission('MANAGE_MESSAGES')) {
       return msg.reply("You don't have permission to do that.")
     }
 
@@ -307,9 +301,9 @@ export default class SupportCommand extends Command {
     ticket.color = materialColors.green['500']
     ticket.title = ticket.type === 'bug' ? 'Bug Report Closed' : 'Ticket Closed'
     ticket.closedReason = closedReason || null
-    ticket.closedUserId = msg.member.id
+    ticket.closedUserId = msg.member!.id
 
-    const newEmbed = new RichEmbed()
+    const newEmbed = new MessageEmbed()
 
     newEmbed
       .setAuthor(ticket.title)
@@ -323,12 +317,12 @@ export default class SupportCommand extends Command {
       )
       .addField(
         'Submitted By',
-        msg.guild.members.find(x => x.id === ticket.userId),
+        msg.guild.members.resolve(ticket.userId),
         true
       )
       .addField(
         'Closed By',
-        msg.guild.members.find(x => x.id === ticket.closedUserId),
+        msg.guild.members.resolve(ticket.closedUserId),
         true
       )
 
@@ -344,10 +338,10 @@ export default class SupportCommand extends Command {
 
     const messages = (channel as TextChannel).messages
 
-    const originalMessage = messages.find(x => x.id === ticket.messageId)
+    const originalMessage = messages.resolve(ticket.messageId)
 
     try {
-      await originalMessage.edit(newEmbed)
+      await originalMessage?.edit(newEmbed)
     } catch {
       await (channel as TextChannel).send(newEmbed)
     }
@@ -355,10 +349,8 @@ export default class SupportCommand extends Command {
     return msg.reply(`Support ticket ${ticket.id} has been closed.`)
   }
 
-  private async editTicket(msg: CommandMessage, description: string) {
-    const channel = msg.guild.channels.find(
-      x => x.name === 'support' && x.type === 'text'
-    )
+  private async editTicket(msg: CommandoMessage, description: string) {
+    const channel = msg.guild.channels.resolve('support')
 
     if (!channel) {
       return msg.reply(
@@ -385,19 +377,19 @@ export default class SupportCommand extends Command {
       return msg.reply(`Ticket ${ticketId} not found.`)
     }
 
-    const isTicketOwner = msg.member.id === ticket.userId
+    const isTicketOwner = msg.member!.id === ticket.userId
 
     const newDescription = description
       .substring(description.indexOf(' '))
       .trim()
 
-    if (!isTicketOwner && !msg.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!isTicketOwner && !msg.member!.hasPermission('MANAGE_MESSAGES')) {
       return msg.reply("You don't have permission to do that.")
     }
 
     const messages = (channel as TextChannel).messages
 
-    const originalMessage = messages.get(ticket.messageId)
+    const originalMessage = messages.resolve(ticket.messageId)
 
     if (!originalMessage) {
       return msg.reply(
@@ -405,7 +397,7 @@ export default class SupportCommand extends Command {
       )
     }
 
-    const newEmbed = new RichEmbed()
+    const newEmbed = new MessageEmbed()
 
     newEmbed
       .setAuthor(ticket.title)
@@ -419,14 +411,14 @@ export default class SupportCommand extends Command {
       )
       .addField(
         'Submitted By',
-        msg.guild.members.find(x => x.id === ticket.userId),
+        msg.guild.members.resolve(ticket.userId),
         true
       )
 
     if (ticket.dateClosed) {
       newEmbed.addField(
         'Closed By',
-        msg.guild.members.find(x => x.id === ticket.closedUserId),
+        msg.guild.members.resolve(ticket.closedUserId),
         true
       )
     }

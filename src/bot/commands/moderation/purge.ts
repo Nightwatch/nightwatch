@@ -1,5 +1,5 @@
 import { TextChannel } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
 
@@ -28,14 +28,14 @@ export default class PurgeCommand extends Command {
     })
   }
 
-  public hasPermission(msg: CommandMessage): boolean {
+  public hasPermission(msg: CommandoMessage): boolean {
     return (
       this.client.isOwner(msg.author) ||
-      msg.member.hasPermission('MANAGE_MESSAGES')
+      !!msg.member?.hasPermission('MANAGE_MESSAGES')
     )
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const amount = args.amount as number
 
     const textChannel = msg.channel as TextChannel

@@ -1,5 +1,5 @@
 import { GuildMember } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { UserService } from '../../services'
 import { UserLevelBalance } from '../../../api/src/models'
 import { Command } from '../../base'
@@ -28,7 +28,7 @@ export default class ResetLevelCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
 
     const member = args.member as GuildMember

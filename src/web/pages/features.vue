@@ -78,7 +78,7 @@
         </p>
         <p1>Alphabetically, these commands are listed below:</p1>
         <dd>echo - echoes back the statement to the user</dd>
-        <dd>embed - builds a rich embed based on the RichEmbed Discord API</dd>
+        <dd>embed - builds a rich embed based on the MessageEmbed Discord API</dd>
         <dd>
           help - returns a list of the commands currently available to the user
         </dd>

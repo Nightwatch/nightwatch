@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { oneLine } from 'common-tags'
 import { UserService } from '../../services'
 import { Command } from '../../base'
@@ -37,7 +37,7 @@ export default class RussianRouletteCommand extends Command {
     })
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     if (args.bullets < 1 || args.bullets > 6) {
       return msg.reply('Number of bullets must be between 1 and 6.')
     }

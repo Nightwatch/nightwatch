@@ -1,19 +1,19 @@
 import { Message, GuildMember, Guild } from 'discord.js'
-import { CommandMessage, Command } from 'discord.js-commando'
-import * as Promise from 'bluebird'
+import { CommandoMessage, Command } from 'discord.js-commando'
 
 export interface EventController {
   readonly onMessage: (message: Message) => Promise<void>
   readonly onCommandRun: (
-    command: CommandMessage,
+    command: Command,
     promise: Promise<any>,
-    message: CommandMessage
+    message: CommandoMessage
   ) => Promise<void>
   readonly onGuildCreate: (guild: Guild) => Promise<void>
   readonly onGuildMemberAdd: (member: GuildMember) => Promise<void>
   readonly onCommandError: (
     command: Command,
     error: Error,
-    message: CommandMessage
+    message: CommandoMessage,
+    ...args: any
   ) => Promise<void>
 }

@@ -1,5 +1,5 @@
 import { GuildMember } from 'discord.js'
-import { CommandMessage } from 'discord.js-commando'
+import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
 
@@ -31,13 +31,13 @@ export default class SoftBanCommand extends Command {
     })
   }
 
-  public hasPermission(msg: CommandMessage): boolean {
+  public hasPermission(msg: CommandoMessage): boolean {
     return (
-      this.client.isOwner(msg.author) || msg.member.hasPermission('BAN_MEMBERS')
+      this.client.isOwner(msg.author) || !!msg.member?.hasPermission('BAN_MEMBERS')
     )
   }
 
-  public async run(msg: CommandMessage, args: any) {
+  public async run(msg: CommandoMessage, args: any) {
     const member = args.member as GuildMember
 
     if (msg.author.id === member.id) {
@@ -46,7 +46,7 @@ export default class SoftBanCommand extends Command {
 
     if (
       member.hasPermission('BAN_MEMBERS') ||
-      msg.member.highestRole.comparePositionTo(member.highestRole) <= 0
+      (msg.member?.roles.highest && msg.member?.roles.highest.comparePositionTo(member.roles.highest) <= 0)
     ) {
       return msg.reply("You can't softban that member.")
     }
