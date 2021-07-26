@@ -2,6 +2,7 @@ import { Role } from 'discord.js'
 import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
+import { GuildService } from '../../services'
 
 export default class IAmRoleCommand extends Command {
   constructor(client: Client) {
@@ -33,14 +34,27 @@ export default class IAmRoleCommand extends Command {
 
     if (!role) {
       return msg.reply(
-        `Could not find a self assignable role named ${args.role}`
+        `Could not find a role named ${args.role}!`
       )
     }
 
+    const guildService = new GuildService()
+    
     try {
+      const selfAssignableRole = await guildService.findSelfAssignableRole(msg.guild.id, role.id)
+      
+      if (!selfAssignableRole)
+      {
+        return msg.reply(`That is not a self assignable role!`)
+      }
+
+      if (msg.member?.roles.resolve(role)) {
+        return msg.reply(`You are already a **${role.name}**!`)
+      }
+
       await msg.member?.roles.add(role)
     } catch {
-      // swallow
+      return msg.reply(`Unable to make you a **${role.name}**.`)
     }
 
     return msg.reply(`You are now a **${role.name}**!`)
