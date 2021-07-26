@@ -29,7 +29,7 @@ export default class IAmNotRoleCommand extends Command {
     const role: Role =
       args.role instanceof Role
         ? args.role
-        : msg.guild.roles.resolve(args.role.toLowerCase().trim())
+        : msg.guild.roles.cache.find(x => x.name === args.role.toLowerCase().trim())
 
     if (!role) {
       return msg.reply(

@@ -85,7 +85,7 @@ export default class EmbedCommand extends Command {
 
     const footer = argv.footer || null
     let channel = argv.channel
-      ? msg.guild.channels.resolve(argv.channel
+      ? msg.guild.channels.cache.find(x => x.name === argv.channel
                 .trim()
                 .toLowerCase()
         )

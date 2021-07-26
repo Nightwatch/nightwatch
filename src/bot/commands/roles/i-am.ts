@@ -30,7 +30,7 @@ export default class IAmRoleCommand extends Command {
     const role: Role =
       args.role instanceof Role
         ? args.role
-        : msg.guild.roles.resolve(args.role.toLowerCase().trim())
+        : msg.guild.roles.cache.find(x => x.name === args.role.toLowerCase().trim())
 
     if (!role) {
       return msg.reply(
@@ -48,7 +48,7 @@ export default class IAmRoleCommand extends Command {
         return msg.reply(`That is not a self assignable role!`)
       }
 
-      if (msg.member?.roles.resolve(role)) {
+      if (msg.member?.roles.cache.has(role.id)) {
         return msg.reply(`You are already a **${role.name}**!`)
       }
 

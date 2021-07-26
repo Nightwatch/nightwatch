@@ -33,7 +33,7 @@ export default class PollCommand extends Command {
   }
 
   public async run(msg: CommandoMessage, args: any) {
-    const channel = msg.guild.channels.resolve('poll')
+    const channel = msg.guild.channels.cache.find(x => x.name === 'poll' && x.type == 'text')
 
     if (!channel) {
       return msg.reply(

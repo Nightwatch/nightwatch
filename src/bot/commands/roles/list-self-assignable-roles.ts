@@ -32,7 +32,7 @@ export default class ListSelfAssignableRolesCommand extends Command {
 
     const rolesString = roles
       .map(
-        x => `**${msg.guild.roles.resolve(x.roleId)?.name}**`
+        x => `**${msg.guild.roles.cache.find(role => x.roleId === role.id)?.name}**`
       )
       .join(', ')
 

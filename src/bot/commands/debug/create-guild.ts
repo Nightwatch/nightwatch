@@ -31,7 +31,7 @@ export default class CreateGuildCommand extends Command {
     const guildService = new GuildService()
 
     const guild = args.guildId
-      ? this.client.guilds.resolve(args.id)
+      ? this.client.guilds.cache.find(x => x.id === args.id)
       : msg.guild
 
     if (!guild) {

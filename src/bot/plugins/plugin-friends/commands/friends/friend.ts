@@ -179,7 +179,7 @@ export default class FriendCommand extends Command {
       }
 
       try {
-        const discordUser = this.client.users.resolve(receiver.id)!
+        const discordUser = this.client.users.cache.find(x => x.id === receiver.id)!
         const dm = await discordUser.createDM()
         await dm.send(stripIndents`**${msg.author.username}** has sent you a friend request!
 
@@ -340,9 +340,7 @@ export default class FriendCommand extends Command {
         return msg.reply(`${apiUser!.name} has no friends`)
       }
 
-      return msg.reply(stripIndents`It appears you don't have any friends yet. ${this.client.emojis.resolve(
-        '467808089731760149'
-      )}
+      return msg.reply(stripIndents`It appears you don't have any friends yet. ${this.client.emojis.cache.find(x => x.id === '467808089731760149')}
 
      Try adding my owner as a friend with \`@Nightwatch friend add 235197207014408203\``)
     }
@@ -440,7 +438,7 @@ export default class FriendCommand extends Command {
       friends.length === 1 ? '' : 's'
     }. ${
       friends.length === 0
-        ? this.client.emojis.resolve('467808089731760149')
+        ? this.client.emojis.cache.find(x => x.id === '467808089731760149')
         : ''
     }`
 

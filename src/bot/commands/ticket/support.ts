@@ -91,7 +91,7 @@ export default class SupportCommand extends Command {
   }
 
   private async createTicket(msg: CommandoMessage, description: string) {
-    const channel = msg.guild.channels.resolve('support')
+    const channel = msg.guild.channels.cache.find(x => x.name === 'support' && x.type == 'text')
 
     if (!channel) {
       return msg.reply(
@@ -193,7 +193,7 @@ export default class SupportCommand extends Command {
   }
 
   private async getTicket(msg: CommandoMessage, description: string) {
-    const channel = msg.guild.channels.resolve('support')
+    const channel = msg.guild.channels.cache.find(x => x.name === 'support' && x.type == 'text')
 
     if (!channel) {
       return msg.reply(
@@ -233,14 +233,14 @@ export default class SupportCommand extends Command {
       )
       .addField(
         'Submitted By',
-        msg.guild.members.resolve(ticket.userId),
+        msg.guild.members.cache.get(ticket.userId),
         true
       )
 
     if (ticket.dateClosed) {
       embed.addField(
         'Closed By',
-        msg.guild.members.resolve(ticket.closedUserId),
+        msg.guild.members.cache.get(ticket.closedUserId),
         true
       )
     }
@@ -257,7 +257,7 @@ export default class SupportCommand extends Command {
   }
 
   private async closeTicket(msg: CommandoMessage, description: string) {
-    const channel = msg.guild.channels.resolve('support')
+    const channel = msg.guild.channels.cache.find(x => x.name === 'support' && x.type == 'text')
 
     if (!channel) {
       return msg.reply(
@@ -317,12 +317,12 @@ export default class SupportCommand extends Command {
       )
       .addField(
         'Submitted By',
-        msg.guild.members.resolve(ticket.userId),
+        msg.guild.members.cache.get(ticket.userId),
         true
       )
       .addField(
         'Closed By',
-        msg.guild.members.resolve(ticket.closedUserId),
+        msg.guild.members.cache.get(ticket.closedUserId),
         true
       )
 
@@ -338,7 +338,7 @@ export default class SupportCommand extends Command {
 
     const messages = (channel as TextChannel).messages
 
-    const originalMessage = messages.resolve(ticket.messageId)
+    const originalMessage = messages.cache.get(ticket.messageId)
 
     try {
       await originalMessage?.edit(newEmbed)
@@ -350,7 +350,7 @@ export default class SupportCommand extends Command {
   }
 
   private async editTicket(msg: CommandoMessage, description: string) {
-    const channel = msg.guild.channels.resolve('support')
+    const channel = msg.guild.channels.cache.find(x => x.name === 'support' && x.type == 'text')
 
     if (!channel) {
       return msg.reply(
@@ -389,7 +389,7 @@ export default class SupportCommand extends Command {
 
     const messages = (channel as TextChannel).messages
 
-    const originalMessage = messages.resolve(ticket.messageId)
+    const originalMessage = messages.cache.get(ticket.messageId)
 
     if (!originalMessage) {
       return msg.reply(
@@ -411,14 +411,14 @@ export default class SupportCommand extends Command {
       )
       .addField(
         'Submitted By',
-        msg.guild.members.resolve(ticket.userId),
+        msg.guild.members.cache.get(ticket.userId),
         true
       )
 
     if (ticket.dateClosed) {
       newEmbed.addField(
         'Closed By',
-        msg.guild.members.resolve(ticket.closedUserId),
+        msg.guild.members.cache.get(ticket.closedUserId),
         true
       )
     }

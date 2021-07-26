@@ -18,7 +18,7 @@ export class UserController implements IUserController {
       return
     }
 
-    const guild = client.guilds.resolve(config.optional.premium.primaryGuildId)
+    const guild = client.guilds.cache.find(x => x.id === config.optional.premium!.primaryGuildId)
 
     if (!guild) {
       return
@@ -27,7 +27,7 @@ export class UserController implements IUserController {
     var members = await guild.members.fetch()
     
     return members.filter(x =>
-      !!x.roles.resolve(config.optional.premium!.premiumPatreonRoleId!)
+      !!x.roles.cache.find(x => x.id === config.optional.premium!.premiumPatreonRoleId!)
     )
   }
 
@@ -44,18 +44,18 @@ export class UserController implements IUserController {
       return false
     }
 
-    const guild = client.guilds.resolve(config.optional.premium.primaryGuildId)
+    const guild = client.guilds.cache.find(x => x.id === config.optional.premium!.primaryGuildId)
 
     if (!guild) {
       return false
     }
 
-    const member = guild.members.resolve(id)
+    const member = guild.members.cache.find(x => x.id === id)
 
     if (!member) {
       return false
     }
 
-    return !!member.roles.resolve(config.optional.premium.premiumPatreonRoleId)
+    return !!member.roles.cache.find(x => x.id === config.optional.premium!.premiumPatreonRoleId)
   }
 }

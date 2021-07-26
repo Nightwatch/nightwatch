@@ -62,7 +62,7 @@ export default class SuggestionCommand extends Command {
   }
 
   private async createSuggestion(msg: CommandoMessage, suggestion: string) {
-    const channel = msg.guild.channels.resolve('suggestions')
+    const channel = msg.guild.channels.cache.find(x => x.name === 'suggestions' && x.type == 'text')
 
     if (!channel) {
       return msg.reply(
@@ -138,7 +138,7 @@ export default class SuggestionCommand extends Command {
     )
   }
   private async editSuggestion(msg: CommandoMessage, description: string) {
-    const channel = msg.guild.channels.resolve('suggestions')
+    const channel = msg.guild.channels.cache.find(x => x.name === 'suggestions' && x.type == 'text')
 
     if (!channel) {
       return msg.reply(
@@ -181,7 +181,7 @@ export default class SuggestionCommand extends Command {
 
     const messages = (channel as TextChannel).messages
 
-    const originalMessage = messages.resolve(suggestion.messageId)
+    const originalMessage = messages.cache.get(suggestion.messageId)
 
     if (!originalMessage) {
       return msg.reply(
@@ -196,7 +196,7 @@ export default class SuggestionCommand extends Command {
       .setColor(suggestion.color)
       .setFooter('Like it? 👍 or 👎')
       .addField('ID', suggestion.id, true)
-      .addField('Suggested By', msg.guild.members.resolve(suggestion.userId), true)
+      .addField('Suggested By', msg.guild.members.cache.get(suggestion.userId), true)
       .addField('Description', newDescription)
       .setTimestamp(new Date(suggestion.dateCreated))
 
