@@ -102,7 +102,7 @@ export default class SupportCommand extends Command {
 
     const guildService = new GuildService()
 
-    const guild = await guildService.find(msg.guild.id)
+    const guild = await guildService.find(msg.guild.id).catch(() => guildService.create(msg.guild))
 
     if (!guild) {
       return msg.reply('Command failed. Guild does not exist in my database.')
@@ -204,7 +204,7 @@ export default class SupportCommand extends Command {
 
     const guildService = new GuildService()
 
-    const guild = await guildService.find(msg.guild.id)
+    const guild = await guildService.find(msg.guild.id).catch(() => guildService.create(msg.guild))
 
     if (!guild) {
       return msg.reply(
@@ -268,7 +268,7 @@ export default class SupportCommand extends Command {
 
     const guildService = new GuildService()
 
-    const guild = await guildService.find(msg.guild.id)
+    const guild = await guildService.find(msg.guild.id).catch(() => guildService.create(msg.guild))
 
     if (!guild) {
       return msg.reply(
@@ -361,7 +361,7 @@ export default class SupportCommand extends Command {
 
     const guildService = new GuildService()
 
-    const guild = await guildService.find(msg.guild.id)
+    const guild = await guildService.find(msg.guild.id).catch(() => guildService.create(msg.guild))
 
     if (!guild) {
       return msg.reply(

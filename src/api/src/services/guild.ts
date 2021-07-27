@@ -38,11 +38,11 @@ export class GuildService implements IGuildService {
 
   public async create(guild: Guild) {
     guild.dateCreated = new Date()
-    await this.guildRepository.save(guild)
+    return this.guildRepository.save(guild)
   }
 
   public async update(_: string, guild: Guild) {
-    await this.guildRepository.save(guild)
+    return this.guildRepository.save(guild)
   }
 
   public async delete(id: string) {
@@ -83,7 +83,8 @@ export class GuildService implements IGuildService {
     suggestionId: number,
     suggestion: GuildSuggestion
   ) {
-    await this.suggestionRepository.update(suggestionId, suggestion)
+    const dbSuggestion = await this.suggestionRepository.findOne(suggestionId)
+    return this.suggestionRepository.save({...dbSuggestion, ...suggestion})
   }
 
   public findSupportTickets(id: string) {
@@ -117,7 +118,8 @@ export class GuildService implements IGuildService {
     ticketId: number,
     supportTicket: GuildSupportTicket
   ) {
-    await this.supportTicketRepository.update(ticketId, supportTicket)
+    const dbTicket = await this.supportTicketRepository.findOne(ticketId)
+    return this.supportTicketRepository.save({...dbTicket, ...supportTicket})
   }
 
   public async findSettings(id: string) {
@@ -125,7 +127,8 @@ export class GuildService implements IGuildService {
   }
 
   public async updateSettings(id: string, settings: GuildSettings) {
-    await this.settingsRepository.update({ guild: { id } }, settings)
+    const dbSettings = await this.settingsRepository.findOne({guild: {id}})
+    return this.settingsRepository.save({...dbSettings, ...settings})
   }
 
   public async findUsers(id: string) {
@@ -140,7 +143,7 @@ export class GuildService implements IGuildService {
 
   public async createUser(_: string, user: GuildUser) {
     user.dateJoined = new Date()
-    await this.userRepository.save(user)
+    return this.userRepository.save(user)
   }
 
   public async deleteUser(id: string, userId: string) {
@@ -156,10 +159,8 @@ export class GuildService implements IGuildService {
   }
 
   public async updateUser(id: string, userId: string, user: GuildUser) {
-    await this.userRepository.update(
-      { guild: { id }, user: { id: userId } },
-      user
-    )
+    const dbUser = await this.userRepository.findOne({guild: {id}, user: {id: userId}})
+    return this.userRepository.save({...dbUser, ...user})
   }
 
   public async findSelfAssignableRoles(id: string) {
@@ -176,7 +177,7 @@ export class GuildService implements IGuildService {
     _: string,
     selfAssignableRole: GuildSelfAssignableRole
   ) {
-    await this.selfAssignableRoleRepository.save(selfAssignableRole)
+    return this.selfAssignableRoleRepository.save(selfAssignableRole)
   }
 
   public async deleteSelfAssignableRole(id: string, roleId: string) {

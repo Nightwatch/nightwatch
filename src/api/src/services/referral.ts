@@ -21,11 +21,11 @@ export class ReferralService implements IReferralService {
   }
 
   public async create(referral: Referral) {
-    await this.referralRepository.save(referral)
+    return this.referralRepository.save(referral)
   }
 
   public async update(_: number, referral: Referral) {
-    await this.referralRepository.save(referral)
+    return this.referralRepository.save(referral)
   }
 
   public async delete(id: number) {

@@ -37,11 +37,11 @@ export class UserService implements IUserService {
 
   public async create(user: User) {
     user.dateCreated = new Date()
-    await this.userRepository.save(user)
+    return this.userRepository.save(user)
   }
 
   public async update(_: string, user: User) {
-    await this.userRepository.save(user)
+    return this.userRepository.save(user)
   }
 
   public async delete(id: string) {

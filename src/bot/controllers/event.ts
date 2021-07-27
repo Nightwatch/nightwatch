@@ -24,7 +24,7 @@ export class EventController implements IEventController {
     return Promise.resolve()
   }
 
-  public readonly onCommandRun = (
+  public readonly onCommandRun = async (
     _command: Command,
     _promise: any,
     message: CommandoMessage
@@ -33,31 +33,34 @@ export class EventController implements IEventController {
       return Promise.resolve()
     }
 
-    return Promise.resolve(message.delete({
-      timeout: config.bot.autoDeleteMessages.delay
-    }))
-      .thenReturn()
-      .catch(console.error)
+    try {
+      return Promise.resolve(message.delete({
+        timeout: config.bot.autoDeleteMessages.delay
+      }))
+        .thenReturn()
+    } catch (error) {
+      return console.error(error)
+    }
   }
 
-  public readonly onGuildCreate = (guild: Guild) => {
-    return this.guildService
-      .create(guild)
-      .then(async () => {
-        return guild.members.fetch()
-      }).then(members => {
-        members.forEach(async member => {
-          await this.userService.create(member.user).catch(console.error)
-        })
+  public readonly onGuildCreate = async (guild: Guild) => {
+    try {
+      await this.guildService
+        .create(guild)
+      const members = await guild.members.fetch()
+      members.forEach(async (member) => {
+        await this.userService.create(member.user).catch(console.error)
       })
-      .catch(console.error)
+    } catch (message) {
+      return console.error(message)
+    }
   }
 
   public readonly onGuildMemberAdd = (member: GuildMember) => {
     return this.userService.create(member.user).catch(console.error)
   }
 
-  public readonly onCommandError = (
+  public readonly onCommandError = async (
     _command: Command,
     _error: Error,
     message: CommandoMessage
@@ -66,12 +69,15 @@ export class EventController implements IEventController {
       return Promise.resolve()
     }
 
-    return this.userService
-      .create(message.author)
-      .thenReturn()
-      .catch(console.error)
-      .then(() => this.guildService.create(message.guild))
-      .thenReturn()
-      .catch(console.error)
+    try {
+      return this.userService
+        .create(message.author)
+        .thenReturn()
+        .catch(console.error)
+        .then(() => this.guildService.create(message.guild))
+        .thenReturn()
+    } catch (error) {
+      return console.error(error)
+    }
   }
 }

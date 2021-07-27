@@ -51,7 +51,7 @@ export default class AddSelfAssignableRoleCommand extends Command {
 
     const guildService = new GuildService()
 
-    const guild = await guildService.find(msg.guild.id)
+    const guild = await guildService.find(msg.guild.id).catch(() => guildService.create(msg.guild))
 
     if (!guild) {
       return msg.reply('Command failed. Guild not found in my database.')

@@ -6,10 +6,9 @@ import {
   GuildSelfAssignableRole,
   Song
 } from '../../../db'
-import * as Promise from 'bluebird'
 
 export interface GuildService {
-  readonly create: (guild: Guild) => Promise<void>
+  readonly create: (guild: Guild) => Promise<BotGuild | undefined>
   readonly find: (id: string) => Promise<BotGuild | undefined>
   readonly createSupportTicket: (
     id: string,
@@ -19,7 +18,7 @@ export interface GuildService {
     id: string,
     ticketId: number,
     ticket: GuildSupportTicket
-  ) => Promise<void>
+  ) => Promise<GuildSupportTicket>
   readonly createSuggestion: (
     id: string,
     ticket: GuildSuggestion
@@ -28,7 +27,7 @@ export interface GuildService {
     id: string,
     ticketId: number,
     ticket: GuildSuggestion
-  ) => Promise<void>
+  ) => Promise<GuildSuggestion>
   readonly findSelfAssignableRoles: (
     id: string
   ) => Promise<ReadonlyArray<GuildSelfAssignableRole>>
@@ -39,7 +38,7 @@ export interface GuildService {
   readonly createSelfAssignableRole: (
     id: string,
     selfAssignableRole: GuildSelfAssignableRole
-  ) => Promise<void>
+  ) => Promise<GuildSelfAssignableRole>
   readonly deleteSelfAssignableRole: (
     id: string,
     roleId: string

@@ -20,11 +20,11 @@ export class GiveawayService implements IGiveawayService {
 
   public async create(giveaway: Giveaway) {
     giveaway.dateCreated = new Date()
-    await this.giveawayRepository.save(giveaway)
+    return this.giveawayRepository.save(giveaway)
   }
 
   public async update(_: number, giveaway: Giveaway) {
-    await this.giveawayRepository.save(giveaway)
+    return this.giveawayRepository.save(giveaway)
   }
 
   public async delete(id: number) {

@@ -26,7 +26,7 @@ export interface GuildService extends BaseService<Guild, string> {
     _: string,
     suggestionId: number,
     suggestion: GuildSuggestion
-  ) => Promise<void>
+  ) => Promise<GuildSuggestion>
   readonly findSupportTickets: (
     id: string
   ) => Promise<ReadonlyArray<GuildSupportTicket>>
@@ -43,24 +43,24 @@ export interface GuildService extends BaseService<Guild, string> {
     _: string,
     ticketId: number,
     supportTicket: GuildSupportTicket
-  ) => Promise<void>
+  ) => Promise<GuildSupportTicket>
   readonly findSettings: (id: string) => Promise<GuildSettings | undefined>
   readonly updateSettings: (
     id: string,
     settings: GuildSettings
-  ) => Promise<void>
+  ) => Promise<GuildSettings>
   readonly findUsers: (id: string) => Promise<ReadonlyArray<GuildUser>>
   readonly findUserById: (
     id: string,
     userId: string
   ) => Promise<GuildUser | undefined>
-  readonly createUser: (_: string, user: GuildUser) => Promise<void>
+  readonly createUser: (_: string, user: GuildUser) => Promise<GuildUser>
   readonly deleteUser: (id: string, userId: string) => Promise<void>
   readonly updateUser: (
     id: string,
     userId: string,
     user: GuildUser
-  ) => Promise<void>
+  ) => Promise<GuildUser>
   readonly findSelfAssignableRoles: (
     id: string
   ) => Promise<ReadonlyArray<GuildSelfAssignableRole>>
@@ -71,7 +71,7 @@ export interface GuildService extends BaseService<Guild, string> {
   readonly createSelfAssignableRole: (
     id: string,
     selfAssignableRole: GuildSelfAssignableRole
-  ) => Promise<void>
+  ) => Promise<GuildSelfAssignableRole>
   readonly deleteSelfAssignableRole: (
     id: string,
     roleId: string

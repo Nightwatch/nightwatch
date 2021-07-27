@@ -73,13 +73,10 @@ export default class SuggestionCommand extends Command {
 
     const guildService = new GuildService()
 
-    const guild = await guildService.find(msg.guild.id)
+    const guild = await guildService.find(msg.guild.id).catch(() => guildService.create(msg.guild)).catch(() => null)
 
     if (!guild) {
-      return msg.reply(
-        oneLine`This guild does not exist in my database.
-          An entry has been created. Please try the command again.`
-      )
+      return msg.reply(`Something went wrong.`)
     }
 
     const embed = new MessageEmbed()
@@ -149,13 +146,10 @@ export default class SuggestionCommand extends Command {
 
     const guildService = new GuildService()
 
-    const guild = await guildService.find(msg.guild.id)
+    const guild = await guildService.find(msg.guild.id).catch(() => guildService.create(msg.guild)).catch(() => null)
 
     if (!guild) {
-      return msg.reply(
-        oneLine`This guild does not exist in my database.
-          An entry has been created. Please try the command again.`
-      )
+      return msg.reply(`Something went wrong.`)
     }
 
     const suggestions = guild.suggestions || []
