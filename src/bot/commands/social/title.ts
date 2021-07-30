@@ -28,7 +28,7 @@ export default class TitleCommand extends Command {
   public async run(msg: CommandoMessage, args: any) {
     const userService = new UserService()
 
-    const user = await userService.find(msg.author.id)
+    const user = await userService.find(msg.author.id).catch(() => userService.create(msg.author))
 
     if (!user) {
       return msg.reply(

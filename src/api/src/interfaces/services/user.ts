@@ -13,20 +13,20 @@ export interface UserService extends BaseService<User, string> {
   readonly updateLevel: (
     id: string,
     userLevelBalance: UserLevelBalance
-  ) => Promise<void>
+  ) => Promise<UserLevelBalance | undefined>
   readonly updateBalance: (
     id: string,
     userBalance: UserBalance
-  ) => Promise<void>
+  ) => Promise<UserBalance | undefined>
   readonly findProfile: (id: string) => Promise<UserProfile | undefined>
   readonly updateProfile: (
     id: string,
     userProfile: UserProfile
-  ) => Promise<void>
+  ) => Promise<UserProfile | undefined>
   readonly updateSettings: (
     id: string,
     userSettings: UserSettings
-  ) => Promise<void>
+  ) => Promise<UserSettings | undefined>
   readonly findSettings: (id: string) => Promise<UserSettings | undefined>
   readonly findFriendRequests: (
     id: string,
@@ -47,7 +47,7 @@ export interface UserService extends BaseService<User, string> {
   readonly createFriendRequest: (
     _: string,
     request: UserFriendRequest
-  ) => Promise<void>
+  ) => Promise<UserFriendRequest>
   readonly deleteFriendRequest: (id: string, userId: string) => Promise<void>
   readonly findFriends: (id: string) => Promise<ReadonlyArray<UserFriend>>
   readonly findFriendByUserId: (
@@ -61,6 +61,6 @@ export interface UserService extends BaseService<User, string> {
     userId?: string,
     name?: string
   ) => Promise<ReadonlyArray<UserFriend>>
-  readonly addFriend: (id: string, friend: UserFriend) => Promise<void>
+  readonly addFriend: (id: string, friend: UserFriend) => Promise<UserFriend | undefined>
   readonly deleteFriend: (id: string, userId: string) => Promise<void>
 }

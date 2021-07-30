@@ -20,7 +20,7 @@ let pluginPaths = getDirectories(path.join(__dirname, '..', 'plugins'))
 
 try {
   pluginPaths = pluginPaths.concat(
-    getDirectories(path.join(__dirname, '..', 'plugins', 'plugin-premium'))
+    getDirectories(path.join(__dirname, '..', 'plugins', 'premium'))
   )
 } catch {
   // swallow

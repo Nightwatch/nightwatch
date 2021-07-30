@@ -41,7 +41,7 @@ export default class UpdateCommand extends Command {
           'src',
           'bot',
           'plugins',
-          'plugin-premium'
+          'premium'
         )
         await git.cwd(premiumPath)
         const premiumResult = await git.pull()
@@ -69,7 +69,7 @@ export default class UpdateCommand extends Command {
               'plugins'
             )
           )
-          await git.clone(repo, 'plugin-premium')
+          await git.clone(repo, 'premium')
           premiumUpdated = true
         }
       }

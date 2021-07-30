@@ -76,11 +76,12 @@ export class UserService implements IUserService {
       user.balance.netWorth = balance.netWorth
     }
 
-    await this.userRepository.save(user)
+    return this.userRepository.save(user)
   }
 
   public async updateBalance(id: string, userBalance: UserBalance) {
-    await this.userBalanceRepository.update({ user: { id } }, userBalance)
+    const dbValue = this.userBalanceRepository.findOne({user: {id}})
+    return this.userBalanceRepository.save({...dbValue, ...userBalance})
   }
 
   public async findProfile(id: string) {
@@ -88,11 +89,13 @@ export class UserService implements IUserService {
   }
 
   public async updateProfile(id: string, userProfile: UserProfile) {
-    await this.userProfileRepository.update({ user: { id } }, userProfile)
+    const dbValue = this.userProfileRepository.findOne({user: {id}})
+    return this.userProfileRepository.save({...dbValue, ...userProfile})
   }
 
   public async updateSettings(id: string, userSettings: UserSettings) {
-    await this.userSettingsRepository.update({ user: { id } }, userSettings)
+    const dbValue = this.userSettingsRepository.findOne({user: {id}})
+    return this.userSettingsRepository.save({...dbValue, ...userSettings})
   }
 
   public async findSettings(id: string) {
@@ -162,7 +165,7 @@ export class UserService implements IUserService {
   public async createFriendRequest(_: string, request: UserFriendRequest) {
     request.timestamp = new Date()
 
-    await this.userFriendRequestRepository.save(request)
+    return this.userFriendRequestRepository.save(request)
   }
 
   public async deleteFriendRequest(id: string, userId: string) {
@@ -276,7 +279,7 @@ export class UserService implements IUserService {
 
     friend.dateAdded = new Date()
 
-    await this.userFriendRepository.save(friend)
+    return this.userFriendRepository.save(friend)
   }
 
   public async deleteFriend(id: string, userId: string) {

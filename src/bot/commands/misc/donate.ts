@@ -21,7 +21,7 @@ export default class DonateCommand extends Command {
   }
 
   public async run(msg: CommandoMessage) {
-    const url = 'https://patreon.com/ihaxjoker'
+    const url = 'https://patreon.com/tgoins'
 
     const embed = new MessageEmbed()
       .setTitle('Support Nightwatch')

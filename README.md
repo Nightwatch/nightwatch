@@ -22,6 +22,7 @@ Features include:
 - Economy
 - Gambling
 - Giveaways
+- Levels **Ƥ**
 - Lockdown **Ƥ**
 - Referral rewards
 - Self assignable roles
@@ -29,7 +30,7 @@ Features include:
 - Suggestions
 - Support tickets
 - Polls
-- Custom Social Media/Friend system
+- Custom Social Media/Friend system **Ƥ**
 - Image/Game/Music/Anime/etc search
 - Server linking **Ƥ**
 - Voice/Text linking **Ƥ**
@@ -51,7 +52,7 @@ _Features marked with **Ƥ** require Nightwatch Premium_
 
 Want to unlock Nightwatch Premium and get access to some cool commands and features?
 
-**Get Premium: https://patreon.com/ihaxjoker**
+**Get Premium: https://patreon.com/tgoins**
 
 Benefits of Premium:
 
@@ -98,29 +99,37 @@ Whether you donate or star, we appreciate your support.
 
 ## Installation
 
+You are more than welcome to self-host the bot! Please be aware that no Premium features are included in the repo.
+
+The only supported installation method for the bot is Docker. You may use other methods and tools to setup the bot locally, but I will only assist you with issues if you are using the supported method.
+
 ### Prerequisites
 
-- Node.js >= v10 LTS
-- PostgreSQL
-- Redis
-- An HTTP server for the web interface
-- (optional) Yarn
+- Docker
+- Yarn
 
 ### Setup
 
 1. Clone the repo
-2. Inside the repo, run `npm install`, or `yarn` if you are using Yarn
-3. In the `config` directory, duplicate the `config.example.json` and name it `config.json`
-4. Edit the file and fill in the values. Remove any comments
+2. In the `config` directory, duplicate the `config.example.json` and name it `config.json`
+3. Edit the file and fill in the values. Remove any comments
     - Any field with a default value does not have to be modified!
-    - Only the `bot`, `api`, and `db` sections are required; anything outside of those sections are optional
+    - Only the `bot` and `api` sections are required; anything outside of those sections are optional
     - Obtain a bot token from [here](https://discordapp.com/developers/applications/). You'll have to create a bot if you haven't already
-5. Create a database in PostgreSQL for the bot
-6. Start the API with `npm run api:start` or `yarn api:start`
-7. Start the bot with `npm run bot:start` or `yarn bot:start`
-8. Build the web interface with `npm run web:prod` or `yarn web:prod`
-    - Or run it on a development server with `npm run web:start` or `yarn web:start`
-9. Invite the bot to your server
+4. Repeat the same process as above for the `ormconfig.example.json` file
+5. Run Docker Compose with the command `docker-compose up`
+6. Invite the bot to your server
+
+Optional: Build the web interface with `yarn web:prod`
+or run it on a development server with `yarn web:start`
+
+### Updating the bot
+
+When changes are made to the bot, you need to restart the Docker container for the changes to work.
+
+1. Kill the docker container by pressing Ctrl+C twice
+2. Pull the changes by running `git pull` if you haven't already
+3. Start the Docker container again using `docker-compose up`
 
 ## Background
 
