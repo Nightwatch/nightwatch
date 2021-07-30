@@ -28,7 +28,7 @@ public/docs
 
 ormconfig.json
 
-**/**/plugin-premium/
+**/**/plugins/premium/
 
 docker-compose.yml
 
