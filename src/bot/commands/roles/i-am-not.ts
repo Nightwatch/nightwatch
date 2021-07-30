@@ -2,6 +2,7 @@ import { Role } from 'discord.js'
 import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
+import { GuildService } from '../../services'
 
 export default class IAmNotRoleCommand extends Command {
   constructor(client: Client) {
@@ -37,10 +38,23 @@ export default class IAmNotRoleCommand extends Command {
       )
     }
 
+    const guildService = new GuildService()
+
     try {
+      const selfAssignableRole = await guildService.findSelfAssignableRole(msg.guild.id, role.id)
+      
+      if (!selfAssignableRole)
+      {
+        return msg.reply(`That is not a self assignable role!`)
+      }
+
+      if (!msg.member?.roles.cache.has(role.id)) {
+        return msg.reply(`You are not a **${role.name}**!`)
+      }
+
       await msg.member?.roles.remove(role)
     } catch {
-      // swallow
+      return msg.reply(`Unable to remove you as a **${role.name}**.`)
     }
 
     return msg.reply(`You are no longer a **${role.name}**!`)
