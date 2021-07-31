@@ -31,7 +31,6 @@
     "accesscontrol": "^2.2.1",
     "axios": "^0.18.0",
     "better-youtube-api": "^0.3.6",
-    "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "canvas": "^2.7.0",
     "class-validator": "^0.9.1",
@@ -81,7 +80,6 @@
     "ytdl-core": "^4.9.0"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.25",
     "@types/chai": "^4.1.6",
     "@types/common-tags": "^1.4.0",
     "@types/compression": "^0.0.36",

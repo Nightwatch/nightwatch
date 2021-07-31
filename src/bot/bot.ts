@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird'
 import { ClientUser } from 'discord.js'
 import { readdirSync, statSync } from 'fs'
 import { inject, injectable } from 'inversify'
@@ -28,13 +27,12 @@ export class Bot implements IBot {
     messageSweepInterval: 60
   })
 
-  public start() {
+  public async start() {
     console.info(`Starting ${config.bot.botName}.`)
 
     this.registerEvents()
     this.registerCommands()
-    return Promise.resolve(this.client.login(config.bot.token))
-      .return()
+    this.client.login(config.bot.token)
       .catch(this.handleLoginFailure)
   }
 
@@ -120,19 +118,17 @@ export class Bot implements IBot {
     setTimeout(this.start, 5000)
   }
 
-  private setRandomActivity(clientUser: ClientUser) {
+  private async setRandomActivity(clientUser: ClientUser) {
     const playingStatusOptions = config.bot.playingStatus.options
     const url = config.bot.playingStatus.url || 'https://twitch.tv/ihaxjoker'
-    return Promise.resolve(
-      clientUser.setActivity(
-        playingStatusOptions[
-          Math.floor(Math.random() * playingStatusOptions.length)
-        ],
-        {
-          type: 'STREAMING',
-          url
-        }
-      )
+    await clientUser.setActivity(
+      playingStatusOptions[
+        Math.floor(Math.random() * playingStatusOptions.length)
+      ],
+      {
+        type: 'STREAMING',
+        url
+      }
     ).catch(console.error)
   }
 }

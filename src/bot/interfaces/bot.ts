@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird'
 import { Client } from '../models'
 
 export interface Bot {
