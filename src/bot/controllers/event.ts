@@ -7,7 +7,6 @@ import {
 } from '../interfaces'
 import { Message, GuildMember, Guild } from 'discord.js'
 import { CommandoMessage, Command } from 'discord.js-commando'
-import * as Promise from 'bluebird'
 
 const config: Config = require('../../../config/config.json')
 
@@ -34,10 +33,9 @@ export class EventController implements IEventController {
     }
 
     try {
-      return Promise.resolve(message.delete({
+      await message.delete({
         timeout: config.bot.autoDeleteMessages.delay
-      }))
-        .thenReturn()
+      })
     } catch (error) {
       return console.error(error)
     }
@@ -70,12 +68,10 @@ export class EventController implements IEventController {
     }
 
     try {
-      return this.userService
+      await this.userService
         .create(message.author)
-        .thenReturn()
         .catch(console.error)
         .then(() => this.guildService.create(message.guild))
-        .thenReturn()
     } catch (error) {
       return console.error(error)
     }

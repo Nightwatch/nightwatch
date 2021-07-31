@@ -10,60 +10,47 @@ import {
   UserProfile
 } from '../../db'
 import { injectable } from 'inversify'
-import * as Promise from 'bluebird'
 import { UserLevelBalance } from '../../api/src/models'
 
 @injectable()
 export class UserService implements IUserService {
-  public readonly create = (user: User) => {
-    return this.find(user.id)
-      .catch(error => {
-        if (error.response.status === 404) {
-          const newUser = new BotUser()
-          newUser.id = user.id
-          newUser.name = user.username
-          newUser.avatarUrl = user.displayAvatarURL()
-          newUser.dateLastMessage = null
-          newUser.level = new UserLevel()
-          newUser.verification = new UserVerification()
-          newUser.settings = new UserSettings()
-          newUser.balance = new UserBalance()
-          newUser.profile = new UserProfile()
+  public readonly create = async (user: User) => {
+    const newUser = new BotUser()
+    newUser.id = user.id
+    newUser.name = user.username
+    newUser.avatarUrl = user.displayAvatarURL()
+    newUser.dateLastMessage = null
+    newUser.level = new UserLevel()
+    newUser.verification = new UserVerification()
+    newUser.settings = new UserSettings()
+    newUser.balance = new UserBalance()
+    newUser.profile = new UserProfile()
 
-          api.post('/users', newUser)
-        }
-      })
-      .thenReturn()
+    return api.post<BotUser>('/users', newUser).then(x => x.data)
   }
 
-  public readonly find = (id: string): Promise<BotUser | undefined> => {
-    return Promise.resolve(api.get(`/users/${id}`)).then(
+  public readonly find = async (id: string): Promise<BotUser | undefined> => {
+    return api.get(`/users/${id}`).then(
       response => response.data
     )
   }
 
-  public readonly updateBalance = (id: string, balance: UserBalance) => {
-    return Promise.resolve(
-      api.put(`/users/${id}/balance`, balance)
-    ).thenReturn()
+  public readonly updateBalance = async (id: string, balance: UserBalance) => {
+    return api.put(`/users/${id}/balance`, balance).then(x => x.data)
   }
 
-  public readonly delete = (id: string) => {
-    return Promise.resolve(api.delete(`/users/${id}`)).thenReturn()
+  public readonly delete = async (id: string) => {
+    await api.delete(`/users/${id}`)
   }
 
-  public readonly updateProfile = (id: string, profile: UserProfile) => {
-    return Promise.resolve(
-      api.put(`/users/${id}/profile`, profile)
-    ).thenReturn()
+  public readonly updateProfile = async (id: string, profile: UserProfile) => {
+    return api.put(`/users/${id}/profile`, profile).then(x => x.data)
   }
 
-  public readonly updateLevelBalance = (
+  public readonly updateLevelBalance = async (
     id: string,
     levelBalance: UserLevelBalance
   ) => {
-    return Promise.resolve(
-      api.put(`/users/${id}/level`, levelBalance)
-    ).thenReturn()
+    return api.put(`/users/${id}/level`, levelBalance).then(x => x.data)
   }
 }
