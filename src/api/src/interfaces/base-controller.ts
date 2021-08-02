@@ -6,7 +6,7 @@ export interface BaseController<T, IDColumnType> {
     id: IDColumnType,
     ...args: any[]
   ) => Promise<T | undefined>
-  readonly create: (item: T, ...args: any[]) => Promise<void>
+  readonly create: (item: T, ...args: any[]) => Promise<T | undefined>
   readonly updateById: (
     id: IDColumnType,
     item: T,

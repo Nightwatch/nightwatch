@@ -1,5 +1,5 @@
 import { GuildService as IGuildService } from '../interfaces'
-import { Guild } from 'discord.js'
+import { Guild, GuildMember } from 'discord.js'
 import { api } from '../utils'
 import {
   Guild as BotGuild,
@@ -7,7 +7,10 @@ import {
   GuildSupportTicket,
   GuildSuggestion,
   GuildSelfAssignableRole,
-  Song
+  Song,
+  GuildUserMessage,
+  GuildUser,
+  User
 } from '../../db'
 import { injectable } from 'inversify'
 
@@ -105,7 +108,7 @@ export class GuildService implements IGuildService {
   }
 
   public readonly findPlaylistSongsByUserId = async (id: string, userId: string) => {
-    const route = `/guilds/${id}/playlist/user/${userId}`
+    const route = `/guilds/${id}/playlist/users/${userId}`
 
     return Promise.resolve(api.get(route)).then(r => r.data)
   }
@@ -129,8 +132,37 @@ export class GuildService implements IGuildService {
   }
 
   public readonly deleteSongsByUserId = async (id: string, userId: string) => {
-    const route = `/guilds/${id}/playlist/user/${userId}`
+    const route = `/guilds/${id}/playlist/users/${userId}`
 
     await api.delete(route)
+  }
+
+  public readonly saveMessage = async (
+    id: string,
+    userId: string,
+    message: Pick<GuildUserMessage, 'content'>
+  ) => {
+    const route = `/guilds/${id}/users/${userId}/messages`
+
+    return api.post<GuildUserMessage>(route, message).then(x => x.data)
+  }
+
+  public readonly findUserById = async (id: string) => {
+    const route = `/guilds/${id}/users/${id}`
+
+    return api.get<GuildUser>(route).then(x => x.data)
+  }
+
+  public readonly createUser = async (guild: BotGuild, user: User, guildMember: GuildMember) => {
+    const route = `/guilds/${guild.id}/users`
+
+    const guildUser = new GuildUser()
+
+    guildUser.guild = guild
+    guildUser.user = user
+    guildUser.nickname = guildMember.nickname || guildMember.displayName
+    guildUser.dateJoined = guildMember.joinedAt || new Date()
+
+    return api.post<GuildUser>(route, guildUser).then(x => x.data)
   }
 }

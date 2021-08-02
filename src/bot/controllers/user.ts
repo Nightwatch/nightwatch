@@ -32,7 +32,13 @@ export class UserController implements IUserController {
   }
 
   public readonly userHasPremium = (id: string, client: Client) => {
-    if (client.isOwner(id)) {
+    const user = client.users.cache.get(id)
+
+    if (!user) {
+      return false;
+    }
+
+    if (client.owners.includes(user)) {
       return true
     }
 

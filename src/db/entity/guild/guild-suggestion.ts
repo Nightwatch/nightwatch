@@ -38,6 +38,7 @@ export class GuildSuggestion {
    */
   @ManyToOne(_ => Guild, guild => guild.suggestions)
   public guild: Guild
+  
   /**
    * The ID of the suggestion. Auto-generated.
    */

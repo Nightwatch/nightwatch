@@ -5,7 +5,8 @@ import {
   GuildSettings,
   GuildUser,
   GuildSelfAssignableRole,
-  Song
+  Song,
+  GuildUserMessage,
 } from '../../../db'
 import { getRepository } from 'typeorm'
 import { injectable } from 'inversify'
@@ -20,18 +21,19 @@ export class GuildService implements IGuildService {
   private readonly suggestionRepository = getRepository(GuildSuggestion)
   private readonly supportTicketRepository = getRepository(GuildSupportTicket)
   private readonly settingsRepository = getRepository(GuildSettings)
-  private readonly userRepository = getRepository(GuildUser)
+  private readonly guildUserRepository = getRepository(GuildUser)
   private readonly selfAssignableRoleRepository = getRepository(
     GuildSelfAssignableRole
   )
   private readonly songRepository = getRepository(Song)
+  private readonly guildUserMessageRepository = getRepository(GuildUserMessage)
 
   public find() {
     return this.guildRepository.find()
   }
 
   public async findById(id: string) {
-    return this.guildRepository.findOne(id, {
+    return this.guildRepository.findOneOrFail(id, {
       relations: ['settings', 'suggestions', 'supportTickets']
     })
   }
@@ -132,22 +134,23 @@ export class GuildService implements IGuildService {
   }
 
   public async findUsers(id: string) {
-    return this.userRepository.find({ where: { guild: { id } } })
+    return this.guildUserRepository.find({ where: { guild: { id } } })
   }
 
   public findUserById(id: string, userId: string) {
-    return this.userRepository.findOne({
+    return this.guildUserRepository.findOneOrFail({
       where: { guild: { id }, user: { id: userId } }
     })
   }
 
-  public async createUser(_: string, user: GuildUser) {
+  public async createUser(id: string, user: GuildUser) {
+    user.guild = await this.guildRepository.findOneOrFail({id})
     user.dateJoined = new Date()
-    return this.userRepository.save(user)
+    return this.guildUserRepository.save(user)
   }
 
   public async deleteUser(id: string, userId: string) {
-    const user = await this.userRepository.findOne({
+    const user = await this.guildUserRepository.findOne({
       where: { guild: { id }, user: { id: userId } }
     })
 
@@ -155,12 +158,12 @@ export class GuildService implements IGuildService {
       return
     }
 
-    await this.userRepository.remove(user)
+    await this.guildUserRepository.remove(user)
   }
 
   public async updateUser(id: string, userId: string, user: GuildUser) {
-    const dbUser = await this.userRepository.findOne({guild: {id}, user: {id: userId}})
-    return this.userRepository.save({...dbUser, ...user})
+    const dbUser = await this.guildUserRepository.findOne({guild: {id}, user: {id: userId}})
+    return this.guildUserRepository.save({...dbUser, ...user})
   }
 
   public async findSelfAssignableRoles(id: string) {
@@ -228,5 +231,25 @@ export class GuildService implements IGuildService {
     })
 
     await this.songRepository.remove(songs)
+  }
+
+  public async findMessagesByUserId(id: string, userId: string) {
+    return this.guildUserMessageRepository.find({where: {guild: {id}, user: {id: userId}}})
+  }
+
+  public async findMessages(id: string) {
+    return this.guildUserMessageRepository.find({where: {guild: {id}}})
+  }
+
+  public async createMessage(id: string, userId: string, message: Pick<GuildUserMessage, 'content'>) {
+    const guild = await this.guildRepository.findOne({id})
+    const user = await this.guildUserRepository.findOne({user: {id: userId}})
+
+    return this.guildUserMessageRepository.save({
+      content: message.content,
+      guild,
+      user,
+      timestamp: new Date()
+    })
   }
 }

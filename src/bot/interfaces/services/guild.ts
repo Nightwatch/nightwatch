@@ -1,10 +1,13 @@
-import { Guild } from 'discord.js'
+import { Guild, GuildMember } from 'discord.js'
 import {
   Guild as BotGuild,
   GuildSupportTicket,
   GuildSuggestion,
   GuildSelfAssignableRole,
-  Song
+  Song,
+  GuildUserMessage,
+  GuildUser,
+  User
 } from '../../../db'
 
 export interface GuildService {
@@ -52,4 +55,10 @@ export interface GuildService {
   readonly deleteSong: (id: string, songId: number) => Promise<void>
   readonly clearPlaylist: (id: string) => Promise<void>
   readonly deleteSongsByUserId: (id: string, userId: string) => Promise<void>
+  readonly saveMessage: (id: string, userId: string, message: Pick<GuildUserMessage, 'content'>) => Promise<GuildUserMessage>
+  readonly findUserById: (
+    id: string,
+    userId: string
+  ) => Promise<GuildUser | undefined>
+  readonly createUser: (guild: BotGuild, user: User, guildMember: GuildMember) => Promise<GuildUser>
 }

@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { Guild, GuildUserBan, GuildUserKick, GuildUserWarning } from '.'
+import { Guild, GuildUserBan, GuildUserKick, GuildUserWarning, GuildUserMessage } from '.'
 import { User } from '..'
 
 @Entity()
@@ -15,7 +15,7 @@ export class GuildUser {
    * Every ban the user has been issued in the server.
    */
   @OneToMany(_ => GuildUserBan, guildUserBan => guildUserBan.user)
-  public bans: ReadonlyArray<GuildUserBan>
+  public bans?: ReadonlyArray<GuildUserBan>
 
   /**
    * The date the user joined the guild, or whenever the bot joined
@@ -35,7 +35,7 @@ export class GuildUser {
    * The guild that the user is in.
    */
   @ManyToOne(_ => Guild, guild => guild.users)
-  public guild: Guild
+  public guild?: Guild
   /**
    * The ID of the guild user. Auto-generated.
    */
@@ -46,7 +46,7 @@ export class GuildUser {
    * Every kick the user has been issued in the server.
    */
   @OneToMany(_ => GuildUserKick, guildUserKick => guildUserKick.user)
-  public kicks: ReadonlyArray<GuildUserKick>
+  public kicks?: ReadonlyArray<GuildUserKick>
 
   /**
    * The nickname of the user in the guild.
@@ -60,13 +60,19 @@ export class GuildUser {
    * The GuildUser's global user.
    */
   @ManyToOne(_ => User)
-  public user: User
+  public user?: User
 
   /**
    * Every warning the user has had in the guild.
    */
   @OneToMany(_ => GuildUserWarning, guildUserWarning => guildUserWarning.user)
-  public warnings: ReadonlyArray<GuildUserWarning>
+  public warnings?: ReadonlyArray<GuildUserWarning>
+
+  /**
+   * Every message the user has sent in the guild.
+   */
+   @OneToMany(_ => GuildUserMessage, messages => messages.user)
+   public messages?: ReadonlyArray<GuildUserMessage>
 
   public constructor(guildUser?: GuildUser) {
     if (guildUser) {

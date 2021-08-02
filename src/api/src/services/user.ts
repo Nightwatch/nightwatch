@@ -30,7 +30,7 @@ export class UserService implements IUserService {
   }
 
   public async findById(id: string) {
-    return this.userRepository.findOne(id, {
+    return this.userRepository.findOneOrFail(id, {
       relations: ['level', 'settings', 'balance', 'profile']
     })
   }

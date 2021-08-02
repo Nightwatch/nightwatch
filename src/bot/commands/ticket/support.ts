@@ -214,7 +214,7 @@ export default class SupportCommand extends Command {
     }
 
     const ticketId = description.trim()
-    const ticket = guild.supportTickets.find(x => x.id === Number(ticketId))
+    const ticket = guild.supportTickets?.find(x => x.id === Number(ticketId))
     if (!ticket) {
       return msg.reply('Invalid ticketId')
     }
@@ -278,7 +278,7 @@ export default class SupportCommand extends Command {
     }
 
     const ticketId = Number(description.substring(0, description.indexOf(' ')))
-    const ticket = guild.supportTickets.find(x => x.id === ticketId)
+    const ticket = guild.supportTickets?.find(x => x.id === ticketId)
 
     if (!ticket) {
       return msg.reply('Invalid ticketId')
@@ -371,7 +371,7 @@ export default class SupportCommand extends Command {
     }
 
     const ticketId = description.substring(0, description.indexOf(' '))
-    const ticket = guild.supportTickets.find(x => x.id === Number(ticketId))
+    const ticket = guild.supportTickets?.find(x => x.id === Number(ticketId))
 
     if (!ticket) {
       return msg.reply(`Ticket ${ticketId} not found.`)

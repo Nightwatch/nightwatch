@@ -56,11 +56,12 @@ export class GiveawayController implements BaseController<Giveaway, number> {
    */
   @httpPost('/')
   public async create(@requestBody() giveaway: Giveaway) {
-    await this.giveawayService.create(giveaway)
+    const result = await this.giveawayService.create(giveaway)
     this.socketService.send(
       GiveawayEvent.GIVEAWAY_CREATE,
       this.redactKey(giveaway)
     )
+    return result
   }
 
   /**

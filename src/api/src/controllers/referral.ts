@@ -56,8 +56,9 @@ export class ReferralController implements BaseController<Referral, number> {
    */
   @httpPost('/')
   public async create(@requestBody() referral: Referral) {
-    await this.referralService.create(referral)
+    const result = await this.referralService.create(referral)
     this.socketService.send(ReferralEvent.REFERRAL_CREATE, referral)
+    return result
   }
 
   /**

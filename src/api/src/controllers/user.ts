@@ -95,9 +95,9 @@ export class UserController implements BaseController<User, string> {
       res.status(409).send('User already exists')
       return
     }
-    await this.userService.create(user)
+    const result = await this.userService.create(user)
     this.socketService.send(UserEvent.USER_CREATE, user)
-    res.sendStatus(201)
+    return result
   }
 
   /**

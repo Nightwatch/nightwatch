@@ -6,7 +6,8 @@ import {
   GuildSettings,
   GuildUser,
   GuildSelfAssignableRole,
-  Song
+  Song,
+  GuildUserMessage
 } from '../../../../db'
 
 export interface GuildService extends BaseService<Guild, string> {
@@ -54,7 +55,7 @@ export interface GuildService extends BaseService<Guild, string> {
     id: string,
     userId: string
   ) => Promise<GuildUser | undefined>
-  readonly createUser: (_: string, user: GuildUser) => Promise<GuildUser>
+  readonly createUser: (id: string, user: GuildUser) => Promise<GuildUser>
   readonly deleteUser: (id: string, userId: string) => Promise<void>
   readonly updateUser: (
     id: string,
@@ -85,4 +86,7 @@ export interface GuildService extends BaseService<Guild, string> {
   readonly deleteSong: (id: string, songId: number) => Promise<void>
   readonly clearPlaylist: (id: string) => Promise<void>
   readonly deleteSongsByUserId: (id: string, userId: string) => Promise<void>
+  readonly findMessagesByUserId: (id: string, userId: string) => Promise<ReadonlyArray<GuildUserMessage>>
+  readonly findMessages: (id: string) => Promise<ReadonlyArray<GuildUserMessage>>
+  readonly createMessage: (id: string, userId: string, message: Pick<GuildUserMessage, 'content'>) => Promise<GuildUserMessage>
 }

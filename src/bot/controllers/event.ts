@@ -15,10 +15,25 @@ export class EventController implements IEventController {
   @inject(Types.UserService) public readonly userService: UserService
   @inject(Types.GuildService) public readonly guildService: GuildService
 
-  public readonly onMessage = (message: Message) => {
+  public readonly onMessage = async (message: Message) => {
     if (message.author.bot || message.channel.type !== 'text') {
       return Promise.resolve()
     }
+
+    if (message.guild) {
+      try {
+        const guild = await this.guildService.find(message.guild.id).catch(() => this.guildService.create(message.guild!))
+        const user = await this.userService.find(message.author.id).catch(() => this.userService.create(message.author))
+        await this.guildService.findUserById(message.guild.id, message.member!.id).catch(() => this.guildService.createUser(guild!, user!, message.member!))
+        await this.guildService.saveMessage(message.guild.id, message.author.id, {
+          content: message.content,
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    console.log(`${message.author.username} (${message.author.id}): ${message.content}`);
 
     return Promise.resolve()
   }
@@ -28,6 +43,8 @@ export class EventController implements IEventController {
     _promise: any,
     message: CommandoMessage
   ) => {
+    console.log(`${message.author.username} (${message.author.id}): ${message.content}`);
+    
     if (!config.bot.autoDeleteMessages.enabled || !message.deletable) {
       return Promise.resolve()
     }

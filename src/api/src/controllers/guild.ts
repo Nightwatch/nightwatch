@@ -20,7 +20,8 @@ import {
   GuildUser,
   GuildSuggestion,
   GuildSelfAssignableRole,
-  Song
+  Song,
+  GuildUserMessage
 } from '../../../db'
 import { Types } from '../../../common'
 import {
@@ -80,8 +81,9 @@ export class GuildController implements BaseController<Guild, string> {
    */
   @httpPost('/')
   public async create(@requestBody() guild: Guild) {
-    await this.guildService.create(guild)
-    this.socketService.send(GuildEvent.GUILD_CREATE, guild)
+    const result = await this.guildService.create(guild)
+    this.socketService.send(GuildEvent.GUILD_CREATE, result)
+    return result
   }
 
   /**
@@ -341,8 +343,9 @@ export class GuildController implements BaseController<Guild, string> {
     @requestParam('id') id: string,
     @requestBody() user: GuildUser
   ) {
-    await this.guildService.createUser(id, user)
-    this.socketService.send(GuildUserEvent.GUILD_USER_CREATE, user)
+    const result = await this.guildService.createUser(id, user)
+    this.socketService.send(GuildUserEvent.GUILD_USER_CREATE, result)
+    return result
   }
 
   /**
@@ -482,10 +485,10 @@ export class GuildController implements BaseController<Guild, string> {
   /**
    * Finds songs in a Guild's playlist by user ID.
    *
-   * GET /:id/playlist/user/:userId
+   * GET /:id/playlist/users/:userId
    * @returns Promise<Song[]>
    */
-  @httpGet('/:id/playlist/user/:userId')
+  @httpGet('/:id/playlist/users/:userId')
   public async findSongsByUserId(
     @requestParam('id') id: string,
     @requestParam('userId') userId: string
@@ -496,10 +499,10 @@ export class GuildController implements BaseController<Guild, string> {
   /**
    * Deletes songs in a Guild's playlist by user ID.
    *
-   * DELETE /:id/playlist/user/:userId
+   * DELETE /:id/playlist/users/:userId
    * @returns Promise<void>
    */
-  @httpDelete('/:id/playlist/user/:userId')
+  @httpDelete('/:id/playlist/users/:userId')
   public async deleteSongsByUserId(
     @requestParam('id') id: string,
     @requestParam('userId') userId: string
@@ -519,5 +522,29 @@ export class GuildController implements BaseController<Guild, string> {
     @requestParam('songId') songId: number
   ) {
     return this.guildService.deleteSong(id, songId)
+  }
+
+  @httpGet('/:id/users/:userId/messages')
+  public async findMessagesByUserId(
+    @requestParam('id') id: string,
+    @requestParam('userId') userId: string
+  ) {
+    return this.guildService.findMessagesByUserId(id, userId)
+  }
+
+  @httpGet('/:id/messages')
+  public async findAllMessages(
+    @requestParam('id') id: string,
+  ) {
+    return this.guildService.findMessages(id)
+  }
+
+  @httpPost('/:id/users/:userId/messages')
+  public async createMessage(
+    @requestParam('id') id: string,
+    @requestParam('userId') userId: string,
+    @requestBody() message: Pick<GuildUserMessage, 'content'>
+  ) {
+    return this.guildService.createMessage(id, userId, message)
   }
 }
