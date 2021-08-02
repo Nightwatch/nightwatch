@@ -2,7 +2,6 @@ import { IsDate, IsString } from 'class-validator'
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn
@@ -34,7 +33,6 @@ export class GuildUserMessage {
   /**
    * The guild user who sent the message.
    */
-  @Index({ unique: true })
   @ManyToOne(_ => GuildUser, guildUser => guildUser.messages)
   @JoinColumn()
   public readonly user: GuildUser

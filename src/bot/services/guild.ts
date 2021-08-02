@@ -147,8 +147,8 @@ export class GuildService implements IGuildService {
     return api.post<GuildUserMessage>(route, message).then(x => x.data)
   }
 
-  public readonly findUserById = async (id: string) => {
-    const route = `/guilds/${id}/users/${id}`
+  public readonly findUserById = async (id: string, userId: string) => {
+    const route = `/guilds/${id}/users/${userId}`
 
     return api.get<GuildUser>(route).then(x => x.data)
   }
