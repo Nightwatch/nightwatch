@@ -6,7 +6,8 @@ import {
   UserSettings,
   UserFriend,
   UserFriendRequest,
-  GuildUserMessage
+  GuildUserMessage,
+  Guild
 } from '../../../../db/'
 import { UserLevelBalance } from '../../models'
 
@@ -65,4 +66,5 @@ export interface UserService extends BaseService<User, string> {
   readonly addFriend: (id: string, friend: UserFriend) => Promise<UserFriend | undefined>
   readonly deleteFriend: (id: string, userId: string) => Promise<void>
   readonly findMessages: (id: string) => Promise<GuildUserMessage[]>
+  readonly findGuilds: (id: string) => Promise<Guild[]>
 }

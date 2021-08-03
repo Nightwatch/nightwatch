@@ -614,4 +614,11 @@ export class UserController implements BaseController<User, string> {
   ) {
     return this.userService.findMessages(id)
   }
+
+  @httpGet('/:id/guilds')
+  public async findGuilds(
+    @requestParam('id') id: string
+  ) {
+    return this.userService.findGuilds(id)
+  }
 }

@@ -5,7 +5,8 @@ import {
   UserSettings,
   UserFriend,
   UserFriendRequest,
-  GuildUserMessage
+  GuildUserMessage,
+  GuildUser
 } from '../../../db'
 import { getRepository, Brackets } from 'typeorm'
 import { UserLevelBalance } from '../models'
@@ -26,6 +27,7 @@ export class UserService implements IUserService {
     UserFriendRequest
   )
   private readonly guildUserMessageRepository = getRepository(GuildUserMessage)
+  private readonly guildUserRepository = getRepository(GuildUser)
 
   public find() {
     return this.userRepository.find()
@@ -302,5 +304,10 @@ export class UserService implements IUserService {
 
   public async findMessages(id: string) {
     return this.guildUserMessageRepository.find({where: {user: {id}}, relations: ['guild']})
+  }
+
+  public async findGuilds(id: string) {
+    const results = await this.guildUserRepository.find({where: {id}, relations: ['guild']})
+    return results.map(x => x.guild!)
   }
 }
