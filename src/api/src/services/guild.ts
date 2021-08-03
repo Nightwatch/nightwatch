@@ -252,4 +252,9 @@ export class GuildService implements IGuildService {
       timestamp: new Date()
     })
   }
+
+  public async updateWelcomeMessage(id: string, message: string) {
+    const settings = await this.settingsRepository.findOneOrFail({where: {guild: {id}}})
+    await this.settingsRepository.save({...settings, welcomeMessage: message})
+  }
 }

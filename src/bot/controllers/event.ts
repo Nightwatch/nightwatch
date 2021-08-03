@@ -5,7 +5,7 @@ import {
   GuildService,
   UserService
 } from '../interfaces'
-import { Message, GuildMember, Guild } from 'discord.js'
+import { Message, GuildMember, Guild, MessageEmbed } from 'discord.js'
 import { CommandoMessage, Command } from 'discord.js-commando'
 
 const config: Config = require('../../../config/config.json')
@@ -75,6 +75,21 @@ export class EventController implements IEventController {
     const guild = await this.guildService.find(member.guild.id).catch(() => this.guildService.create(member.guild))
     const user = await this.userService.find(member.id).catch(() => this.userService.create(member.user))
     await this.guildService.findUserById(member.guild.id, member.id).catch(() => this.guildService.createUser(guild!, user!, member))
+    
+    if (guild?.settings?.welcomeMessagesEnabled && guild.settings.welcomeMessage) {
+      try {
+        const dm = await member.createDM(true)
+
+        const embed = new MessageEmbed()
+
+        embed.setColor('blue')
+        embed.setDescription(guild.settings.welcomeMessage)
+
+        await dm.send(embed)
+      } catch {
+        // swallow
+      }
+    }
   }
 
   public readonly onCommandError = async (

@@ -166,4 +166,10 @@ export class GuildService implements IGuildService {
 
     return api.post<GuildUser>(route, guildUser).then(x => x.data)
   }
+
+  public readonly updateWelcomeMessage = async (id: string, message: string) => {
+    const route = `/guilds/${id}/welcome-message`
+
+    return api.put(route, {message}).then(x => x.data);
+  }
 }

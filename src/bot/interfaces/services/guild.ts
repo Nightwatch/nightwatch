@@ -61,4 +61,5 @@ export interface GuildService {
     userId: string
   ) => Promise<GuildUser | undefined>
   readonly createUser: (guild: BotGuild, user: User, guildMember: GuildMember) => Promise<GuildUser>
+  readonly updateWelcomeMessage: (id: string, message: string) => Promise<void>
 }

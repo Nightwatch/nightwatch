@@ -89,4 +89,5 @@ export interface GuildService extends BaseService<Guild, string> {
   readonly findMessagesByUserId: (id: string, userId: string) => Promise<ReadonlyArray<GuildUserMessage>>
   readonly findMessages: (id: string) => Promise<ReadonlyArray<GuildUserMessage>>
   readonly createMessage: (id: string, userId: string, message: Pick<GuildUserMessage, 'content'>) => Promise<GuildUserMessage>
+  readonly updateWelcomeMessage: (id: string, message: string) => Promise<void>
 }

@@ -547,4 +547,12 @@ export class GuildController implements BaseController<Guild, string> {
   ) {
     return this.guildService.createMessage(id, userId, message)
   }
+
+  @httpPut('/:id/welcome-message')
+  public async updateWelcomeMessage(
+    @requestParam('id') id: string,
+    @requestBody() message: {message: string}
+  ) {
+    return this.guildService.updateWelcomeMessage(id, message.message)
+  }
 }

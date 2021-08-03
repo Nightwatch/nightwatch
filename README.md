@@ -30,6 +30,7 @@ Features include:
 - Suggestions
 - Support tickets
 - Polls
+- Custom welcome messages
 - Reddit Artificial Intelligence **Ƥ**
 - Custom Social Media/Friend system **Ƥ**
 - Image/Game/Music/Anime/etc search
