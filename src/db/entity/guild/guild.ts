@@ -36,13 +36,13 @@ export class Guild {
   @MaxLength(100)
   public name: string
 
-  @OneToMany(_ => GuildPerk, guildPerk => guildPerk.guild)
+  @OneToMany(_ => GuildPerk, guildPerk => guildPerk.guild, {cascade: ['remove']})
   public perks?: ReadonlyArray<GuildPerk>
 
-  @OneToMany(_ => Song, song => song.guild)
+  @OneToMany(_ => Song, song => song.guild, {cascade: ['remove']})
   public playlist?: ReadonlyArray<Song>
 
-  @OneToMany(_ => GuildSelfAssignableRole, sar => sar.guild)
+  @OneToMany(_ => GuildSelfAssignableRole, sar => sar.guild, {cascade: ['remove']})
   public selfAssignableRoles?: ReadonlyArray<GuildSelfAssignableRole>
 
   /**
@@ -56,25 +56,25 @@ export class Guild {
   /**
    * Every suggestion in the guild.
    */
-  @OneToMany(_ => GuildSuggestion, guildSuggestion => guildSuggestion.guild)
+  @OneToMany(_ => GuildSuggestion, guildSuggestion => guildSuggestion.guild, {cascade: ['remove']})
   public suggestions?: ReadonlyArray<GuildSuggestion>
 
   /**
    * Every support ticket in the guild.
    */
-  @OneToMany(_ => GuildSupportTicket, supportTicket => supportTicket.guild)
+  @OneToMany(_ => GuildSupportTicket, supportTicket => supportTicket.guild, {cascade: ['remove']})
   public supportTickets?: ReadonlyArray<GuildSupportTicket>
 
   /**
    * Every user in the guild.
    */
-  @OneToMany(_ => GuildUser, guildUser => guildUser.guild)
+  @OneToMany(_ => GuildUser, guildUser => guildUser.guild, {cascade: ['remove']})
   public users?: ReadonlyArray<GuildUser>
 
   /**
    * Every message in the guild.
    */
-   @OneToMany(_ => GuildUserMessage, messages => messages.guild)
+   @OneToMany(_ => GuildUserMessage, messages => messages.guild, {cascade: ['remove']})
    public messages?: ReadonlyArray<GuildUserMessage>
 
   public constructor(guild?: Guild) {

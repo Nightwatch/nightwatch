@@ -71,8 +71,10 @@ export class EventController implements IEventController {
     }
   }
 
-  public readonly onGuildMemberAdd = (member: GuildMember) => {
-    return this.userService.create(member.user).catch(console.error)
+  public readonly onGuildMemberAdd = async (member: GuildMember) => {
+    const guild = await this.guildService.find(member.guild.id).catch(() => this.guildService.create(member.guild))
+    const user = await this.userService.find(member.id).catch(() => this.userService.create(member.user))
+    await this.guildService.findUserById(member.guild.id, member.id).catch(() => this.guildService.createUser(guild!, user!, member))
   }
 
   public readonly onCommandError = async (

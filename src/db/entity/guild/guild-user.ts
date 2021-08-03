@@ -4,7 +4,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryColumn,
 } from 'typeorm'
 import { Guild, GuildUserBan, GuildUserKick, GuildUserWarning, GuildUserMessage } from '.'
 import { User } from '..'
@@ -14,7 +14,7 @@ export class GuildUser {
   /**
    * Every ban the user has been issued in the server.
    */
-  @OneToMany(_ => GuildUserBan, guildUserBan => guildUserBan.user)
+  @OneToMany(_ => GuildUserBan, guildUserBan => guildUserBan.user, {cascade: ['remove']})
   public bans?: ReadonlyArray<GuildUserBan>
 
   /**
@@ -36,16 +36,18 @@ export class GuildUser {
    */
   @ManyToOne(_ => Guild, guild => guild.users)
   public guild?: Guild
+
   /**
-   * The ID of the guild user. Auto-generated.
+   * The ID of the guild user.
    */
-  @PrimaryGeneratedColumn()
-  public readonly id: number
+   @PrimaryColumn()
+   @IsString()
+   public id: string
 
   /**
    * Every kick the user has been issued in the server.
    */
-  @OneToMany(_ => GuildUserKick, guildUserKick => guildUserKick.user)
+  @OneToMany(_ => GuildUserKick, guildUserKick => guildUserKick.user, {cascade: ['remove']})
   public kicks?: ReadonlyArray<GuildUserKick>
 
   /**
@@ -65,7 +67,7 @@ export class GuildUser {
   /**
    * Every warning the user has had in the guild.
    */
-  @OneToMany(_ => GuildUserWarning, guildUserWarning => guildUserWarning.user)
+  @OneToMany(_ => GuildUserWarning, guildUserWarning => guildUserWarning.user, {cascade: ['remove']})
   public warnings?: ReadonlyArray<GuildUserWarning>
 
   /**

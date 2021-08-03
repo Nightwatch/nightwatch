@@ -158,6 +158,7 @@ export class GuildService implements IGuildService {
 
     const guildUser = new GuildUser()
 
+    guildUser.id = guildMember.id
     guildUser.guild = guild
     guildUser.user = user
     guildUser.nickname = guildMember.nickname || guildMember.displayName

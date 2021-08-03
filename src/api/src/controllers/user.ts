@@ -90,7 +90,7 @@ export class UserController implements BaseController<User, string> {
       res.status(400).send(errors)
       return
     }
-    const existingUser = await this.userService.findById(user.id)
+    const existingUser = await this.userService.findById(user.id).catch(() => undefined);
     if (existingUser) {
       res.status(409).send('User already exists')
       return
@@ -606,5 +606,12 @@ export class UserController implements BaseController<User, string> {
       userId: id,
       otherUserId: userId
     })
+  }
+
+  @httpGet('/:id/messages')
+  public async findMessages(
+    @requestParam('id') id: string,
+  ) {
+    return this.userService.findMessages(id)
   }
 }
