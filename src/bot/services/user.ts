@@ -19,7 +19,6 @@ export class UserService implements IUserService {
     newUser.id = user.id
     newUser.name = user.username
     newUser.avatarUrl = user.displayAvatarURL()
-    newUser.dateLastMessage = null
     newUser.level = new UserLevel()
     newUser.verification = new UserVerification()
     newUser.settings = new UserSettings()

@@ -39,9 +39,6 @@ export class User {
   @IsDate()
   public dateCreated: Date
 
-  @Column('timestamp without time zone', { nullable: true })
-  public dateLastMessage: Date | null
-
   @OneToMany(_ => UserFriend, userFriend => userFriend, {
     cascade: ['remove']
   })

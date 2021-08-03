@@ -238,7 +238,7 @@ export class GuildService implements IGuildService {
   }
 
   public async findMessages(id: string) {
-    return this.guildUserMessageRepository.find({where: {guild: {id}}})
+    return this.guildUserMessageRepository.find({where: {guild: {id}}, relations: ['user']})
   }
 
   public async createMessage(id: string, userId: string, message: Pick<GuildUserMessage, 'content'>) {

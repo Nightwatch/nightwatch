@@ -26,12 +26,6 @@ export class GuildUser {
   public dateJoined: Date
 
   /**
-   * The date the user last sent a message.
-   */
-  @Column('timestamp without time zone', { nullable: true })
-  public dateLastMessage: Date | null
-
-  /**
    * The guild that the user is in.
    */
   @ManyToOne(_ => Guild, guild => guild.users)
