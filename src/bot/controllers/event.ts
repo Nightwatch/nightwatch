@@ -56,12 +56,11 @@ export class EventController implements IEventController {
 
   public readonly onGuildCreate = async (guild: Guild) => {
     try {
-      const dbGuild = await this.guildService
-        .create(guild)
-      const members = guild.members.cache
+      await this.guildService.create(guild)
+      const members = await guild.members.fetch()
       members.forEach(async (member) => {
-        const dbUser = await this.userService.create(member.user).catch(console.error)
-        await this.guildService.createUser(dbGuild!, dbUser!, member)
+        await this.userService.create(member.user).catch(console.error)
+        await this.guildService.createUser(guild.id, member.user.id, member)
       })
     } catch (message) {
       return console.error(message)
@@ -70,8 +69,8 @@ export class EventController implements IEventController {
 
   public readonly onGuildMemberAdd = async (member: GuildMember) => {
     const guild = await this.guildService.create(member.guild)
-    const user = await this.userService.create(member.user)
-    await this.guildService.createUser(guild!, user!, member)
+    await this.userService.create(member.user)
+    await this.guildService.createUser(member.guild.id, member.user.id, member)
     
     if (guild?.settings?.welcomeMessagesEnabled && guild.settings.welcomeMessage) {
       try {

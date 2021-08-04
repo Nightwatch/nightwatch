@@ -60,12 +60,12 @@ export class Bot implements IBot {
     const guilds = this.client.guilds.cache;
 
     for (let guild of guilds.values()) {
-      const dbGuild = await guildService.create(guild)
+      await guildService.create(guild)
       const members = await guild.members.fetch()
 
       for (let member of members.values()) {
-        const dbUser = await userService.create(member.user)
-        await guildService.createUser(dbGuild, dbUser, member)
+        await userService.create(member.user)
+        await guildService.createUser(guild.id, member.user.id, member)
       }
     }
   }

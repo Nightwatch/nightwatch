@@ -10,7 +10,6 @@ import {
   Song,
   GuildUserMessage,
   GuildUser,
-  User
 } from '../../db'
 import { injectable } from 'inversify'
 
@@ -153,14 +152,11 @@ export class GuildService implements IGuildService {
     return api.get<GuildUser>(route).then(x => x.data)
   }
 
-  public readonly createUser = async (guild: BotGuild, user: User, guildMember: GuildMember) => {
-    const route = `/guilds/${guild.id}/users`
+  public readonly createUser = async (id: string, userId: string, guildMember: GuildMember) => {
+    const route = `/guilds/${id}/users/${userId}`
 
     const guildUser = new GuildUser()
 
-    guildUser.id = guildMember.id
-    guildUser.guild = guild
-    guildUser.user = user
     guildUser.nickname = guildMember.nickname || guildMember.displayName
     guildUser.dateJoined = guildMember.joinedAt || new Date()
 

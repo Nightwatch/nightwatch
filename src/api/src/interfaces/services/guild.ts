@@ -55,7 +55,7 @@ export interface GuildService extends BaseService<Guild, string> {
     id: string,
     userId: string
   ) => Promise<GuildUser | undefined>
-  readonly createUser: (id: string, user: GuildUser) => Promise<GuildUser>
+  readonly createUser: (id: string, userId: string, user: GuildUser) => Promise<GuildUser>
   readonly deleteUser: (id: string, userId: string) => Promise<void>
   readonly updateUser: (
     id: string,

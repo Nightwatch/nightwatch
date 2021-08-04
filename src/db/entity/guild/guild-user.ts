@@ -4,7 +4,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm'
 import { Guild, GuildUserBan, GuildUserKick, GuildUserWarning, GuildUserMessage } from '.'
 import { User } from '..'
@@ -32,11 +32,10 @@ export class GuildUser {
   public guild?: Guild
 
   /**
-   * The ID of the guild user.
+   * The ID of the guild user. Auto generated
    */
-   @PrimaryColumn()
-   @IsString()
-   public id: string
+  @PrimaryGeneratedColumn()
+  public readonly id: number
 
   /**
    * Every kick the user has been issued in the server.

@@ -7,6 +7,7 @@ import {
   GuildSelfAssignableRole,
   Song,
   GuildUserMessage,
+  User,
 } from '../../../db'
 import { getRepository } from 'typeorm'
 import { injectable } from 'inversify'
@@ -27,6 +28,7 @@ export class GuildService implements IGuildService {
   )
   private readonly songRepository = getRepository(Song)
   private readonly guildUserMessageRepository = getRepository(GuildUserMessage)
+  private readonly userRepository = getRepository(User)
 
   public find() {
     return this.guildRepository.find()
@@ -149,14 +151,15 @@ export class GuildService implements IGuildService {
     })
   }
 
-  public async createUser(id: string, user: GuildUser) {
-    const existing = await this.guildUserRepository.findOne(user.id)
+  public async createUser(id: string, userId: string, user: GuildUser) {
+    const existing = await this.guildUserRepository.findOne({where: {user: {id: user.id}}})
 
     if (existing) {
       return existing
     }
 
     user.guild = await this.guildRepository.findOneOrFail({id})
+    user.user = await this.userRepository.findOneOrFail({id: userId})
     user.dateJoined = new Date()
     return this.guildUserRepository.save(user)
   }

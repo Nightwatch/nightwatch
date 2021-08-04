@@ -338,12 +338,13 @@ export class GuildController implements BaseController<Guild, string> {
    * POST /:id/users
    * @returns Promise<GuildUser>
    */
-  @httpPost('/:id/users')
+  @httpPost('/:id/users/:userId')
   public async createUser(
     @requestParam('id') id: string,
+    @requestParam('userId') userId: string,
     @requestBody() user: GuildUser
   ) {
-    const result = await this.guildService.createUser(id, user)
+    const result = await this.guildService.createUser(id, userId, user)
     this.socketService.send(GuildUserEvent.GUILD_USER_CREATE, result)
     return result
   }

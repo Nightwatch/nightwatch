@@ -45,7 +45,7 @@ export class UserService implements IUserService {
     if (existing) {
       return existing
     }
-    
+
     user.dateCreated = new Date()
     return this.userRepository.save(user)
   }
@@ -313,7 +313,7 @@ export class UserService implements IUserService {
   }
 
   public async findGuilds(id: string) {
-    const results = await this.guildUserRepository.find({where: {id}, relations: ['guild']})
+    const results = await this.guildUserRepository.find({where: {user: {id}}, relations: ['guild', 'user']})
     return results.map(x => x.guild!)
   }
 }
