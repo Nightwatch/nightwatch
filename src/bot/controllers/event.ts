@@ -27,11 +27,9 @@ export class EventController implements IEventController {
           content: message.content,
         })
       } catch (error) {
-        console.log(error);
+        // ignore
       }
     }
-    
-    console.log(`${message.author.username} (${message.author.id}): ${message.content}`);
   }
 
   public readonly onCommandRun = async (
@@ -39,8 +37,6 @@ export class EventController implements IEventController {
     _promise: any,
     message: CommandoMessage
   ) => {
-    console.log(`${message.author.username} (${message.author.id}): ${message.content}`);
-    
     if (!config.bot.autoDeleteMessages.enabled || !message.deletable) {
       return Promise.resolve()
     }

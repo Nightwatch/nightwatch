@@ -56,8 +56,6 @@ export class Api {
       windowMs: 15 * 60 * 1000, // 15 minutes
       max: 150,
       skip: (request: express.Request, _: any) => {
-        console.log(request.connection.localAddress)
-        console.log(request.connection.remoteAddress)
         if (request.ip === '::1' || request.ip === '::ffff:127.0.0.1' || request.ip.startsWith('::ffff:172')) {
           return true
         }
