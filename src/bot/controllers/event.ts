@@ -7,6 +7,7 @@ import {
 } from '../interfaces'
 import { Message, GuildMember, Guild, MessageEmbed } from 'discord.js'
 import { CommandoMessage, Command } from 'discord.js-commando'
+import * as materialColors from 'material-colors'
 
 const config: Config = require('../../../config/config.json')
 
@@ -22,9 +23,6 @@ export class EventController implements IEventController {
 
     if (message.guild) {
       try {
-        const guild = await this.guildService.find(message.guild.id).catch(() => this.guildService.create(message.guild!))
-        const user = await this.userService.find(message.author.id).catch(() => this.userService.create(message.author))
-        await this.guildService.findUserById(message.guild.id, message.member!.id).catch(() => this.guildService.createUser(guild!, user!, message.member!))
         await this.guildService.saveMessage(message.guild.id, message.author.id, {
           content: message.content,
         })
@@ -34,8 +32,6 @@ export class EventController implements IEventController {
     }
     
     console.log(`${message.author.username} (${message.author.id}): ${message.content}`);
-
-    return Promise.resolve()
   }
 
   public readonly onCommandRun = async (
@@ -60,11 +56,12 @@ export class EventController implements IEventController {
 
   public readonly onGuildCreate = async (guild: Guild) => {
     try {
-      await this.guildService
+      const dbGuild = await this.guildService
         .create(guild)
-      const members = await guild.members.fetch()
+      const members = guild.members.cache
       members.forEach(async (member) => {
-        await this.userService.create(member.user).catch(console.error)
+        const dbUser = await this.userService.create(member.user).catch(console.error)
+        await this.guildService.createUser(dbGuild!, dbUser!, member)
       })
     } catch (message) {
       return console.error(message)
@@ -72,9 +69,9 @@ export class EventController implements IEventController {
   }
 
   public readonly onGuildMemberAdd = async (member: GuildMember) => {
-    const guild = await this.guildService.find(member.guild.id).catch(() => this.guildService.create(member.guild))
-    const user = await this.userService.find(member.id).catch(() => this.userService.create(member.user))
-    await this.guildService.findUserById(member.guild.id, member.id).catch(() => this.guildService.createUser(guild!, user!, member))
+    const guild = await this.guildService.create(member.guild)
+    const user = await this.userService.create(member.user)
+    await this.guildService.createUser(guild!, user!, member)
     
     if (guild?.settings?.welcomeMessagesEnabled && guild.settings.welcomeMessage) {
       try {
@@ -82,7 +79,7 @@ export class EventController implements IEventController {
 
         const embed = new MessageEmbed()
 
-        embed.setColor('blue')
+        embed.setColor(materialColors.blue['500'])
         embed.setDescription(guild.settings.welcomeMessage)
 
         await dm.send(embed)

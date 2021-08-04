@@ -1,4 +1,4 @@
-import { ClientUser } from 'discord.js'
+import { ClientUser, Intents } from 'discord.js'
 import { readdirSync, statSync } from 'fs'
 import { inject, injectable } from 'inversify'
 import * as path from 'path'
@@ -6,6 +6,7 @@ import { Config, Types } from '../common'
 import { Bot as IBot, EventController } from './interfaces'
 import { loadPlugins, PluginStatus } from './utils/plugin-loader'
 import { Client } from './models/client'
+import { GuildService, UserService } from './services'
 
 const getDirectoryNames = (p: string) =>
   readdirSync(p).filter(f => statSync(path.join(p, f)).isDirectory())
@@ -24,16 +25,49 @@ export class Bot implements IBot {
     owner: config.bot.ownerId,
     commandPrefix: config.bot.prefix,
     messageCacheLifetime: 30,
-    messageSweepInterval: 60
+    messageSweepInterval: 60,
+    fetchAllMembers: true,
+    ws: {
+      intents: new Intents([
+        'DIRECT_MESSAGES',
+        'GUILDS',
+        'GUILD_BANS',
+        'GUILD_INVITES',
+        'GUILD_MEMBERS',
+        'GUILD_MESSAGES',
+        'GUILD_MESSAGE_REACTIONS',
+        'GUILD_MESSAGE_TYPING',
+        'GUILD_PRESENCES',
+        'GUILD_EMOJIS',
+        'GUILD_INTEGRATIONS',
+        'GUILD_VOICE_STATES',
+        'GUILD_WEBHOOKS'
+      ]),
+    }
   })
 
   public async start() {
     console.info(`Starting ${config.bot.botName}.`)
 
+    const guildService = new GuildService()
+    const userService = new UserService()
+
     this.registerEvents()
     this.registerCommands()
-    this.client.login(config.bot.token)
+    await this.client.login(config.bot.token)
       .catch(this.handleLoginFailure)
+
+    const guilds = this.client.guilds.cache;
+
+    for (let guild of guilds.values()) {
+      const dbGuild = await guildService.create(guild)
+      const members = await guild.members.fetch()
+
+      for (let member of members.values()) {
+        const dbUser = await userService.create(member.user)
+        await guildService.createUser(dbGuild, dbUser, member)
+      }
+    }
   }
 
   public registerEvents() {

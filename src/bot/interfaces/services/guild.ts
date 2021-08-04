@@ -7,7 +7,8 @@ import {
   Song,
   GuildUserMessage,
   GuildUser,
-  User
+  User,
+  GuildSettings
 } from '../../../db'
 
 export interface GuildService {
@@ -62,4 +63,7 @@ export interface GuildService {
   ) => Promise<GuildUser | undefined>
   readonly createUser: (guild: BotGuild, user: User, guildMember: GuildMember) => Promise<GuildUser>
   readonly updateWelcomeMessage: (id: string, message: string) => Promise<void>
+  readonly findSettings: (
+    id: string,
+  ) => Promise<GuildSettings>
 }

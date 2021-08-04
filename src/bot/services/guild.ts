@@ -172,4 +172,10 @@ export class GuildService implements IGuildService {
 
     return api.put(route, {message}).then(x => x.data);
   }
+
+  public readonly findSettings = async (id: string) => {
+    const route = `/guilds/${id}/settings`
+
+    return api.get<GuildSettings>(route).then(x => x.data)
+  }
 }

@@ -40,6 +40,12 @@ export class UserService implements IUserService {
   }
 
   public async create(user: User) {
+    const existing = await this.userRepository.findOne(user.id)
+
+    if (existing) {
+      return existing
+    }
+    
     user.dateCreated = new Date()
     return this.userRepository.save(user)
   }

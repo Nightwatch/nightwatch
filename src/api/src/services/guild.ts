@@ -39,6 +39,12 @@ export class GuildService implements IGuildService {
   }
 
   public async create(guild: Guild) {
+    const existing = await this.guildRepository.findOne(guild.id)
+
+    if (existing) {
+      return existing
+    }
+
     guild.dateCreated = new Date()
     return this.guildRepository.save(guild)
   }
@@ -125,7 +131,7 @@ export class GuildService implements IGuildService {
   }
 
   public async findSettings(id: string) {
-    return this.settingsRepository.findOne({ where: { guild: { id } } })
+    return this.settingsRepository.findOne({ where: { guild: { id } }, relations: ['guild'] })
   }
 
   public async updateSettings(id: string, settings: GuildSettings) {
@@ -144,6 +150,12 @@ export class GuildService implements IGuildService {
   }
 
   public async createUser(id: string, user: GuildUser) {
+    const existing = await this.guildUserRepository.findOne(user.id)
+
+    if (existing) {
+      return existing
+    }
+
     user.guild = await this.guildRepository.findOneOrFail({id})
     user.dateJoined = new Date()
     return this.guildUserRepository.save(user)

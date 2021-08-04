@@ -1,10 +1,13 @@
-version: "3"
+version: "3.7"
 
 services:
   api:
     image: tgoins/nightwatch:dev
     volumes:
-      - ./:/usr/src/app
+      - .:/usr/src/app
+      - ./package.json:/usr/src/package.json
+      - ./package-lock.json:/usr/src/package-lock.json
+      - notused:/usr/src/app/node_modules
     ports:
       - 4000:4000
       - 8081:80
@@ -23,6 +26,9 @@ services:
     image: tgoins/nightwatch:dev
     volumes:
       - ./:/usr/src/app
+      - ./package.json:/usr/src/package.json
+      - ./package-lock.json:/usr/src/package-lock.json
+      - notused:/usr/src/app/node_modules
     depends_on:
       - api
     restart: always
