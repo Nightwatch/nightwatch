@@ -2,6 +2,7 @@ import { GuildMember } from 'discord.js'
 import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
+import { GuildService } from '../../services'
 
 export default class KickCommand extends Command {
   constructor(client: Client) {
@@ -48,6 +49,10 @@ export default class KickCommand extends Command {
     ) {
       return msg.reply("You can't kick that member.")
     }
+
+    const guildService = new GuildService()
+
+    await guildService.createKick(msg.guild.id, msg.member!.id, args.member.id, {reason: args.reason})
 
     await args.member.kick(args.reason)
 

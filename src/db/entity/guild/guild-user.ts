@@ -5,11 +5,13 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm'
 import { Guild, GuildUserBan, GuildUserKick, GuildUserWarning, GuildUserMessage } from '.'
 import { User } from '..'
 
 @Entity()
+@Unique("UniqueGuildUsers", ["guild", "user"])
 export class GuildUser {
   /**
    * Every ban the user has been issued in the server.

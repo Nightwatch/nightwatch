@@ -8,6 +8,9 @@ import {
   Song,
   GuildUserMessage,
   User,
+  GuildUserWarning,
+  GuildUserKick,
+  GuildUserBan,
 } from '../../../db'
 import { getRepository } from 'typeorm'
 import { injectable } from 'inversify'
@@ -29,6 +32,9 @@ export class GuildService implements IGuildService {
   private readonly songRepository = getRepository(Song)
   private readonly guildUserMessageRepository = getRepository(GuildUserMessage)
   private readonly userRepository = getRepository(User)
+  private readonly warningRepository = getRepository(GuildUserWarning);
+  private readonly kickRepository = getRepository(GuildUserKick);
+  private readonly banRepository = getRepository(GuildUserBan);
 
   public find() {
     return this.guildRepository.find()
@@ -271,5 +277,65 @@ export class GuildService implements IGuildService {
   public async updateWelcomeMessage(id: string, message: string) {
     const settings = await this.settingsRepository.findOneOrFail({where: {guild: {id}}})
     await this.settingsRepository.save({...settings, welcomeMessage: message})
+  }
+
+  public async createWarning(id: string, fromUserId: string, toUserId: string, warning: Pick<GuildUserWarning, 'reason'>) {
+    const issuer = await this.guildUserRepository.findOne({where: {guild: {id}, user: {id: fromUserId}}})
+    const toUser = await this.guildUserRepository.findOne({where: {guild: {id}, user: {id: toUserId}}})
+
+    return this.warningRepository.save({
+      reason: warning.reason,
+      timestamp: new Date(),
+      issuer,
+      user: toUser,
+    })
+  }
+
+  public async createKick(id: string, fromUserId: string, toUserId: string, warning: Pick<GuildUserKick, 'reason'>) {
+    const issuer = await this.guildUserRepository.findOne({where: {guild: {id}, user: {id: fromUserId}}})
+    const toUser = await this.guildUserRepository.findOne({where: {guild: {id}, user: {id: toUserId}}})
+
+    return this.kickRepository.save({
+      reason: warning.reason,
+      timestamp: new Date(),
+      issuer,
+      user: toUser,
+    })
+  }
+
+  public async createBan(id: string, fromUserId: string, toUserId: string, warning: Pick<GuildUserBan, 'reason'>) {
+    const issuer = await this.guildUserRepository.findOne({where: {guild: {id}, user: {id: fromUserId}}})
+    const toUser = await this.guildUserRepository.findOne({where: {guild: {id}, user: {id: toUserId}}})
+
+    return this.banRepository.save({
+      reason: warning.reason,
+      timestamp: new Date(),
+      issuer,
+      user: toUser,
+    })
+  }
+
+  public async findWarnings(id: string) {
+    return this.warningRepository.find({where: {user: {guild: {id}}}})
+  }
+
+  public async findKicks(id: string) {
+    return this.kickRepository.find({where: {user: {guild: {id}}}})
+  }
+
+  public async findBans(id: string) {
+    return this.banRepository.find({where: {user: {guild: {id}}}})
+  }
+
+  public async findWarningsToUserId(id: string, userId: string) {
+    return this.warningRepository.find({where: {user: {id: userId, guild: {id}}}})
+  }
+
+  public async findKicksToUserId(id: string, userId: string) {
+    return this.kickRepository.find({where: {user: {id: userId, guild: {id}}}})
+  }
+
+  public async findBansToUserId(id: string, userId: string) {
+    return this.banRepository.find({where: {user: {id: userId, guild: {id}}}})
   }
 }

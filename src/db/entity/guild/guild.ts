@@ -22,7 +22,7 @@ export class Guild {
   /**
    * The ID of the guild. Auto-generated.
    */
-  @PrimaryColumn()
+  @PrimaryColumn({unique: true})
   @IsString()
   @IsNotEmpty()
   public id: string

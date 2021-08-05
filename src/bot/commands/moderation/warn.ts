@@ -1,6 +1,7 @@
 import { CommandoMessage } from 'discord.js-commando'
 import { Command } from '../../base'
 import { Client } from '../../models'
+import { GuildService } from '../../services'
 
 export default class WarnCommand extends Command {
   constructor(client: Client) {
@@ -47,6 +48,10 @@ export default class WarnCommand extends Command {
     ) {
       return msg.reply("You can't warn that member.")
     }
+
+    const guildService = new GuildService()
+
+    await guildService.createWarning(msg.guild.id, msg.member!.id, args.member.id, {reason: args.reason})
 
     const dm = await args.member.createDM()
     await dm.send(

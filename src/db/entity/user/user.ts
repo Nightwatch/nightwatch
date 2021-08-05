@@ -1,5 +1,5 @@
 import { IsDate, IsFQDN, IsString, MaxLength } from 'class-validator'
-import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, Index, OneToMany, OneToOne, PrimaryColumn } from 'typeorm'
 import {
   UserBackground,
   UserBadge,
@@ -44,6 +44,7 @@ export class User {
   })
   public friends: ReadonlyArray<UserFriend>
 
+  @Index({unique: true})
   @PrimaryColumn()
   @IsString()
   public id: string

@@ -10,6 +10,9 @@ import {
   Song,
   GuildUserMessage,
   GuildUser,
+  GuildUserBan,
+  GuildUserKick,
+  GuildUserWarning,
 } from '../../db'
 import { injectable } from 'inversify'
 
@@ -173,5 +176,59 @@ export class GuildService implements IGuildService {
     const route = `/guilds/${id}/settings`
 
     return api.get<GuildSettings>(route).then(x => x.data)
+  }
+
+  public readonly createWarning = async (id: string, fromUserId: string, toUserId: string, warning: Pick<GuildUserWarning, 'reason'>) => {
+    const route = `/guilds/${id}/warnings/from/${fromUserId}/to/${toUserId}`
+
+    return api.post<GuildUserWarning>(route, warning).then(x => x.data);
+  }
+
+  public readonly createKick = async (id: string, fromUserId: string, toUserId: string, kick: Pick<GuildUserKick, 'reason'>) => {
+    const route = `/guilds/${id}/kicks/from/${fromUserId}/to/${toUserId}`
+
+    return api.post<GuildUserKick>(route, kick).then(x => x.data);
+  }
+
+  public readonly createBan = async (id: string, fromUserId: string, toUserId: string, ban: Pick<GuildUserBan, 'reason'>) => {
+    const route = `/guilds/${id}/bans/from/${fromUserId}/to/${toUserId}`
+
+    return api.post<GuildUserBan>(route, ban).then(x => x.data);
+  }
+
+  public readonly findWarnings = async (id: string) => {
+    const route = `/guilds/${id}/warnings`
+
+    return api.get<GuildUserWarning[]>(route).then(x => x.data);
+  }
+
+  public readonly findKicks = async (id: string) => {
+    const route = `/guilds/${id}/kicks`
+
+    return api.get<GuildUserKick[]>(route).then(x => x.data);
+  }
+
+  public readonly findBans = async (id: string) => {
+    const route = `/guilds/${id}/bans`
+
+    return api.get<GuildUserBan[]>(route).then(x => x.data);
+  }
+
+  public readonly findWarningsToUserId = async (id: string, userId: string) => {
+    const route = `/guilds/${id}/warnings/to/${userId}`
+
+    return api.get<GuildUserWarning[]>(route).then(x => x.data);
+  }
+
+  public readonly findKicksToUserId = async (id: string, userId: string) => {
+    const route = `/guilds/${id}/kicks/to/${userId}`
+
+    return api.get<GuildUserKick[]>(route).then(x => x.data);
+  }
+
+  public readonly findBansToUserId = async (id: string, userId: string) => {
+    const route = `/guilds/${id}/bans/to/${userId}`
+
+    return api.get<GuildUserBan[]>(route).then(x => x.data);
   }
 }

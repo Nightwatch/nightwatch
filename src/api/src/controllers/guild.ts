@@ -21,7 +21,10 @@ import {
   GuildSuggestion,
   GuildSelfAssignableRole,
   Song,
-  GuildUserMessage
+  GuildUserMessage,
+  GuildUserBan,
+  GuildUserKick,
+  GuildUserWarning
 } from '../../../db'
 import { Types } from '../../../common'
 import {
@@ -555,5 +558,80 @@ export class GuildController implements BaseController<Guild, string> {
     @requestBody() message: {message: string}
   ) {
     return this.guildService.updateWelcomeMessage(id, message.message)
+  }
+
+  @httpPost('/:id/warnings/from/:fromUserId/:to/:toUserId')
+  public async createWarning(
+    @requestParam('id') id: string, 
+    @requestParam('fromUserId') fromUserId: string,
+    @requestParam('toUserId') toUserId: string,
+    @requestBody() warning: Pick<GuildUserWarning, 'reason'>
+  ) {
+    return this.guildService.createWarning(id, fromUserId, toUserId, warning)
+  }
+
+  @httpPost('/:id/kicks/from/:fromUserId/:to/:toUserId')
+  public async createKick(
+    @requestParam('id') id: string, 
+    @requestParam('fromUserId') fromUserId: string,
+    @requestParam('toUserId') toUserId: string,
+    @requestBody() kick: Pick<GuildUserKick, 'reason'>
+  ) {
+    return this.guildService.createKick(id, fromUserId, toUserId, kick)
+  }
+
+  @httpPost('/:id/bans/from/:fromUserId/:to/:toUserId')
+  public async createBan(
+    @requestParam('id') id: string, 
+    @requestParam('fromUserId') fromUserId: string,
+    @requestParam('toUserId') toUserId: string,
+    @requestBody() ban: Pick<GuildUserBan, 'reason'>
+  ) {
+    return this.guildService.createBan(id, fromUserId, toUserId, ban)
+  }
+
+  @httpGet('/:id/warnings')
+  public async findWarnings(
+    @requestParam('id') id: string
+  ) {
+    return this.guildService.findWarnings(id)
+  }
+
+  @httpGet('/:id/kicks')
+  public async findKicks(
+    @requestParam('id') id: string
+  ) {
+    return this.guildService.findKicks(id)
+  }
+
+  @httpGet('/:id/bans')
+  public async findBans(
+    @requestParam('id') id: string
+  ) {
+    return this.guildService.findBans(id)
+  }
+
+  @httpGet('/:id/warnings/to/:userId')
+  public async findWarningsToUserId(
+    @requestParam('id') id: string,
+    @requestParam('userId') userId: string
+  ) {
+    return this.guildService.findWarningsToUserId(id, userId)
+  }
+
+  @httpGet('/:id/kicks/to/:userId')
+  public async findKicksToUserId(
+    @requestParam('id') id: string,
+    @requestParam('userId') userId: string
+  ) {
+    return this.guildService.findKicksToUserId(id, userId)
+  }
+
+  @httpGet('/:id/bans/to/:userId')
+  public async findBansToUserId(
+    @requestParam('id') id: string,
+    @requestParam('userId') userId: string
+  ) {
+    return this.guildService.findBansToUserId(id, userId)
   }
 }

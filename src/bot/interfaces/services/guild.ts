@@ -7,7 +7,10 @@ import {
   Song,
   GuildUserMessage,
   GuildUser,
-  GuildSettings
+  GuildSettings,
+  GuildUserBan,
+  GuildUserKick,
+  GuildUserWarning
 } from '../../../db'
 
 export interface GuildService {
@@ -65,4 +68,13 @@ export interface GuildService {
   readonly findSettings: (
     id: string,
   ) => Promise<GuildSettings>
+  readonly createWarning: (id: string, fromUserId: string, toUserId: string, warning: Pick<GuildUserWarning, 'reason'>) => Promise<GuildUserWarning>
+  readonly findWarnings: (id: string) => Promise<GuildUserWarning[]>
+  readonly findWarningsToUserId: (id: string, userId: string) => Promise<GuildUserWarning[]>
+  readonly createKick: (id: string, fromUserId: string, toUserId: string, kick: Pick<GuildUserKick, 'reason'>) => Promise<GuildUserKick>
+  readonly findKicks: (id: string) => Promise<GuildUserKick[]>
+  readonly findKicksToUserId: (id: string, userId: string) => Promise<GuildUserKick[]>
+  readonly createBan: (id: string, fromUserId: string, toUserId: string, kick: Pick<GuildUserBan, 'reason'>) => Promise<GuildUserBan>
+  readonly findBans: (id: string) => Promise<GuildUserBan[]>
+  readonly findBansToUserId: (id: string, userId: string) => Promise<GuildUserBan[]>
 }

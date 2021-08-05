@@ -7,7 +7,10 @@ import {
   GuildUser,
   GuildSelfAssignableRole,
   Song,
-  GuildUserMessage
+  GuildUserMessage,
+  GuildUserWarning,
+  GuildUserKick,
+  GuildUserBan
 } from '../../../../db'
 
 export interface GuildService extends BaseService<Guild, string> {
@@ -90,4 +93,13 @@ export interface GuildService extends BaseService<Guild, string> {
   readonly findMessages: (id: string) => Promise<ReadonlyArray<GuildUserMessage>>
   readonly createMessage: (id: string, userId: string, message: Pick<GuildUserMessage, 'content'>) => Promise<GuildUserMessage>
   readonly updateWelcomeMessage: (id: string, message: string) => Promise<void>
+  readonly createWarning: (id: string, fromUserId: string, toUserId: string, warning: Pick<GuildUserWarning, 'reason'>) => Promise<GuildUserWarning>
+  readonly findWarnings: (id: string) => Promise<GuildUserWarning[]>
+  readonly findWarningsToUserId: (id: string, userId: string) => Promise<GuildUserWarning[]>
+  readonly createKick: (id: string, fromUserId: string, toUserId: string, kick: Pick<GuildUserKick, 'reason'>) => Promise<GuildUserKick>
+  readonly findKicks: (id: string) => Promise<GuildUserKick[]>
+  readonly findKicksToUserId: (id: string, userId: string) => Promise<GuildUserKick[]>
+  readonly createBan: (id: string, fromUserId: string, toUserId: string, kick: Pick<GuildUserBan, 'reason'>) => Promise<GuildUserBan>
+  readonly findBans: (id: string) => Promise<GuildUserBan[]>
+  readonly findBansToUserId: (id: string, userId: string) => Promise<GuildUserBan[]>
 }
