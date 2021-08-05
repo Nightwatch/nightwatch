@@ -148,7 +148,7 @@ export class GuildService implements IGuildService {
   }
 
   public async findUsers(id: string) {
-    return this.guildUserRepository.find({ where: { guild: { id } } })
+    return this.guildUserRepository.find({ where: { guild: { id } }, relations: ['user'] })
   }
 
   public findUserById(id: string, userId: string) {
