@@ -328,14 +328,14 @@ export class GuildService implements IGuildService {
   }
 
   public async findWarningsToUserId(id: string, userId: string) {
-    return this.warningRepository.find({where: {user: {id: userId, guild: {id}}}})
+    return this.warningRepository.find({where: {user: {user: {id: userId}, guild: {id}}}})
   }
 
   public async findKicksToUserId(id: string, userId: string) {
-    return this.kickRepository.find({where: {user: {id: userId, guild: {id}}}})
+    return this.kickRepository.find({where: {user: {user: {id: userId}, guild: {id}}}})
   }
 
   public async findBansToUserId(id: string, userId: string) {
-    return this.banRepository.find({where: {user: {id: userId, guild: {id}}}})
+    return this.banRepository.find({where: {user: {user: {id: userId}, guild: {id}}}})
   }
 }
