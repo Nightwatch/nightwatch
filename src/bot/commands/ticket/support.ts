@@ -119,7 +119,7 @@ export default class SupportCommand extends Command {
     )
 
     const ticketDescription = ticketType
-      ? description.substr(ticketType.length + 1)
+      ? description.slice(ticketType.length + 1)
       : description
     const title = ticketType ? types[ticketType].title : types.default.title
     const color = ticketType ? types[ticketType].color : types.default.color
