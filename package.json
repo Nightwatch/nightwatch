@@ -24,7 +24,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@discordjs/opus": "~0.5.3",
+    "@discordjs/opus": "~0.8.0",
     "@fortawesome/fontawesome-free": "^5.2.0",
     "@types/express-rate-limit": "^3.3.3",
     "@types/rimraf": "^2.0.2",
