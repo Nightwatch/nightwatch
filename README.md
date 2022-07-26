@@ -120,7 +120,7 @@ The only supported installation method for the bot is Docker. You may use other 
     - Only the `bot` and `api` sections are required; anything outside of those sections are optional
     - Obtain a bot token from [here](https://discordapp.com/developers/applications/). You'll have to create a bot if you haven't already
 4. Repeat the same process as above for the `ormconfig.example.json` file
-5. Caopy and rename the `docker.compose.yml.example` file. You don't need to update any values, but I would suggest changing the environment variables.
+5. Copy and rename the `docker.compose.yml.example` file. You don't need to update any values, but I would suggest changing the environment variables.
 6. Run Docker Compose with the command `docker-compose up`
 7. Invite the bot to your server
 
