@@ -94,7 +94,7 @@ See the bot in action, test it out, see what it can do for you.
 
 ## Donate
 
-If you appreciate what we do and want to support the development of this project, please consider donating. https://liberapay.com/ihaxjoker/donate
+If you appreciate what we do and want to support the development of this project, please consider donating. [Donate](https://patreon.com/tgoins)
 
 If you would like to support us without spending money, give the repo a star. We value those as well!
 
