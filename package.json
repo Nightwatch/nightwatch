@@ -33,7 +33,7 @@
     "better-youtube-api": "^0.3.6",
     "body-parser": "^1.18.3",
     "canvas": "^2.7.0",
-    "class-validator": "^0.9.1",
+    "class-validator": "^0.14.0",
     "common-tags": "^1.8.0",
     "compression": "^1.7.3",
     "core-js": "^3.6.4",
