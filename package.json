@@ -41,7 +41,7 @@
     "discord.js": "12",
     "discord.js-commando": "^0.12.3",
     "errorhandler": "^1.5.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-jwt": "^5.3.1",
     "express-rate-limit": "^5.0.0",
     "ffmpeg-static": "^4.1.1",
