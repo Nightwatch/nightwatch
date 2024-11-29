@@ -53,7 +53,7 @@
     "material-colors": "^1.2.6",
     "morgan": "^1.9.1",
     "node-cmd": "^3.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "nodemon": "^1.18.4",
     "pg": "^7.5.0",
     "pm2": "3.0.3",
